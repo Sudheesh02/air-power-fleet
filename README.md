@@ -43,6 +43,13 @@ To run the automated backend integration test suite:
 python test_backend.py
 ```
 
+### Live Deployment (Vercel)
+
+The frontend is configured for 1-click zero-config deployment on Vercel:
+1. Import `Sudheesh02/air-power-fleet` on [vercel.com/new](https://vercel.com/new).
+2. Framework Preset auto-detects **Vite**.
+3. Click **Deploy**. Vercel will build and host the interactive command cockpit. All collaborator pushes from GitHub automatically trigger live production updates.
+
 ---
 
 ## Architecture Breakdown

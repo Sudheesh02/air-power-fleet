@@ -12,7 +12,7 @@ import {
   MOCK_AI_REORDER_TRIGGERS
 } from '../data/mockFleetData';
 
-const BASE_URL = 'http://127.0.0.1:8000';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 const TIMEOUT_MS = 2500;
 
 let isBackendReachable = null;
