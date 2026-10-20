@@ -84,12 +84,9 @@ function MainLayout() {
         </main>
 
         {/* Tactical Aerospace Footer */}
-        <footer className="px-6 py-5 text-center text-xs font-sans border-t border-white/5 text-slate-400">
-          <p className="font-semibold text-slate-300">
-            SIH 2026 (SIH26249) &bull; Ministry of Defence & Indian Air Force &bull; Air Power Predictive Maintenance Platform
-          </p>
-          <p className="text-[11px] text-slate-500 mt-1">
-            Engineered with Tactical Aerospace C2 Architecture &bull; NASA C-MAPSS Digital Twin Engine &bull; Conformal RUL Analytics
+        <footer className="px-6 py-3.5 text-center text-xs font-sans border-t border-white/5 text-slate-400">
+          <p className="text-xs text-slate-400 font-medium">
+            SIH 2026 (SIH26249) &bull; Team <span className="font-semibold text-slate-200">BioXtreme</span> &bull; Ministry of Defence & Indian Air Force
           </p>
         </footer>
       </div>
