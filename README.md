@@ -1,5 +1,11 @@
 # airpower
 
+[![Live Production](https://img.shields.io/badge/Vercel-Live_Cockpit-0075FF?style=for-the-badge&logo=vercel&logoColor=white)](https://sihairpowerplatform.vercel.app)
+[![API Status](https://img.shields.io/badge/FastAPI-Backend_Ready-00C7B7?style=for-the-badge&logo=fastapi&logoColor=white)](http://127.0.0.1:8000/docs)
+[![IAF Fleet](https://img.shields.io/badge/IAF_Fleet-20_Combat_Airframes-FF9933?style=for-the-badge)](https://sihairpowerplatform.vercel.app)
+
+**🌐 Live Interactive Dashboard:** [https://sihairpowerplatform.vercel.app](https://sihairpowerplatform.vercel.app)
+
 A full-stack predictive maintenance, digital twin, and fleet availability platform for military combat aviation. Developed for **Smart India Hackathon (SIH 2026)** Problem Statement `SIH26249` (Ministry of Defence / Indian Air Force).
 
 In military aviation, low fleet availability stems from four isolated data silos:
