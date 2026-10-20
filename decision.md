@@ -139,3 +139,12 @@ Whenever modifying code in this codebase, log all new architectural choices, int
 - **Tradeoffs & Mitigations**:
   - *Tradeoff*: Remote branch is now publicly visible on GitHub.
   - *Mitigation*: Keeps production `main` branch protected while providing a transparent remote staging environment for all major experimental changes.
+
+
+### [2026-10-20] - Restoration & Upstream Re-Synchronization of `develop` Branch
+- **Component Affected**: Git Branching Structure, GitHub Remote Repository
+- **Change Description**: Restored and re-published the `develop` branch to `origin/develop` following remote deletion. Pulled upstream `main` commit `25b1301` ("docs: add live production deployment badge and URL to README") and merged it into `develop`.
+- **Library / Method Chosen**: Re-sync from `origin/main` with merge commit to guarantee zero divergence between branches.
+- **Tradeoffs & Mitigations**:
+  - *Tradeoff*: Requires explicit push to remote.
+  - *Mitigation*: Both `develop` and `main` branches are now completely synchronized with all documentation (`decision.md`, `flow.md`) and latest commits in place.
