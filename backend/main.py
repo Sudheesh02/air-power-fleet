@@ -11,7 +11,9 @@ Connects:
 import sys
 import os
 import sqlite3
+import json
 import uuid
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, List
@@ -355,6 +357,38 @@ def get_flight_logs(tail_no: Optional[str] = None):
     logs = [dict(row) for row in cur.fetchall()]
     conn.close()
     return {"flight_logs": logs}
+
+class VoiceSynthesisRequest(BaseModel):
+    text: str
+    speaker: Optional[str] = "shubh"
+    model: Optional[str] = "bulbul:v3"
+
+@app.post("/api/voice/synthesize")
+def synthesize_voice(req: VoiceSynthesisRequest):
+    """Proxies voice synthesis via Sarvam AI bulbul:v3"""
+    api_key = os.environ.get("SARVAM_API_KEY", "")
+    if not api_key:
+        return {"status": "MOCK", "message": "Set SARVAM_API_KEY to enable live cloud TTS", "audio_base64": None}
+    
+    tts_url = "https://api.sarvam.ai/text-to-speech"
+    payload = json.dumps({
+        "inputs": [req.text[:480]],
+        "target_language_code": "en-IN",
+        "speaker": req.speaker,
+        "model": req.model,
+        "enable_preprocessing": True
+    }).encode("utf-8")
+    
+    http_req = urllib.request.Request(tts_url, data=payload, headers={
+        "api-subscription-key": api_key,
+        "Content-Type": "application/json"
+    })
+    try:
+        with urllib.request.urlopen(http_req) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            return {"status": "SUCCESS", "audio_base64": data.get("audios", [None])[0]}
+    except Exception as e:
+        return {"status": "ERROR", "error": str(e), "audio_base64": None}
 
 if __name__ == "__main__":
     import uvicorn
