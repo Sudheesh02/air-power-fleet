@@ -135,20 +135,6 @@ export default function CommandOverview() {
 
   const dynamicMcRate = totalCount > 0 ? Math.round((capableCount / totalCount) * 1000) / 10 : 75.0;
 
-  // Per-squadron readiness rows for the breakdown strip
-  const squadronRows = useMemo(() => {
-    const groups = {};
-    aircraftList.forEach((ac) => {
-      const key = (ac.squadron || 'Unassigned').replace(/['"]/g, '');
-      if (!groups[key]) groups[key] = { name: key, type: ac.aircraft_type, ready: 0, sched: 0, grounded: 0, total: 0 };
-      groups[key].total += 1;
-      if (ac.status === 'MISSION_CAPABLE') groups[key].ready += 1;
-      else if (ac.status === 'MAINTENANCE_GROUNDED') groups[key].grounded += 1;
-      else groups[key].sched += 1;
-    });
-    return Object.values(groups);
-  }, [aircraftList]);
-
   // Mini Sparkline Data Series (representing 7 operational cycles)
   const availabilitySparkline = dynamicMcRate >= 75
     ? [72.0, 73.5, 74.0, 75.2, 76.8, 78.4, dynamicMcRate]
@@ -242,64 +228,34 @@ export default function CommandOverview() {
         />
       </div>
 
-      {/* 1b. SQUADRON READINESS STRIP: one segmented bar per squadron (ready / scheduled / grounded) */}
-      <GlassCard className="p-5">
-        <div className="flex items-baseline justify-between mb-3">
-          <div>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 block">
-              Squadron breakdown
-            </span>
-            <h3 className={`text-base font-bold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              Readiness by Unit
-            </h3>
-          </div>
-          <div className="hidden sm:flex items-center gap-4 text-[11px] font-mono text-slate-400">
-            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-sm bg-emerald-500" />Ready</span>
-            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-sm bg-amber-500" />Scheduled</span>
-            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-sm bg-red-500" />Grounded</span>
-          </div>
-        </div>
-        <div className="space-y-3">
-          {squadronRows.map((sq) => (
-            <div key={sq.name} className="grid grid-cols-12 items-center gap-3">
-              <div className="col-span-12 sm:col-span-4 min-w-0">
-                <p className={`text-xs font-semibold truncate ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>{sq.name}</p>
-                <p className="text-[11px] text-slate-400 truncate">{sq.type}</p>
-              </div>
-              <div className="col-span-9 sm:col-span-6 flex h-2.5 rounded-sm overflow-hidden bg-slate-800/60 gap-px">
-                {sq.ready > 0 && <div className="bg-emerald-500" style={{ width: `${(sq.ready / sq.total) * 100}%` }} />}
-                {sq.sched > 0 && <div className="bg-amber-500" style={{ width: `${(sq.sched / sq.total) * 100}%` }} />}
-                {sq.grounded > 0 && <div className="bg-red-500" style={{ width: `${(sq.grounded / sq.total) * 100}%` }} />}
-              </div>
-              <div className="col-span-3 sm:col-span-2 text-right font-mono tabular-nums text-xs text-slate-300">
-                {sq.ready}/{sq.total} <span className="text-slate-500">({Math.round((sq.ready / sq.total) * 100)}%)</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </GlassCard>
-
+      {/* 2. MAIN CHARTS ROW (Telemetry Trend & Circular Squadron Readiness Gauge) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left (2 cols): Multi-Line Predicted Fault Probability vs Flight Hours */}
-        <GlassCard className="p-5 lg:col-span-2 flex flex-col justify-between ">
-          <div className={`flex flex-wrap items-center justify-between gap-3 border-b pb-4 mb-4 ${isDark ? 'border-[#243044]' : 'border-slate-100'}`}>
+        <GlassCard className="p-5 lg:col-span-2 flex flex-col justify-between border border-[#343448] bg-[#20212F] shadow-lg shadow-black/40">
+          <div className={`flex flex-wrap items-center justify-between gap-3 border-b pb-4 mb-4 ${isDark ? 'border-[#343448]' : 'border-slate-100'}`}>
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 block">
-                Propulsion prognostics / C-MAPSS gas path regimes
-              </span>
-              <h3 className={`font-bold text-base tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Fault Probability vs. Flight Hours
-              </h3>
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
+                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  Predicted Fault Probability vs. Flight Hours
+                </h3>
+              </div>
+              <p className={`text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'} mt-0.5`}>
+                Multi-squadron prognostic degradation telemetry mapped across NASA C-MAPSS gas path regimes
+              </p>
             </div>
-            <span className="text-[11px] font-mono text-slate-400 tabular-nums">
-              {telemetryData.length} sample points
-            </span>
+
+            <div className="flex items-center gap-2 text-xs font-sans">
+              <span className="px-2.5 py-0.5 rounded-full bg-blue-500/15 text-sky-400 font-semibold border border-blue-500/30 text-[11px]">
+                Prognostic ML
+              </span>
+            </div>
           </div>
 
           <div className="w-full h-72">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={telemetryData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#243044' : 'rgba(0,0,0,0.06)'} />
+                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#343448' : 'rgba(0,0,0,0.06)'} />
                 <XAxis
                   dataKey="hours"
                   axisLine={{ stroke: isDark ? '#334155' : '#CBD5E1', strokeWidth: 1 }}
@@ -329,11 +285,11 @@ export default function CommandOverview() {
                   contentStyle={{
                     backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
                     borderColor: isDark ? 'rgba(255,255,255,0.1)' : '#E2E8F0',
-                    borderRadius: '8px',
+                    borderRadius: '12px',
                     fontSize: '12px',
                     fontFamily: 'JetBrains Mono',
                     boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
-                    color: isDark ? '#F1F5F9' : '#000'
+                    color: isDark ? '#F5F4FF' : '#000'
                   }}
                   itemStyle={{
                     color: isDark ? '#F1F5F9' : '#0F172A',
@@ -394,11 +350,11 @@ export default function CommandOverview() {
 
         {/* Right (1 col): Circular Readiness Score Gauge */}
         <GlassCard className="p-5 flex flex-col justify-between">
-          <div className="border-b border-slate-500/20 pb-4 mb-2">
-            <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+          <div className="border-b border-white/5 dark:border-white/5 pb-4 mb-2">
+            <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Overall Squadron Readiness Score
             </h3>
-            <p className={`text-xs ${isDark ? 'text-[#94A3B8]' : 'text-slate-500'} mt-0.5`}>
+            <p className={`text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'} mt-0.5`}>
               Composite readiness index for {selectedSquadron === 'ALL' ? 'Combined Fleet' : activeSquadronLabel}
             </p>
           </div>
@@ -417,7 +373,7 @@ export default function CommandOverview() {
               >
                 <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
                 <RadialBar
-                  background={{ fill: isDark ? '#1E293B' : 'rgba(0,0,0,0.05)' }}
+                  background={{ fill: isDark ? '#252638' : 'rgba(0,0,0,0.05)' }}
                   dataKey="value"
                   cornerRadius={10}
                 />
@@ -426,51 +382,48 @@ export default function CommandOverview() {
 
             {/* Inner Center Content */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pt-8">
-              <span className="text-4xl font-bold font-sans text-sky-400 tracking-tight">
+              <span className="text-4xl font-black font-sans text-sky-400 tracking-tight">
                 {dynamicMcRate}%
               </span>
-              <span className={`text-xs font-semibold ${isDark ? 'text-[#94A3B8]' : 'text-slate-500'} mt-1`}>
+              <span className={`text-xs font-semibold ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'} mt-1`}>
                 Readiness Score
               </span>
-              <span className="text-[11px] font-mono text-slate-400 mt-1 tabular-nums">
-                MoD target 75.0%
+              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-500/10 text-sky-400 font-sans font-medium mt-1 border border-blue-500/20">
+                MoD Target: 75.0%
               </span>
             </div>
           </div>
 
-          <div className={`border-t pt-1 text-xs divide-y ${
-            isDark ? 'border-slate-800 divide-slate-800/80' : 'border-slate-200 divide-slate-100'
+          <div className={`p-3.5 rounded-2xl border text-xs space-y-2 ${
+            isDark ? 'bg-[#252638] border-[#343448] text-[#F5F4FF]' : 'bg-slate-50 border-slate-200 text-slate-700'
           }`}>
-            {[
-              { label: 'Mission ready', val: capableCount, color: 'bg-emerald-400', text: 'text-emerald-400' },
-              { label: 'Scheduled maintenance', val: standbyCount, color: 'bg-amber-400', text: 'text-amber-400' },
-              { label: 'Grounded (AOG)', val: groundedCount, color: 'bg-red-400', text: 'text-red-400' },
-            ].map((r) => (
-              <div key={r.label} className="flex justify-between items-center py-2">
-                <span className={`flex items-center gap-2 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${r.color}`} />
-                  {r.label}
-                </span>
-                <span className={`font-mono font-semibold tabular-nums ${r.text}`}>
-                  {r.val} <span className="text-slate-500 font-normal">/ {totalCount}</span>
-                </span>
-              </div>
-            ))}
+            <div className="flex justify-between items-center">
+              <span className={isDark ? 'text-[#A7A8C2]' : 'text-slate-500'}>Combat Mission Ready:</span>
+              <span className="font-bold font-sans text-emerald-400 text-xs">{capableCount} Aircraft</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className={isDark ? 'text-[#A7A8C2]' : 'text-slate-500'}>Predictive Maintenance Scheduled:</span>
+              <span className="font-bold font-sans text-amber-400 text-xs">{standbyCount} Aircraft</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className={isDark ? 'text-[#A7A8C2]' : 'text-slate-500'}>Critical Alert / Grounded:</span>
+              <span className="font-bold font-sans text-rose-400 text-xs">{groundedCount} Aircraft</span>
+            </div>
           </div>
         </GlassCard>
       </div>
 
       {/* 3. LIVE FLEET STATUS & RUL MATRIX TABLE */}
-      <GlassCard className="p-5 ">
-        <div className={`flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-4 ${isDark ? 'border-[#243044]' : 'border-slate-100'}`}>
+      <GlassCard className="p-5 border border-[#343448] bg-[#20212F] shadow-lg shadow-black/40">
+        <div className={`flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-4 ${isDark ? 'border-[#343448]' : 'border-slate-100'}`}>
           <div>
             <div className="flex items-center gap-2">
               <Plane className="w-5 h-5 text-sky-400" />
-              <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Live Fleet Status & RUL Matrix
               </h3>
             </div>
-            <p className={`text-xs ${isDark ? 'text-[#94A3B8]' : 'text-slate-500'} mt-0.5`}>
+            <p className={`text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'} mt-0.5`}>
               Showing {sortedAircraft.length} aircraft &bull; Sortable columns &bull; Click any tail to inspect its Digital Twin
             </p>
           </div>
@@ -494,7 +447,7 @@ export default function CommandOverview() {
 
             {/* Quick Search */}
             <div className="relative">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A7A8C2]" />
               <input
                 type="text"
                 placeholder="Filter tail, model, base..."
@@ -502,7 +455,7 @@ export default function CommandOverview() {
                 onChange={(e) => setSearchFilter(e.target.value)}
                 className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                   isDark
-                    ? 'bg-[#1E293B] text-[#F1F5F9] placeholder-[#94A3B8] border border-[#243044]'
+                    ? 'bg-[#252638] text-[#F5F4FF] placeholder-[#A7A8C2] border border-[#343448]'
                     : 'bg-slate-100 text-slate-800 placeholder-slate-400 border border-slate-200'
                 }`}
               />
@@ -514,7 +467,7 @@ export default function CommandOverview() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-sans">
             <thead className={`uppercase font-sans font-bold text-[11px] tracking-wider border-b ${
-              isDark ? 'text-[#94A3B8] bg-[#1E293B] border-[#243044]' : 'text-slate-500 bg-slate-100 border-slate-200'
+              isDark ? 'text-[#A7A8C2] bg-[#252638] border-[#343448]' : 'text-slate-500 bg-slate-100 border-slate-200'
             }`}>
               <tr>
                 <th
@@ -568,7 +521,7 @@ export default function CommandOverview() {
                 <th className="p-3 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className={`divide-y font-medium ${isDark ? 'divide-[#243044]' : 'divide-slate-100'}`}>
+            <tbody className={`divide-y font-medium ${isDark ? 'divide-[#343448]' : 'divide-slate-100'}`}>
               {sortedAircraft.map((ac) => {
                 return (
                   <tr
@@ -578,34 +531,34 @@ export default function CommandOverview() {
                       setActiveTab('twin');
                     }}
                     className={`cursor-pointer transition-colors ${
-                      isDark ? 'hover:bg-[#1E293B]/70' : 'hover:bg-slate-50'
+                      isDark ? 'hover:bg-[#252638]/70' : 'hover:bg-slate-50'
                     }`}
                   >
-                    <td className="p-3 font-mono font-bold text-sky-400 text-sm tracking-tight whitespace-nowrap">
+                    <td className="p-3 font-sans font-bold text-sky-400 text-sm tracking-tight">
                       {ac.tail_no}
                     </td>
-                    <td className={`p-3 font-medium text-xs ${isDark ? 'text-[#F1F5F9]' : 'text-slate-800'}`}>
+                    <td className={`p-3 font-medium text-xs ${isDark ? 'text-[#F5F4FF]' : 'text-slate-800'}`}>
                       {ac.aircraft_type}
                     </td>
                     <td className="p-3">
-                      <div className={`font-semibold text-xs ${isDark ? 'text-[#F1F5F9]' : 'text-slate-800'}`}>
+                      <div className={`font-semibold text-xs ${isDark ? 'text-[#F5F4FF]' : 'text-slate-800'}`}>
                         {ac.squadron}
                       </div>
-                      <div className="text-[11px] text-[#94A3B8] font-medium">
+                      <div className="text-[11px] text-[#A7A8C2] font-medium">
                         {ac.base_station}
                       </div>
                     </td>
-                    <td className={`p-3 font-mono tabular-nums font-medium text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                    <td className={`p-3 font-sans font-semibold text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-700'}`}>
                       {ac.airframe_hours} h
                     </td>
                     <td className="p-3">
                       <div className="flex items-center gap-2">
-                        <span className={`font-mono tabular-nums font-bold text-xs ${
+                        <span className={`font-sans font-bold text-xs ${
                           ac.health_score > 75 ? 'text-emerald-400' : (ac.health_score > 50 ? 'text-amber-400' : 'text-rose-400')
                         }`}>
                           {ac.health_score}%
                         </span>
-                        <div className="w-16 h-1.5 rounded-full bg-[#1E293B] overflow-hidden">
+                        <div className="w-16 h-1.5 rounded-full bg-[#252638] overflow-hidden">
                           <div
                             className={`h-full rounded-full ${
                               ac.health_score > 75
@@ -619,10 +572,10 @@ export default function CommandOverview() {
                         </div>
                       </div>
                     </td>
-                    <td className={`p-3 font-sans font-medium text-xs ${isDark ? 'text-[#94A3B8]' : 'text-slate-600'}`}>
+                    <td className={`p-3 font-sans font-medium text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-600'}`}>
                       {ac.next_fault}
                     </td>
-                    <td className={`p-3 font-mono tabular-nums font-bold text-xs ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
+                    <td className={`p-3 font-sans font-bold text-xs ${isDark ? 'text-[#F5F4FF]' : 'text-slate-800'}`}>
                       ~{ac.rul_hours} h
                     </td>
                     <td className="p-3">
@@ -635,11 +588,7 @@ export default function CommandOverview() {
                           setSelectedTail(ac.tail_no);
                           setActiveTab('twin');
                         }}
-                        className={`px-2.5 py-1.5 rounded-md text-xs font-medium border transition-colors flex items-center gap-1 ml-auto ${
-                          isDark
-                            ? 'bg-slate-900 hover:bg-blue-700 text-slate-300 hover:text-white border-slate-800 hover:border-blue-500'
-                            : 'bg-white hover:bg-blue-700 text-slate-700 hover:text-white border-slate-200'
-                        }`}
+                        className="px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-sky-300 hover:text-white border border-blue-500/30 text-xs font-sans font-semibold transition flex items-center gap-1 ml-auto"
                       >
                         Inspect Twin
                         <ChevronRight className="w-3 h-3" />

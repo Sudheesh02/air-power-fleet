@@ -121,19 +121,19 @@ export default function SparesLogistics() {
       {/* 1. TOP HEADER & DISPATCH BUTTON */}
       <GlassCard className="p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
+          <div className="w-12 h-12 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
             <Boxes className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400">
+              <span className="text-[11px] font-sans px-2.5 py-0.5 rounded-full bg-blue-500/10 text-sky-400 font-semibold border border-blue-500/20">
                 Unified Defense Supply Chain
               </span>
               <span className="text-xs text-slate-400 font-sans">
                 Forward Operating Bases &bull; Central Air Force Depot
               </span>
             </div>
-            <h2 className={`text-lg font-bold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Spares Logistics, Automated AI Reorder Triggers & Turnaround Tracking
             </h2>
           </div>
@@ -151,24 +151,27 @@ export default function SparesLogistics() {
       {/* 2. LOGISTICS KPI OVERVIEW ROW */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Active LRU Inventory */}
-        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between transition-colors duration-200 ">
+        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 border-slate-800 bg-slate-900/90 shadow-sm">
           <div>
             <div className="flex items-center justify-between gap-2">
               <div className="w-9 h-9 rounded-xl bg-blue-600/15 border border-blue-500/30 text-blue-400 flex items-center justify-center shrink-0">
                 <Boxes className="w-4 h-4" />
               </div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 whitespace-nowrap shrink-0">Forward Wings</span>
+              <span className="inline-flex items-center text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-sans font-medium whitespace-nowrap shrink-0 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mr-1.5 shrink-0" />
+                Forward Wings
+              </span>
             </div>
             <div className="mt-3">
               <span className={`text-xs font-semibold font-sans tracking-wide uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                 Active LRU Inventory
               </span>
-              <h3 className={`text-2xl sm:text-3xl font-bold tracking-tight font-mono tabular-nums mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans mt-0.5">
                 {baseSpares.length || 18} <span className="text-sm font-semibold text-slate-400">Assemblies</span>
               </h3>
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-slate-500/20">
+          <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5">
             <span className={`text-xs font-sans ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
               Tracked across 3 frontline operating wings
             </span>
@@ -176,24 +179,27 @@ export default function SparesLogistics() {
         </GlassCard>
 
         {/* Card 2: Critical Spares Shortage */}
-        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between transition-colors duration-200 ">
+        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 border-slate-800 bg-slate-900/90 shadow-sm">
           <div>
             <div className="flex items-center justify-between gap-2">
               <div className="w-9 h-9 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center shrink-0">
                 <AlertTriangle className="w-4 h-4" />
               </div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 whitespace-nowrap shrink-0">Action Required</span>
+              <span className="inline-flex items-center text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-rose-200 border border-rose-600/40 font-sans font-medium whitespace-nowrap shrink-0 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 mr-1.5 shrink-0" />
+                Action Required
+              </span>
             </div>
             <div className="mt-3">
               <span className={`text-xs font-semibold font-sans tracking-wide uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                 Critical Stockout Alert
               </span>
-              <h3 className={`text-2xl sm:text-3xl font-bold tracking-tight font-mono tabular-nums mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans mt-0.5">
                 {outOfStockCount} <span className="text-sm font-semibold text-rose-400">Assembly Depleted</span>
               </h3>
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-slate-500/20">
+          <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5">
             <span className="text-xs text-rose-300/90 font-sans">
               HPC Rotor Blades &bull; AFS Thanjavur
             </span>
@@ -201,24 +207,27 @@ export default function SparesLogistics() {
         </GlassCard>
 
         {/* Card 3: Proactive Replenishment */}
-        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between transition-colors duration-200 ">
+        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 border-slate-800 bg-slate-900/90 shadow-sm">
           <div>
             <div className="flex items-center justify-between gap-2">
               <div className="w-9 h-9 rounded-xl bg-sky-500/15 border border-sky-500/30 text-sky-400 flex items-center justify-center shrink-0">
                 <Truck className="w-4 h-4" />
               </div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 whitespace-nowrap shrink-0">Depot Inbound</span>
+              <span className="inline-flex items-center text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-sans font-medium whitespace-nowrap shrink-0 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mr-1.5 shrink-0" />
+                Depot Inbound
+              </span>
             </div>
             <div className="mt-3">
               <span className={`text-xs font-semibold font-sans tracking-wide uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                 Proactive Replenishment
               </span>
-              <h3 className={`text-2xl sm:text-3xl font-bold tracking-tight font-mono tabular-nums mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans mt-0.5">
                 {aiTriggers.length} <span className="text-sm font-semibold text-slate-400">Depot Inductions</span>
               </h3>
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-slate-500/20">
+          <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5">
             <span className="text-xs text-slate-400 font-sans">
               Automated reorders triggered by RUL wear
             </span>
@@ -226,24 +235,27 @@ export default function SparesLogistics() {
         </GlassCard>
 
         {/* Card 4: Depot Turnaround Time */}
-        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between transition-colors duration-200 ">
+        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 border-slate-800 bg-slate-900/90 shadow-sm">
           <div>
             <div className="flex items-center justify-between gap-2">
               <div className="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0">
                 <Clock className="w-4 h-4" />
               </div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 whitespace-nowrap shrink-0">Within SLA</span>
+              <span className="inline-flex items-center text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-sans font-medium whitespace-nowrap shrink-0 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 shrink-0" />
+                Within SLA
+              </span>
             </div>
             <div className="mt-3">
               <span className={`text-xs font-semibold font-sans tracking-wide uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                 Depot Turnaround Time
               </span>
-              <h3 className={`text-2xl sm:text-3xl font-bold tracking-tight font-mono tabular-nums mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans mt-0.5">
                 18.4 <span className="text-sm font-semibold text-emerald-400">Hours Avg</span>
               </h3>
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-slate-500/20">
+          <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5">
             <span className="text-xs text-emerald-300/90 font-sans">
               Base Repair Depot limit: 48.0h
             </span>
@@ -253,11 +265,11 @@ export default function SparesLogistics() {
 
       {/* 3. AUTOMATED AI REORDER TRIGGERS (Predictive Supply Chain Integration) */}
       <GlassCard className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-500/20 pb-4 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
               <Zap className="w-5 h-5 text-sky-400" />
-              <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Automated Spares Replenishment Triggers
               </h3>
             </div>
@@ -278,18 +290,18 @@ export default function SparesLogistics() {
             return (
               <div
                 key={trig.trigger_id}
-                className={`p-4 rounded-lg border flex flex-col justify-between space-y-3 transition-all ${
+                className={`p-4 rounded-2xl border flex flex-col justify-between space-y-3 transition-all ${
                   isDark
-                    ? 'bg-slate-900/60 hover:bg-white/[0.05] border-white/10'
+                    ? 'bg-white/[0.03] hover:bg-white/[0.05] border-white/10'
                     : 'bg-white border-slate-200 shadow-sm'
-                } `}
+                } ${isApproved ? 'border-l-4 border-l-emerald-500/80' : 'border-l-4 border-l-sky-500/80'}`}
               >
                 <div>
                   <div className="flex items-center justify-between">
                     <span className="font-sans text-xs font-bold text-sky-400 tracking-tight">
                       {trig.trigger_id}
                     </span>
-                    <span className="text-[10px] font-mono text-slate-400 tabular-nums">
+                    <span className="text-[11px] px-2.5 py-0.5 rounded-full font-semibold bg-white/5 text-slate-300 border border-white/10 font-sans">
                       Confidence {trig.confidence_score}%
                     </span>
                   </div>
@@ -298,8 +310,8 @@ export default function SparesLogistics() {
                     {trig.lru_component}
                   </h4>
 
-                  <div className={`mt-2 py-2 px-0 border-y text-[11px] font-mono tabular-nums space-y-1.5 ${
-                    isDark ? 'bg-slate-950/70 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+                  <div className={`mt-2 p-2.5 rounded-xl border text-[11px] font-sans space-y-1 ${
+                    isDark ? 'bg-black/30 border-white/5 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
                   }`}>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Trigger Target:</span>
@@ -320,7 +332,7 @@ export default function SparesLogistics() {
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-slate-500/20 flex items-center justify-between font-sans">
+                <div className="pt-2 border-t border-white/5 dark:border-white/5 flex items-center justify-between font-sans">
                   <span className="text-[11px] text-slate-400">
                     Action: <strong className="text-slate-300">{trig.recommended_action}</strong>
                   </span>
@@ -347,11 +359,11 @@ export default function SparesLogistics() {
 
       {/* 4. CENTRAL DEPOT PROCUREMENT & TURNAROUND TRACKING PIPELINE */}
       <GlassCard className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-500/20 pb-4 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
               <Truck className="w-5 h-5 text-sky-400" />
-              <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Depot Turnaround Tracking (TAT) & Logistics In-Transit Pipeline
               </h3>
             </div>
@@ -369,8 +381,8 @@ export default function SparesLogistics() {
           {depotPipeline.map((dp) => (
             <div
               key={dp.req_id}
-              className={`p-4 rounded-lg border flex flex-col justify-between space-y-3 ${
-                isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-slate-50 border-slate-200'
+              className={`p-4 rounded-2xl border flex flex-col justify-between space-y-3 ${
+                isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'
               }`}
             >
               <div>
@@ -392,7 +404,7 @@ export default function SparesLogistics() {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-slate-400">Depot Origin:</span>
-                    <span className="text-sky-300 font-medium">{dp.depot_source || 'Central Depot'}</span>
+                    <span className="text-cyan-300 font-medium">{dp.depot_source || 'Central Depot'}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-slate-400">Transit Mode:</span>
@@ -410,7 +422,7 @@ export default function SparesLogistics() {
                   ];
 
                   return (
-                    <div className="mt-3.5 pt-3 border-t border-slate-500/20 space-y-2">
+                    <div className="mt-3.5 pt-3 border-t border-white/5 dark:border-white/5 space-y-2">
                       <p className="text-[11px] font-sans text-slate-400 uppercase tracking-wider font-semibold">Turnaround Lifecycle</p>
                       <div className="space-y-1.5 text-xs font-sans">
                         {steps.map((st, sIdx) => (
@@ -432,7 +444,7 @@ export default function SparesLogistics() {
                 })()}
               </div>
 
-              <div className="pt-2.5 border-t border-slate-500/20 flex items-center justify-between font-sans text-xs">
+              <div className="pt-2.5 border-t border-white/5 dark:border-white/5 flex items-center justify-between font-sans text-xs">
                 <div className="flex items-center gap-1.5 text-amber-300 font-bold">
                   <Clock className="w-3.5 h-3.5 text-amber-400" />
                   <span>ETA: {dp.eta_hours} hrs</span>
@@ -446,9 +458,9 @@ export default function SparesLogistics() {
 
       {/* 5. FORWARD OPERATING BASE SPARES INVENTORY MATRIX (LRUs) */}
       <GlassCard className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-500/20 pb-4 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
           <div>
-            <h3 className={`font-bold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h3 className={`font-extrabold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               <Package className="w-5 h-5 text-sky-400" />
               Forward Operating Base Spares Inventory Matrix (LRUs)
             </h3>
@@ -509,7 +521,7 @@ export default function SparesLogistics() {
                 <th className="p-3 text-right">Logistics Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-500/20 font-medium">
+            <tbody className="divide-y divide-white/5 dark:divide-white/5 font-medium">
               {filteredSpares.map((sp) => {
                 const isOutOfStock = sp.quantity_on_hand === 0;
                 const isBelowSafety = sp.quantity_on_hand <= sp.safety_stock_threshold && !isOutOfStock;
@@ -526,7 +538,7 @@ export default function SparesLogistics() {
                     }`}
                   >
                     <td className="p-3 font-sans">
-                      <span className="font-bold text-sky-300 text-xs tracking-tight">{sp.item_id}</span>
+                      <span className="font-bold text-cyan-300 text-xs tracking-tight">{sp.item_id}</span>
                       <p className="text-[11px] text-slate-400">{sp.location_bin}</p>
                     </td>
                     <td className={`p-3 font-sans font-semibold text-xs ${isDark ? 'text-white' : 'text-slate-800'}`}>
@@ -543,7 +555,7 @@ export default function SparesLogistics() {
                     </td>
                     <td className="p-3 font-sans">
                       <div className="flex items-center gap-1.5">
-                        <span className={`font-bold text-sm tracking-tight ${
+                        <span className={`font-black text-sm tracking-tight ${
                           isOutOfStock ? 'text-rose-400' : isBelowSafety ? 'text-amber-200' : 'text-emerald-400'
                         }`}>
                           {sp.quantity_on_hand}
