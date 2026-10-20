@@ -48,6 +48,7 @@ export default function Navbar({ onToggleSidebar }) {
     predictive: { title: 'AI/ML Predictive Maintenance & RUL', breadcrumb: 'Air Power / Conformal Prognostics' },
     spares: { title: 'Spares & Logistics Integration', breadcrumb: 'Air Power / Multi-Silo Supply Chain' },
     logs: { title: 'Maintenance Work Orders & Pilot Logs', breadcrumb: 'Air Power / Hangar Execution' },
+    copilot: { title: 'Tactical Voice Copilot · Live Operations', breadcrumb: 'Air Power / Live Voice Agent' },
   };
 
   const currentMeta = pageTitles[activeTab] || pageTitles.overview;

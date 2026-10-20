@@ -10,6 +10,7 @@ import DigitalTwinView from './components/pages/DigitalTwinView';
 import PredictiveAnalytics from './components/pages/PredictiveAnalytics';
 import SparesLogistics from './components/pages/SparesLogistics';
 import MaintenanceLogs from './components/pages/MaintenanceLogs';
+import TacticalCopilotView from './components/pages/TacticalCopilotView';
 
 function MainLayout() {
   const {
@@ -50,6 +51,8 @@ function MainLayout() {
         return <SparesLogistics />;
       case 'logs':
         return <MaintenanceLogs />;
+      case 'copilot':
+        return <TacticalCopilotView />;
       default:
         return <CommandOverview />;
     }
