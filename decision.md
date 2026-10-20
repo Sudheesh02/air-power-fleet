@@ -130,3 +130,12 @@ Whenever modifying code in this codebase, log all new architectural choices, int
 - **Tradeoffs & Mitigations**:
   - *Tradeoff*: Full deep-learning model weights (LightGBM/GRU-30) were developed as offline artifacts in research scripts.
   - *Mitigation*: Roadmap established in `AUDIT_OVERVIEW.md` to bridge ONNX runtime inference into `backend/main.py` without degrading API latency.
+
+
+### [2026-10-20] - Remote Branch Upstream Publication (`origin/develop`)
+- **Component Affected**: GitHub Remote Repository (`origin`), Git Tracking
+- **Change Description**: Published local `develop` branch to remote GitHub repository (`git push -u origin develop`). GitHub now visibly displays both `main` and `develop` branches.
+- **Library / Method Chosen**: Git upstream tracking (`--set-upstream origin develop`). Enables team collaboration, remote diff review, and Pull Request workflows (`https://github.com/Sudheesh02/air-power-fleet/pull/new/develop`).
+- **Tradeoffs & Mitigations**:
+  - *Tradeoff*: Remote branch is now publicly visible on GitHub.
+  - *Mitigation*: Keeps production `main` branch protected while providing a transparent remote staging environment for all major experimental changes.
