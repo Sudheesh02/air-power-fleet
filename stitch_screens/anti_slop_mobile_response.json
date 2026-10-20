@@ -1,0 +1,492 @@
+{
+  "id": 1792433292,
+  "jsonrpc": "2.0",
+  "result": {
+    "content": [
+      {
+        "text": "{\"projectId\":\"6364091777009717579\",\"sessionId\":\"3633481883779538891\",\"outputComponents\":[{\"designSystem\":{\"name\":\"assets/97daa3c8c55d495081b2df720427295b\",\"designSystem\":{\"displayName\":\"Aviation Flight-Line Operations System\",\"styleGuidelines\":\"## Brand & Style\\n\\nThis design system draws inspiration from Apple's meticulous Human Interface Guidelines and the uncompromising utility of military aviation tooling like Boeing ForeFlight. The personality is authoritative, calm, serious, and utterly reliable. \\n\\nThe aesthetic style is a refined, utilitarian take on modern dark-mode interfaces, prioritizing clarity, hierarchy, and zero cognitive load. It rejects decorative styling, video-game HUD elements, and glowing neons in favor of high-legibility typography, dense information structuring, and tactile mechanical feedback. The UI evokes absolute precision for flight-line crew chiefs operating in high-stakes environments.\\n\\n## Layout & Spacing\\n\\nThe layout utilizes a rigid, data-dense 12-column fluid grid tailored for tablet and desktop cockpit terminals, scaling down to a single-column stacked view on handheld units. \\n\\nSpacing adheres to a strict 4px/8px modular rhythm (`space-xs` through `space-xl`). Margins remain compact (`1.5rem`) to maximize screen real estate for telemetry tables, checklists, and map overlays.\\n\\n## Elevation & Depth\\n\\nVisual hierarchy relies entirely on low-contrast outlines and tonal surface stacking rather than decorative shadows or blurs. \\n\\nSurfaces are clearly delineated using solid card backgrounds (`#141C2E`) separated from the canvas by hairline neutral borders (`rgba(255,255,255,0.08)`). Active or elevated interactive states use subtle shifts in surface luminance and precise 1px solid borders rather than ambient drop shadows, ensuring zero visual clutter or performance overhead.\\n\\n## Components\\n\\nComponents are engineered for high-frequency operational use with clear tactile feedback and uncompromising legibility.\\n\\n- **Buttons:** Solid primary actions use aviation blue (`#2563EB`) with high-contrast white monospaced labels. Secondary and ghost buttons feature hairline borders with zero background fill until hovered or active.\\n- **Chips & Tags:** Compact status indicators utilize mono typography with muted background tones to designate operational readiness (e.g., Go, No-Go, Standby).\\n- **Lists:** Dense, tabular rows separated by 1px hairline dividers. Row heights are optimized for touch precision in gloved or outdoor conditions.\\n- **Checkboxes & Radios:** Precision squares and circles with solid accent fills, avoiding native OS styling for uniform cross-device rendering.\\n- **Input Fields:** Recessed dark inputs featuring solid borders, clear monospaced text, and persistent inline labels for rapid data entry.\\n- **Cards:** Solid `#141C2E` containers with structural hairline borders, housing grouped telemetry or checklist items.\\n- **Additional Components:** Specialized flight-line components include collapsible checklist accordions, telemetry gauges with threshold markers, and quick-status banner alerts.\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"INTER\",\"roundness\":\"ROUND_FOUR\",\"customColor\":\"#2563eb\",\"headlineFont\":\"INTER\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"surface_container_high\":\"#1c2b3c\",\"surface_container_low\":\"#0d1c2d\",\"secondary\":\"#c2c6da\",\"primary_fixed_dim\":\"#b4c5ff\",\"on_background\":\"#d4e4fa\",\"surface_bright\":\"#2c3a4c\",\"on_tertiary\":\"#283043\",\"on_secondary_container\":\"#b0b4c8\",\"on_primary_fixed\":\"#00174b\",\"surface_container_highest\":\"#273647\",\"on_error_container\":\"#ffdad6\",\"surface_container_lowest\":\"#010f1f\",\"on_tertiary_container\":\"#edf0ff\",\"primary_container\":\"#2563eb\",\"on_surface\":\"#d4e4fa\",\"on_tertiary_fixed_variant\":\"#3f475a\",\"inverse_primary\":\"#0053db\",\"error\":\"#ffb4ab\",\"secondary_fixed\":\"#dee2f6\",\"error_container\":\"#93000a\",\"outline\":\"#8d90a0\",\"inverse_on_surface\":\"#233143\",\"on_surface_variant\":\"#c3c6d7\",\"tertiary_fixed\":\"#dae2fb\",\"primary\":\"#b4c5ff\",\"surface_dim\":\"#051424\",\"surface_tint\":\"#b4c5ff\",\"on_error\":\"#690005\",\"tertiary_fixed_dim\":\"#bec6de\",\"on_tertiary_fixed\":\"#131b2d\",\"on_secondary\":\"#2b303f\",\"surface\":\"#051424\",\"outline_variant\":\"#434655\",\"secondary_fixed_dim\":\"#c2c6da\",\"background\":\"#051424\",\"on_primary_fixed_variant\":\"#003ea8\",\"on_primary\":\"#002a78\",\"on_secondary_fixed\":\"#161b2a\",\"primary_fixed\":\"#dbe1ff\",\"tertiary\":\"#bec6de\",\"inverse_surface\":\"#d4e4fa\",\"on_secondary_fixed_variant\":\"#424657\",\"secondary_container\":\"#424657\",\"on_primary_container\":\"#eeefff\",\"tertiary_container\":\"#656d82\",\"surface_variant\":\"#273647\",\"surface_container\":\"#122131\"},\"designMd\":\"---\\nname: Aviation Flight-Line Operations System\\ncolors:\\n  surface: '#051424'\\n  surface-dim: '#051424'\\n  surface-bright: '#2c3a4c'\\n  surface-container-lowest: '#010f1f'\\n  surface-container-low: '#0d1c2d'\\n  surface-container: '#122131'\\n  surface-container-high: '#1c2b3c'\\n  surface-container-highest: '#273647'\\n  on-surface: '#d4e4fa'\\n  on-surface-variant: '#c3c6d7'\\n  inverse-surface: '#d4e4fa'\\n  inverse-on-surface: '#233143'\\n  outline: '#8d90a0'\\n  outline-variant: '#434655'\\n  surface-tint: '#b4c5ff'\\n  primary: '#b4c5ff'\\n  on-primary: '#002a78'\\n  primary-container: '#2563eb'\\n  on-primary-container: '#eeefff'\\n  inverse-primary: '#0053db'\\n  secondary: '#c2c6da'\\n  on-secondary: '#2b303f'\\n  secondary-container: '#424657'\\n  on-secondary-container: '#b0b4c8'\\n  tertiary: '#bec6de'\\n  on-tertiary: '#283043'\\n  tertiary-container: '#656d82'\\n  on-tertiary-container: '#edf0ff'\\n  error: '#ffb4ab'\\n  on-error: '#690005'\\n  error-container: '#93000a'\\n  on-error-container: '#ffdad6'\\n  primary-fixed: '#dbe1ff'\\n  primary-fixed-dim: '#b4c5ff'\\n  on-primary-fixed: '#00174b'\\n  on-primary-fixed-variant: '#003ea8'\\n  secondary-fixed: '#dee2f6'\\n  secondary-fixed-dim: '#c2c6da'\\n  on-secondary-fixed: '#161b2a'\\n  on-secondary-fixed-variant: '#424657'\\n  tertiary-fixed: '#dae2fb'\\n  tertiary-fixed-dim: '#bec6de'\\n  on-tertiary-fixed: '#131b2d'\\n  on-tertiary-fixed-variant: '#3f475a'\\n  background: '#051424'\\n  on-background: '#d4e4fa'\\n  surface-variant: '#273647'\\ntypography:\\n  headline-lg:\\n    fontFamily: Inter\\n    fontSize: 32px\\n    fontWeight: '600'\\n    lineHeight: 40px\\n    letterSpacing: -0.02em\\n  headline-md:\\n    fontFamily: Inter\\n    fontSize: 24px\\n    fontWeight: '600'\\n    lineHeight: 32px\\n    letterSpacing: -0.01em\\n  headline-sm:\\n    fontFamily: Inter\\n    fontSize: 18px\\n    fontWeight: '500'\\n    lineHeight: 24px\\n  body-lg:\\n    fontFamily: Inter\\n    fontSize: 16px\\n    fontWeight: '400'\\n    lineHeight: 24px\\n  body-md:\\n    fontFamily: Inter\\n    fontSize: 14px\\n    fontWeight: '400'\\n    lineHeight: 20px\\n  body-sm:\\n    fontFamily: Inter\\n    fontSize: 13px\\n    fontWeight: '400'\\n    lineHeight: 18px\\n  label-lg:\\n    fontFamily: JetBrains Mono\\n    fontSize: 13px\\n    fontWeight: '500'\\n    lineHeight: 16px\\n    letterSpacing: 0.05em\\n  label-md:\\n    fontFamily: JetBrains Mono\\n    fontSize: 12px\\n    fontWeight: '500'\\n    lineHeight: 16px\\n    letterSpacing: 0.05em\\n  label-sm:\\n    fontFamily: JetBrains Mono\\n    fontSize: 11px\\n    fontWeight: '500'\\n    lineHeight: 14px\\n    letterSpacing: 0.05em\\nrounded:\\n  sm: 0.125rem\\n  DEFAULT: 0.25rem\\n  md: 0.375rem\\n  lg: 0.5rem\\n  xl: 0.75rem\\n  full: 9999px\\nspacing:\\n  gutter: 1rem\\n  margin: 1.5rem\\n  space-xs: 0.25rem\\n  space-sm: 0.5rem\\n  space-md: 1rem\\n  space-lg: 1.5rem\\n  space-xl: 2rem\\n---\\n\\n## Brand & Style\\n\\nThis design system draws inspiration from Apple's meticulous Human Interface Guidelines and the uncompromising utility of military aviation tooling like Boeing ForeFlight. The personality is authoritative, calm, serious, and utterly reliable. \\n\\nThe aesthetic style is a refined, utilitarian take on modern dark-mode interfaces, prioritizing clarity, hierarchy, and zero cognitive load. It rejects decorative styling, video-game HUD elements, and glowing neons in favor of high-legibility typography, dense information structuring, and tactile mechanical feedback. The UI evokes absolute precision for flight-line crew chiefs operating in high-stakes environments.\\n\\n## Colors\\n\\nThe palette is engineered for high-contrast legibility under varied lighting conditions, anchored by a deep navy-slate canvas. \\n\\n- **Canvas (`#0A0F1D`):** The primary background color, reducing eye strain and maximizing contrast for data displays.\\n- **Surface (`#141C2E`):** Solid card and container surfaces that cleanly segment telemetry, status, and manifests.\\n- **Primary (`#2563EB`):** Aviation blue utilized strictly for interactive states, active indicators, and critical primary actions.\\n- **Neutral (`#94A3B8`):** Muted slate for secondary text and structural dividers, paired with hairline borders (`rgba(255,255,255,0.08)`) to partition modular readouts without visual noise.\\n\\n## Typography\\n\\nTypography pairs the clean, neutral mechanics of Inter for natural reading with JetBrains Mono for dense data readouts, numerical coordinates, and status codes. \\n\\nSizes are strictly regulated to maintain readability at arm's length in cockpit or flight-line conditions. Large headers scale down gracefully on mobile devices to prevent wrapping of critical flight metrics.\\n\\n## Layout & Spacing\\n\\nThe layout utilizes a rigid, data-dense 12-column fluid grid tailored for tablet and desktop cockpit terminals, scaling down to a single-column stacked view on handheld units. \\n\\nSpacing adheres to a strict 4px/8px modular rhythm (`space-xs` through `space-xl`). Margins remain compact (`1.5rem`) to maximize screen real estate for telemetry tables, checklists, and map overlays.\\n\\n## Elevation & Depth\\n\\nVisual hierarchy relies entirely on low-contrast outlines and tonal surface stacking rather than decorative shadows or blurs. \\n\\nSurfaces are clearly delineated using solid card backgrounds (`#141C2E`) separated from the canvas by hairline neutral borders (`rgba(255,255,255,0.08)`). Active or elevated interactive states use subtle shifts in surface luminance and precise 1px solid borders rather than ambient drop shadows, ensuring zero visual clutter or performance overhead.\\n\\n## Shapes\\n\\nThe shape language is strictly controlled with low roundedness (`1` / `0.25rem` base, `0.5rem` for large containers). \\n\\nThis delivers a precise, architectural feel reminiscent of precision instruments and ruggedized hardware. Avoid pill shapes or excessive radii on structural containers; all elements must maintain sharp, clean corners that optimize interior padding for data readouts.\\n\\n## Components\\n\\nComponents are engineered for high-frequency operational use with clear tactile feedback and uncompromising legibility.\\n\\n- **Buttons:** Solid primary actions use aviation blue (`#2563EB`) with high-contrast white monospaced labels. Secondary and ghost buttons feature hairline borders with zero background fill until hovered or active.\\n- **Chips & Tags:** Compact status indicators utilize mono typography with muted background tones to designate operational readiness (e.g., Go, No-Go, Standby).\\n- **Lists:** Dense, tabular rows separated by 1px hairline dividers. Row heights are optimized for touch precision in gloved or outdoor conditions.\\n- **Checkboxes & Radios:** Precision squares and circles with solid accent fills, avoiding native OS styling for uniform cross-device rendering.\\n- **Input Fields:** Recessed dark inputs featuring solid borders, clear monospaced text, and persistent inline labels for rapid data entry.\\n- **Cards:** Solid `#141C2E` containers with structural hairline borders, housing grouped telemetry or checklist items.\\n- **Additional Components:** Specialized flight-line components include collapsible checklist accordions, telemetry gauges with threshold markers, and quick-status banner alerts.\",\"colorVariant\":\"FIDELITY\",\"overridePrimaryColor\":\"#2563eb\",\"overrideSecondaryColor\":\"#0a0f1d\",\"overrideTertiaryColor\":\"#141c2e\",\"overrideNeutralColor\":\"#94a3b8\",\"spacingScale\":2,\"typography\":{\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"14px\",\"fontWeight\":\"400\",\"lineHeight\":\"20px\"},\"body-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"24px\"},\"headline-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"18px\",\"fontWeight\":\"500\",\"lineHeight\":\"24px\"},\"label-lg\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"13px\",\"fontWeight\":\"500\",\"lineHeight\":\"16px\",\"letterSpacing\":\"0.05em\"},\"label-sm\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"11px\",\"fontWeight\":\"500\",\"lineHeight\":\"14px\",\"letterSpacing\":\"0.05em\"},\"label-md\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"500\",\"lineHeight\":\"16px\",\"letterSpacing\":\"0.05em\"},\"headline-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"32px\",\"letterSpacing\":\"-0.01em\"},\"body-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"13px\",\"fontWeight\":\"400\",\"lineHeight\":\"18px\"},\"headline-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"40px\",\"letterSpacing\":\"-0.02em\"}},\"spacing\":{\"space-sm\":\"0.5rem\",\"margin\":\"1.5rem\",\"space-xs\":\"0.25rem\",\"space-lg\":\"1.5rem\",\"space-xl\":\"2rem\",\"gutter\":\"1rem\",\"space-md\":\"1rem\"},\"headlineFontFamily\":\"Inter\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"JetBrains Mono\"}},\"version\":\"1\"}},{\"design\":{\"screens\":[{\"screenshot\":{\"name\":\"projects/6364091777009717579/files/22f70a5e8d1e4130b35f1340d2f1df29\",\"downloadUrl\":\"https://lh3.googleusercontent.com/aida/AEtjO1W5cUOTShYyuX813uly8-r60v9Lnoc1qInjwuXUh4Je5s3C2EScnmgxMNl7VnZrPbqjYmsxPrZ1q8iCMvqOB5_G3aaR2yZiZs49oHh8grbv7Nxj1PIOzAV00L6W8KQBg79Kk8HBMzG18oNJ5ZiDOIj6PzvmzTbvIsbJuGFSWzTgLfIOicJVaAYiptnCXRGOUdZeAQaKVV-2scIDKKee_J7xkk2vnMUHB3G_NdsglSeYdRSMoKVhWr9yOrE\"},\"htmlCode\":{\"name\":\"projects/6364091777009717579/files/73f48fa15c9b43c2bc24f9846c39811f\",\"downloadUrl\":\"https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzRjY2YyZGNmNWY2NTQ2NDFhMTEzMjcyZGQ4ZmU1NGY4EgsSBxDH687s-AEYAZIBIwoKcHJvamVjdF9pZBIVQhM2MzY0MDkxNzc3MDA5NzE3NTc5&filename=&opi=96797242\",\"mimeType\":\"text/html\"},\"id\":\"10bf2d58e6e745bf9b15d9ae3290d570\",\"generatedBy\":\"figaro_agent\",\"width\":\"780\",\"height\":\"4400\",\"title\":\"IAF AeroShield Field Ops \u2014 Mobile Flight-Line Companion\",\"prompt\":\"Design the IAF AeroShield Field Operations Mobile Flight-Line Companion app adhering strictly to Apple iOS / iPadOS Human Interface Guidelines and Boeing ForeFlight military aviation standards.\\nCanvas background: #0A0F1D.\\nCard surfaces: #141C2E with subtle hairline borders (border border-white/10).\\nNo glowing neon borders, no video-game HUD lines, no sci-fi gimmicks. Serious, calm, daylight-readable military field tool aesthetic.\\n\\nInclude:\\n1. Header: Clean top bar with IAF roundel/shield icon, title 'IAF AeroShield Field Ops', station indicator 'AFS Thanjavur (No. 222 Tigersharks)', and authenticated officer 'Air Chief Marshal A. P. Singh (CAS)'.\\n2. Tail Selector: Sleek horizontal scrollable segmented chips for rapid airframe inspection:\\n   - 'Su-30MKI SB-024' (Selected, with amber maintenance notice badge)\\n   - 'Tejas KH-204' (Normal / Ready)\\n   - 'Rafale RB-001' (Standby)\\n   Plus an optical barcode / NFC scan icon trigger button.\\n3. Selected Aircraft Health Card (Su-30MKI SB-024):\\n   - Remaining Useful Life: 14.5 hrs (Conformal 80% CI: 10.4h - 18.6h)\\n   - Subsystem Health: 21.2% (Critical Notice: High-Pressure Compressor Stage 3 Wear)\\n   - 4 clean telemetry tiles: EGT 755\u00b0C, Oil Pressure 32.4 PSI, Core Vibration 0.94, Fuel Pressure Nominal.\\n4. Operational Controls:\\n   - Tactile primary action button 'Authorize Sortie Clearance' (Locked State badge: Requires Sqn Ldr Signature).\\n   - Secondary snag reporting pills: Voice Memo PTT, Borescope Photo, Quick Notes.\\n5. Logistics Alert Card:\\n   - AOG Emergency Supply Requisition REQ-2026-091 en route from Chandigarh Depot via IAF C-130J (ETA: 14 hours).\\n6. Recent Sortie:\\n   - Flight log for Garuda-1 Combat Air Patrol (3.8h duration, Mach 1.4 egress).\\n7. Bottom Navigation Bar: Fleet, Digital Twin, Orders, Logistics.\",\"name\":\"projects/6364091777009717579/screens/10bf2d58e6e745bf9b15d9ae3290d570\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"INTER\",\"roundness\":\"ROUND_FOUR\",\"customColor\":\"#2563eb\",\"headlineFont\":\"INTER\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"on_secondary_fixed_variant\":\"#424657\",\"tertiary\":\"#bec6de\",\"outline_variant\":\"#434655\",\"tertiary_fixed_dim\":\"#bec6de\",\"on_primary_fixed_variant\":\"#003ea8\",\"primary_container\":\"#2563eb\",\"surface_container_highest\":\"#273647\",\"on_primary_fixed\":\"#00174b\",\"surface_bright\":\"#2c3a4c\",\"surface_container_low\":\"#0d1c2d\",\"inverse_surface\":\"#d4e4fa\",\"primary\":\"#b4c5ff\",\"surface_dim\":\"#051424\",\"tertiary_container\":\"#656d82\",\"on_background\":\"#d4e4fa\",\"on_secondary_container\":\"#b0b4c8\",\"tertiary_fixed\":\"#dae2fb\",\"surface_variant\":\"#273647\",\"on_tertiary_fixed_variant\":\"#3f475a\",\"on_error\":\"#690005\",\"on_secondary_fixed\":\"#161b2a\",\"on_surface\":\"#d4e4fa\",\"surface\":\"#051424\",\"on_tertiary_container\":\"#edf0ff\",\"primary_fixed_dim\":\"#b4c5ff\",\"surface_container_high\":\"#1c2b3c\",\"on_primary_container\":\"#eeefff\",\"error\":\"#ffb4ab\",\"secondary_fixed_dim\":\"#c2c6da\",\"secondary\":\"#c2c6da\",\"on_error_container\":\"#ffdad6\",\"surface_container\":\"#122131\",\"background\":\"#051424\",\"outline\":\"#8d90a0\",\"primary_fixed\":\"#dbe1ff\",\"on_secondary\":\"#2b303f\",\"surface_container_lowest\":\"#010f1f\",\"on_surface_variant\":\"#c3c6d7\",\"inverse_on_surface\":\"#233143\",\"secondary_container\":\"#424657\",\"surface_tint\":\"#b4c5ff\",\"on_tertiary\":\"#283043\",\"inverse_primary\":\"#0053db\",\"on_primary\":\"#002a78\",\"secondary_fixed\":\"#dee2f6\",\"error_container\":\"#93000a\",\"on_tertiary_fixed\":\"#131b2d\"},\"colorVariant\":\"FIDELITY\",\"overridePrimaryColor\":\"#2563eb\",\"overrideSecondaryColor\":\"#0a0f1d\",\"overrideTertiaryColor\":\"#141c2e\",\"overrideNeutralColor\":\"#94a3b8\",\"spacingScale\":2,\"typography\":{\"label-sm\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"11px\",\"fontWeight\":\"500\",\"lineHeight\":\"14px\",\"letterSpacing\":\"0.05em\"},\"label-md\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"500\",\"lineHeight\":\"16px\",\"letterSpacing\":\"0.05em\"},\"headline-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"18px\",\"fontWeight\":\"500\",\"lineHeight\":\"24px\"},\"body-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"13px\",\"fontWeight\":\"400\",\"lineHeight\":\"18px\"},\"body-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"24px\"},\"headline-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"32px\",\"letterSpacing\":\"-0.01em\"},\"headline-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"40px\",\"letterSpacing\":\"-0.02em\"},\"label-lg\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"13px\",\"fontWeight\":\"500\",\"lineHeight\":\"16px\",\"letterSpacing\":\"0.05em\"},\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"14px\",\"fontWeight\":\"400\",\"lineHeight\":\"20px\"}},\"spacing\":{\"space-md\":\"1rem\",\"space-xl\":\"2rem\",\"space-lg\":\"1.5rem\",\"margin\":\"1.5rem\",\"gutter\":\"1rem\",\"space-xs\":\"0.25rem\",\"space-sm\":\"0.5rem\"},\"headlineFontFamily\":\"Inter\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"JetBrains Mono\"},\"deviceType\":\"MOBILE\",\"screenType\":\"DESIGN\",\"screenMetadata\":{\"agentType\":\"PRO_AGENT\",\"status\":\"COMPLETE\"},\"designSystem\":{\"name\":\"assets/97daa3c8c55d495081b2df720427295b\",\"designSystem\":{\"displayName\":\"Aviation Flight-Line Operations System\",\"styleGuidelines\":\"## Brand & Style\\n\\nThis design system draws inspiration from Apple's meticulous Human Interface Guidelines and the uncompromising utility of military aviation tooling like Boeing ForeFlight. The personality is authoritative, calm, serious, and utterly reliable. \\n\\nThe aesthetic style is a refined, utilitarian take on modern dark-mode interfaces, prioritizing clarity, hierarchy, and zero cognitive load. It rejects decorative styling, video-game HUD elements, and glowing neons in favor of high-legibility typography, dense information structuring, and tactile mechanical feedback. The UI evokes absolute precision for flight-line crew chiefs operating in high-stakes environments.\\n\\n## Layout & Spacing\\n\\nThe layout utilizes a rigid, data-dense 12-column fluid grid tailored for tablet and desktop cockpit terminals, scaling down to a single-column stacked view on handheld units. \\n\\nSpacing adheres to a strict 4px/8px modular rhythm (`space-xs` through `space-xl`). Margins remain compact (`1.5rem`) to maximize screen real estate for telemetry tables, checklists, and map overlays.\\n\\n## Elevation & Depth\\n\\nVisual hierarchy relies entirely on low-contrast outlines and tonal surface stacking rather than decorative shadows or blurs. \\n\\nSurfaces are clearly delineated using solid card backgrounds (`#141C2E`) separated from the canvas by hairline neutral borders (`rgba(255,255,255,0.08)`). Active or elevated interactive states use subtle shifts in surface luminance and precise 1px solid borders rather than ambient drop shadows, ensuring zero visual clutter or performance overhead.\\n\\n## Components\\n\\nComponents are engineered for high-frequency operational use with clear tactile feedback and uncompromising legibility.\\n\\n- **Buttons:** Solid primary actions use aviation blue (`#2563EB`) with high-contrast white monospaced labels. Secondary and ghost buttons feature hairline borders with zero background fill until hovered or active.\\n- **Chips & Tags:** Compact status indicators utilize mono typography with muted background tones to designate operational readiness (e.g., Go, No-Go, Standby).\\n- **Lists:** Dense, tabular rows separated by 1px hairline dividers. Row heights are optimized for touch precision in gloved or outdoor conditions.\\n- **Checkboxes & Radios:** Precision squares and circles with solid accent fills, avoiding native OS styling for uniform cross-device rendering.\\n- **Input Fields:** Recessed dark inputs featuring solid borders, clear monospaced text, and persistent inline labels for rapid data entry.\\n- **Cards:** Solid `#141C2E` containers with structural hairline borders, housing grouped telemetry or checklist items.\\n- **Additional Components:** Specialized flight-line components include collapsible checklist accordions, telemetry gauges with threshold markers, and quick-status banner alerts.\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"INTER\",\"roundness\":\"ROUND_FOUR\",\"customColor\":\"#2563eb\",\"headlineFont\":\"INTER\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"tertiary_fixed_dim\":\"#bec6de\",\"surface_container\":\"#122131\",\"error\":\"#ffb4ab\",\"surface_container_highest\":\"#273647\",\"on_primary_fixed_variant\":\"#003ea8\",\"on_primary\":\"#002a78\",\"surface_dim\":\"#051424\",\"on_secondary_fixed_variant\":\"#424657\",\"background\":\"#051424\",\"on_secondary\":\"#2b303f\",\"on_secondary_fixed\":\"#161b2a\",\"on_tertiary_fixed_variant\":\"#3f475a\",\"primary_fixed\":\"#dbe1ff\",\"surface_tint\":\"#b4c5ff\",\"surface\":\"#051424\",\"tertiary_container\":\"#656d82\",\"on_tertiary_fixed\":\"#131b2d\",\"inverse_primary\":\"#0053db\",\"on_primary_fixed\":\"#00174b\",\"primary\":\"#b4c5ff\",\"error_container\":\"#93000a\",\"secondary_fixed\":\"#dee2f6\",\"on_tertiary\":\"#283043\",\"on_tertiary_container\":\"#edf0ff\",\"outline\":\"#8d90a0\",\"tertiary\":\"#bec6de\",\"outline_variant\":\"#434655\",\"tertiary_fixed\":\"#dae2fb\",\"on_background\":\"#d4e4fa\",\"on_error_container\":\"#ffdad6\",\"secondary_container\":\"#424657\",\"primary_container\":\"#2563eb\",\"on_surface\":\"#d4e4fa\",\"inverse_surface\":\"#d4e4fa\",\"on_secondary_container\":\"#b0b4c8\",\"on_primary_container\":\"#eeefff\",\"surface_container_lowest\":\"#010f1f\",\"surface_variant\":\"#273647\",\"surface_container_low\":\"#0d1c2d\",\"primary_fixed_dim\":\"#b4c5ff\",\"surface_container_high\":\"#1c2b3c\",\"inverse_on_surface\":\"#233143\",\"secondary_fixed_dim\":\"#c2c6da\",\"on_surface_variant\":\"#c3c6d7\",\"on_error\":\"#690005\",\"surface_bright\":\"#2c3a4c\",\"secondary\":\"#c2c6da\"},\"designMd\":\"---\\nname: Aviation Flight-Line Operations System\\ncolors:\\n  surface: '#051424'\\n  surface-dim: '#051424'\\n  surface-bright: '#2c3a4c'\\n  surface-container-lowest: '#010f1f'\\n  surface-container-low: '#0d1c2d'\\n  surface-container: '#122131'\\n  surface-container-high: '#1c2b3c'\\n  surface-container-highest: '#273647'\\n  on-surface: '#d4e4fa'\\n  on-surface-variant: '#c3c6d7'\\n  inverse-surface: '#d4e4fa'\\n  inverse-on-surface: '#233143'\\n  outline: '#8d90a0'\\n  outline-variant: '#434655'\\n  surface-tint: '#b4c5ff'\\n  primary: '#b4c5ff'\\n  on-primary: '#002a78'\\n  primary-container: '#2563eb'\\n  on-primary-container: '#eeefff'\\n  inverse-primary: '#0053db'\\n  secondary: '#c2c6da'\\n  on-secondary: '#2b303f'\\n  secondary-container: '#424657'\\n  on-secondary-container: '#b0b4c8'\\n  tertiary: '#bec6de'\\n  on-tertiary: '#283043'\\n  tertiary-container: '#656d82'\\n  on-tertiary-container: '#edf0ff'\\n  error: '#ffb4ab'\\n  on-error: '#690005'\\n  error-container: '#93000a'\\n  on-error-container: '#ffdad6'\\n  primary-fixed: '#dbe1ff'\\n  primary-fixed-dim: '#b4c5ff'\\n  on-primary-fixed: '#00174b'\\n  on-primary-fixed-variant: '#003ea8'\\n  secondary-fixed: '#dee2f6'\\n  secondary-fixed-dim: '#c2c6da'\\n  on-secondary-fixed: '#161b2a'\\n  on-secondary-fixed-variant: '#424657'\\n  tertiary-fixed: '#dae2fb'\\n  tertiary-fixed-dim: '#bec6de'\\n  on-tertiary-fixed: '#131b2d'\\n  on-tertiary-fixed-variant: '#3f475a'\\n  background: '#051424'\\n  on-background: '#d4e4fa'\\n  surface-variant: '#273647'\\ntypography:\\n  headline-lg:\\n    fontFamily: Inter\\n    fontSize: 32px\\n    fontWeight: '600'\\n    lineHeight: 40px\\n    letterSpacing: -0.02em\\n  headline-md:\\n    fontFamily: Inter\\n    fontSize: 24px\\n    fontWeight: '600'\\n    lineHeight: 32px\\n    letterSpacing: -0.01em\\n  headline-sm:\\n    fontFamily: Inter\\n    fontSize: 18px\\n    fontWeight: '500'\\n    lineHeight: 24px\\n  body-lg:\\n    fontFamily: Inter\\n    fontSize: 16px\\n    fontWeight: '400'\\n    lineHeight: 24px\\n  body-md:\\n    fontFamily: Inter\\n    fontSize: 14px\\n    fontWeight: '400'\\n    lineHeight: 20px\\n  body-sm:\\n    fontFamily: Inter\\n    fontSize: 13px\\n    fontWeight: '400'\\n    lineHeight: 18px\\n  label-lg:\\n    fontFamily: JetBrains Mono\\n    fontSize: 13px\\n    fontWeight: '500'\\n    lineHeight: 16px\\n    letterSpacing: 0.05em\\n  label-md:\\n    fontFamily: JetBrains Mono\\n    fontSize: 12px\\n    fontWeight: '500'\\n    lineHeight: 16px\\n    letterSpacing: 0.05em\\n  label-sm:\\n    fontFamily: JetBrains Mono\\n    fontSize: 11px\\n    fontWeight: '500'\\n    lineHeight: 14px\\n    letterSpacing: 0.05em\\nrounded:\\n  sm: 0.125rem\\n  DEFAULT: 0.25rem\\n  md: 0.375rem\\n  lg: 0.5rem\\n  xl: 0.75rem\\n  full: 9999px\\nspacing:\\n  gutter: 1rem\\n  margin: 1.5rem\\n  space-xs: 0.25rem\\n  space-sm: 0.5rem\\n  space-md: 1rem\\n  space-lg: 1.5rem\\n  space-xl: 2rem\\n---\\n\\n## Brand & Style\\n\\nThis design system draws inspiration from Apple's meticulous Human Interface Guidelines and the uncompromising utility of military aviation tooling like Boeing ForeFlight. The personality is authoritative, calm, serious, and utterly reliable. \\n\\nThe aesthetic style is a refined, utilitarian take on modern dark-mode interfaces, prioritizing clarity, hierarchy, and zero cognitive load. It rejects decorative styling, video-game HUD elements, and glowing neons in favor of high-legibility typography, dense information structuring, and tactile mechanical feedback. The UI evokes absolute precision for flight-line crew chiefs operating in high-stakes environments.\\n\\n## Colors\\n\\nThe palette is engineered for high-contrast legibility under varied lighting conditions, anchored by a deep navy-slate canvas. \\n\\n- **Canvas (`#0A0F1D`):** The primary background color, reducing eye strain and maximizing contrast for data displays.\\n- **Surface (`#141C2E`):** Solid card and container surfaces that cleanly segment telemetry, status, and manifests.\\n- **Primary (`#2563EB`):** Aviation blue utilized strictly for interactive states, active indicators, and critical primary actions.\\n- **Neutral (`#94A3B8`):** Muted slate for secondary text and structural dividers, paired with hairline borders (`rgba(255,255,255,0.08)`) to partition modular readouts without visual noise.\\n\\n## Typography\\n\\nTypography pairs the clean, neutral mechanics of Inter for natural reading with JetBrains Mono for dense data readouts, numerical coordinates, and status codes. \\n\\nSizes are strictly regulated to maintain readability at arm's length in cockpit or flight-line conditions. Large headers scale down gracefully on mobile devices to prevent wrapping of critical flight metrics.\\n\\n## Layout & Spacing\\n\\nThe layout utilizes a rigid, data-dense 12-column fluid grid tailored for tablet and desktop cockpit terminals, scaling down to a single-column stacked view on handheld units. \\n\\nSpacing adheres to a strict 4px/8px modular rhythm (`space-xs` through `space-xl`). Margins remain compact (`1.5rem`) to maximize screen real estate for telemetry tables, checklists, and map overlays.\\n\\n## Elevation & Depth\\n\\nVisual hierarchy relies entirely on low-contrast outlines and tonal surface stacking rather than decorative shadows or blurs. \\n\\nSurfaces are clearly delineated using solid card backgrounds (`#141C2E`) separated from the canvas by hairline neutral borders (`rgba(255,255,255,0.08)`). Active or elevated interactive states use subtle shifts in surface luminance and precise 1px solid borders rather than ambient drop shadows, ensuring zero visual clutter or performance overhead.\\n\\n## Shapes\\n\\nThe shape language is strictly controlled with low roundedness (`1` / `0.25rem` base, `0.5rem` for large containers). \\n\\nThis delivers a precise, architectural feel reminiscent of precision instruments and ruggedized hardware. Avoid pill shapes or excessive radii on structural containers; all elements must maintain sharp, clean corners that optimize interior padding for data readouts.\\n\\n## Components\\n\\nComponents are engineered for high-frequency operational use with clear tactile feedback and uncompromising legibility.\\n\\n- **Buttons:** Solid primary actions use aviation blue (`#2563EB`) with high-contrast white monospaced labels. Secondary and ghost buttons feature hairline borders with zero background fill until hovered or active.\\n- **Chips & Tags:** Compact status indicators utilize mono typography with muted background tones to designate operational readiness (e.g., Go, No-Go, Standby).\\n- **Lists:** Dense, tabular rows separated by 1px hairline dividers. Row heights are optimized for touch precision in gloved or outdoor conditions.\\n- **Checkboxes & Radios:** Precision squares and circles with solid accent fills, avoiding native OS styling for uniform cross-device rendering.\\n- **Input Fields:** Recessed dark inputs featuring solid borders, clear monospaced text, and persistent inline labels for rapid data entry.\\n- **Cards:** Solid `#141C2E` containers with structural hairline borders, housing grouped telemetry or checklist items.\\n- **Additional Components:** Specialized flight-line components include collapsible checklist accordions, telemetry gauges with threshold markers, and quick-status banner alerts.\",\"colorVariant\":\"FIDELITY\",\"overridePrimaryColor\":\"#2563eb\",\"overrideSecondaryColor\":\"#0a0f1d\",\"overrideTertiaryColor\":\"#141c2e\",\"overrideNeutralColor\":\"#94a3b8\",\"spacingScale\":2,\"typography\":{\"headline-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"18px\",\"fontWeight\":\"500\",\"lineHeight\":\"24px\"},\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"14px\",\"fontWeight\":\"400\",\"lineHeight\":\"20px\"},\"headline-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"40px\",\"letterSpacing\":\"-0.02em\"},\"headline-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"32px\",\"letterSpacing\":\"-0.01em\"},\"body-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"24px\"},\"label-lg\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"13px\",\"fontWeight\":\"500\",\"lineHeight\":\"16px\",\"letterSpacing\":\"0.05em\"},\"label-sm\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"11px\",\"fontWeight\":\"500\",\"lineHeight\":\"14px\",\"letterSpacing\":\"0.05em\"},\"body-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"13px\",\"fontWeight\":\"400\",\"lineHeight\":\"18px\"},\"label-md\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"500\",\"lineHeight\":\"16px\",\"letterSpacing\":\"0.05em\"}},\"spacing\":{\"gutter\":\"1rem\",\"space-sm\":\"0.5rem\",\"space-xs\":\"0.25rem\",\"space-lg\":\"1.5rem\",\"space-xl\":\"2rem\",\"space-md\":\"1rem\",\"margin\":\"1.5rem\"},\"headlineFontFamily\":\"Inter\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"JetBrains Mono\"}},\"version\":\"1\"}}],\"theme\":{}}},{\"text\":\"I have successfully designed the **IAF AeroShield Field Operations \u2014 Mobile Flight-Line Companion App** following Apple iOS Human Interface Guidelines and Boeing ForeFlight military aviation standards.\\n\\n### Key Design Highlights:\\n1. **Authoritative Field Aesthetic**: Built on a deep navy-slate canvas (`#0A0F1D`) with solid `#141C2E` card surfaces and clean hairline borders (`rgba(255,255,255,0.08)`). Strictly zero glowing neon or video-game HUD elements.\\n2. **Command Header**: Displays the IAF roundel/shield, title, station indicator (*AFS Thanjavur (No. 222 Tigersharks)*), and authenticated officer credentials (*Air Chief Marshal A. P. Singh (CAS)*).\\n3. **Rapid Airframe Selector**: Horizontal segmented chips for *Su-30MKI SB-024* (selected with maintenance notice), *Tejas KH-204*, and *Rafale RB-001*, paired with a quick optical barcode/NFC scan trigger.\\n4. **Comprehensive Health Diagnostics**: Detailed telemetry card for *Su-30MKI SB-024* showing Remaining Useful Life (14.5 hrs, 80% CI), Subsystem Health (21.2% with High-Pressure Compressor Stage 3 wear notice), and 4 clean telemetry tiles (EGT, Oil Pressure, Core Vibration, Fuel Pressure).\\n5. **Operational Controls & Snag Reporting**: Tactile primary \\\"Authorize Sortie Clearance\\\" button in locked state requiring Squadron Leader sign-off, alongside quick snag reporting tools (Voice Memo PTT, Borescope Photo, Quick Notes).\\n6. **Logistics & Sortie Log**: Live AOG Emergency Supply Requisition tracking (REQ-2026-091) and recent Garuda-1 Combat Air Patrol flight log.\\n7. **Bottom Navigation**: Clear tab bar for Fleet, Digital Twin, Orders, and Logistics.\"},{\"suggestion\":\"View Digital Twin 3D Component Analysis\"},{\"suggestion\":\"Review Logistics Supply Requisition Ledger\"},{\"suggestion\":\"Export Classified Flight-Line Audit Report\"}]}",
+        "type": "text"
+      }
+    ],
+    "structuredContent": {
+      "outputComponents": [
+        {
+          "designSystem": {
+            "designSystem": {
+              "displayName": "Aviation Flight-Line Operations System",
+              "styleGuidelines": "## Brand & Style\n\nThis design system draws inspiration from Apple's meticulous Human Interface Guidelines and the uncompromising utility of military aviation tooling like Boeing ForeFlight. The personality is authoritative, calm, serious, and utterly reliable. \n\nThe aesthetic style is a refined, utilitarian take on modern dark-mode interfaces, prioritizing clarity, hierarchy, and zero cognitive load. It rejects decorative styling, video-game HUD elements, and glowing neons in favor of high-legibility typography, dense information structuring, and tactile mechanical feedback. The UI evokes absolute precision for flight-line crew chiefs operating in high-stakes environments.\n\n## Layout & Spacing\n\nThe layout utilizes a rigid, data-dense 12-column fluid grid tailored for tablet and desktop cockpit terminals, scaling down to a single-column stacked view on handheld units. \n\nSpacing adheres to a strict 4px/8px modular rhythm (`space-xs` through `space-xl`). Margins remain compact (`1.5rem`) to maximize screen real estate for telemetry tables, checklists, and map overlays.\n\n## Elevation & Depth\n\nVisual hierarchy relies entirely on low-contrast outlines and tonal surface stacking rather than decorative shadows or blurs. \n\nSurfaces are clearly delineated using solid card backgrounds (`#141C2E`) separated from the canvas by hairline neutral borders (`rgba(255,255,255,0.08)`). Active or elevated interactive states use subtle shifts in surface luminance and precise 1px solid borders rather than ambient drop shadows, ensuring zero visual clutter or performance overhead.\n\n## Components\n\nComponents are engineered for high-frequency operational use with clear tactile feedback and uncompromising legibility.\n\n- **Buttons:** Solid primary actions use aviation blue (`#2563EB`) with high-contrast white monospaced labels. Secondary and ghost buttons feature hairline borders with zero background fill until hovered or active.\n- **Chips & Tags:** Compact status indicators utilize mono typography with muted background tones to designate operational readiness (e.g., Go, No-Go, Standby).\n- **Lists:** Dense, tabular rows separated by 1px hairline dividers. Row heights are optimized for touch precision in gloved or outdoor conditions.\n- **Checkboxes & Radios:** Precision squares and circles with solid accent fills, avoiding native OS styling for uniform cross-device rendering.\n- **Input Fields:** Recessed dark inputs featuring solid borders, clear monospaced text, and persistent inline labels for rapid data entry.\n- **Cards:** Solid `#141C2E` containers with structural hairline borders, housing grouped telemetry or checklist items.\n- **Additional Components:** Specialized flight-line components include collapsible checklist accordions, telemetry gauges with threshold markers, and quick-status banner alerts.",
+              "theme": {
+                "bodyFont": "INTER",
+                "bodyFontFamily": "Inter",
+                "colorMode": "DARK",
+                "colorVariant": "FIDELITY",
+                "customColor": "#2563eb",
+                "designMd": "---\nname: Aviation Flight-Line Operations System\ncolors:\n  surface: '#051424'\n  surface-dim: '#051424'\n  surface-bright: '#2c3a4c'\n  surface-container-lowest: '#010f1f'\n  surface-container-low: '#0d1c2d'\n  surface-container: '#122131'\n  surface-container-high: '#1c2b3c'\n  surface-container-highest: '#273647'\n  on-surface: '#d4e4fa'\n  on-surface-variant: '#c3c6d7'\n  inverse-surface: '#d4e4fa'\n  inverse-on-surface: '#233143'\n  outline: '#8d90a0'\n  outline-variant: '#434655'\n  surface-tint: '#b4c5ff'\n  primary: '#b4c5ff'\n  on-primary: '#002a78'\n  primary-container: '#2563eb'\n  on-primary-container: '#eeefff'\n  inverse-primary: '#0053db'\n  secondary: '#c2c6da'\n  on-secondary: '#2b303f'\n  secondary-container: '#424657'\n  on-secondary-container: '#b0b4c8'\n  tertiary: '#bec6de'\n  on-tertiary: '#283043'\n  tertiary-container: '#656d82'\n  on-tertiary-container: '#edf0ff'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#dbe1ff'\n  primary-fixed-dim: '#b4c5ff'\n  on-primary-fixed: '#00174b'\n  on-primary-fixed-variant: '#003ea8'\n  secondary-fixed: '#dee2f6'\n  secondary-fixed-dim: '#c2c6da'\n  on-secondary-fixed: '#161b2a'\n  on-secondary-fixed-variant: '#424657'\n  tertiary-fixed: '#dae2fb'\n  tertiary-fixed-dim: '#bec6de'\n  on-tertiary-fixed: '#131b2d'\n  on-tertiary-fixed-variant: '#3f475a'\n  background: '#051424'\n  on-background: '#d4e4fa'\n  surface-variant: '#273647'\ntypography:\n  headline-lg:\n    fontFamily: Inter\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Inter\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n    letterSpacing: -0.01em\n  headline-sm:\n    fontFamily: Inter\n    fontSize: 18px\n    fontWeight: '500'\n    lineHeight: 24px\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  body-sm:\n    fontFamily: Inter\n    fontSize: 13px\n    fontWeight: '400'\n    lineHeight: 18px\n  label-lg:\n    fontFamily: JetBrains Mono\n    fontSize: 13px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.05em\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 11px\n    fontWeight: '500'\n    lineHeight: 14px\n    letterSpacing: 0.05em\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  gutter: 1rem\n  margin: 1.5rem\n  space-xs: 0.25rem\n  space-sm: 0.5rem\n  space-md: 1rem\n  space-lg: 1.5rem\n  space-xl: 2rem\n---\n\n## Brand & Style\n\nThis design system draws inspiration from Apple's meticulous Human Interface Guidelines and the uncompromising utility of military aviation tooling like Boeing ForeFlight. The personality is authoritative, calm, serious, and utterly reliable. \n\nThe aesthetic style is a refined, utilitarian take on modern dark-mode interfaces, prioritizing clarity, hierarchy, and zero cognitive load. It rejects decorative styling, video-game HUD elements, and glowing neons in favor of high-legibility typography, dense information structuring, and tactile mechanical feedback. The UI evokes absolute precision for flight-line crew chiefs operating in high-stakes environments.\n\n## Colors\n\nThe palette is engineered for high-contrast legibility under varied lighting conditions, anchored by a deep navy-slate canvas. \n\n- **Canvas (`#0A0F1D`):** The primary background color, reducing eye strain and maximizing contrast for data displays.\n- **Surface (`#141C2E`):** Solid card and container surfaces that cleanly segment telemetry, status, and manifests.\n- **Primary (`#2563EB`):** Aviation blue utilized strictly for interactive states, active indicators, and critical primary actions.\n- **Neutral (`#94A3B8`):** Muted slate for secondary text and structural dividers, paired with hairline borders (`rgba(255,255,255,0.08)`) to partition modular readouts without visual noise.\n\n## Typography\n\nTypography pairs the clean, neutral mechanics of Inter for natural reading with JetBrains Mono for dense data readouts, numerical coordinates, and status codes. \n\nSizes are strictly regulated to maintain readability at arm's length in cockpit or flight-line conditions. Large headers scale down gracefully on mobile devices to prevent wrapping of critical flight metrics.\n\n## Layout & Spacing\n\nThe layout utilizes a rigid, data-dense 12-column fluid grid tailored for tablet and desktop cockpit terminals, scaling down to a single-column stacked view on handheld units. \n\nSpacing adheres to a strict 4px/8px modular rhythm (`space-xs` through `space-xl`). Margins remain compact (`1.5rem`) to maximize screen real estate for telemetry tables, checklists, and map overlays.\n\n## Elevation & Depth\n\nVisual hierarchy relies entirely on low-contrast outlines and tonal surface stacking rather than decorative shadows or blurs. \n\nSurfaces are clearly delineated using solid card backgrounds (`#141C2E`) separated from the canvas by hairline neutral borders (`rgba(255,255,255,0.08)`). Active or elevated interactive states use subtle shifts in surface luminance and precise 1px solid borders rather than ambient drop shadows, ensuring zero visual clutter or performance overhead.\n\n## Shapes\n\nThe shape language is strictly controlled with low roundedness (`1` / `0.25rem` base, `0.5rem` for large containers). \n\nThis delivers a precise, architectural feel reminiscent of precision instruments and ruggedized hardware. Avoid pill shapes or excessive radii on structural containers; all elements must maintain sharp, clean corners that optimize interior padding for data readouts.\n\n## Components\n\nComponents are engineered for high-frequency operational use with clear tactile feedback and uncompromising legibility.\n\n- **Buttons:** Solid primary actions use aviation blue (`#2563EB`) with high-contrast white monospaced labels. Secondary and ghost buttons feature hairline borders with zero background fill until hovered or active.\n- **Chips & Tags:** Compact status indicators utilize mono typography with muted background tones to designate operational readiness (e.g., Go, No-Go, Standby).\n- **Lists:** Dense, tabular rows separated by 1px hairline dividers. Row heights are optimized for touch precision in gloved or outdoor conditions.\n- **Checkboxes & Radios:** Precision squares and circles with solid accent fills, avoiding native OS styling for uniform cross-device rendering.\n- **Input Fields:** Recessed dark inputs featuring solid borders, clear monospaced text, and persistent inline labels for rapid data entry.\n- **Cards:** Solid `#141C2E` containers with structural hairline borders, housing grouped telemetry or checklist items.\n- **Additional Components:** Specialized flight-line components include collapsible checklist accordions, telemetry gauges with threshold markers, and quick-status banner alerts.",
+                "font": "INTER",
+                "headlineFont": "INTER",
+                "headlineFontFamily": "Inter",
+                "labelFont": "JETBRAINS_MONO",
+                "labelFontFamily": "JetBrains Mono",
+                "namedColors": {
+                  "background": "#051424",
+                  "error": "#ffb4ab",
+                  "error_container": "#93000a",
+                  "inverse_on_surface": "#233143",
+                  "inverse_primary": "#0053db",
+                  "inverse_surface": "#d4e4fa",
+                  "on_background": "#d4e4fa",
+                  "on_error": "#690005",
+                  "on_error_container": "#ffdad6",
+                  "on_primary": "#002a78",
+                  "on_primary_container": "#eeefff",
+                  "on_primary_fixed": "#00174b",
+                  "on_primary_fixed_variant": "#003ea8",
+                  "on_secondary": "#2b303f",
+                  "on_secondary_container": "#b0b4c8",
+                  "on_secondary_fixed": "#161b2a",
+                  "on_secondary_fixed_variant": "#424657",
+                  "on_surface": "#d4e4fa",
+                  "on_surface_variant": "#c3c6d7",
+                  "on_tertiary": "#283043",
+                  "on_tertiary_container": "#edf0ff",
+                  "on_tertiary_fixed": "#131b2d",
+                  "on_tertiary_fixed_variant": "#3f475a",
+                  "outline": "#8d90a0",
+                  "outline_variant": "#434655",
+                  "primary": "#b4c5ff",
+                  "primary_container": "#2563eb",
+                  "primary_fixed": "#dbe1ff",
+                  "primary_fixed_dim": "#b4c5ff",
+                  "secondary": "#c2c6da",
+                  "secondary_container": "#424657",
+                  "secondary_fixed": "#dee2f6",
+                  "secondary_fixed_dim": "#c2c6da",
+                  "surface": "#051424",
+                  "surface_bright": "#2c3a4c",
+                  "surface_container": "#122131",
+                  "surface_container_high": "#1c2b3c",
+                  "surface_container_highest": "#273647",
+                  "surface_container_low": "#0d1c2d",
+                  "surface_container_lowest": "#010f1f",
+                  "surface_dim": "#051424",
+                  "surface_tint": "#b4c5ff",
+                  "surface_variant": "#273647",
+                  "tertiary": "#bec6de",
+                  "tertiary_container": "#656d82",
+                  "tertiary_fixed": "#dae2fb",
+                  "tertiary_fixed_dim": "#bec6de"
+                },
+                "overrideNeutralColor": "#94a3b8",
+                "overridePrimaryColor": "#2563eb",
+                "overrideSecondaryColor": "#0a0f1d",
+                "overrideTertiaryColor": "#141c2e",
+                "roundness": "ROUND_FOUR",
+                "spacing": {
+                  "gutter": "1rem",
+                  "margin": "1.5rem",
+                  "space-lg": "1.5rem",
+                  "space-md": "1rem",
+                  "space-sm": "0.5rem",
+                  "space-xl": "2rem",
+                  "space-xs": "0.25rem"
+                },
+                "spacingScale": 2,
+                "typography": {
+                  "body-lg": {
+                    "fontFamily": "Inter",
+                    "fontSize": "16px",
+                    "fontWeight": "400",
+                    "lineHeight": "24px"
+                  },
+                  "body-md": {
+                    "fontFamily": "Inter",
+                    "fontSize": "14px",
+                    "fontWeight": "400",
+                    "lineHeight": "20px"
+                  },
+                  "body-sm": {
+                    "fontFamily": "Inter",
+                    "fontSize": "13px",
+                    "fontWeight": "400",
+                    "lineHeight": "18px"
+                  },
+                  "headline-lg": {
+                    "fontFamily": "Inter",
+                    "fontSize": "32px",
+                    "fontWeight": "600",
+                    "letterSpacing": "-0.02em",
+                    "lineHeight": "40px"
+                  },
+                  "headline-md": {
+                    "fontFamily": "Inter",
+                    "fontSize": "24px",
+                    "fontWeight": "600",
+                    "letterSpacing": "-0.01em",
+                    "lineHeight": "32px"
+                  },
+                  "headline-sm": {
+                    "fontFamily": "Inter",
+                    "fontSize": "18px",
+                    "fontWeight": "500",
+                    "lineHeight": "24px"
+                  },
+                  "label-lg": {
+                    "fontFamily": "JetBrains Mono",
+                    "fontSize": "13px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.05em",
+                    "lineHeight": "16px"
+                  },
+                  "label-md": {
+                    "fontFamily": "JetBrains Mono",
+                    "fontSize": "12px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.05em",
+                    "lineHeight": "16px"
+                  },
+                  "label-sm": {
+                    "fontFamily": "JetBrains Mono",
+                    "fontSize": "11px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.05em",
+                    "lineHeight": "14px"
+                  }
+                }
+              }
+            },
+            "name": "assets/97daa3c8c55d495081b2df720427295b",
+            "version": "1"
+          }
+        },
+        {
+          "design": {
+            "screens": [
+              {
+                "designSystem": {
+                  "designSystem": {
+                    "displayName": "Aviation Flight-Line Operations System",
+                    "styleGuidelines": "## Brand & Style\n\nThis design system draws inspiration from Apple's meticulous Human Interface Guidelines and the uncompromising utility of military aviation tooling like Boeing ForeFlight. The personality is authoritative, calm, serious, and utterly reliable. \n\nThe aesthetic style is a refined, utilitarian take on modern dark-mode interfaces, prioritizing clarity, hierarchy, and zero cognitive load. It rejects decorative styling, video-game HUD elements, and glowing neons in favor of high-legibility typography, dense information structuring, and tactile mechanical feedback. The UI evokes absolute precision for flight-line crew chiefs operating in high-stakes environments.\n\n## Layout & Spacing\n\nThe layout utilizes a rigid, data-dense 12-column fluid grid tailored for tablet and desktop cockpit terminals, scaling down to a single-column stacked view on handheld units. \n\nSpacing adheres to a strict 4px/8px modular rhythm (`space-xs` through `space-xl`). Margins remain compact (`1.5rem`) to maximize screen real estate for telemetry tables, checklists, and map overlays.\n\n## Elevation & Depth\n\nVisual hierarchy relies entirely on low-contrast outlines and tonal surface stacking rather than decorative shadows or blurs. \n\nSurfaces are clearly delineated using solid card backgrounds (`#141C2E`) separated from the canvas by hairline neutral borders (`rgba(255,255,255,0.08)`). Active or elevated interactive states use subtle shifts in surface luminance and precise 1px solid borders rather than ambient drop shadows, ensuring zero visual clutter or performance overhead.\n\n## Components\n\nComponents are engineered for high-frequency operational use with clear tactile feedback and uncompromising legibility.\n\n- **Buttons:** Solid primary actions use aviation blue (`#2563EB`) with high-contrast white monospaced labels. Secondary and ghost buttons feature hairline borders with zero background fill until hovered or active.\n- **Chips & Tags:** Compact status indicators utilize mono typography with muted background tones to designate operational readiness (e.g., Go, No-Go, Standby).\n- **Lists:** Dense, tabular rows separated by 1px hairline dividers. Row heights are optimized for touch precision in gloved or outdoor conditions.\n- **Checkboxes & Radios:** Precision squares and circles with solid accent fills, avoiding native OS styling for uniform cross-device rendering.\n- **Input Fields:** Recessed dark inputs featuring solid borders, clear monospaced text, and persistent inline labels for rapid data entry.\n- **Cards:** Solid `#141C2E` containers with structural hairline borders, housing grouped telemetry or checklist items.\n- **Additional Components:** Specialized flight-line components include collapsible checklist accordions, telemetry gauges with threshold markers, and quick-status banner alerts.",
+                    "theme": {
+                      "bodyFont": "INTER",
+                      "bodyFontFamily": "Inter",
+                      "colorMode": "DARK",
+                      "colorVariant": "FIDELITY",
+                      "customColor": "#2563eb",
+                      "designMd": "---\nname: Aviation Flight-Line Operations System\ncolors:\n  surface: '#051424'\n  surface-dim: '#051424'\n  surface-bright: '#2c3a4c'\n  surface-container-lowest: '#010f1f'\n  surface-container-low: '#0d1c2d'\n  surface-container: '#122131'\n  surface-container-high: '#1c2b3c'\n  surface-container-highest: '#273647'\n  on-surface: '#d4e4fa'\n  on-surface-variant: '#c3c6d7'\n  inverse-surface: '#d4e4fa'\n  inverse-on-surface: '#233143'\n  outline: '#8d90a0'\n  outline-variant: '#434655'\n  surface-tint: '#b4c5ff'\n  primary: '#b4c5ff'\n  on-primary: '#002a78'\n  primary-container: '#2563eb'\n  on-primary-container: '#eeefff'\n  inverse-primary: '#0053db'\n  secondary: '#c2c6da'\n  on-secondary: '#2b303f'\n  secondary-container: '#424657'\n  on-secondary-container: '#b0b4c8'\n  tertiary: '#bec6de'\n  on-tertiary: '#283043'\n  tertiary-container: '#656d82'\n  on-tertiary-container: '#edf0ff'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#dbe1ff'\n  primary-fixed-dim: '#b4c5ff'\n  on-primary-fixed: '#00174b'\n  on-primary-fixed-variant: '#003ea8'\n  secondary-fixed: '#dee2f6'\n  secondary-fixed-dim: '#c2c6da'\n  on-secondary-fixed: '#161b2a'\n  on-secondary-fixed-variant: '#424657'\n  tertiary-fixed: '#dae2fb'\n  tertiary-fixed-dim: '#bec6de'\n  on-tertiary-fixed: '#131b2d'\n  on-tertiary-fixed-variant: '#3f475a'\n  background: '#051424'\n  on-background: '#d4e4fa'\n  surface-variant: '#273647'\ntypography:\n  headline-lg:\n    fontFamily: Inter\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Inter\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n    letterSpacing: -0.01em\n  headline-sm:\n    fontFamily: Inter\n    fontSize: 18px\n    fontWeight: '500'\n    lineHeight: 24px\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  body-sm:\n    fontFamily: Inter\n    fontSize: 13px\n    fontWeight: '400'\n    lineHeight: 18px\n  label-lg:\n    fontFamily: JetBrains Mono\n    fontSize: 13px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.05em\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 11px\n    fontWeight: '500'\n    lineHeight: 14px\n    letterSpacing: 0.05em\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  gutter: 1rem\n  margin: 1.5rem\n  space-xs: 0.25rem\n  space-sm: 0.5rem\n  space-md: 1rem\n  space-lg: 1.5rem\n  space-xl: 2rem\n---\n\n## Brand & Style\n\nThis design system draws inspiration from Apple's meticulous Human Interface Guidelines and the uncompromising utility of military aviation tooling like Boeing ForeFlight. The personality is authoritative, calm, serious, and utterly reliable. \n\nThe aesthetic style is a refined, utilitarian take on modern dark-mode interfaces, prioritizing clarity, hierarchy, and zero cognitive load. It rejects decorative styling, video-game HUD elements, and glowing neons in favor of high-legibility typography, dense information structuring, and tactile mechanical feedback. The UI evokes absolute precision for flight-line crew chiefs operating in high-stakes environments.\n\n## Colors\n\nThe palette is engineered for high-contrast legibility under varied lighting conditions, anchored by a deep navy-slate canvas. \n\n- **Canvas (`#0A0F1D`):** The primary background color, reducing eye strain and maximizing contrast for data displays.\n- **Surface (`#141C2E`):** Solid card and container surfaces that cleanly segment telemetry, status, and manifests.\n- **Primary (`#2563EB`):** Aviation blue utilized strictly for interactive states, active indicators, and critical primary actions.\n- **Neutral (`#94A3B8`):** Muted slate for secondary text and structural dividers, paired with hairline borders (`rgba(255,255,255,0.08)`) to partition modular readouts without visual noise.\n\n## Typography\n\nTypography pairs the clean, neutral mechanics of Inter for natural reading with JetBrains Mono for dense data readouts, numerical coordinates, and status codes. \n\nSizes are strictly regulated to maintain readability at arm's length in cockpit or flight-line conditions. Large headers scale down gracefully on mobile devices to prevent wrapping of critical flight metrics.\n\n## Layout & Spacing\n\nThe layout utilizes a rigid, data-dense 12-column fluid grid tailored for tablet and desktop cockpit terminals, scaling down to a single-column stacked view on handheld units. \n\nSpacing adheres to a strict 4px/8px modular rhythm (`space-xs` through `space-xl`). Margins remain compact (`1.5rem`) to maximize screen real estate for telemetry tables, checklists, and map overlays.\n\n## Elevation & Depth\n\nVisual hierarchy relies entirely on low-contrast outlines and tonal surface stacking rather than decorative shadows or blurs. \n\nSurfaces are clearly delineated using solid card backgrounds (`#141C2E`) separated from the canvas by hairline neutral borders (`rgba(255,255,255,0.08)`). Active or elevated interactive states use subtle shifts in surface luminance and precise 1px solid borders rather than ambient drop shadows, ensuring zero visual clutter or performance overhead.\n\n## Shapes\n\nThe shape language is strictly controlled with low roundedness (`1` / `0.25rem` base, `0.5rem` for large containers). \n\nThis delivers a precise, architectural feel reminiscent of precision instruments and ruggedized hardware. Avoid pill shapes or excessive radii on structural containers; all elements must maintain sharp, clean corners that optimize interior padding for data readouts.\n\n## Components\n\nComponents are engineered for high-frequency operational use with clear tactile feedback and uncompromising legibility.\n\n- **Buttons:** Solid primary actions use aviation blue (`#2563EB`) with high-contrast white monospaced labels. Secondary and ghost buttons feature hairline borders with zero background fill until hovered or active.\n- **Chips & Tags:** Compact status indicators utilize mono typography with muted background tones to designate operational readiness (e.g., Go, No-Go, Standby).\n- **Lists:** Dense, tabular rows separated by 1px hairline dividers. Row heights are optimized for touch precision in gloved or outdoor conditions.\n- **Checkboxes & Radios:** Precision squares and circles with solid accent fills, avoiding native OS styling for uniform cross-device rendering.\n- **Input Fields:** Recessed dark inputs featuring solid borders, clear monospaced text, and persistent inline labels for rapid data entry.\n- **Cards:** Solid `#141C2E` containers with structural hairline borders, housing grouped telemetry or checklist items.\n- **Additional Components:** Specialized flight-line components include collapsible checklist accordions, telemetry gauges with threshold markers, and quick-status banner alerts.",
+                      "font": "INTER",
+                      "headlineFont": "INTER",
+                      "headlineFontFamily": "Inter",
+                      "labelFont": "JETBRAINS_MONO",
+                      "labelFontFamily": "JetBrains Mono",
+                      "namedColors": {
+                        "background": "#051424",
+                        "error": "#ffb4ab",
+                        "error_container": "#93000a",
+                        "inverse_on_surface": "#233143",
+                        "inverse_primary": "#0053db",
+                        "inverse_surface": "#d4e4fa",
+                        "on_background": "#d4e4fa",
+                        "on_error": "#690005",
+                        "on_error_container": "#ffdad6",
+                        "on_primary": "#002a78",
+                        "on_primary_container": "#eeefff",
+                        "on_primary_fixed": "#00174b",
+                        "on_primary_fixed_variant": "#003ea8",
+                        "on_secondary": "#2b303f",
+                        "on_secondary_container": "#b0b4c8",
+                        "on_secondary_fixed": "#161b2a",
+                        "on_secondary_fixed_variant": "#424657",
+                        "on_surface": "#d4e4fa",
+                        "on_surface_variant": "#c3c6d7",
+                        "on_tertiary": "#283043",
+                        "on_tertiary_container": "#edf0ff",
+                        "on_tertiary_fixed": "#131b2d",
+                        "on_tertiary_fixed_variant": "#3f475a",
+                        "outline": "#8d90a0",
+                        "outline_variant": "#434655",
+                        "primary": "#b4c5ff",
+                        "primary_container": "#2563eb",
+                        "primary_fixed": "#dbe1ff",
+                        "primary_fixed_dim": "#b4c5ff",
+                        "secondary": "#c2c6da",
+                        "secondary_container": "#424657",
+                        "secondary_fixed": "#dee2f6",
+                        "secondary_fixed_dim": "#c2c6da",
+                        "surface": "#051424",
+                        "surface_bright": "#2c3a4c",
+                        "surface_container": "#122131",
+                        "surface_container_high": "#1c2b3c",
+                        "surface_container_highest": "#273647",
+                        "surface_container_low": "#0d1c2d",
+                        "surface_container_lowest": "#010f1f",
+                        "surface_dim": "#051424",
+                        "surface_tint": "#b4c5ff",
+                        "surface_variant": "#273647",
+                        "tertiary": "#bec6de",
+                        "tertiary_container": "#656d82",
+                        "tertiary_fixed": "#dae2fb",
+                        "tertiary_fixed_dim": "#bec6de"
+                      },
+                      "overrideNeutralColor": "#94a3b8",
+                      "overridePrimaryColor": "#2563eb",
+                      "overrideSecondaryColor": "#0a0f1d",
+                      "overrideTertiaryColor": "#141c2e",
+                      "roundness": "ROUND_FOUR",
+                      "spacing": {
+                        "gutter": "1rem",
+                        "margin": "1.5rem",
+                        "space-lg": "1.5rem",
+                        "space-md": "1rem",
+                        "space-sm": "0.5rem",
+                        "space-xl": "2rem",
+                        "space-xs": "0.25rem"
+                      },
+                      "spacingScale": 2,
+                      "typography": {
+                        "body-lg": {
+                          "fontFamily": "Inter",
+                          "fontSize": "16px",
+                          "fontWeight": "400",
+                          "lineHeight": "24px"
+                        },
+                        "body-md": {
+                          "fontFamily": "Inter",
+                          "fontSize": "14px",
+                          "fontWeight": "400",
+                          "lineHeight": "20px"
+                        },
+                        "body-sm": {
+                          "fontFamily": "Inter",
+                          "fontSize": "13px",
+                          "fontWeight": "400",
+                          "lineHeight": "18px"
+                        },
+                        "headline-lg": {
+                          "fontFamily": "Inter",
+                          "fontSize": "32px",
+                          "fontWeight": "600",
+                          "letterSpacing": "-0.02em",
+                          "lineHeight": "40px"
+                        },
+                        "headline-md": {
+                          "fontFamily": "Inter",
+                          "fontSize": "24px",
+                          "fontWeight": "600",
+                          "letterSpacing": "-0.01em",
+                          "lineHeight": "32px"
+                        },
+                        "headline-sm": {
+                          "fontFamily": "Inter",
+                          "fontSize": "18px",
+                          "fontWeight": "500",
+                          "lineHeight": "24px"
+                        },
+                        "label-lg": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "13px",
+                          "fontWeight": "500",
+                          "letterSpacing": "0.05em",
+                          "lineHeight": "16px"
+                        },
+                        "label-md": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "12px",
+                          "fontWeight": "500",
+                          "letterSpacing": "0.05em",
+                          "lineHeight": "16px"
+                        },
+                        "label-sm": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "11px",
+                          "fontWeight": "500",
+                          "letterSpacing": "0.05em",
+                          "lineHeight": "14px"
+                        }
+                      }
+                    }
+                  },
+                  "name": "assets/97daa3c8c55d495081b2df720427295b",
+                  "version": "1"
+                },
+                "deviceType": "MOBILE",
+                "generatedBy": "figaro_agent",
+                "height": "4400",
+                "htmlCode": {
+                  "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzRjY2YyZGNmNWY2NTQ2NDFhMTEzMjcyZGQ4ZmU1NGY4EgsSBxDH687s-AEYAZIBIwoKcHJvamVjdF9pZBIVQhM2MzY0MDkxNzc3MDA5NzE3NTc5&filename=&opi=96797242",
+                  "mimeType": "text/html",
+                  "name": "projects/6364091777009717579/files/73f48fa15c9b43c2bc24f9846c39811f"
+                },
+                "id": "10bf2d58e6e745bf9b15d9ae3290d570",
+                "name": "projects/6364091777009717579/screens/10bf2d58e6e745bf9b15d9ae3290d570",
+                "prompt": "Design the IAF AeroShield Field Operations Mobile Flight-Line Companion app adhering strictly to Apple iOS / iPadOS Human Interface Guidelines and Boeing ForeFlight military aviation standards.\nCanvas background: #0A0F1D.\nCard surfaces: #141C2E with subtle hairline borders (border border-white/10).\nNo glowing neon borders, no video-game HUD lines, no sci-fi gimmicks. Serious, calm, daylight-readable military field tool aesthetic.\n\nInclude:\n1. Header: Clean top bar with IAF roundel/shield icon, title 'IAF AeroShield Field Ops', station indicator 'AFS Thanjavur (No. 222 Tigersharks)', and authenticated officer 'Air Chief Marshal A. P. Singh (CAS)'.\n2. Tail Selector: Sleek horizontal scrollable segmented chips for rapid airframe inspection:\n   - 'Su-30MKI SB-024' (Selected, with amber maintenance notice badge)\n   - 'Tejas KH-204' (Normal / Ready)\n   - 'Rafale RB-001' (Standby)\n   Plus an optical barcode / NFC scan icon trigger button.\n3. Selected Aircraft Health Card (Su-30MKI SB-024):\n   - Remaining Useful Life: 14.5 hrs (Conformal 80% CI: 10.4h - 18.6h)\n   - Subsystem Health: 21.2% (Critical Notice: High-Pressure Compressor Stage 3 Wear)\n   - 4 clean telemetry tiles: EGT 755\u00b0C, Oil Pressure 32.4 PSI, Core Vibration 0.94, Fuel Pressure Nominal.\n4. Operational Controls:\n   - Tactile primary action button 'Authorize Sortie Clearance' (Locked State badge: Requires Sqn Ldr Signature).\n   - Secondary snag reporting pills: Voice Memo PTT, Borescope Photo, Quick Notes.\n5. Logistics Alert Card:\n   - AOG Emergency Supply Requisition REQ-2026-091 en route from Chandigarh Depot via IAF C-130J (ETA: 14 hours).\n6. Recent Sortie:\n   - Flight log for Garuda-1 Combat Air Patrol (3.8h duration, Mach 1.4 egress).\n7. Bottom Navigation Bar: Fleet, Digital Twin, Orders, Logistics.",
+                "screenMetadata": {
+                  "agentType": "PRO_AGENT",
+                  "status": "COMPLETE"
+                },
+                "screenType": "DESIGN",
+                "screenshot": {
+                  "downloadUrl": "https://lh3.googleusercontent.com/aida/AEtjO1W5cUOTShYyuX813uly8-r60v9Lnoc1qInjwuXUh4Je5s3C2EScnmgxMNl7VnZrPbqjYmsxPrZ1q8iCMvqOB5_G3aaR2yZiZs49oHh8grbv7Nxj1PIOzAV00L6W8KQBg79Kk8HBMzG18oNJ5ZiDOIj6PzvmzTbvIsbJuGFSWzTgLfIOicJVaAYiptnCXRGOUdZeAQaKVV-2scIDKKee_J7xkk2vnMUHB3G_NdsglSeYdRSMoKVhWr9yOrE",
+                  "name": "projects/6364091777009717579/files/22f70a5e8d1e4130b35f1340d2f1df29"
+                },
+                "theme": {
+                  "bodyFont": "INTER",
+                  "bodyFontFamily": "Inter",
+                  "colorMode": "DARK",
+                  "colorVariant": "FIDELITY",
+                  "customColor": "#2563eb",
+                  "font": "INTER",
+                  "headlineFont": "INTER",
+                  "headlineFontFamily": "Inter",
+                  "labelFont": "JETBRAINS_MONO",
+                  "labelFontFamily": "JetBrains Mono",
+                  "namedColors": {
+                    "background": "#051424",
+                    "error": "#ffb4ab",
+                    "error_container": "#93000a",
+                    "inverse_on_surface": "#233143",
+                    "inverse_primary": "#0053db",
+                    "inverse_surface": "#d4e4fa",
+                    "on_background": "#d4e4fa",
+                    "on_error": "#690005",
+                    "on_error_container": "#ffdad6",
+                    "on_primary": "#002a78",
+                    "on_primary_container": "#eeefff",
+                    "on_primary_fixed": "#00174b",
+                    "on_primary_fixed_variant": "#003ea8",
+                    "on_secondary": "#2b303f",
+                    "on_secondary_container": "#b0b4c8",
+                    "on_secondary_fixed": "#161b2a",
+                    "on_secondary_fixed_variant": "#424657",
+                    "on_surface": "#d4e4fa",
+                    "on_surface_variant": "#c3c6d7",
+                    "on_tertiary": "#283043",
+                    "on_tertiary_container": "#edf0ff",
+                    "on_tertiary_fixed": "#131b2d",
+                    "on_tertiary_fixed_variant": "#3f475a",
+                    "outline": "#8d90a0",
+                    "outline_variant": "#434655",
+                    "primary": "#b4c5ff",
+                    "primary_container": "#2563eb",
+                    "primary_fixed": "#dbe1ff",
+                    "primary_fixed_dim": "#b4c5ff",
+                    "secondary": "#c2c6da",
+                    "secondary_container": "#424657",
+                    "secondary_fixed": "#dee2f6",
+                    "secondary_fixed_dim": "#c2c6da",
+                    "surface": "#051424",
+                    "surface_bright": "#2c3a4c",
+                    "surface_container": "#122131",
+                    "surface_container_high": "#1c2b3c",
+                    "surface_container_highest": "#273647",
+                    "surface_container_low": "#0d1c2d",
+                    "surface_container_lowest": "#010f1f",
+                    "surface_dim": "#051424",
+                    "surface_tint": "#b4c5ff",
+                    "surface_variant": "#273647",
+                    "tertiary": "#bec6de",
+                    "tertiary_container": "#656d82",
+                    "tertiary_fixed": "#dae2fb",
+                    "tertiary_fixed_dim": "#bec6de"
+                  },
+                  "overrideNeutralColor": "#94a3b8",
+                  "overridePrimaryColor": "#2563eb",
+                  "overrideSecondaryColor": "#0a0f1d",
+                  "overrideTertiaryColor": "#141c2e",
+                  "roundness": "ROUND_FOUR",
+                  "spacing": {
+                    "gutter": "1rem",
+                    "margin": "1.5rem",
+                    "space-lg": "1.5rem",
+                    "space-md": "1rem",
+                    "space-sm": "0.5rem",
+                    "space-xl": "2rem",
+                    "space-xs": "0.25rem"
+                  },
+                  "spacingScale": 2,
+                  "typography": {
+                    "body-lg": {
+                      "fontFamily": "Inter",
+                      "fontSize": "16px",
+                      "fontWeight": "400",
+                      "lineHeight": "24px"
+                    },
+                    "body-md": {
+                      "fontFamily": "Inter",
+                      "fontSize": "14px",
+                      "fontWeight": "400",
+                      "lineHeight": "20px"
+                    },
+                    "body-sm": {
+                      "fontFamily": "Inter",
+                      "fontSize": "13px",
+                      "fontWeight": "400",
+                      "lineHeight": "18px"
+                    },
+                    "headline-lg": {
+                      "fontFamily": "Inter",
+                      "fontSize": "32px",
+                      "fontWeight": "600",
+                      "letterSpacing": "-0.02em",
+                      "lineHeight": "40px"
+                    },
+                    "headline-md": {
+                      "fontFamily": "Inter",
+                      "fontSize": "24px",
+                      "fontWeight": "600",
+                      "letterSpacing": "-0.01em",
+                      "lineHeight": "32px"
+                    },
+                    "headline-sm": {
+                      "fontFamily": "Inter",
+                      "fontSize": "18px",
+                      "fontWeight": "500",
+                      "lineHeight": "24px"
+                    },
+                    "label-lg": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "13px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.05em",
+                      "lineHeight": "16px"
+                    },
+                    "label-md": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "12px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.05em",
+                      "lineHeight": "16px"
+                    },
+                    "label-sm": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "11px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.05em",
+                      "lineHeight": "14px"
+                    }
+                  }
+                },
+                "title": "IAF AeroShield Field Ops \u2014 Mobile Flight-Line Companion",
+                "width": "780"
+              }
+            ],
+            "theme": {}
+          }
+        },
+        {
+          "text": "I have successfully designed the **IAF AeroShield Field Operations \u2014 Mobile Flight-Line Companion App** following Apple iOS Human Interface Guidelines and Boeing ForeFlight military aviation standards.\n\n### Key Design Highlights:\n1. **Authoritative Field Aesthetic**: Built on a deep navy-slate canvas (`#0A0F1D`) with solid `#141C2E` card surfaces and clean hairline borders (`rgba(255,255,255,0.08)`). Strictly zero glowing neon or video-game HUD elements.\n2. **Command Header**: Displays the IAF roundel/shield, title, station indicator (*AFS Thanjavur (No. 222 Tigersharks)*), and authenticated officer credentials (*Air Chief Marshal A. P. Singh (CAS)*).\n3. **Rapid Airframe Selector**: Horizontal segmented chips for *Su-30MKI SB-024* (selected with maintenance notice), *Tejas KH-204*, and *Rafale RB-001*, paired with a quick optical barcode/NFC scan trigger.\n4. **Comprehensive Health Diagnostics**: Detailed telemetry card for *Su-30MKI SB-024* showing Remaining Useful Life (14.5 hrs, 80% CI), Subsystem Health (21.2% with High-Pressure Compressor Stage 3 wear notice), and 4 clean telemetry tiles (EGT, Oil Pressure, Core Vibration, Fuel Pressure).\n5. **Operational Controls & Snag Reporting**: Tactile primary \"Authorize Sortie Clearance\" button in locked state requiring Squadron Leader sign-off, alongside quick snag reporting tools (Voice Memo PTT, Borescope Photo, Quick Notes).\n6. **Logistics & Sortie Log**: Live AOG Emergency Supply Requisition tracking (REQ-2026-091) and recent Garuda-1 Combat Air Patrol flight log.\n7. **Bottom Navigation**: Clear tab bar for Fleet, Digital Twin, Orders, and Logistics."
+        },
+        {
+          "suggestion": "View Digital Twin 3D Component Analysis"
+        },
+        {
+          "suggestion": "Review Logistics Supply Requisition Ledger"
+        },
+        {
+          "suggestion": "Export Classified Flight-Line Audit Report"
+        }
+      ],
+      "projectId": "6364091777009717579",
+      "sessionId": "3633481883779538891"
+    }
+  }
+}

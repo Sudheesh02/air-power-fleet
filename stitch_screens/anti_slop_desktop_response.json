@@ -1,0 +1,480 @@
+{
+  "id": 1792433181,
+  "jsonrpc": "2.0",
+  "result": {
+    "content": [
+      {
+        "text": "{\"projectId\":\"6364091777009717579\",\"sessionId\":\"9501358392092238404\",\"outputComponents\":[{\"designSystem\":{\"name\":\"assets/05f5b077e6e940bf816aa35d37121e4b\",\"designSystem\":{\"displayName\":\"Defense Command System\",\"styleGuidelines\":\"## Brand & Style\\n\\nThis design system delivers an enterprise defense command center aesthetic, modeled after high-stakes tactical software. It is engineered for mission-critical operations where clarity, zero ambiguity, and immediate situational awareness are paramount.\\n\\n- **Target Audience:** Defense operators, intelligence analysts, and military commanders managing complex telemetry and live assets.\\n- **Emotional Response:** Absolute control, tactical precision, sober focus, and unwavering reliability under pressure.\\n- **Design Style:** High-density utilitarian minimalism, utilizing razor-thin structural borders, zero glow halos, and strict hierarchical typography to eliminate cognitive fatigue during extended monitoring shifts.\\n\\n## Layout & Spacing\\n\\nThe layout relies on a strict, high-density fixed-to-fluid hybrid grid designed for multi-monitor command setups. \\n\\n- **Grid Model:** 12-column tactical grid with 16px (`1rem`) gutters and generous outer canvas margins to partition complex sensor streams.\\n- **Rhythm:** Component padding utilizes a base-4 spatial scale (`space-xs` through `space-xl`) to maintain structured alignment across dense data panels.\\n- **Responsive Reflow:** On smaller viewports, panels collapse into vertical accordion stacks while preserving fixed-width telemetry columns to prevent data truncation.\\n\\n## Elevation & Depth\\n\\nDepth is conveyed through tonal surface contrast and structural boundaries rather than atmospheric blur or drop shadows.\\n\\n- **Tonal Layering:** Visual hierarchy is established by stepping between the deep slate canvas (`#0B0F17`), charcoal card surfaces (`#151E32`), and elevated modal containers.\\n- **Borders:** Elements rely exclusively on razor-thin neutral outlines (`#2D3748` / `#334155`) to define boundaries. \\n- **Prohibitions:** Zero glow halos, soft drop shadows, or ambient light effects are permitted in order to maintain a precise, non-distracting tactical interface.\\n\\n## Components\\n\\nComponents are engineered for rapid scanning, zero-latency input, and high-density information architecture.\\n\\n- **Buttons:** Solid Royal Blue (`#2563EB`) for primary actions, with razor-thin borders for secondary variants. Zero border radius. Hover states shift surface brightness without introducing glows.\\n- **Chips & Badges:** Compact status tags featuring Muted Emerald (`#10B981`), Warm Amber (`#F59E0B`), and Subdued Crimson (`#EF4444`) with solid dark backgrounds and matching border strokes.\\n- **Input Fields:** Charcoal surface (`#151E32`) with a 1px neutral border (`#334155`), housing JetBrains Mono text for numerical inputs and Inter for string queries.\\n- **Cards:** Structured container modules (`#151E32`) bound by razor-thin neutral lines, featuring persistent header bars for telemetry metadata.\\n- **Lists & Tables:** High-density data grids with alternating row contrast and strict tabular JetBrains Mono alignment for coordinates, timestamps, and vector data.\\n- **Checkboxes & Radios:** Sharp 0px square containers with high-contrast inner check states in Royal Blue.\\n- **Specialized Components:** Includes live map bounding boxes, sensor stream feeds with integrated status strips, asset status matrices, and emergency abort trigger controls.\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"INTER\",\"customColor\":\"#2563eb\",\"headlineFont\":\"INTER\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"on_tertiary_container\":\"#ffeedd\",\"on_primary_container\":\"#eeefff\",\"error_container\":\"#93000a\",\"surface_container_highest\":\"#31353e\",\"on_tertiary_fixed\":\"#2a1700\",\"inverse_on_surface\":\"#2c3039\",\"on_surface_variant\":\"#c3c6d7\",\"on_primary_fixed\":\"#00174b\",\"on_surface\":\"#dfe2ee\",\"on_secondary_fixed_variant\":\"#005236\",\"on_error_container\":\"#ffdad6\",\"inverse_surface\":\"#dfe2ee\",\"secondary_container\":\"#00a572\",\"surface_container_low\":\"#181c24\",\"inverse_primary\":\"#0053db\",\"surface_container\":\"#1c2028\",\"primary\":\"#b4c5ff\",\"background\":\"#0f131c\",\"on_background\":\"#dfe2ee\",\"outline_variant\":\"#434655\",\"tertiary_fixed_dim\":\"#ffb95f\",\"secondary_fixed\":\"#6ffbbe\",\"on_tertiary\":\"#472a00\",\"on_secondary\":\"#003824\",\"error\":\"#ffb4ab\",\"on_primary_fixed_variant\":\"#003ea8\",\"secondary_fixed_dim\":\"#4edea3\",\"tertiary_container\":\"#996100\",\"surface_container_lowest\":\"#0a0e16\",\"tertiary\":\"#ffb95f\",\"on_tertiary_fixed_variant\":\"#653e00\",\"on_primary\":\"#002a78\",\"primary_container\":\"#2563eb\",\"primary_fixed\":\"#dbe1ff\",\"outline\":\"#8d90a0\",\"surface_tint\":\"#b4c5ff\",\"surface_dim\":\"#0f131c\",\"primary_fixed_dim\":\"#b4c5ff\",\"secondary\":\"#4edea3\",\"surface_variant\":\"#31353e\",\"surface_container_high\":\"#262a33\",\"tertiary_fixed\":\"#ffddb8\",\"on_error\":\"#690005\",\"on_secondary_fixed\":\"#002113\",\"surface\":\"#0f131c\",\"on_secondary_container\":\"#00311f\",\"surface_bright\":\"#353942\"},\"designMd\":\"---\\nname: Defense Command System\\ncolors:\\n  surface: '#0f131c'\\n  surface-dim: '#0f131c'\\n  surface-bright: '#353942'\\n  surface-container-lowest: '#0a0e16'\\n  surface-container-low: '#181c24'\\n  surface-container: '#1c2028'\\n  surface-container-high: '#262a33'\\n  surface-container-highest: '#31353e'\\n  on-surface: '#dfe2ee'\\n  on-surface-variant: '#c3c6d7'\\n  inverse-surface: '#dfe2ee'\\n  inverse-on-surface: '#2c3039'\\n  outline: '#8d90a0'\\n  outline-variant: '#434655'\\n  surface-tint: '#b4c5ff'\\n  primary: '#b4c5ff'\\n  on-primary: '#002a78'\\n  primary-container: '#2563eb'\\n  on-primary-container: '#eeefff'\\n  inverse-primary: '#0053db'\\n  secondary: '#4edea3'\\n  on-secondary: '#003824'\\n  secondary-container: '#00a572'\\n  on-secondary-container: '#00311f'\\n  tertiary: '#ffb95f'\\n  on-tertiary: '#472a00'\\n  tertiary-container: '#996100'\\n  on-tertiary-container: '#ffeedd'\\n  error: '#ffb4ab'\\n  on-error: '#690005'\\n  error-container: '#93000a'\\n  on-error-container: '#ffdad6'\\n  primary-fixed: '#dbe1ff'\\n  primary-fixed-dim: '#b4c5ff'\\n  on-primary-fixed: '#00174b'\\n  on-primary-fixed-variant: '#003ea8'\\n  secondary-fixed: '#6ffbbe'\\n  secondary-fixed-dim: '#4edea3'\\n  on-secondary-fixed: '#002113'\\n  on-secondary-fixed-variant: '#005236'\\n  tertiary-fixed: '#ffddb8'\\n  tertiary-fixed-dim: '#ffb95f'\\n  on-tertiary-fixed: '#2a1700'\\n  on-tertiary-fixed-variant: '#653e00'\\n  background: '#0f131c'\\n  on-background: '#dfe2ee'\\n  surface-variant: '#31353e'\\ntypography:\\n  headline-lg:\\n    fontFamily: Inter\\n    fontSize: 28px\\n    fontWeight: '600'\\n    lineHeight: 36px\\n    letterSpacing: -0.01em\\n  headline-md:\\n    fontFamily: Inter\\n    fontSize: 20px\\n    fontWeight: '600'\\n    lineHeight: 28px\\n  headline-sm:\\n    fontFamily: Inter\\n    fontSize: 16px\\n    fontWeight: '500'\\n    lineHeight: 24px\\n  body-lg:\\n    fontFamily: Inter\\n    fontSize: 15px\\n    fontWeight: '400'\\n    lineHeight: 22px\\n  body-md:\\n    fontFamily: Inter\\n    fontSize: 14px\\n    fontWeight: '400'\\n    lineHeight: 20px\\n  body-sm:\\n    fontFamily: Inter\\n    fontSize: 13px\\n    fontWeight: '400'\\n    lineHeight: 18px\\n  telemetry-lg:\\n    fontFamily: JetBrains Mono\\n    fontSize: 16px\\n    fontWeight: '500'\\n    lineHeight: 24px\\n  telemetry-md:\\n    fontFamily: JetBrains Mono\\n    fontSize: 13px\\n    fontWeight: '400'\\n    lineHeight: 18px\\n  label:\\n    fontFamily: Inter\\n    fontSize: 11px\\n    fontWeight: '500'\\n    lineHeight: 16px\\n    letterSpacing: 0.05em\\nspacing:\\n  gutter: 1rem\\n  margin: 1rem\\n  space-xs: 0.25rem\\n  space-sm: 0.5rem\\n  space-md: 1rem\\n  space-lg: 1.5rem\\n  space-xl: 2rem\\n---\\n\\n## Brand & Style\\n\\nThis design system delivers an enterprise defense command center aesthetic, modeled after high-stakes tactical software. It is engineered for mission-critical operations where clarity, zero ambiguity, and immediate situational awareness are paramount.\\n\\n- **Target Audience:** Defense operators, intelligence analysts, and military commanders managing complex telemetry and live assets.\\n- **Emotional Response:** Absolute control, tactical precision, sober focus, and unwavering reliability under pressure.\\n- **Design Style:** High-density utilitarian minimalism, utilizing razor-thin structural borders, zero glow halos, and strict hierarchical typography to eliminate cognitive fatigue during extended monitoring shifts.\\n\\n## Colors\\n\\nThe color palette is strictly disciplined, prioritizing information hierarchy and functional status over decorative flair. \\n\\n- **Canvas:** Deep muted slate (`#0B0F17`) establishes the foundational workspace.\\n- **Surfaces:** Clean charcoal (`#151E32`) distinguishes active card containers and operational modules from the backdrop.\\n- **Borders:** Razor-thin neutral borders (`#2D3748` / `#334155`) bound interface elements without introducing visual noise.\\n- **Status Indicators:** Muted Emerald (`#10B981`) denotes \\\"Ready\\\" states, Warm Amber (`#F59E0B`) flags advisory warnings, and Subdued Crimson (`#EF4444`) signals grounded aircraft on ground (AOG) or critical anomalies.\\n- **Primary Actions:** Solid Royal Blue (`#2563EB`) anchors primary operator interactions.\\n\\n## Typography\\n\\nTypography balances clean humanist proportions for operational prose with strict tabular spacing for telemetry data. \\n\\n- **Primary Interface:** Inter is used across all navigational, heading, and body content for maximum legibility at a glance.\\n- **Telemetry & Data:** JetBrains Mono is deployed in tabular layouts, ensuring numbers, coordinates, and system logs align vertically without shifting.\\n- **Scaling:** Font sizes are capped efficiently for dense dashboard layouts. For headlines exceeding mobile viewports, wrap text or scale down proportionally while preserving mono-spaced alignments for data grids.\\n\\n## Layout & Spacing\\n\\nThe layout relies on a strict, high-density fixed-to-fluid hybrid grid designed for multi-monitor command setups. \\n\\n- **Grid Model:** 12-column tactical grid with 16px (`1rem`) gutters and generous outer canvas margins to partition complex sensor streams.\\n- **Rhythm:** Component padding utilizes a base-4 spatial scale (`space-xs` through `space-xl`) to maintain structured alignment across dense data panels.\\n- **Responsive Reflow:** On smaller viewports, panels collapse into vertical accordion stacks while preserving fixed-width telemetry columns to prevent data truncation.\\n\\n## Elevation & Depth\\n\\nDepth is conveyed through tonal surface contrast and structural boundaries rather than atmospheric blur or drop shadows.\\n\\n- **Tonal Layering:** Visual hierarchy is established by stepping between the deep slate canvas (`#0B0F17`), charcoal card surfaces (`#151E32`), and elevated modal containers.\\n- **Borders:** Elements rely exclusively on razor-thin neutral outlines (`#2D3748` / `#334155`) to define boundaries. \\n- **Prohibitions:** Zero glow halos, soft drop shadows, or ambient light effects are permitted in order to maintain a precise, non-distracting tactical interface.\\n\\n## Shapes\\n\\nThe design system enforces a strictly sharp shape language to reinforce the utilitarian, industrial nature of defense hardware software.\\n\\n- **Corner Radius:** All UI elements, cards, inputs, and containers feature `0px` roundedness. \\n- **Edges:** Strict orthogonal intersections maintain crisp alignment across dense data grids, emphasizing structural integrity and technical precision.\\n\\n## Components\\n\\nComponents are engineered for rapid scanning, zero-latency input, and high-density information architecture.\\n\\n- **Buttons:** Solid Royal Blue (`#2563EB`) for primary actions, with razor-thin borders for secondary variants. Zero border radius. Hover states shift surface brightness without introducing glows.\\n- **Chips & Badges:** Compact status tags featuring Muted Emerald (`#10B981`), Warm Amber (`#F59E0B`), and Subdued Crimson (`#EF4444`) with solid dark backgrounds and matching border strokes.\\n- **Input Fields:** Charcoal surface (`#151E32`) with a 1px neutral border (`#334155`), housing JetBrains Mono text for numerical inputs and Inter for string queries.\\n- **Cards:** Structured container modules (`#151E32`) bound by razor-thin neutral lines, featuring persistent header bars for telemetry metadata.\\n- **Lists & Tables:** High-density data grids with alternating row contrast and strict tabular JetBrains Mono alignment for coordinates, timestamps, and vector data.\\n- **Checkboxes & Radios:** Sharp 0px square containers with high-contrast inner check states in Royal Blue.\\n- **Specialized Components:** Includes live map bounding boxes, sensor stream feeds with integrated status strips, asset status matrices, and emergency abort trigger controls.\",\"colorVariant\":\"FIDELITY\",\"overridePrimaryColor\":\"#2563eb\",\"overrideSecondaryColor\":\"#10b981\",\"overrideTertiaryColor\":\"#f59e0b\",\"overrideNeutralColor\":\"#0b0f17\",\"spacingScale\":2,\"typography\":{\"headline-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"20px\",\"fontWeight\":\"600\",\"lineHeight\":\"28px\"},\"telemetry-md\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"13px\",\"fontWeight\":\"400\",\"lineHeight\":\"18px\"},\"headline-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"28px\",\"fontWeight\":\"600\",\"lineHeight\":\"36px\",\"letterSpacing\":\"-0.01em\"},\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"14px\",\"fontWeight\":\"400\",\"lineHeight\":\"20px\"},\"body-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"15px\",\"fontWeight\":\"400\",\"lineHeight\":\"22px\"},\"body-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"13px\",\"fontWeight\":\"400\",\"lineHeight\":\"18px\"},\"label\":{\"fontFamily\":\"Inter\",\"fontSize\":\"11px\",\"fontWeight\":\"500\",\"lineHeight\":\"16px\",\"letterSpacing\":\"0.05em\"},\"telemetry-lg\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"16px\",\"fontWeight\":\"500\",\"lineHeight\":\"24px\"},\"headline-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"500\",\"lineHeight\":\"24px\"}},\"spacing\":{\"space-sm\":\"0.5rem\",\"space-lg\":\"1.5rem\",\"space-xs\":\"0.25rem\",\"space-md\":\"1rem\",\"space-xl\":\"2rem\",\"margin\":\"1rem\",\"gutter\":\"1rem\"},\"headlineFontFamily\":\"Inter\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"JetBrains Mono\"}},\"version\":\"1\"}},{\"design\":{\"screens\":[{\"screenshot\":{\"name\":\"projects/6364091777009717579/files/f2feb76d312b44808cb453b30a60305e\",\"downloadUrl\":\"https://lh3.googleusercontent.com/aida/AEtjO1U1aLxrYUZEJEDbnrvLxgiKuj15EoZAIFBy-3_g8sfQrODlTrjqPZmDu1rbLCroeuLDINcaVySGrm-vkazrTwTyGlc7GBzboaw7b9MBMdDFRjJfhbleZpo5auZnFhaQz41xU3JY1QbYJegLrylU5Zx2w3SGRJIvQUxHKw_hnRYbjEHKIjX_MZHCX8UKM4UjdSoki65qYrXagxVuR_oNZPtTigRJ1d6hoxhUu40JblfYR_pcCpBxJh1YlHw\"},\"htmlCode\":{\"name\":\"projects/6364091777009717579/files/0052a85dcbc54d74afd07d3201247f92\",\"downloadUrl\":\"https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2MzMTllNDIzNTI3ODRhY2I4M2VhOTE4Zjg4MjVlMWIyEgsSBxDH687s-AEYAZIBIwoKcHJvamVjdF9pZBIVQhM2MzY0MDkxNzc3MDA5NzE3NTc5&filename=&opi=96797242\",\"mimeType\":\"text/html\"},\"id\":\"30a64fa006fb41ac80aef4f92cf74eee\",\"generatedBy\":\"figaro_agent\",\"width\":\"2560\",\"height\":\"2708\",\"title\":\"Bharatiya Vayu Sena \u2014 Fleet Readiness & Predictive Maintenance C2\",\"prompt\":\"Build the complete desktop screen for 'Bharatiya Vayu Sena \u2014 Fleet Readiness & Predictive Maintenance C2' adhering strictly to the user's elite enterprise defense aesthetic (Palantir Foundry / Anduril Lattice standard).\\nCanvas background: #0B0F17. Card surfaces: #151E32 with razor-thin 1px neutral borders (#2D3748 or #334155). NO glowing neon cyan, NO video-game gimmick badges, NO rainbow cards.\\nColor strictly per semantic rule: Muted Emerald (#10B981) for Ready, Warm Amber (#F59E0B) for Scheduled Advisory, Subdued Crimson (#EF4444) for Grounded AOG. Primary actions in solid Royal Blue (#2563EB).\\nTypography: Clean Inter sans-serif, generous 24px card padding, tabular JetBrains Mono for sensor telemetry.\\n\\nStructure:\\n1. Header: IAF emblem roundel, title 'Bharatiya Vayu Sena \u2014 Fleet Readiness & Predictive Maintenance C2', authenticated officer 'Air Chief Marshal A. P. Singh, PVSM, AVSM (CAS)', UTC/IST mission clocks, squadron filter dropdown (AFS Thanjavur No. 222 Tigersharks).\\n2. Fleet KPI Row (4 clean Bento cards with 24px padding):\\n   - Fleet Availability: 66.7% (Target 75.0%), subtle progress bar in neutral slate/blue.\\n   - Combat Airframes Online: 12 / 18 (6 offline), breakdown by type (Su-30MKI 4/6, Tejas 4/6, Rafale 4/6).\\n   - Conformal Critical RUL: 3 Airframes flagged (Su-30MKI SB-024, Tejas KH-204, Rafale RB-004).\\n   - Active Depot Logistics Requisitions: 4 in pipeline (Air Bridge active).\\n3. Central Two-Column Layout:\\n   - Left 60%: Su-30MKI SB-024 Digital Twin Turbofan Gas-Path & Telemetry. Airframe status chip (Subdued Crimson for Critical). Gas-path stages: Fan (Nominal), LPC (Nominal), HPC Stage 3 [Wear Flagged: T30 755\u00b0C, Vibration 0.94 - Amber/Crimson badge], Combustor, LPT. In-flight RLS drift compensation status and Conformal RUL curve chart/visualization with P50 and uncertainty bounds.\\n   - Right 40%: Proactive Spares & Work Orders. Work Order #WO-7049 for HPC rotor blisk replacement with solid Royal Blue primary action button 'Authorize Dispatch & Spares Release'. Forward Base LRU stocks at AFS Thanjavur, Sulur, Ambala. Live sortie debrief feed for Garuda-1 CAP.\",\"name\":\"projects/6364091777009717579/screens/30a64fa006fb41ac80aef4f92cf74eee\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"INTER\",\"customColor\":\"#2563eb\",\"headlineFont\":\"INTER\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"secondary_fixed_dim\":\"#4edea3\",\"on_tertiary\":\"#472a00\",\"on_background\":\"#dfe2ee\",\"on_secondary_fixed\":\"#002113\",\"background\":\"#0f131c\",\"surface_variant\":\"#31353e\",\"on_primary_container\":\"#eeefff\",\"on_tertiary_fixed_variant\":\"#653e00\",\"on_surface\":\"#dfe2ee\",\"surface\":\"#0f131c\",\"on_primary_fixed\":\"#00174b\",\"primary_container\":\"#2563eb\",\"primary_fixed_dim\":\"#b4c5ff\",\"outline\":\"#8d90a0\",\"tertiary_container\":\"#996100\",\"surface_container_high\":\"#262a33\",\"on_error\":\"#690005\",\"surface_container_highest\":\"#31353e\",\"on_primary_fixed_variant\":\"#003ea8\",\"on_secondary_fixed_variant\":\"#005236\",\"surface_container_low\":\"#181c24\",\"error_container\":\"#93000a\",\"on_secondary_container\":\"#00311f\",\"on_primary\":\"#002a78\",\"tertiary_fixed_dim\":\"#ffb95f\",\"surface_container_lowest\":\"#0a0e16\",\"on_tertiary_fixed\":\"#2a1700\",\"primary_fixed\":\"#dbe1ff\",\"surface_dim\":\"#0f131c\",\"on_secondary\":\"#003824\",\"surface_bright\":\"#353942\",\"on_tertiary_container\":\"#ffeedd\",\"inverse_primary\":\"#0053db\",\"secondary_container\":\"#00a572\",\"inverse_surface\":\"#dfe2ee\",\"tertiary_fixed\":\"#ffddb8\",\"on_surface_variant\":\"#c3c6d7\",\"inverse_on_surface\":\"#2c3039\",\"secondary\":\"#4edea3\",\"error\":\"#ffb4ab\",\"tertiary\":\"#ffb95f\",\"surface_tint\":\"#b4c5ff\",\"secondary_fixed\":\"#6ffbbe\",\"on_error_container\":\"#ffdad6\",\"outline_variant\":\"#434655\",\"primary\":\"#b4c5ff\",\"surface_container\":\"#1c2028\"},\"colorVariant\":\"FIDELITY\",\"overridePrimaryColor\":\"#2563eb\",\"overrideSecondaryColor\":\"#10b981\",\"overrideTertiaryColor\":\"#f59e0b\",\"overrideNeutralColor\":\"#0b0f17\",\"spacingScale\":2,\"typography\":{\"headline-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"500\",\"lineHeight\":\"24px\"},\"body-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"13px\",\"fontWeight\":\"400\",\"lineHeight\":\"18px\"},\"telemetry-md\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"13px\",\"fontWeight\":\"400\",\"lineHeight\":\"18px\"},\"label\":{\"fontFamily\":\"Inter\",\"fontSize\":\"11px\",\"fontWeight\":\"500\",\"lineHeight\":\"16px\",\"letterSpacing\":\"0.05em\"},\"headline-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"28px\",\"fontWeight\":\"600\",\"lineHeight\":\"36px\",\"letterSpacing\":\"-0.01em\"},\"telemetry-lg\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"16px\",\"fontWeight\":\"500\",\"lineHeight\":\"24px\"},\"headline-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"20px\",\"fontWeight\":\"600\",\"lineHeight\":\"28px\"},\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"14px\",\"fontWeight\":\"400\",\"lineHeight\":\"20px\"},\"body-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"15px\",\"fontWeight\":\"400\",\"lineHeight\":\"22px\"}},\"spacing\":{\"gutter\":\"1rem\",\"space-md\":\"1rem\",\"space-xl\":\"2rem\",\"margin\":\"1rem\",\"space-sm\":\"0.5rem\",\"space-xs\":\"0.25rem\",\"space-lg\":\"1.5rem\"},\"headlineFontFamily\":\"Inter\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"JetBrains Mono\"},\"deviceType\":\"DESKTOP\",\"screenType\":\"DESIGN\",\"screenMetadata\":{\"agentType\":\"PRO_AGENT\",\"status\":\"COMPLETE\"},\"designSystem\":{\"name\":\"assets/05f5b077e6e940bf816aa35d37121e4b\",\"designSystem\":{\"displayName\":\"Defense Command System\",\"styleGuidelines\":\"## Brand & Style\\n\\nThis design system delivers an enterprise defense command center aesthetic, modeled after high-stakes tactical software. It is engineered for mission-critical operations where clarity, zero ambiguity, and immediate situational awareness are paramount.\\n\\n- **Target Audience:** Defense operators, intelligence analysts, and military commanders managing complex telemetry and live assets.\\n- **Emotional Response:** Absolute control, tactical precision, sober focus, and unwavering reliability under pressure.\\n- **Design Style:** High-density utilitarian minimalism, utilizing razor-thin structural borders, zero glow halos, and strict hierarchical typography to eliminate cognitive fatigue during extended monitoring shifts.\\n\\n## Layout & Spacing\\n\\nThe layout relies on a strict, high-density fixed-to-fluid hybrid grid designed for multi-monitor command setups. \\n\\n- **Grid Model:** 12-column tactical grid with 16px (`1rem`) gutters and generous outer canvas margins to partition complex sensor streams.\\n- **Rhythm:** Component padding utilizes a base-4 spatial scale (`space-xs` through `space-xl`) to maintain structured alignment across dense data panels.\\n- **Responsive Reflow:** On smaller viewports, panels collapse into vertical accordion stacks while preserving fixed-width telemetry columns to prevent data truncation.\\n\\n## Elevation & Depth\\n\\nDepth is conveyed through tonal surface contrast and structural boundaries rather than atmospheric blur or drop shadows.\\n\\n- **Tonal Layering:** Visual hierarchy is established by stepping between the deep slate canvas (`#0B0F17`), charcoal card surfaces (`#151E32`), and elevated modal containers.\\n- **Borders:** Elements rely exclusively on razor-thin neutral outlines (`#2D3748` / `#334155`) to define boundaries. \\n- **Prohibitions:** Zero glow halos, soft drop shadows, or ambient light effects are permitted in order to maintain a precise, non-distracting tactical interface.\\n\\n## Components\\n\\nComponents are engineered for rapid scanning, zero-latency input, and high-density information architecture.\\n\\n- **Buttons:** Solid Royal Blue (`#2563EB`) for primary actions, with razor-thin borders for secondary variants. Zero border radius. Hover states shift surface brightness without introducing glows.\\n- **Chips & Badges:** Compact status tags featuring Muted Emerald (`#10B981`), Warm Amber (`#F59E0B`), and Subdued Crimson (`#EF4444`) with solid dark backgrounds and matching border strokes.\\n- **Input Fields:** Charcoal surface (`#151E32`) with a 1px neutral border (`#334155`), housing JetBrains Mono text for numerical inputs and Inter for string queries.\\n- **Cards:** Structured container modules (`#151E32`) bound by razor-thin neutral lines, featuring persistent header bars for telemetry metadata.\\n- **Lists & Tables:** High-density data grids with alternating row contrast and strict tabular JetBrains Mono alignment for coordinates, timestamps, and vector data.\\n- **Checkboxes & Radios:** Sharp 0px square containers with high-contrast inner check states in Royal Blue.\\n- **Specialized Components:** Includes live map bounding boxes, sensor stream feeds with integrated status strips, asset status matrices, and emergency abort trigger controls.\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"INTER\",\"customColor\":\"#2563eb\",\"headlineFont\":\"INTER\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"on_tertiary_container\":\"#ffeedd\",\"on_secondary_fixed\":\"#002113\",\"tertiary\":\"#ffb95f\",\"primary\":\"#b4c5ff\",\"on_surface\":\"#dfe2ee\",\"primary_fixed_dim\":\"#b4c5ff\",\"secondary_container\":\"#00a572\",\"primary_container\":\"#2563eb\",\"error_container\":\"#93000a\",\"surface_container_lowest\":\"#0a0e16\",\"secondary_fixed\":\"#6ffbbe\",\"outline_variant\":\"#434655\",\"on_error\":\"#690005\",\"surface_container_low\":\"#181c24\",\"tertiary_container\":\"#996100\",\"on_background\":\"#dfe2ee\",\"on_primary_container\":\"#eeefff\",\"inverse_primary\":\"#0053db\",\"background\":\"#0f131c\",\"on_primary_fixed_variant\":\"#003ea8\",\"surface_container_highest\":\"#31353e\",\"inverse_surface\":\"#dfe2ee\",\"surface_dim\":\"#0f131c\",\"on_secondary_fixed_variant\":\"#005236\",\"on_primary_fixed\":\"#00174b\",\"outline\":\"#8d90a0\",\"on_secondary\":\"#003824\",\"tertiary_fixed_dim\":\"#ffb95f\",\"surface_container\":\"#1c2028\",\"surface\":\"#0f131c\",\"secondary\":\"#4edea3\",\"error\":\"#ffb4ab\",\"on_tertiary_fixed_variant\":\"#653e00\",\"on_error_container\":\"#ffdad6\",\"on_tertiary\":\"#472a00\",\"surface_tint\":\"#b4c5ff\",\"surface_container_high\":\"#262a33\",\"surface_variant\":\"#31353e\",\"surface_bright\":\"#353942\",\"secondary_fixed_dim\":\"#4edea3\",\"inverse_on_surface\":\"#2c3039\",\"on_surface_variant\":\"#c3c6d7\",\"on_tertiary_fixed\":\"#2a1700\",\"tertiary_fixed\":\"#ffddb8\",\"primary_fixed\":\"#dbe1ff\",\"on_primary\":\"#002a78\",\"on_secondary_container\":\"#00311f\"},\"designMd\":\"---\\nname: Defense Command System\\ncolors:\\n  surface: '#0f131c'\\n  surface-dim: '#0f131c'\\n  surface-bright: '#353942'\\n  surface-container-lowest: '#0a0e16'\\n  surface-container-low: '#181c24'\\n  surface-container: '#1c2028'\\n  surface-container-high: '#262a33'\\n  surface-container-highest: '#31353e'\\n  on-surface: '#dfe2ee'\\n  on-surface-variant: '#c3c6d7'\\n  inverse-surface: '#dfe2ee'\\n  inverse-on-surface: '#2c3039'\\n  outline: '#8d90a0'\\n  outline-variant: '#434655'\\n  surface-tint: '#b4c5ff'\\n  primary: '#b4c5ff'\\n  on-primary: '#002a78'\\n  primary-container: '#2563eb'\\n  on-primary-container: '#eeefff'\\n  inverse-primary: '#0053db'\\n  secondary: '#4edea3'\\n  on-secondary: '#003824'\\n  secondary-container: '#00a572'\\n  on-secondary-container: '#00311f'\\n  tertiary: '#ffb95f'\\n  on-tertiary: '#472a00'\\n  tertiary-container: '#996100'\\n  on-tertiary-container: '#ffeedd'\\n  error: '#ffb4ab'\\n  on-error: '#690005'\\n  error-container: '#93000a'\\n  on-error-container: '#ffdad6'\\n  primary-fixed: '#dbe1ff'\\n  primary-fixed-dim: '#b4c5ff'\\n  on-primary-fixed: '#00174b'\\n  on-primary-fixed-variant: '#003ea8'\\n  secondary-fixed: '#6ffbbe'\\n  secondary-fixed-dim: '#4edea3'\\n  on-secondary-fixed: '#002113'\\n  on-secondary-fixed-variant: '#005236'\\n  tertiary-fixed: '#ffddb8'\\n  tertiary-fixed-dim: '#ffb95f'\\n  on-tertiary-fixed: '#2a1700'\\n  on-tertiary-fixed-variant: '#653e00'\\n  background: '#0f131c'\\n  on-background: '#dfe2ee'\\n  surface-variant: '#31353e'\\ntypography:\\n  headline-lg:\\n    fontFamily: Inter\\n    fontSize: 28px\\n    fontWeight: '600'\\n    lineHeight: 36px\\n    letterSpacing: -0.01em\\n  headline-md:\\n    fontFamily: Inter\\n    fontSize: 20px\\n    fontWeight: '600'\\n    lineHeight: 28px\\n  headline-sm:\\n    fontFamily: Inter\\n    fontSize: 16px\\n    fontWeight: '500'\\n    lineHeight: 24px\\n  body-lg:\\n    fontFamily: Inter\\n    fontSize: 15px\\n    fontWeight: '400'\\n    lineHeight: 22px\\n  body-md:\\n    fontFamily: Inter\\n    fontSize: 14px\\n    fontWeight: '400'\\n    lineHeight: 20px\\n  body-sm:\\n    fontFamily: Inter\\n    fontSize: 13px\\n    fontWeight: '400'\\n    lineHeight: 18px\\n  telemetry-lg:\\n    fontFamily: JetBrains Mono\\n    fontSize: 16px\\n    fontWeight: '500'\\n    lineHeight: 24px\\n  telemetry-md:\\n    fontFamily: JetBrains Mono\\n    fontSize: 13px\\n    fontWeight: '400'\\n    lineHeight: 18px\\n  label:\\n    fontFamily: Inter\\n    fontSize: 11px\\n    fontWeight: '500'\\n    lineHeight: 16px\\n    letterSpacing: 0.05em\\nspacing:\\n  gutter: 1rem\\n  margin: 1rem\\n  space-xs: 0.25rem\\n  space-sm: 0.5rem\\n  space-md: 1rem\\n  space-lg: 1.5rem\\n  space-xl: 2rem\\n---\\n\\n## Brand & Style\\n\\nThis design system delivers an enterprise defense command center aesthetic, modeled after high-stakes tactical software. It is engineered for mission-critical operations where clarity, zero ambiguity, and immediate situational awareness are paramount.\\n\\n- **Target Audience:** Defense operators, intelligence analysts, and military commanders managing complex telemetry and live assets.\\n- **Emotional Response:** Absolute control, tactical precision, sober focus, and unwavering reliability under pressure.\\n- **Design Style:** High-density utilitarian minimalism, utilizing razor-thin structural borders, zero glow halos, and strict hierarchical typography to eliminate cognitive fatigue during extended monitoring shifts.\\n\\n## Colors\\n\\nThe color palette is strictly disciplined, prioritizing information hierarchy and functional status over decorative flair. \\n\\n- **Canvas:** Deep muted slate (`#0B0F17`) establishes the foundational workspace.\\n- **Surfaces:** Clean charcoal (`#151E32`) distinguishes active card containers and operational modules from the backdrop.\\n- **Borders:** Razor-thin neutral borders (`#2D3748` / `#334155`) bound interface elements without introducing visual noise.\\n- **Status Indicators:** Muted Emerald (`#10B981`) denotes \\\"Ready\\\" states, Warm Amber (`#F59E0B`) flags advisory warnings, and Subdued Crimson (`#EF4444`) signals grounded aircraft on ground (AOG) or critical anomalies.\\n- **Primary Actions:** Solid Royal Blue (`#2563EB`) anchors primary operator interactions.\\n\\n## Typography\\n\\nTypography balances clean humanist proportions for operational prose with strict tabular spacing for telemetry data. \\n\\n- **Primary Interface:** Inter is used across all navigational, heading, and body content for maximum legibility at a glance.\\n- **Telemetry & Data:** JetBrains Mono is deployed in tabular layouts, ensuring numbers, coordinates, and system logs align vertically without shifting.\\n- **Scaling:** Font sizes are capped efficiently for dense dashboard layouts. For headlines exceeding mobile viewports, wrap text or scale down proportionally while preserving mono-spaced alignments for data grids.\\n\\n## Layout & Spacing\\n\\nThe layout relies on a strict, high-density fixed-to-fluid hybrid grid designed for multi-monitor command setups. \\n\\n- **Grid Model:** 12-column tactical grid with 16px (`1rem`) gutters and generous outer canvas margins to partition complex sensor streams.\\n- **Rhythm:** Component padding utilizes a base-4 spatial scale (`space-xs` through `space-xl`) to maintain structured alignment across dense data panels.\\n- **Responsive Reflow:** On smaller viewports, panels collapse into vertical accordion stacks while preserving fixed-width telemetry columns to prevent data truncation.\\n\\n## Elevation & Depth\\n\\nDepth is conveyed through tonal surface contrast and structural boundaries rather than atmospheric blur or drop shadows.\\n\\n- **Tonal Layering:** Visual hierarchy is established by stepping between the deep slate canvas (`#0B0F17`), charcoal card surfaces (`#151E32`), and elevated modal containers.\\n- **Borders:** Elements rely exclusively on razor-thin neutral outlines (`#2D3748` / `#334155`) to define boundaries. \\n- **Prohibitions:** Zero glow halos, soft drop shadows, or ambient light effects are permitted in order to maintain a precise, non-distracting tactical interface.\\n\\n## Shapes\\n\\nThe design system enforces a strictly sharp shape language to reinforce the utilitarian, industrial nature of defense hardware software.\\n\\n- **Corner Radius:** All UI elements, cards, inputs, and containers feature `0px` roundedness. \\n- **Edges:** Strict orthogonal intersections maintain crisp alignment across dense data grids, emphasizing structural integrity and technical precision.\\n\\n## Components\\n\\nComponents are engineered for rapid scanning, zero-latency input, and high-density information architecture.\\n\\n- **Buttons:** Solid Royal Blue (`#2563EB`) for primary actions, with razor-thin borders for secondary variants. Zero border radius. Hover states shift surface brightness without introducing glows.\\n- **Chips & Badges:** Compact status tags featuring Muted Emerald (`#10B981`), Warm Amber (`#F59E0B`), and Subdued Crimson (`#EF4444`) with solid dark backgrounds and matching border strokes.\\n- **Input Fields:** Charcoal surface (`#151E32`) with a 1px neutral border (`#334155`), housing JetBrains Mono text for numerical inputs and Inter for string queries.\\n- **Cards:** Structured container modules (`#151E32`) bound by razor-thin neutral lines, featuring persistent header bars for telemetry metadata.\\n- **Lists & Tables:** High-density data grids with alternating row contrast and strict tabular JetBrains Mono alignment for coordinates, timestamps, and vector data.\\n- **Checkboxes & Radios:** Sharp 0px square containers with high-contrast inner check states in Royal Blue.\\n- **Specialized Components:** Includes live map bounding boxes, sensor stream feeds with integrated status strips, asset status matrices, and emergency abort trigger controls.\",\"colorVariant\":\"FIDELITY\",\"overridePrimaryColor\":\"#2563eb\",\"overrideSecondaryColor\":\"#10b981\",\"overrideTertiaryColor\":\"#f59e0b\",\"overrideNeutralColor\":\"#0b0f17\",\"spacingScale\":2,\"typography\":{\"body-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"13px\",\"fontWeight\":\"400\",\"lineHeight\":\"18px\"},\"telemetry-lg\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"16px\",\"fontWeight\":\"500\",\"lineHeight\":\"24px\"},\"headline-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"500\",\"lineHeight\":\"24px\"},\"telemetry-md\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"13px\",\"fontWeight\":\"400\",\"lineHeight\":\"18px\"},\"headline-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"20px\",\"fontWeight\":\"600\",\"lineHeight\":\"28px\"},\"label\":{\"fontFamily\":\"Inter\",\"fontSize\":\"11px\",\"fontWeight\":\"500\",\"lineHeight\":\"16px\",\"letterSpacing\":\"0.05em\"},\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"14px\",\"fontWeight\":\"400\",\"lineHeight\":\"20px\"},\"headline-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"28px\",\"fontWeight\":\"600\",\"lineHeight\":\"36px\",\"letterSpacing\":\"-0.01em\"},\"body-lg\":{\"fontFamily\":\"Inter\",\"fontSize\":\"15px\",\"fontWeight\":\"400\",\"lineHeight\":\"22px\"}},\"spacing\":{\"space-md\":\"1rem\",\"space-xl\":\"2rem\",\"gutter\":\"1rem\",\"space-sm\":\"0.5rem\",\"margin\":\"1rem\",\"space-xs\":\"0.25rem\",\"space-lg\":\"1.5rem\"},\"headlineFontFamily\":\"Inter\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"JetBrains Mono\"}},\"version\":\"1\"}}],\"theme\":{}}},{\"text\":\"I have successfully generated the **Bharatiya Vayu Sena Fleet Readiness & Predictive Maintenance C2** command center dashboard, adhering strictly to elite enterprise defense standards (Anduril / Palantir Foundry aesthetic).\\n\\n### Key Architectural & Design Highlights:\\n1. **Calm Obsidian Palette**: Deep muted slate canvas (`#0B0F17`) with clean charcoal card surfaces (`#151E32`) and razor-thin 1px neutral borders (`#2D3748`). All glowing neon halos, cyan video-game borders, and sci-fi gimmick tags have been removed in favor of professional sobriety.\\n2. **10% Semantic Color Rule**: Status badges use Muted Emerald (`#10B981`) for operational readiness, Warm Amber (`#F59E0B`) for scheduled advisory, and Subdued Crimson (`#EF4444`) strictly for grounded AOG / critical alerts. Primary actions are anchored in solid Royal Blue (`#2563EB`).\\n3. **Four Bento KPI Cards**: Instantaneous visibility into Fleet Availability (66.7%), Combat Airframes Online (12/18), Conformal Critical RUL flagged airframes, and Active Depot Logistics Requisitions.\\n4. **Two-Column Tactical Layout**:\\n   - **Left Column (60%)**: Su-30MKI SB-024 Digital Twin Gas-Path analysis across 5 stages (highlighting HPC Stage 3 wear and temperature metrics), alongside live RLS drift compensation status and Conformal RUL prediction curves.\\n   - **Right Column (40%)**: Proactive work order dispatch (`#WO-7049`), Forward Base LRU stock matrices across AFS Thanjavur, Sulur, and Ambala, and real-time Garuda-1 CAP sortie debrief logs.\\n5. **Typography & Tabular Telemetry**: Clean `Inter` font paired with tabular `JetBrains Mono` for precise sensor and cycle telemetry.\"},{\"suggestion\":\"Export Classified Telemetry Pack\"},{\"suggestion\":\"Drill down into Su-30MKI SB-024 Gas-Path Time-Travel Replay\"},{\"suggestion\":\"Review MLOps Retraining Tournament Matrix\"}]}",
+        "type": "text"
+      }
+    ],
+    "structuredContent": {
+      "outputComponents": [
+        {
+          "designSystem": {
+            "designSystem": {
+              "displayName": "Defense Command System",
+              "styleGuidelines": "## Brand & Style\n\nThis design system delivers an enterprise defense command center aesthetic, modeled after high-stakes tactical software. It is engineered for mission-critical operations where clarity, zero ambiguity, and immediate situational awareness are paramount.\n\n- **Target Audience:** Defense operators, intelligence analysts, and military commanders managing complex telemetry and live assets.\n- **Emotional Response:** Absolute control, tactical precision, sober focus, and unwavering reliability under pressure.\n- **Design Style:** High-density utilitarian minimalism, utilizing razor-thin structural borders, zero glow halos, and strict hierarchical typography to eliminate cognitive fatigue during extended monitoring shifts.\n\n## Layout & Spacing\n\nThe layout relies on a strict, high-density fixed-to-fluid hybrid grid designed for multi-monitor command setups. \n\n- **Grid Model:** 12-column tactical grid with 16px (`1rem`) gutters and generous outer canvas margins to partition complex sensor streams.\n- **Rhythm:** Component padding utilizes a base-4 spatial scale (`space-xs` through `space-xl`) to maintain structured alignment across dense data panels.\n- **Responsive Reflow:** On smaller viewports, panels collapse into vertical accordion stacks while preserving fixed-width telemetry columns to prevent data truncation.\n\n## Elevation & Depth\n\nDepth is conveyed through tonal surface contrast and structural boundaries rather than atmospheric blur or drop shadows.\n\n- **Tonal Layering:** Visual hierarchy is established by stepping between the deep slate canvas (`#0B0F17`), charcoal card surfaces (`#151E32`), and elevated modal containers.\n- **Borders:** Elements rely exclusively on razor-thin neutral outlines (`#2D3748` / `#334155`) to define boundaries. \n- **Prohibitions:** Zero glow halos, soft drop shadows, or ambient light effects are permitted in order to maintain a precise, non-distracting tactical interface.\n\n## Components\n\nComponents are engineered for rapid scanning, zero-latency input, and high-density information architecture.\n\n- **Buttons:** Solid Royal Blue (`#2563EB`) for primary actions, with razor-thin borders for secondary variants. Zero border radius. Hover states shift surface brightness without introducing glows.\n- **Chips & Badges:** Compact status tags featuring Muted Emerald (`#10B981`), Warm Amber (`#F59E0B`), and Subdued Crimson (`#EF4444`) with solid dark backgrounds and matching border strokes.\n- **Input Fields:** Charcoal surface (`#151E32`) with a 1px neutral border (`#334155`), housing JetBrains Mono text for numerical inputs and Inter for string queries.\n- **Cards:** Structured container modules (`#151E32`) bound by razor-thin neutral lines, featuring persistent header bars for telemetry metadata.\n- **Lists & Tables:** High-density data grids with alternating row contrast and strict tabular JetBrains Mono alignment for coordinates, timestamps, and vector data.\n- **Checkboxes & Radios:** Sharp 0px square containers with high-contrast inner check states in Royal Blue.\n- **Specialized Components:** Includes live map bounding boxes, sensor stream feeds with integrated status strips, asset status matrices, and emergency abort trigger controls.",
+              "theme": {
+                "bodyFont": "INTER",
+                "bodyFontFamily": "Inter",
+                "colorMode": "DARK",
+                "colorVariant": "FIDELITY",
+                "customColor": "#2563eb",
+                "designMd": "---\nname: Defense Command System\ncolors:\n  surface: '#0f131c'\n  surface-dim: '#0f131c'\n  surface-bright: '#353942'\n  surface-container-lowest: '#0a0e16'\n  surface-container-low: '#181c24'\n  surface-container: '#1c2028'\n  surface-container-high: '#262a33'\n  surface-container-highest: '#31353e'\n  on-surface: '#dfe2ee'\n  on-surface-variant: '#c3c6d7'\n  inverse-surface: '#dfe2ee'\n  inverse-on-surface: '#2c3039'\n  outline: '#8d90a0'\n  outline-variant: '#434655'\n  surface-tint: '#b4c5ff'\n  primary: '#b4c5ff'\n  on-primary: '#002a78'\n  primary-container: '#2563eb'\n  on-primary-container: '#eeefff'\n  inverse-primary: '#0053db'\n  secondary: '#4edea3'\n  on-secondary: '#003824'\n  secondary-container: '#00a572'\n  on-secondary-container: '#00311f'\n  tertiary: '#ffb95f'\n  on-tertiary: '#472a00'\n  tertiary-container: '#996100'\n  on-tertiary-container: '#ffeedd'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#dbe1ff'\n  primary-fixed-dim: '#b4c5ff'\n  on-primary-fixed: '#00174b'\n  on-primary-fixed-variant: '#003ea8'\n  secondary-fixed: '#6ffbbe'\n  secondary-fixed-dim: '#4edea3'\n  on-secondary-fixed: '#002113'\n  on-secondary-fixed-variant: '#005236'\n  tertiary-fixed: '#ffddb8'\n  tertiary-fixed-dim: '#ffb95f'\n  on-tertiary-fixed: '#2a1700'\n  on-tertiary-fixed-variant: '#653e00'\n  background: '#0f131c'\n  on-background: '#dfe2ee'\n  surface-variant: '#31353e'\ntypography:\n  headline-lg:\n    fontFamily: Inter\n    fontSize: 28px\n    fontWeight: '600'\n    lineHeight: 36px\n    letterSpacing: -0.01em\n  headline-md:\n    fontFamily: Inter\n    fontSize: 20px\n    fontWeight: '600'\n    lineHeight: 28px\n  headline-sm:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '500'\n    lineHeight: 24px\n  body-lg:\n    fontFamily: Inter\n    fontSize: 15px\n    fontWeight: '400'\n    lineHeight: 22px\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  body-sm:\n    fontFamily: Inter\n    fontSize: 13px\n    fontWeight: '400'\n    lineHeight: 18px\n  telemetry-lg:\n    fontFamily: JetBrains Mono\n    fontSize: 16px\n    fontWeight: '500'\n    lineHeight: 24px\n  telemetry-md:\n    fontFamily: JetBrains Mono\n    fontSize: 13px\n    fontWeight: '400'\n    lineHeight: 18px\n  label:\n    fontFamily: Inter\n    fontSize: 11px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.05em\nspacing:\n  gutter: 1rem\n  margin: 1rem\n  space-xs: 0.25rem\n  space-sm: 0.5rem\n  space-md: 1rem\n  space-lg: 1.5rem\n  space-xl: 2rem\n---\n\n## Brand & Style\n\nThis design system delivers an enterprise defense command center aesthetic, modeled after high-stakes tactical software. It is engineered for mission-critical operations where clarity, zero ambiguity, and immediate situational awareness are paramount.\n\n- **Target Audience:** Defense operators, intelligence analysts, and military commanders managing complex telemetry and live assets.\n- **Emotional Response:** Absolute control, tactical precision, sober focus, and unwavering reliability under pressure.\n- **Design Style:** High-density utilitarian minimalism, utilizing razor-thin structural borders, zero glow halos, and strict hierarchical typography to eliminate cognitive fatigue during extended monitoring shifts.\n\n## Colors\n\nThe color palette is strictly disciplined, prioritizing information hierarchy and functional status over decorative flair. \n\n- **Canvas:** Deep muted slate (`#0B0F17`) establishes the foundational workspace.\n- **Surfaces:** Clean charcoal (`#151E32`) distinguishes active card containers and operational modules from the backdrop.\n- **Borders:** Razor-thin neutral borders (`#2D3748` / `#334155`) bound interface elements without introducing visual noise.\n- **Status Indicators:** Muted Emerald (`#10B981`) denotes \"Ready\" states, Warm Amber (`#F59E0B`) flags advisory warnings, and Subdued Crimson (`#EF4444`) signals grounded aircraft on ground (AOG) or critical anomalies.\n- **Primary Actions:** Solid Royal Blue (`#2563EB`) anchors primary operator interactions.\n\n## Typography\n\nTypography balances clean humanist proportions for operational prose with strict tabular spacing for telemetry data. \n\n- **Primary Interface:** Inter is used across all navigational, heading, and body content for maximum legibility at a glance.\n- **Telemetry & Data:** JetBrains Mono is deployed in tabular layouts, ensuring numbers, coordinates, and system logs align vertically without shifting.\n- **Scaling:** Font sizes are capped efficiently for dense dashboard layouts. For headlines exceeding mobile viewports, wrap text or scale down proportionally while preserving mono-spaced alignments for data grids.\n\n## Layout & Spacing\n\nThe layout relies on a strict, high-density fixed-to-fluid hybrid grid designed for multi-monitor command setups. \n\n- **Grid Model:** 12-column tactical grid with 16px (`1rem`) gutters and generous outer canvas margins to partition complex sensor streams.\n- **Rhythm:** Component padding utilizes a base-4 spatial scale (`space-xs` through `space-xl`) to maintain structured alignment across dense data panels.\n- **Responsive Reflow:** On smaller viewports, panels collapse into vertical accordion stacks while preserving fixed-width telemetry columns to prevent data truncation.\n\n## Elevation & Depth\n\nDepth is conveyed through tonal surface contrast and structural boundaries rather than atmospheric blur or drop shadows.\n\n- **Tonal Layering:** Visual hierarchy is established by stepping between the deep slate canvas (`#0B0F17`), charcoal card surfaces (`#151E32`), and elevated modal containers.\n- **Borders:** Elements rely exclusively on razor-thin neutral outlines (`#2D3748` / `#334155`) to define boundaries. \n- **Prohibitions:** Zero glow halos, soft drop shadows, or ambient light effects are permitted in order to maintain a precise, non-distracting tactical interface.\n\n## Shapes\n\nThe design system enforces a strictly sharp shape language to reinforce the utilitarian, industrial nature of defense hardware software.\n\n- **Corner Radius:** All UI elements, cards, inputs, and containers feature `0px` roundedness. \n- **Edges:** Strict orthogonal intersections maintain crisp alignment across dense data grids, emphasizing structural integrity and technical precision.\n\n## Components\n\nComponents are engineered for rapid scanning, zero-latency input, and high-density information architecture.\n\n- **Buttons:** Solid Royal Blue (`#2563EB`) for primary actions, with razor-thin borders for secondary variants. Zero border radius. Hover states shift surface brightness without introducing glows.\n- **Chips & Badges:** Compact status tags featuring Muted Emerald (`#10B981`), Warm Amber (`#F59E0B`), and Subdued Crimson (`#EF4444`) with solid dark backgrounds and matching border strokes.\n- **Input Fields:** Charcoal surface (`#151E32`) with a 1px neutral border (`#334155`), housing JetBrains Mono text for numerical inputs and Inter for string queries.\n- **Cards:** Structured container modules (`#151E32`) bound by razor-thin neutral lines, featuring persistent header bars for telemetry metadata.\n- **Lists & Tables:** High-density data grids with alternating row contrast and strict tabular JetBrains Mono alignment for coordinates, timestamps, and vector data.\n- **Checkboxes & Radios:** Sharp 0px square containers with high-contrast inner check states in Royal Blue.\n- **Specialized Components:** Includes live map bounding boxes, sensor stream feeds with integrated status strips, asset status matrices, and emergency abort trigger controls.",
+                "font": "INTER",
+                "headlineFont": "INTER",
+                "headlineFontFamily": "Inter",
+                "labelFont": "JETBRAINS_MONO",
+                "labelFontFamily": "JetBrains Mono",
+                "namedColors": {
+                  "background": "#0f131c",
+                  "error": "#ffb4ab",
+                  "error_container": "#93000a",
+                  "inverse_on_surface": "#2c3039",
+                  "inverse_primary": "#0053db",
+                  "inverse_surface": "#dfe2ee",
+                  "on_background": "#dfe2ee",
+                  "on_error": "#690005",
+                  "on_error_container": "#ffdad6",
+                  "on_primary": "#002a78",
+                  "on_primary_container": "#eeefff",
+                  "on_primary_fixed": "#00174b",
+                  "on_primary_fixed_variant": "#003ea8",
+                  "on_secondary": "#003824",
+                  "on_secondary_container": "#00311f",
+                  "on_secondary_fixed": "#002113",
+                  "on_secondary_fixed_variant": "#005236",
+                  "on_surface": "#dfe2ee",
+                  "on_surface_variant": "#c3c6d7",
+                  "on_tertiary": "#472a00",
+                  "on_tertiary_container": "#ffeedd",
+                  "on_tertiary_fixed": "#2a1700",
+                  "on_tertiary_fixed_variant": "#653e00",
+                  "outline": "#8d90a0",
+                  "outline_variant": "#434655",
+                  "primary": "#b4c5ff",
+                  "primary_container": "#2563eb",
+                  "primary_fixed": "#dbe1ff",
+                  "primary_fixed_dim": "#b4c5ff",
+                  "secondary": "#4edea3",
+                  "secondary_container": "#00a572",
+                  "secondary_fixed": "#6ffbbe",
+                  "secondary_fixed_dim": "#4edea3",
+                  "surface": "#0f131c",
+                  "surface_bright": "#353942",
+                  "surface_container": "#1c2028",
+                  "surface_container_high": "#262a33",
+                  "surface_container_highest": "#31353e",
+                  "surface_container_low": "#181c24",
+                  "surface_container_lowest": "#0a0e16",
+                  "surface_dim": "#0f131c",
+                  "surface_tint": "#b4c5ff",
+                  "surface_variant": "#31353e",
+                  "tertiary": "#ffb95f",
+                  "tertiary_container": "#996100",
+                  "tertiary_fixed": "#ffddb8",
+                  "tertiary_fixed_dim": "#ffb95f"
+                },
+                "overrideNeutralColor": "#0b0f17",
+                "overridePrimaryColor": "#2563eb",
+                "overrideSecondaryColor": "#10b981",
+                "overrideTertiaryColor": "#f59e0b",
+                "spacing": {
+                  "gutter": "1rem",
+                  "margin": "1rem",
+                  "space-lg": "1.5rem",
+                  "space-md": "1rem",
+                  "space-sm": "0.5rem",
+                  "space-xl": "2rem",
+                  "space-xs": "0.25rem"
+                },
+                "spacingScale": 2,
+                "typography": {
+                  "body-lg": {
+                    "fontFamily": "Inter",
+                    "fontSize": "15px",
+                    "fontWeight": "400",
+                    "lineHeight": "22px"
+                  },
+                  "body-md": {
+                    "fontFamily": "Inter",
+                    "fontSize": "14px",
+                    "fontWeight": "400",
+                    "lineHeight": "20px"
+                  },
+                  "body-sm": {
+                    "fontFamily": "Inter",
+                    "fontSize": "13px",
+                    "fontWeight": "400",
+                    "lineHeight": "18px"
+                  },
+                  "headline-lg": {
+                    "fontFamily": "Inter",
+                    "fontSize": "28px",
+                    "fontWeight": "600",
+                    "letterSpacing": "-0.01em",
+                    "lineHeight": "36px"
+                  },
+                  "headline-md": {
+                    "fontFamily": "Inter",
+                    "fontSize": "20px",
+                    "fontWeight": "600",
+                    "lineHeight": "28px"
+                  },
+                  "headline-sm": {
+                    "fontFamily": "Inter",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "lineHeight": "24px"
+                  },
+                  "label": {
+                    "fontFamily": "Inter",
+                    "fontSize": "11px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.05em",
+                    "lineHeight": "16px"
+                  },
+                  "telemetry-lg": {
+                    "fontFamily": "JetBrains Mono",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "lineHeight": "24px"
+                  },
+                  "telemetry-md": {
+                    "fontFamily": "JetBrains Mono",
+                    "fontSize": "13px",
+                    "fontWeight": "400",
+                    "lineHeight": "18px"
+                  }
+                }
+              }
+            },
+            "name": "assets/05f5b077e6e940bf816aa35d37121e4b",
+            "version": "1"
+          }
+        },
+        {
+          "design": {
+            "screens": [
+              {
+                "designSystem": {
+                  "designSystem": {
+                    "displayName": "Defense Command System",
+                    "styleGuidelines": "## Brand & Style\n\nThis design system delivers an enterprise defense command center aesthetic, modeled after high-stakes tactical software. It is engineered for mission-critical operations where clarity, zero ambiguity, and immediate situational awareness are paramount.\n\n- **Target Audience:** Defense operators, intelligence analysts, and military commanders managing complex telemetry and live assets.\n- **Emotional Response:** Absolute control, tactical precision, sober focus, and unwavering reliability under pressure.\n- **Design Style:** High-density utilitarian minimalism, utilizing razor-thin structural borders, zero glow halos, and strict hierarchical typography to eliminate cognitive fatigue during extended monitoring shifts.\n\n## Layout & Spacing\n\nThe layout relies on a strict, high-density fixed-to-fluid hybrid grid designed for multi-monitor command setups. \n\n- **Grid Model:** 12-column tactical grid with 16px (`1rem`) gutters and generous outer canvas margins to partition complex sensor streams.\n- **Rhythm:** Component padding utilizes a base-4 spatial scale (`space-xs` through `space-xl`) to maintain structured alignment across dense data panels.\n- **Responsive Reflow:** On smaller viewports, panels collapse into vertical accordion stacks while preserving fixed-width telemetry columns to prevent data truncation.\n\n## Elevation & Depth\n\nDepth is conveyed through tonal surface contrast and structural boundaries rather than atmospheric blur or drop shadows.\n\n- **Tonal Layering:** Visual hierarchy is established by stepping between the deep slate canvas (`#0B0F17`), charcoal card surfaces (`#151E32`), and elevated modal containers.\n- **Borders:** Elements rely exclusively on razor-thin neutral outlines (`#2D3748` / `#334155`) to define boundaries. \n- **Prohibitions:** Zero glow halos, soft drop shadows, or ambient light effects are permitted in order to maintain a precise, non-distracting tactical interface.\n\n## Components\n\nComponents are engineered for rapid scanning, zero-latency input, and high-density information architecture.\n\n- **Buttons:** Solid Royal Blue (`#2563EB`) for primary actions, with razor-thin borders for secondary variants. Zero border radius. Hover states shift surface brightness without introducing glows.\n- **Chips & Badges:** Compact status tags featuring Muted Emerald (`#10B981`), Warm Amber (`#F59E0B`), and Subdued Crimson (`#EF4444`) with solid dark backgrounds and matching border strokes.\n- **Input Fields:** Charcoal surface (`#151E32`) with a 1px neutral border (`#334155`), housing JetBrains Mono text for numerical inputs and Inter for string queries.\n- **Cards:** Structured container modules (`#151E32`) bound by razor-thin neutral lines, featuring persistent header bars for telemetry metadata.\n- **Lists & Tables:** High-density data grids with alternating row contrast and strict tabular JetBrains Mono alignment for coordinates, timestamps, and vector data.\n- **Checkboxes & Radios:** Sharp 0px square containers with high-contrast inner check states in Royal Blue.\n- **Specialized Components:** Includes live map bounding boxes, sensor stream feeds with integrated status strips, asset status matrices, and emergency abort trigger controls.",
+                    "theme": {
+                      "bodyFont": "INTER",
+                      "bodyFontFamily": "Inter",
+                      "colorMode": "DARK",
+                      "colorVariant": "FIDELITY",
+                      "customColor": "#2563eb",
+                      "designMd": "---\nname: Defense Command System\ncolors:\n  surface: '#0f131c'\n  surface-dim: '#0f131c'\n  surface-bright: '#353942'\n  surface-container-lowest: '#0a0e16'\n  surface-container-low: '#181c24'\n  surface-container: '#1c2028'\n  surface-container-high: '#262a33'\n  surface-container-highest: '#31353e'\n  on-surface: '#dfe2ee'\n  on-surface-variant: '#c3c6d7'\n  inverse-surface: '#dfe2ee'\n  inverse-on-surface: '#2c3039'\n  outline: '#8d90a0'\n  outline-variant: '#434655'\n  surface-tint: '#b4c5ff'\n  primary: '#b4c5ff'\n  on-primary: '#002a78'\n  primary-container: '#2563eb'\n  on-primary-container: '#eeefff'\n  inverse-primary: '#0053db'\n  secondary: '#4edea3'\n  on-secondary: '#003824'\n  secondary-container: '#00a572'\n  on-secondary-container: '#00311f'\n  tertiary: '#ffb95f'\n  on-tertiary: '#472a00'\n  tertiary-container: '#996100'\n  on-tertiary-container: '#ffeedd'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#dbe1ff'\n  primary-fixed-dim: '#b4c5ff'\n  on-primary-fixed: '#00174b'\n  on-primary-fixed-variant: '#003ea8'\n  secondary-fixed: '#6ffbbe'\n  secondary-fixed-dim: '#4edea3'\n  on-secondary-fixed: '#002113'\n  on-secondary-fixed-variant: '#005236'\n  tertiary-fixed: '#ffddb8'\n  tertiary-fixed-dim: '#ffb95f'\n  on-tertiary-fixed: '#2a1700'\n  on-tertiary-fixed-variant: '#653e00'\n  background: '#0f131c'\n  on-background: '#dfe2ee'\n  surface-variant: '#31353e'\ntypography:\n  headline-lg:\n    fontFamily: Inter\n    fontSize: 28px\n    fontWeight: '600'\n    lineHeight: 36px\n    letterSpacing: -0.01em\n  headline-md:\n    fontFamily: Inter\n    fontSize: 20px\n    fontWeight: '600'\n    lineHeight: 28px\n  headline-sm:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '500'\n    lineHeight: 24px\n  body-lg:\n    fontFamily: Inter\n    fontSize: 15px\n    fontWeight: '400'\n    lineHeight: 22px\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  body-sm:\n    fontFamily: Inter\n    fontSize: 13px\n    fontWeight: '400'\n    lineHeight: 18px\n  telemetry-lg:\n    fontFamily: JetBrains Mono\n    fontSize: 16px\n    fontWeight: '500'\n    lineHeight: 24px\n  telemetry-md:\n    fontFamily: JetBrains Mono\n    fontSize: 13px\n    fontWeight: '400'\n    lineHeight: 18px\n  label:\n    fontFamily: Inter\n    fontSize: 11px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.05em\nspacing:\n  gutter: 1rem\n  margin: 1rem\n  space-xs: 0.25rem\n  space-sm: 0.5rem\n  space-md: 1rem\n  space-lg: 1.5rem\n  space-xl: 2rem\n---\n\n## Brand & Style\n\nThis design system delivers an enterprise defense command center aesthetic, modeled after high-stakes tactical software. It is engineered for mission-critical operations where clarity, zero ambiguity, and immediate situational awareness are paramount.\n\n- **Target Audience:** Defense operators, intelligence analysts, and military commanders managing complex telemetry and live assets.\n- **Emotional Response:** Absolute control, tactical precision, sober focus, and unwavering reliability under pressure.\n- **Design Style:** High-density utilitarian minimalism, utilizing razor-thin structural borders, zero glow halos, and strict hierarchical typography to eliminate cognitive fatigue during extended monitoring shifts.\n\n## Colors\n\nThe color palette is strictly disciplined, prioritizing information hierarchy and functional status over decorative flair. \n\n- **Canvas:** Deep muted slate (`#0B0F17`) establishes the foundational workspace.\n- **Surfaces:** Clean charcoal (`#151E32`) distinguishes active card containers and operational modules from the backdrop.\n- **Borders:** Razor-thin neutral borders (`#2D3748` / `#334155`) bound interface elements without introducing visual noise.\n- **Status Indicators:** Muted Emerald (`#10B981`) denotes \"Ready\" states, Warm Amber (`#F59E0B`) flags advisory warnings, and Subdued Crimson (`#EF4444`) signals grounded aircraft on ground (AOG) or critical anomalies.\n- **Primary Actions:** Solid Royal Blue (`#2563EB`) anchors primary operator interactions.\n\n## Typography\n\nTypography balances clean humanist proportions for operational prose with strict tabular spacing for telemetry data. \n\n- **Primary Interface:** Inter is used across all navigational, heading, and body content for maximum legibility at a glance.\n- **Telemetry & Data:** JetBrains Mono is deployed in tabular layouts, ensuring numbers, coordinates, and system logs align vertically without shifting.\n- **Scaling:** Font sizes are capped efficiently for dense dashboard layouts. For headlines exceeding mobile viewports, wrap text or scale down proportionally while preserving mono-spaced alignments for data grids.\n\n## Layout & Spacing\n\nThe layout relies on a strict, high-density fixed-to-fluid hybrid grid designed for multi-monitor command setups. \n\n- **Grid Model:** 12-column tactical grid with 16px (`1rem`) gutters and generous outer canvas margins to partition complex sensor streams.\n- **Rhythm:** Component padding utilizes a base-4 spatial scale (`space-xs` through `space-xl`) to maintain structured alignment across dense data panels.\n- **Responsive Reflow:** On smaller viewports, panels collapse into vertical accordion stacks while preserving fixed-width telemetry columns to prevent data truncation.\n\n## Elevation & Depth\n\nDepth is conveyed through tonal surface contrast and structural boundaries rather than atmospheric blur or drop shadows.\n\n- **Tonal Layering:** Visual hierarchy is established by stepping between the deep slate canvas (`#0B0F17`), charcoal card surfaces (`#151E32`), and elevated modal containers.\n- **Borders:** Elements rely exclusively on razor-thin neutral outlines (`#2D3748` / `#334155`) to define boundaries. \n- **Prohibitions:** Zero glow halos, soft drop shadows, or ambient light effects are permitted in order to maintain a precise, non-distracting tactical interface.\n\n## Shapes\n\nThe design system enforces a strictly sharp shape language to reinforce the utilitarian, industrial nature of defense hardware software.\n\n- **Corner Radius:** All UI elements, cards, inputs, and containers feature `0px` roundedness. \n- **Edges:** Strict orthogonal intersections maintain crisp alignment across dense data grids, emphasizing structural integrity and technical precision.\n\n## Components\n\nComponents are engineered for rapid scanning, zero-latency input, and high-density information architecture.\n\n- **Buttons:** Solid Royal Blue (`#2563EB`) for primary actions, with razor-thin borders for secondary variants. Zero border radius. Hover states shift surface brightness without introducing glows.\n- **Chips & Badges:** Compact status tags featuring Muted Emerald (`#10B981`), Warm Amber (`#F59E0B`), and Subdued Crimson (`#EF4444`) with solid dark backgrounds and matching border strokes.\n- **Input Fields:** Charcoal surface (`#151E32`) with a 1px neutral border (`#334155`), housing JetBrains Mono text for numerical inputs and Inter for string queries.\n- **Cards:** Structured container modules (`#151E32`) bound by razor-thin neutral lines, featuring persistent header bars for telemetry metadata.\n- **Lists & Tables:** High-density data grids with alternating row contrast and strict tabular JetBrains Mono alignment for coordinates, timestamps, and vector data.\n- **Checkboxes & Radios:** Sharp 0px square containers with high-contrast inner check states in Royal Blue.\n- **Specialized Components:** Includes live map bounding boxes, sensor stream feeds with integrated status strips, asset status matrices, and emergency abort trigger controls.",
+                      "font": "INTER",
+                      "headlineFont": "INTER",
+                      "headlineFontFamily": "Inter",
+                      "labelFont": "JETBRAINS_MONO",
+                      "labelFontFamily": "JetBrains Mono",
+                      "namedColors": {
+                        "background": "#0f131c",
+                        "error": "#ffb4ab",
+                        "error_container": "#93000a",
+                        "inverse_on_surface": "#2c3039",
+                        "inverse_primary": "#0053db",
+                        "inverse_surface": "#dfe2ee",
+                        "on_background": "#dfe2ee",
+                        "on_error": "#690005",
+                        "on_error_container": "#ffdad6",
+                        "on_primary": "#002a78",
+                        "on_primary_container": "#eeefff",
+                        "on_primary_fixed": "#00174b",
+                        "on_primary_fixed_variant": "#003ea8",
+                        "on_secondary": "#003824",
+                        "on_secondary_container": "#00311f",
+                        "on_secondary_fixed": "#002113",
+                        "on_secondary_fixed_variant": "#005236",
+                        "on_surface": "#dfe2ee",
+                        "on_surface_variant": "#c3c6d7",
+                        "on_tertiary": "#472a00",
+                        "on_tertiary_container": "#ffeedd",
+                        "on_tertiary_fixed": "#2a1700",
+                        "on_tertiary_fixed_variant": "#653e00",
+                        "outline": "#8d90a0",
+                        "outline_variant": "#434655",
+                        "primary": "#b4c5ff",
+                        "primary_container": "#2563eb",
+                        "primary_fixed": "#dbe1ff",
+                        "primary_fixed_dim": "#b4c5ff",
+                        "secondary": "#4edea3",
+                        "secondary_container": "#00a572",
+                        "secondary_fixed": "#6ffbbe",
+                        "secondary_fixed_dim": "#4edea3",
+                        "surface": "#0f131c",
+                        "surface_bright": "#353942",
+                        "surface_container": "#1c2028",
+                        "surface_container_high": "#262a33",
+                        "surface_container_highest": "#31353e",
+                        "surface_container_low": "#181c24",
+                        "surface_container_lowest": "#0a0e16",
+                        "surface_dim": "#0f131c",
+                        "surface_tint": "#b4c5ff",
+                        "surface_variant": "#31353e",
+                        "tertiary": "#ffb95f",
+                        "tertiary_container": "#996100",
+                        "tertiary_fixed": "#ffddb8",
+                        "tertiary_fixed_dim": "#ffb95f"
+                      },
+                      "overrideNeutralColor": "#0b0f17",
+                      "overridePrimaryColor": "#2563eb",
+                      "overrideSecondaryColor": "#10b981",
+                      "overrideTertiaryColor": "#f59e0b",
+                      "spacing": {
+                        "gutter": "1rem",
+                        "margin": "1rem",
+                        "space-lg": "1.5rem",
+                        "space-md": "1rem",
+                        "space-sm": "0.5rem",
+                        "space-xl": "2rem",
+                        "space-xs": "0.25rem"
+                      },
+                      "spacingScale": 2,
+                      "typography": {
+                        "body-lg": {
+                          "fontFamily": "Inter",
+                          "fontSize": "15px",
+                          "fontWeight": "400",
+                          "lineHeight": "22px"
+                        },
+                        "body-md": {
+                          "fontFamily": "Inter",
+                          "fontSize": "14px",
+                          "fontWeight": "400",
+                          "lineHeight": "20px"
+                        },
+                        "body-sm": {
+                          "fontFamily": "Inter",
+                          "fontSize": "13px",
+                          "fontWeight": "400",
+                          "lineHeight": "18px"
+                        },
+                        "headline-lg": {
+                          "fontFamily": "Inter",
+                          "fontSize": "28px",
+                          "fontWeight": "600",
+                          "letterSpacing": "-0.01em",
+                          "lineHeight": "36px"
+                        },
+                        "headline-md": {
+                          "fontFamily": "Inter",
+                          "fontSize": "20px",
+                          "fontWeight": "600",
+                          "lineHeight": "28px"
+                        },
+                        "headline-sm": {
+                          "fontFamily": "Inter",
+                          "fontSize": "16px",
+                          "fontWeight": "500",
+                          "lineHeight": "24px"
+                        },
+                        "label": {
+                          "fontFamily": "Inter",
+                          "fontSize": "11px",
+                          "fontWeight": "500",
+                          "letterSpacing": "0.05em",
+                          "lineHeight": "16px"
+                        },
+                        "telemetry-lg": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "16px",
+                          "fontWeight": "500",
+                          "lineHeight": "24px"
+                        },
+                        "telemetry-md": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "13px",
+                          "fontWeight": "400",
+                          "lineHeight": "18px"
+                        }
+                      }
+                    }
+                  },
+                  "name": "assets/05f5b077e6e940bf816aa35d37121e4b",
+                  "version": "1"
+                },
+                "deviceType": "DESKTOP",
+                "generatedBy": "figaro_agent",
+                "height": "2708",
+                "htmlCode": {
+                  "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2MzMTllNDIzNTI3ODRhY2I4M2VhOTE4Zjg4MjVlMWIyEgsSBxDH687s-AEYAZIBIwoKcHJvamVjdF9pZBIVQhM2MzY0MDkxNzc3MDA5NzE3NTc5&filename=&opi=96797242",
+                  "mimeType": "text/html",
+                  "name": "projects/6364091777009717579/files/0052a85dcbc54d74afd07d3201247f92"
+                },
+                "id": "30a64fa006fb41ac80aef4f92cf74eee",
+                "name": "projects/6364091777009717579/screens/30a64fa006fb41ac80aef4f92cf74eee",
+                "prompt": "Build the complete desktop screen for 'Bharatiya Vayu Sena \u2014 Fleet Readiness & Predictive Maintenance C2' adhering strictly to the user's elite enterprise defense aesthetic (Palantir Foundry / Anduril Lattice standard).\nCanvas background: #0B0F17. Card surfaces: #151E32 with razor-thin 1px neutral borders (#2D3748 or #334155). NO glowing neon cyan, NO video-game gimmick badges, NO rainbow cards.\nColor strictly per semantic rule: Muted Emerald (#10B981) for Ready, Warm Amber (#F59E0B) for Scheduled Advisory, Subdued Crimson (#EF4444) for Grounded AOG. Primary actions in solid Royal Blue (#2563EB).\nTypography: Clean Inter sans-serif, generous 24px card padding, tabular JetBrains Mono for sensor telemetry.\n\nStructure:\n1. Header: IAF emblem roundel, title 'Bharatiya Vayu Sena \u2014 Fleet Readiness & Predictive Maintenance C2', authenticated officer 'Air Chief Marshal A. P. Singh, PVSM, AVSM (CAS)', UTC/IST mission clocks, squadron filter dropdown (AFS Thanjavur No. 222 Tigersharks).\n2. Fleet KPI Row (4 clean Bento cards with 24px padding):\n   - Fleet Availability: 66.7% (Target 75.0%), subtle progress bar in neutral slate/blue.\n   - Combat Airframes Online: 12 / 18 (6 offline), breakdown by type (Su-30MKI 4/6, Tejas 4/6, Rafale 4/6).\n   - Conformal Critical RUL: 3 Airframes flagged (Su-30MKI SB-024, Tejas KH-204, Rafale RB-004).\n   - Active Depot Logistics Requisitions: 4 in pipeline (Air Bridge active).\n3. Central Two-Column Layout:\n   - Left 60%: Su-30MKI SB-024 Digital Twin Turbofan Gas-Path & Telemetry. Airframe status chip (Subdued Crimson for Critical). Gas-path stages: Fan (Nominal), LPC (Nominal), HPC Stage 3 [Wear Flagged: T30 755\u00b0C, Vibration 0.94 - Amber/Crimson badge], Combustor, LPT. In-flight RLS drift compensation status and Conformal RUL curve chart/visualization with P50 and uncertainty bounds.\n   - Right 40%: Proactive Spares & Work Orders. Work Order #WO-7049 for HPC rotor blisk replacement with solid Royal Blue primary action button 'Authorize Dispatch & Spares Release'. Forward Base LRU stocks at AFS Thanjavur, Sulur, Ambala. Live sortie debrief feed for Garuda-1 CAP.",
+                "screenMetadata": {
+                  "agentType": "PRO_AGENT",
+                  "status": "COMPLETE"
+                },
+                "screenType": "DESIGN",
+                "screenshot": {
+                  "downloadUrl": "https://lh3.googleusercontent.com/aida/AEtjO1U1aLxrYUZEJEDbnrvLxgiKuj15EoZAIFBy-3_g8sfQrODlTrjqPZmDu1rbLCroeuLDINcaVySGrm-vkazrTwTyGlc7GBzboaw7b9MBMdDFRjJfhbleZpo5auZnFhaQz41xU3JY1QbYJegLrylU5Zx2w3SGRJIvQUxHKw_hnRYbjEHKIjX_MZHCX8UKM4UjdSoki65qYrXagxVuR_oNZPtTigRJ1d6hoxhUu40JblfYR_pcCpBxJh1YlHw",
+                  "name": "projects/6364091777009717579/files/f2feb76d312b44808cb453b30a60305e"
+                },
+                "theme": {
+                  "bodyFont": "INTER",
+                  "bodyFontFamily": "Inter",
+                  "colorMode": "DARK",
+                  "colorVariant": "FIDELITY",
+                  "customColor": "#2563eb",
+                  "font": "INTER",
+                  "headlineFont": "INTER",
+                  "headlineFontFamily": "Inter",
+                  "labelFont": "JETBRAINS_MONO",
+                  "labelFontFamily": "JetBrains Mono",
+                  "namedColors": {
+                    "background": "#0f131c",
+                    "error": "#ffb4ab",
+                    "error_container": "#93000a",
+                    "inverse_on_surface": "#2c3039",
+                    "inverse_primary": "#0053db",
+                    "inverse_surface": "#dfe2ee",
+                    "on_background": "#dfe2ee",
+                    "on_error": "#690005",
+                    "on_error_container": "#ffdad6",
+                    "on_primary": "#002a78",
+                    "on_primary_container": "#eeefff",
+                    "on_primary_fixed": "#00174b",
+                    "on_primary_fixed_variant": "#003ea8",
+                    "on_secondary": "#003824",
+                    "on_secondary_container": "#00311f",
+                    "on_secondary_fixed": "#002113",
+                    "on_secondary_fixed_variant": "#005236",
+                    "on_surface": "#dfe2ee",
+                    "on_surface_variant": "#c3c6d7",
+                    "on_tertiary": "#472a00",
+                    "on_tertiary_container": "#ffeedd",
+                    "on_tertiary_fixed": "#2a1700",
+                    "on_tertiary_fixed_variant": "#653e00",
+                    "outline": "#8d90a0",
+                    "outline_variant": "#434655",
+                    "primary": "#b4c5ff",
+                    "primary_container": "#2563eb",
+                    "primary_fixed": "#dbe1ff",
+                    "primary_fixed_dim": "#b4c5ff",
+                    "secondary": "#4edea3",
+                    "secondary_container": "#00a572",
+                    "secondary_fixed": "#6ffbbe",
+                    "secondary_fixed_dim": "#4edea3",
+                    "surface": "#0f131c",
+                    "surface_bright": "#353942",
+                    "surface_container": "#1c2028",
+                    "surface_container_high": "#262a33",
+                    "surface_container_highest": "#31353e",
+                    "surface_container_low": "#181c24",
+                    "surface_container_lowest": "#0a0e16",
+                    "surface_dim": "#0f131c",
+                    "surface_tint": "#b4c5ff",
+                    "surface_variant": "#31353e",
+                    "tertiary": "#ffb95f",
+                    "tertiary_container": "#996100",
+                    "tertiary_fixed": "#ffddb8",
+                    "tertiary_fixed_dim": "#ffb95f"
+                  },
+                  "overrideNeutralColor": "#0b0f17",
+                  "overridePrimaryColor": "#2563eb",
+                  "overrideSecondaryColor": "#10b981",
+                  "overrideTertiaryColor": "#f59e0b",
+                  "spacing": {
+                    "gutter": "1rem",
+                    "margin": "1rem",
+                    "space-lg": "1.5rem",
+                    "space-md": "1rem",
+                    "space-sm": "0.5rem",
+                    "space-xl": "2rem",
+                    "space-xs": "0.25rem"
+                  },
+                  "spacingScale": 2,
+                  "typography": {
+                    "body-lg": {
+                      "fontFamily": "Inter",
+                      "fontSize": "15px",
+                      "fontWeight": "400",
+                      "lineHeight": "22px"
+                    },
+                    "body-md": {
+                      "fontFamily": "Inter",
+                      "fontSize": "14px",
+                      "fontWeight": "400",
+                      "lineHeight": "20px"
+                    },
+                    "body-sm": {
+                      "fontFamily": "Inter",
+                      "fontSize": "13px",
+                      "fontWeight": "400",
+                      "lineHeight": "18px"
+                    },
+                    "headline-lg": {
+                      "fontFamily": "Inter",
+                      "fontSize": "28px",
+                      "fontWeight": "600",
+                      "letterSpacing": "-0.01em",
+                      "lineHeight": "36px"
+                    },
+                    "headline-md": {
+                      "fontFamily": "Inter",
+                      "fontSize": "20px",
+                      "fontWeight": "600",
+                      "lineHeight": "28px"
+                    },
+                    "headline-sm": {
+                      "fontFamily": "Inter",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
+                      "lineHeight": "24px"
+                    },
+                    "label": {
+                      "fontFamily": "Inter",
+                      "fontSize": "11px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.05em",
+                      "lineHeight": "16px"
+                    },
+                    "telemetry-lg": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
+                      "lineHeight": "24px"
+                    },
+                    "telemetry-md": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "13px",
+                      "fontWeight": "400",
+                      "lineHeight": "18px"
+                    }
+                  }
+                },
+                "title": "Bharatiya Vayu Sena \u2014 Fleet Readiness & Predictive Maintenance C2",
+                "width": "2560"
+              }
+            ],
+            "theme": {}
+          }
+        },
+        {
+          "text": "I have successfully generated the **Bharatiya Vayu Sena Fleet Readiness & Predictive Maintenance C2** command center dashboard, adhering strictly to elite enterprise defense standards (Anduril / Palantir Foundry aesthetic).\n\n### Key Architectural & Design Highlights:\n1. **Calm Obsidian Palette**: Deep muted slate canvas (`#0B0F17`) with clean charcoal card surfaces (`#151E32`) and razor-thin 1px neutral borders (`#2D3748`). All glowing neon halos, cyan video-game borders, and sci-fi gimmick tags have been removed in favor of professional sobriety.\n2. **10% Semantic Color Rule**: Status badges use Muted Emerald (`#10B981`) for operational readiness, Warm Amber (`#F59E0B`) for scheduled advisory, and Subdued Crimson (`#EF4444`) strictly for grounded AOG / critical alerts. Primary actions are anchored in solid Royal Blue (`#2563EB`).\n3. **Four Bento KPI Cards**: Instantaneous visibility into Fleet Availability (66.7%), Combat Airframes Online (12/18), Conformal Critical RUL flagged airframes, and Active Depot Logistics Requisitions.\n4. **Two-Column Tactical Layout**:\n   - **Left Column (60%)**: Su-30MKI SB-024 Digital Twin Gas-Path analysis across 5 stages (highlighting HPC Stage 3 wear and temperature metrics), alongside live RLS drift compensation status and Conformal RUL prediction curves.\n   - **Right Column (40%)**: Proactive work order dispatch (`#WO-7049`), Forward Base LRU stock matrices across AFS Thanjavur, Sulur, and Ambala, and real-time Garuda-1 CAP sortie debrief logs.\n5. **Typography & Tabular Telemetry**: Clean `Inter` font paired with tabular `JetBrains Mono` for precise sensor and cycle telemetry."
+        },
+        {
+          "suggestion": "Export Classified Telemetry Pack"
+        },
+        {
+          "suggestion": "Drill down into Su-30MKI SB-024 Gas-Path Time-Travel Replay"
+        },
+        {
+          "suggestion": "Review MLOps Retraining Tournament Matrix"
+        }
+      ],
+      "projectId": "6364091777009717579",
+      "sessionId": "9501358392092238404"
+    }
+  }
+}

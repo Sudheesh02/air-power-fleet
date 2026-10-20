@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IAF AeroShield Tactical Fleet Command Cockpit</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed-variant": "#574500",
+            "on-secondary-container": "#00374d",
+            "primary": "#d7fff3",
+            "surface-container": "#131922",
+            "surface-dim": "#0d1513",
+            "outline-variant": "#3a4a46",
+            "primary-fixed-dim": "#00dfc1",
+            "on-secondary": "#00354a",
+            "on-surface-variant": "#b9cac4",
+            "success": "#10B981",
+            "on-tertiary": "#3c2f00",
+            "primary-fixed": "#26fedc",
+            "on-error": "#690005",
+            "inverse-primary": "#006b5b",
+            "on-primary": "#00382f",
+            "on-error-container": "#ffdad6",
+            "error-container": "#93000a",
+            "surface-container-lowest": "#08100e",
+            "secondary-fixed-dim": "#7bd0ff",
+            "surface-tint": "#00dfc1",
+            "on-primary-fixed": "#00201a",
+            "tertiary-container": "#ffd651",
+            "surface-bright": "#1E2630",
+            "on-secondary-fixed-variant": "#004c69",
+            "outline": "#334155",
+            "surface-container-low": "#0E1319",
+            "secondary-container": "#00a6e0",
+            "surface": "#0B0F14",
+            "secondary": "#7bd0ff",
+            "tertiary-fixed": "#ffe086",
+            "on-surface": "#E2E8F0",
+            "surface-container-highest": "#222C3B",
+            "surface-container-high": "#1A222E",
+            "background": "#0d1513",
+            "error": "#EF4444",
+            "on-tertiary-container": "#745c00",
+            "on-secondary-fixed": "#001e2c",
+            "on-primary-container": "#006c5c",
+            "surface-variant": "#2e3734",
+            "inverse-surface": "#dbe5e0",
+            "on-primary-fixed-variant": "#005144",
+            "primary-container": "#00f5d4",
+            "inverse-on-surface": "#2a3230",
+            "tertiary-fixed-dim": "#eac33f",
+            "on-tertiary-fixed": "#231b00",
+            "on-background": "#dbe5e0",
+            "tertiary": "#F59E0B",
+            "secondary-fixed": "#c4e7ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin": "16px",
+            "space-lg": "16px",
+            "space-sm": "8px",
+            "space-md": "12px",
+            "gutter": "12px",
+            "space-xs": "4px",
+            "space-xl": "24px"
+          },
+          "fontFamily": {
+            "telemetry-xs": ["JetBrains Mono"],
+            "data-primary": ["JetBrains Mono"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "label-caps": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "headline-sm": ["Inter"],
+            "display-lg": ["Inter"]
+          },
+          "fontSize": {
+            "telemetry-xs": ["10px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "data-primary": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+    /* CRT Scanline and tactical grid overlays */
+    .tactical-grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(51, 65, 85, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(51, 65, 85, 0.15) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0E1319;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 2px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #00f5d4;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased select-none font-body-sm text-body-sm h-screen flex flex-col overflow-hidden tactical-grid-bg">
+<!-- ================= TOP NAVIGATION / COCKPIT HEADER ================= -->
+<!-- Conforms strictly to TopNavBar in Shared Components JSON -->
+<header class="w-full px-space-lg flex justify-between items-center h-14 border-b border-outline bg-surface-container shrink-0 z-50">
+<!-- Brand / National Command Identity -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded border border-primary/40 bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]" data-icon="shield">shield</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold tracking-tight text-primary uppercase flex items-center gap-2">
+            AeroShield Fleet Command
+          </span>
+<span class="font-telemetry-xs text-telemetry-xs text-on-surface-variant flex items-center gap-1.5">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+            BHARATIYA VAYU SENA // AIR HEADQUARTERS DEFENSE TELEMETRY C2
+          </span>
+</div>
+</div>
+<div class="h-6 w-px bg-outline mx-2 hidden lg:block"></div>
+<!-- Live Encryption & Link Badge -->
+<div class="hidden xl:flex items-center gap-2 px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant font-telemetry-xs text-telemetry-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container text-[14px]" data-icon="enhanced_encryption">enhanced_encryption</span>
+<span>MIL-STD-1553B SECURE LINK // 256-BIT Q-RESISTANT // <strong class="text-tertiary">DEFCON 3 READY</strong></span>
+</div>
+</div>
+<!-- Navigation Links mapped to Shared Components JSON -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps uppercase tracking-wider transition-colors" href="#">Fleet Overview</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-caps text-label-caps uppercase tracking-wider" href="#">Degradation &amp; RUL</a>
+<a class="text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps uppercase tracking-wider transition-colors" href="#">Triage Queue</a>
+<a class="text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps uppercase tracking-wider transition-colors" href="#">MLOps Tournament</a>
+</nav>
+<!-- Trailing Actions & Authenticated Commander Profile -->
+<div class="flex items-center gap-3">
+<!-- Clocks -->
+<div class="text-right hidden sm:block">
+<div class="font-telemetry-xs text-telemetry-xs text-primary font-semibold tracking-wider">UTC 14:28:09Z</div>
+<div class="font-telemetry-xs text-telemetry-xs text-on-surface-variant">IST 19:58:09 +05:30</div>
+</div>
+<!-- Action Cluster -->
+<div class="flex items-center gap-1 border-l border-outline pl-3">
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-primary transition-all duration-150 active:scale-[0.98]" title="Audio Telemetry">
+<span class="material-symbols-outlined text-[18px]" data-icon="graphic_eq">graphic_eq</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-primary transition-all duration-150 active:scale-[0.98]" title="Authentication Audit">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-primary transition-all duration-150 active:scale-[0.98] relative" title="Alert Notifications">
+<span class="material-symbols-outlined text-[18px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container"></span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-primary transition-all duration-150 active:scale-[0.98]" title="System Settings">
+<span class="material-symbols-outlined text-[18px]" data-icon="settings">settings</span>
+</button>
+</div>
+<!-- HUD Quick CTA Button -->
+<button class="hidden lg:flex items-center gap-1.5 px-3 py-1 bg-primary-container text-on-primary-container font-label-caps text-label-caps rounded font-bold hover:brightness-110 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[14px]" data-icon="hub">hub</span>
+        COPILOT HUD
+      </button>
+<!-- Authenticated Commander Avatar / Profile -->
+<div class="flex items-center gap-2 pl-2 border-l border-outline">
+<div class="relative">
+<img alt="Flight Commander Avatar" class="w-8 h-8 rounded border border-primary/50 object-cover" data-alt="A portrait photograph of a senior Indian Air Force officer wearing service uniform with medals and flight badges, in a dimly lit, high-tech tactical operations command center. Cool ambient cyan and steel blue backlighting accentuates the focused, authoritative expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGrLaUyQfZt1gYKqeixHH_u7YNq7REOLFQGAmieV8jH6Z9ge5ZmC1fPep9OZU3rmF_xpKA4p9A6KxwcU7hWuppWGPJsJ9Ytpnn4TwffjZlgsF66R_Ch97RH7bH1jtZmdlOz44Rxf3bTyWGcV5Zz2JoHyngupGftnwySv3-i4avCB911_6foN94w42JimLe8-QzaiQ63LEjSb2JzZ_SGU78bCjXvvYbGcUCTwH1-ahnQUEvzqpRg2brhTG826PyMukGsQnFSYAsKNM"/>
+<div class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-success border-2 border-surface-container" title="Biometric Validated"></div>
+</div>
+<div class="hidden 2xl:block text-left leading-tight">
+<div class="font-label-caps text-[10px] text-primary truncate max-w-[170px]">Air Chief Marshal A. P. Singh</div>
+<div class="font-telemetry-xs text-[9px] text-on-surface-variant truncate">CAS // QUICK-AUTH VALID</div>
+</div>
+</div>
+</div>
+</header>
+<!-- ================= SUB-SHELL: SIDEBAR + MAIN WORKSPACE ================= -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Tactical SideNavBar (strictly conforming to Shared Components JSON) -->
+<aside class="w-56 shrink-0 bg-surface-container-low border-r border-outline flex flex-col justify-between py-2 hidden md:flex">
+<div class="space-y-4">
+<!-- Sidebar Cockpit Context Header -->
+<div class="px-space-md py-1 border-b border-outline/50 flex items-center justify-between">
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary-container" data-icon="propeller">4g_mobiledata</span>
+              TF-900 COCKPIT
+            </div>
+<div class="font-telemetry-xs text-telemetry-xs text-on-surface-variant mt-0.5">SYS OPERATIONAL // DEFCON 4</div>
+</div>
+<span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span>
+</div>
+<!-- Main Navigation Links -->
+<nav class="space-y-0.5 px-2">
+<!-- Fleet Telemetry -->
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-caps text-label-caps px-space-md py-2 flex items-center gap-space-sm rounded transition-colors group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary" data-icon="radar">radar</span>
+<span>Fleet Telemetry</span>
+</a>
+<!-- Turbofan HUD (Active Item) -->
+<a class="bg-surface-bright text-primary border-l-2 border-primary-container font-label-caps text-label-caps px-space-md py-2 flex items-center gap-space-sm rounded-r" href="#">
+<span class="material-symbols-outlined text-[18px] text-primary-container" data-icon="propeller">4g_mobiledata</span>
+<span>Turbofan HUD</span>
+</a>
+<!-- Predictive RUL -->
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-caps text-label-caps px-space-md py-2 flex items-center gap-space-sm rounded transition-colors group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary" data-icon="timeline">timeline</span>
+<span>Predictive RUL</span>
+<span class="ml-auto font-telemetry-xs text-[9px] px-1 py-0.5 rounded bg-error-container text-primary font-bold">3 CRIT</span>
+</a>
+<!-- Dispatch Queue -->
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-caps text-label-caps px-space-md py-2 flex items-center gap-space-sm rounded transition-colors group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary" data-icon="checklist">checklist</span>
+<span>Dispatch Queue</span>
+</a>
+<!-- Audit Ledger -->
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-caps text-label-caps px-space-md py-2 flex items-center gap-space-sm rounded transition-colors group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary" data-icon="enhanced_encryption">enhanced_encryption</span>
+<span>Audit Ledger</span>
+</a>
+<!-- Model Arena -->
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-caps text-label-caps px-space-md py-2 flex items-center gap-space-sm rounded transition-colors group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary" data-icon="model_training">model_training</span>
+<span>Model Arena</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Footers & CTA -->
+<div class="px-2 space-y-2 border-t border-outline/50 pt-2">
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-caps text-label-caps px-space-md py-1.5 flex items-center gap-space-sm rounded transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="terminal">terminal</span>
+<span>Terminal</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-bright font-label-caps text-label-caps px-space-md py-1.5 flex items-center gap-space-sm rounded transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="tune">tune</span>
+<span>Sys Diagnostics</span>
+</a>
+<!-- CTA as per JSON -->
+<button class="w-full mt-2 py-2 px-3 bg-surface-container-highest border border-outline hover:border-primary-container text-primary font-label-caps text-label-caps rounded flex items-center justify-center gap-2 transition-all hover:bg-surface-bright active:scale-[0.98]">
+<span class="material-symbols-outlined text-[16px] text-primary-container" data-icon="smart_toy">smart_toy</span>
+          ENGAGE COPILOT
+        </button>
+</div>
+</aside>
+<!-- Main Workspace Container -->
+<main class="flex-1 flex flex-col overflow-hidden bg-surface p-space-md gap-space-md">
+<!-- ================= 1. TOP METRICS ROW (4 High-Density Tactical Tiles) ================= -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter shrink-0">
+<!-- Tile 1: Fleet Availability Rate -->
+<div class="bg-surface-container border border-outline p-space-md rounded flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-sm bg-tertiary"></span>
+              Fleet Mission Availability
+            </span>
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-label-caps text-[9px] uppercase border border-tertiary/30">
+              CAUTION
+            </span>
+</div>
+<div class="flex items-baseline justify-between mt-1">
+<div class="font-data-primary text-data-primary text-primary font-bold tracking-tight">
+              66.7<span class="text-on-surface-variant text-sm">%</span>
+</div>
+<div class="font-telemetry-xs text-telemetry-xs text-tertiary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_down">trending_down</span>
+              -8.3% vs Sortie Quota
+            </div>
+</div>
+<!-- Micro Trend Progress Bar -->
+<div class="mt-2.5">
+<div class="flex justify-between font-telemetry-xs text-[9px] text-on-surface-variant mb-1">
+<span>CURRENT (12/18)</span>
+<span class="text-secondary">TARGET: 75.0%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden flex">
+<div class="h-full bg-tertiary" style="width: 66.7%"></div>
+<div class="h-full bg-secondary/30" style="width: 8.3%"></div>
+</div>
+</div>
+</div>
+<!-- Tile 2: Combat Aircraft Capable -->
+<div class="bg-surface-container border border-outline p-space-md rounded flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-sm bg-primary-container"></span>
+              Combat Aircraft Capable
+            </span>
+<span class="font-telemetry-xs text-telemetry-xs text-primary-container font-semibold">12 / 18 ONLINE</span>
+</div>
+<div class="grid grid-cols-3 gap-1 mt-1 text-center">
+<div class="bg-surface-container-low p-1 rounded border border-outline-variant">
+<div class="font-label-caps text-[9px] text-on-surface-variant">No. 222 Tigersharks</div>
+<div class="font-telemetry-xs text-telemetry-xs text-primary font-bold mt-0.5">5/7 Su-30MKI</div>
+</div>
+<div class="bg-surface-container-low p-1 rounded border border-outline-variant">
+<div class="font-label-caps text-[9px] text-on-surface-variant">No. 45 Daggers</div>
+<div class="font-telemetry-xs text-telemetry-xs text-primary font-bold mt-0.5">4/5 LCA Tejas</div>
+</div>
+<div class="bg-surface-container-low p-1 rounded border border-outline-variant">
+<div class="font-label-caps text-[9px] text-on-surface-variant">No. 17 Arrows</div>
+<div class="font-telemetry-xs text-telemetry-xs text-primary font-bold mt-0.5">3/6 Rafale</div>
+</div>
+</div>
+<div class="mt-2 flex items-center justify-between font-telemetry-xs text-[9px] text-on-surface-variant">
+<span>READY COMBAT POWER</span>
+<span class="text-success flex items-center gap-0.5 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+              3 SQUADRONS ACTIVE
+            </span>
+</div>
+</div>
+<!-- Tile 3: Conformal Critical RUL Warnings -->
+<div class="bg-surface-container border border-outline p-space-md rounded flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-sm bg-error"></span>
+              Conformal Critical RUL
+            </span>
+<span class="px-1.5 py-0.5 rounded bg-error-container/30 text-error font-label-caps text-[9px] uppercase font-bold border border-error/40 animate-pulse">
+              3 UNDER 25H
+            </span>
+</div>
+<div class="space-y-1 mt-1 font-telemetry-xs text-telemetry-xs">
+<div class="flex items-center justify-between text-error bg-error-container/10 px-1.5 py-0.5 rounded border border-error/30">
+<span class="font-bold">Su-30MKI SB-024</span>
+<span class="font-bold">14.5h [CRITICAL]</span>
+</div>
+<div class="flex items-center justify-between text-tertiary bg-tertiary/10 px-1.5 py-0.5 rounded border border-tertiary/20">
+<span>LCA Tejas KH-204</span>
+<span>19.2h [WATCH]</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant bg-surface-container-low px-1.5 py-0.5 rounded border border-outline-variant">
+<span>Rafale RB-004</span>
+<span>23.8h [WATCH]</span>
+</div>
+</div>
+<div class="mt-1.5 flex justify-between font-telemetry-xs text-[9px] text-on-surface-variant">
+<span>SAFETY BOUND: 25.0h</span>
+<span class="text-error">AL-31FP LH STAGE 3 ALERT</span>
+</div>
+</div>
+<!-- Tile 4: Automated Depot Logistics Pipelines -->
+<div class="bg-surface-container border border-outline p-space-md rounded flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-sm bg-secondary"></span>
+              Depot Logistics Pipeline
+            </span>
+<span class="font-telemetry-xs text-telemetry-xs text-secondary font-bold">4 ACTIVE REQUISITIONS</span>
+</div>
+<div class="mt-1 space-y-1 font-telemetry-xs text-telemetry-xs">
+<div class="flex items-center justify-between text-secondary bg-surface-container-low px-1.5 py-0.5 rounded border border-secondary/20">
+<span class="truncate max-w-[150px]">C-130J → AFS Thanjavur</span>
+<span class="font-bold">ETA 4.2h</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant bg-surface-container-low px-1.5 py-0.5 rounded">
+<span>Chandigarh 3 BRD Depot</span>
+<span class="text-success">Allocated</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant bg-surface-container-low px-1.5 py-0.5 rounded">
+<span>BRD 3 Sign-Off Pending</span>
+<span class="text-tertiary">2 Line Items</span>
+</div>
+</div>
+<div class="mt-1.5 flex justify-between font-telemetry-xs text-[9px] text-on-surface-variant">
+<span>AIR-LOGISTICS PRIORITY 1</span>
+<span class="text-primary-container">EXPEDITED ROUTE</span>
+</div>
+</div>
+</section>
+<!-- ================= 2. MAIN SPLIT INTERFACE BODY (60% Left / 40% Right) ================= -->
+<div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-gutter overflow-hidden min-h-0">
+<!-- ================= LEFT 60% (lg:col-span-7 or 8) - Turbofan Digital Twin & Sensor Console ================= -->
+<section class="lg:col-span-7 xl:col-span-7 flex flex-col gap-gutter overflow-hidden bg-surface-container border border-outline rounded p-space-md">
+<!-- Section Bar / Airframe Selector -->
+<div class="flex flex-wrap items-center justify-between gap-2 border-b border-outline pb-2 shrink-0">
+<div class="flex items-center gap-3">
+<div class="p-1 rounded bg-surface-bright border border-outline text-primary-container">
+<span class="material-symbols-outlined text-[20px]" data-icon="turbofan">file_png</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-primary font-bold">Su-30MKI Flanker-H [SB-024]</h2>
+<span class="px-2 py-0.5 rounded bg-error-container/30 border border-error/50 text-error font-label-caps text-[10px] font-bold">AOG RISK // PRIORITY-1</span>
+</div>
+<div class="font-telemetry-xs text-telemetry-xs text-on-surface-variant">
+                  ENGINE MOUNT: AL-31FP AFTERBURNING TURBOFAN (LH) // SQUADRON: NO. 222 TIGERSHARKS
+                </div>
+</div>
+</div>
+<!-- Selector Dropdowns / Actions -->
+<div class="flex items-center gap-2">
+<select class="bg-surface-container-low border border-outline text-on-surface font-telemetry-xs text-telemetry-xs rounded px-2 py-1 outline-none focus:border-primary-container">
+<option selected="">SB-024 (AL-31FP LH - CRITICAL)</option>
+<option>SB-019 (AL-31FP RH - NOMINAL)</option>
+<option>KH-204 (GE F404-IN20 - WATCH)</option>
+<option>RB-004 (Snecma M88-2 - WATCH)</option>
+</select>
+<button class="px-2.5 py-1 bg-surface-bright hover:bg-surface-container-highest border border-outline text-primary font-label-caps text-label-caps rounded flex items-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[14px]" data-icon="refresh">refresh</span>
+                POLL 100Hz
+              </button>
+</div>
+</div>
+<!-- 5-Stage Turbofan Gas-Path Cross-Section Schematic -->
+<div class="flex-1 flex flex-col justify-between bg-surface-container-low border border-outline-variant rounded p-space-md overflow-y-auto custom-scrollbar">
+<div class="flex items-center justify-between mb-2">
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="schema">schema</span>
+                5-Stage Gas-Path Architectural Telemetry Model (AL-31FP)
+              </div>
+<span class="font-telemetry-xs text-telemetry-xs text-primary-container">DIGITAL TWIN FIDELITY: 99.4%</span>
+</div>
+<!-- Turbofan Stages Grid -->
+<div class="grid grid-cols-1 md:grid-cols-5 gap-2 my-auto">
+<!-- Stage 1: Fan -->
+<div class="bg-surface-container border border-outline rounded p-2 flex flex-col justify-between">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-primary font-bold">1. FAN STAGE</span>
+<span class="w-2 h-2 rounded-full bg-success"></span>
+</div>
+<div class="my-2 text-center py-2 bg-surface-container-lowest/60 rounded border border-outline/30">
+<span class="material-symbols-outlined text-success text-[28px]" data-icon="toys">toys</span>
+<div class="font-telemetry-xs text-[9px] text-on-surface-variant mt-1">COLD BYPASS</div>
+</div>
+<div class="space-y-1 font-telemetry-xs text-[10px]">
+<div class="flex justify-between text-on-surface-variant">
+<span>Vibe Index:</span>
+<span class="text-primary font-semibold">0.28</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Bypass Ratio:</span>
+<span class="text-on-surface">0.57:1</span>
+</div>
+<div class="text-[9px] text-success font-semibold text-center mt-1 border-t border-outline/30 pt-0.5">NOMINAL</div>
+</div>
+</div>
+<!-- Stage 2: LPC -->
+<div class="bg-surface-container border border-outline rounded p-2 flex flex-col justify-between">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-primary font-bold">2. LPC STAGE</span>
+<span class="w-2 h-2 rounded-full bg-success"></span>
+</div>
+<div class="my-2 text-center py-2 bg-surface-container-lowest/60 rounded border border-outline/30">
+<span class="material-symbols-outlined text-success text-[28px]" data-icon="compress">compress</span>
+<div class="font-telemetry-xs text-[9px] text-on-surface-variant mt-1">LOW-PRESSURE COMP</div>
+</div>
+<div class="space-y-1 font-telemetry-xs text-[10px]">
+<div class="flex justify-between text-on-surface-variant">
+<span>Press P25:</span>
+<span class="text-primary font-semibold">38.4 psia</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Temp T25:</span>
+<span class="text-on-surface">624.1°R</span>
+</div>
+<div class="text-[9px] text-success font-semibold text-center mt-1 border-t border-outline/30 pt-0.5">NOMINAL</div>
+</div>
+</div>
+<!-- Stage 3: HPC (CRITICAL ALERT) -->
+<div class="bg-surface-container border-2 border-error rounded p-2 flex flex-col justify-between relative bg-error-container/5 ring-1 ring-error/50">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-error font-extrabold tracking-wider">3. HPC STAGE 3</span>
+<span class="w-2.5 h-2.5 rounded-full bg-error animate-ping"></span>
+</div>
+<div class="my-2 text-center py-2 bg-error-container/20 rounded border border-error/40">
+<span class="material-symbols-outlined text-error text-[28px] animate-bounce" data-icon="warning">warning</span>
+<div class="font-telemetry-xs text-[9px] text-error font-bold mt-1">CRITICAL ANOMALY</div>
+</div>
+<div class="space-y-1 font-telemetry-xs text-[10px]">
+<div class="flex justify-between text-error font-bold">
+<span>Temp T30:</span>
+<span>1,588°R <span class="text-[9px]">[+18.2°R]</span></span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Press P30:</span>
+<span class="text-primary font-semibold">552.1 psia</span>
+</div>
+<div class="flex justify-between text-error font-bold">
+<span>Vibe Index:</span>
+<span>0.94 <span class="text-[9px]">[WARN &gt;0.85]</span></span>
+</div>
+<div class="text-[9px] text-error font-bold text-center mt-1 border-t border-error/40 pt-0.5 bg-error-container/30 rounded">
+                    EDDY HARMONICS DETECTED
+                  </div>
+</div>
+</div>
+<!-- Stage 4: Combustor & HPT -->
+<div class="bg-surface-container border border-outline rounded p-2 flex flex-col justify-between">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-tertiary font-bold">4. COMBUST/HPT</span>
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+</div>
+<div class="my-2 text-center py-2 bg-surface-container-lowest/60 rounded border border-outline/30">
+<span class="material-symbols-outlined text-tertiary text-[28px]" data-icon="local_fire_department">local_fire_department</span>
+<div class="font-telemetry-xs text-[9px] text-on-surface-variant mt-1">HIGH-PRESS TURBINE</div>
+</div>
+<div class="space-y-1 font-telemetry-xs text-[10px]">
+<div class="flex justify-between text-on-surface-variant">
+<span>T41 Core:</span>
+<span class="text-tertiary font-semibold">2,410°R</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Coating Wear:</span>
+<span class="text-tertiary font-semibold">74% EROSION</span>
+</div>
+<div class="text-[9px] text-tertiary font-semibold text-center mt-1 border-t border-outline/30 pt-0.5">
+                    DEGRADATION KNEE
+                  </div>
+</div>
+</div>
+<!-- Stage 5: LPT & Afterburner -->
+<div class="bg-surface-container border border-outline rounded p-2 flex flex-col justify-between">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-primary font-bold">5. LPT &amp; A/B</span>
+<span class="w-2 h-2 rounded-full bg-success"></span>
+</div>
+<div class="my-2 text-center py-2 bg-surface-container-lowest/60 rounded border border-outline/30">
+<span class="material-symbols-outlined text-primary text-[28px]" data-icon="mode_fan">mode_fan</span>
+<div class="font-telemetry-xs text-[9px] text-on-surface-variant mt-1">EXHAUST NOZZLE</div>
+</div>
+<div class="space-y-1 font-telemetry-xs text-[10px]">
+<div class="flex justify-between text-on-surface-variant">
+<span>Exhaust T50:</span>
+<span class="text-primary font-semibold">1,408.2°R</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Nf/Nc Ratio:</span>
+<span class="text-on-surface font-semibold">1.382 (100% Lock)</span>
+</div>
+<div class="text-[9px] text-success font-semibold text-center mt-1 border-t border-outline/30 pt-0.5">NOMINAL</div>
+</div>
+</div>
+</div>
+<!-- Recursive Least Squares (RLS) Filter Live Strip -->
+<div class="mt-3 bg-surface-container p-2.5 rounded border border-outline flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="tune">tune</span>
+<div>
+<span class="font-label-caps text-[10px] text-primary">RLS RECURSIVE FILTER COMPENSATION:</span>
+<span class="font-telemetry-xs text-telemetry-xs text-on-surface-variant ml-1">Sensor Bias Drift Corrected (+1.2% offset s3)</span>
+</div>
+</div>
+<div class="flex items-center gap-4 font-telemetry-xs text-telemetry-xs">
+<div>Kalman Gain <strong class="text-primary">K=0.984</strong></div>
+<div>Sensor Loss: <strong class="text-success">0.00% (ZERO DROPOUT)</strong></div>
+<span class="px-2 py-0.5 rounded bg-surface-bright text-primary border border-outline text-[9px] font-bold">MIL-SPEC REALTIME LOCK</span>
+</div>
+</div>
+</div>
+<!-- Bottom Half: Conformal Uncertainty Prediction Envelope Graph -->
+<div class="h-48 bg-surface-container-low border border-outline-variant rounded p-space-md flex flex-col justify-between shrink-0">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary-container" data-icon="stacked_line_chart">stacked_line_chart</span>
+<span class="font-label-caps text-label-caps text-primary uppercase">Conformal RUL Uncertainty Envelope &amp; Mission Cutoff Boundary</span>
+</div>
+<div class="flex items-center gap-3 font-telemetry-xs text-telemetry-xs">
+<span class="text-error font-bold">P10: 10.4h</span>
+<span class="text-primary-container font-bold">P50: 14.5h</span>
+<span class="text-secondary font-bold">P90: 18.6h</span>
+<span class="px-1.5 py-0.5 bg-error-container/20 border border-error/40 text-error rounded font-bold">CRITICAL CUTOFF: 25.0h</span>
+</div>
+</div>
+<!-- SVG Data-Dense Graph Canvas -->
+<div class="relative w-full h-28 mt-1">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 700 100">
+<defs>
+<!-- Gradient for Conformal 90% Confidence Band -->
+<lineargradient id="rulBand" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#00f5d4" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#EF4444" stop-opacity="0.05"></stop>
+</lineargradient>
+<lineargradient id="degradeFill" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#10B981"></stop>
+<stop offset="65%" stop-color="#F59E0B"></stop>
+<stop offset="100%" stop-color="#EF4444"></stop>
+</lineargradient>
+</defs>
+<!-- Grid lines -->
+<line stroke="#334155" stroke-dasharray="3,3" stroke-width="0.7" x1="0" x2="700" y1="20" y2="20"></line>
+<line stroke="#334155" stroke-dasharray="3,3" stroke-width="0.7" x1="0" x2="700" y1="50" y2="50"></line>
+<line stroke="#334155" stroke-dasharray="3,3" stroke-width="0.7" x1="0" x2="700" y1="80" y2="80"></line>
+<!-- Mission Critical Cutoff Line (25h) -->
+<line stroke="#EF4444" stroke-dasharray="4,2" stroke-width="1.5" x1="480" x2="480" y1="0" y2="100"></line>
+<text fill="#EF4444" font-family="JetBrains Mono" font-size="9" font-weight="700" x="485" y="14">MISSION CUTOFF BOUNDARY (25h)</text>
+<!-- Conformal Uncertainty Shaded Polygon (P10 to P90) -->
+<polygon fill="url(#rulBand)" points="400,60 480,72 560,94 560,78 480,50 400,48"></polygon>
+<!-- Historical Degradation Curve (Nominal -> Knee) -->
+<path d="M 0,25 Q 250,28 400,54 T 560,88" fill="none" stroke="url(#degradeFill)" stroke-width="2.5"></path>
+<!-- P10, P50, P90 Projections -->
+<circle cx="560" cy="88" fill="#EF4444" r="4" stroke="#0B0F14" stroke-width="1.5"></circle>
+<text fill="#EF4444" font-family="JetBrains Mono" font-size="9" font-weight="700" x="568" y="91">P50 = 14.5h</text>
+<circle cx="520" cy="95" fill="#EF4444" r="3"></circle>
+<circle cx="610" cy="74" fill="#7bd0ff" r="3"></circle>
+<!-- Axis Labels -->
+<text fill="#b9cac4" font-family="JetBrains Mono" font-size="8" x="5" y="96">T-120 FLIGHT HOURS</text>
+<text fill="#b9cac4" font-family="JetBrains Mono" font-size="8" x="350" y="96">CURRENT SORTIE: T-0</text>
+<text fill="#b9cac4" font-family="JetBrains Mono" font-size="8" x="630" y="96">+40h PROJECTION</text>
+</svg>
+</div>
+<div class="flex items-center justify-between font-telemetry-xs text-[9px] text-on-surface-variant border-t border-outline/50 pt-1">
+<span>ALGORITHM: MULTI-HEAD CONFORMAL LSTM + BOOTSTRAP RESIDUALS</span>
+<span class="text-primary">CONFIDENCE LEVEL: 90% CONFORMALIZED</span>
+</div>
+</div>
+</section>
+<!-- ================= RIGHT 40% (lg:col-span-5) - Spares & Work Order Command Console ================= -->
+<section class="lg:col-span-5 xl:col-span-5 flex flex-col gap-gutter overflow-hidden bg-surface-container border border-outline rounded p-space-md">
+<!-- Top Triage Work Order Banner -->
+<div class="bg-surface-container-low border-2 border-primary-container/40 p-space-md rounded shrink-0 relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-primary-container/5 rounded-full pointer-events-none blur-xl"></div>
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5 font-label-caps text-label-caps text-primary-container uppercase font-bold">
+<span class="material-symbols-outlined text-[16px]" data-icon="assignment_late">assignment_late</span>
+                Automated AOG Triage Triggered
+              </div>
+<span class="px-2 py-0.5 bg-error text-surface font-label-caps text-[9px] font-extrabold rounded">PRIORITY 1 ALPHA</span>
+</div>
+<div class="font-headline-sm text-[15px] font-bold text-on-surface leading-tight">
+              Work Order #WO-7049-HPC
+            </div>
+<div class="font-telemetry-xs text-telemetry-xs text-on-surface-variant mt-0.5">
+              HPC Stage 3 Blade Creep Wear &amp; Bleed Air Valve Seal Replacement
+            </div>
+<div class="mt-2.5 pt-2 border-t border-outline/60 flex items-center justify-between font-telemetry-xs text-telemetry-xs">
+<div>
+<span class="text-on-surface-variant">ASSIGNED:</span>
+<span class="text-primary font-semibold ml-1">Avionics Bay Team 4 (AFS Thanjavur)</span>
+</div>
+<div class="text-tertiary font-bold">EST DOWNTIME: 6.5h</div>
+</div>
+<!-- Authorization Button -->
+<button class="w-full mt-3 py-2 bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold tracking-wider rounded flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+              AUTHORIZE DISPATCH / CLEAR TO REPAIR
+            </button>
+</div>
+<!-- Forward Base LRU Stock Levels & Depots -->
+<div class="bg-surface-container-low border border-outline rounded p-space-md shrink-0">
+<div class="flex items-center justify-between mb-2">
+<div class="font-label-caps text-label-caps text-primary uppercase flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="inventory_2">inventory_2</span>
+                Forward Base Line Replaceable Unit (LRU) Depots
+              </div>
+<span class="font-telemetry-xs text-telemetry-xs text-on-surface-variant">SECTOR SPREAD</span>
+</div>
+<div class="space-y-1.5 font-telemetry-xs text-telemetry-xs">
+<!-- Thanjavur -->
+<div class="p-2 bg-surface-container rounded border border-outline/60">
+<div class="flex justify-between items-center mb-1">
+<span class="font-bold text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                    AFS Thanjavur (South Sector - Flanker Base)
+                  </span>
+<span class="text-[9px] text-tertiary font-bold">DEPOT REQUISITION ACTIVE</span>
+</div>
+<div class="grid grid-cols-3 gap-1 text-[10px] text-center mt-1">
+<div class="bg-surface-container-low p-1 rounded">HPC Blisk: <strong class="text-tertiary">1 / 2</strong></div>
+<div class="bg-surface-container-low p-1 rounded">FADEC Ch-B: <strong class="text-success">2 / 2</strong></div>
+<div class="bg-surface-container-low p-1 rounded text-error">Vibe Pack: <strong class="text-error font-bold">0 / 3 [TRANSIT]</strong></div>
+</div>
+</div>
+<!-- Sulur & Ambala -->
+<div class="grid grid-cols-2 gap-2">
+<div class="p-2 bg-surface-container rounded border border-outline/60">
+<div class="flex justify-between items-center mb-0.5">
+<span class="font-bold text-on-surface text-[10px]">AFS Sulur (LCA Wing)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+</div>
+<div class="text-[10px] text-on-surface-variant">Tejas Spares: <strong class="text-success">4/4 Nominal</strong></div>
+</div>
+<div class="p-2 bg-surface-container rounded border border-outline/60">
+<div class="flex justify-between items-center mb-0.5">
+<span class="font-bold text-on-surface text-[10px]">AFS Ambala (Golden Arrows)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+</div>
+<div class="text-[10px] text-on-surface-variant">M88 Seals: <strong class="text-success">3/3 Nominal</strong></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Authentic IAF Flight Sortie Logs & Pilot Snag Feed -->
+<div class="flex-1 bg-surface-container-low border border-outline rounded p-space-md flex flex-col overflow-hidden min-h-0">
+<div class="flex items-center justify-between mb-2 shrink-0">
+<div class="font-label-caps text-label-caps text-primary uppercase flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary-container" data-icon="flight_takeoff">flight_takeoff</span>
+                Sortie Log &amp; Pilot Debrief Snags (Live C2 Feed)
+              </div>
+<span class="font-telemetry-xs text-telemetry-xs text-primary-container flex items-center gap-1">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-primary-container animate-ping"></span>
+                STREAM LINKED
+              </span>
+</div>
+<!-- Feed Items Container -->
+<div class="flex-1 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+<!-- Snag 1: SB-024 (Active Trigger) -->
+<div class="p-2 rounded bg-surface-container border-l-2 border-l-error border-y border-r border-outline/40">
+<div class="flex items-center justify-between font-telemetry-xs text-[10px]">
+<span class="font-bold text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="report">report</span>
+                    SORTIE #G1-893 // GARUDA-1 CAP
+                  </span>
+<span class="text-on-surface-variant">13:42Z (Su-30MKI SB-024)</span>
+</div>
+<p class="font-telemetry-xs text-telemetry-xs text-on-surface mt-1 italic">
+                  "Afterburner vibration advisory triggered at Mach 1.4, Alt 36k ft during egress. LH T30 elevated."
+                </p>
+<div class="mt-1 flex items-center justify-between font-telemetry-xs text-[9px] text-on-surface-variant">
+<span>PILOT: WG CDR V. SHARMA, VM</span>
+<span class="text-error font-bold">MATCHES HPC CRIT KNEE</span>
+</div>
+</div>
+<!-- Snag 2: Tejas KH-204 -->
+<div class="p-2 rounded bg-surface-container border-l-2 border-l-tertiary border-y border-r border-outline/40">
+<div class="flex items-center justify-between font-telemetry-xs text-[10px]">
+<span class="font-bold text-tertiary">SORTIE #DG-108 // DAGGER-LEAD STRIKE</span>
+<span class="text-on-surface-variant">12:15Z (Tejas KH-204)</span>
+</div>
+<p class="font-telemetry-xs text-telemetry-xs text-on-surface mt-1 italic">
+                  "Bleed pressure anomaly logged at FL280. Environmental control system recovered within tolerance."
+                </p>
+<div class="mt-1 flex items-center justify-between font-telemetry-xs text-[9px] text-on-surface-variant">
+<span>PILOT: SQN LDR K. NAIR</span>
+<span class="text-tertiary font-bold">RUL MONITORING</span>
+</div>
+</div>
+<!-- Snag 3: Su-30MKI SB-019 (Nominal) -->
+<div class="p-2 rounded bg-surface-container border-l-2 border-l-success border-y border-r border-outline/40">
+<div class="flex items-center justify-between font-telemetry-xs text-[10px]">
+<span class="font-bold text-success">SORTIE #TS-412 // TRISHUL-4 INTERCEPT</span>
+<span class="text-on-surface-variant">11:04Z (Su-30MKI SB-019)</span>
+</div>
+<p class="font-telemetry-xs text-telemetry-xs text-on-surface mt-1 italic">
+                  "All flight envelope regimes cleared. BVR radar integration nominal. Zero snags logged."
+                </p>
+<div class="mt-1 flex items-center justify-between font-telemetry-xs text-[9px] text-on-surface-variant">
+<span>PILOT: FLT LT R. DESHMUKH</span>
+<span class="text-success font-semibold">100% NOMINAL</span>
+</div>
+</div>
+<!-- Snag 4: Rafale RB-001 (Nominal) -->
+<div class="p-2 rounded bg-surface-container border-l-2 border-l-success border-y border-r border-outline/40">
+<div class="flex items-center justify-between font-telemetry-xs text-[10px]">
+<span class="font-bold text-success">SORTIE #AR-202 // ARROW TACTICAL SWEEP</span>
+<span class="text-on-surface-variant">09:50Z (Rafale RB-001)</span>
+</div>
+<p class="font-telemetry-xs text-telemetry-xs text-on-surface mt-1 italic">
+                  "Full Spectra electronic warfare suite operational. M88-2 engines operating in green band."
+                </p>
+<div class="mt-1 flex items-center justify-between font-telemetry-xs text-[9px] text-on-surface-variant">
+<span>PILOT: WG CDR N. VARMA</span>
+<span class="text-success font-semibold">21 SENSORS CLEAR</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Tamper-Evident SHA-256 Cryptographic Airframe Ledger Footer -->
+<div class="bg-surface-container-low border border-outline rounded px-3 py-1.5 flex items-center justify-between shrink-0 font-telemetry-xs text-[10px]">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[14px]" data-icon="lock">lock</span>
+<span>SHA-256 LEDGER:</span>
+<span class="text-primary font-mono select-all">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span>
+</div>
+<div class="flex items-center gap-1 text-success font-bold">
+<span class="material-symbols-outlined text-[12px]" data-icon="verified">verified</span>
+              IMMUTABLE
+            </div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>
