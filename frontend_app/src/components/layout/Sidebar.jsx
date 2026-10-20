@@ -6,6 +6,7 @@ import {
   Boxes,
   ClipboardList,
   Plane,
+  Radio,
   ExternalLink,
   ChevronRight,
   PanelLeftClose,
@@ -58,6 +59,13 @@ export default function Sidebar({ isOpen, onClose }) {
       shortLabel: 'Orders',
       subtitle: 'Triage orders & pilot logs',
       icon: ClipboardList,
+    },
+    {
+      id: 'copilot',
+      label: 'Live Voice Copilot',
+      shortLabel: 'AI Voice',
+      subtitle: 'Voice mode & live chat',
+      icon: Radio,
     },
   ];
 

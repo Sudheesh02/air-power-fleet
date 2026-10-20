@@ -16,7 +16,8 @@ import {
   Copy,
   Check,
   PlusCircle,
-  ExternalLink
+  ExternalLink,
+  Maximize2
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import {
@@ -27,7 +28,7 @@ import {
 } from '../../services/voiceAgentService';
 
 export default function TacticalVoiceCopilot() {
-  const { isDark, isVoiceAgentOpen, setIsVoiceAgentOpen, activeTab } = useTheme();
+  const { isDark, isVoiceAgentOpen, setIsVoiceAgentOpen, activeTab, setActiveTab } = useTheme();
 
   const getContextLabel = (tab) => {
     switch (tab) {
@@ -284,8 +285,8 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
 
   return (
     <>
-      {/* 1. Tactical Floating Trigger Button (Bottom-Right) */}
-      {!isVoiceAgentOpen && (
+      {/* 1. Tactical Floating Trigger Button (Bottom-Right, hidden when on full copilot page) */}
+      {!isVoiceAgentOpen && activeTab !== 'copilot' && (
         <div className="fixed bottom-6 right-6 z-40 flex items-center gap-2 group">
           <div className="hidden sm:flex flex-col items-end pr-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
             <span className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border shadow-lg ${
@@ -380,6 +381,23 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
                 <Square className="w-3.5 h-3.5" />
               </button>
             )}
+
+            {/* Expand to Full Live Studio */}
+            <button
+              onClick={() => {
+                stopAudio();
+                setIsVoiceAgentOpen(false);
+                setActiveTab('copilot');
+              }}
+              title="Open Fullscreen Live Voice Studio"
+              className={`p-1.5 rounded-lg border text-xs font-medium transition ${
+                isDark
+                  ? 'border-white/10 hover:bg-white/10 text-cyan-300 hover:text-cyan-200'
+                  : 'border-slate-200 hover:bg-slate-100 text-blue-600 hover:text-blue-800'
+              }`}
+            >
+              <Maximize2 className="w-3.5 h-3.5" />
+            </button>
 
             {/* "New chat" Button (Identical to Vanna Assist) */}
             <button
