@@ -12,7 +12,7 @@ import {
   ShieldAlert,
   ShieldX,
   Users,
-  Sparkles,
+  
   Plane,
   Layers,
   Shield
@@ -386,19 +386,19 @@ export default function PredictiveAnalytics() {
       {/* 1. TOP HEADER */}
       <GlassCard className="p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
+          <div className="w-12 h-12 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
             <TrendingUp className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-sky-400 font-sans border border-blue-500/20">
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-500/10 text-sky-400 font-sans border border-blue-500/20">
                 Prognostics & Health Management
               </span>
               <span className="text-xs text-slate-400 font-medium">
                 Conformal Risk Bands & Failure Attribution
               </span>
             </div>
-            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h2 className={`text-lg font-bold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Predictive Maintenance, Conformal RUL & Sortie Clearance Engine
             </h2>
           </div>
@@ -522,15 +522,16 @@ export default function PredictiveAnalytics() {
         {/* Left (7 cols): What If Simulator Controls */}
         <GlassCard className="p-5 lg:col-span-7 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
+            <div className="flex items-center justify-between border-b border-slate-500/20 pb-3 mb-4">
               <div className="flex items-center gap-2">
                 <Crosshair className="w-5 h-5 text-sky-400" />
-                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <span className="font-mono text-[11px] tracking-widest text-blue-400 mr-2 tabular-nums">01 //</span>
                   Mission Sortie Prognostic Simulator
                 </h3>
               </div>
-              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+              <span className="text-[11px] font-semibold px-2 py-1 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
                 Instant Feasibility Sync
               </span>
             </div>
@@ -571,7 +572,7 @@ export default function PredictiveAnalytics() {
               </div>
 
               {/* Flight Duration Simulator Slider */}
-              <div className={`p-4 rounded-2xl border transition-all ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200 shadow-sm'}`}>
+              <div className={`p-4 rounded-lg border transition-all ${isDark ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-50 border-slate-200 shadow-sm'}`}>
                 <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
@@ -580,7 +581,7 @@ export default function PredictiveAnalytics() {
                     </span>
                   </div>
                   <div className="flex items-baseline gap-1.5">
-                    <span className="text-2xl font-black text-slate-900 dark:text-white font-sans tracking-tight">
+                    <span className="text-2xl font-bold text-slate-900 dark:text-white font-mono tabular-nums tracking-tight">
                       {durationHours.toFixed(1)}
                     </span>
                     <span className="text-xs font-semibold text-slate-400 uppercase">Hours</span>
@@ -640,21 +641,21 @@ export default function PredictiveAnalytics() {
 
               {/* Margin Calculation Metrics */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
-                <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                <div className={`p-3 rounded-xl border ${isDark ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Available RUL</span>
-                  <p className="font-black text-base text-cyan-400 mt-1 font-sans">
+                  <p className="font-bold text-base text-sky-400 mt-1 font-sans">
                     {(evalResult?.prognostic_state?.conservative_rul_hours || 0).toFixed(1)} <span className="text-[10px] font-normal text-slate-400">hrs</span>
                   </p>
                 </div>
-                <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                <div className={`p-3 rounded-xl border ${isDark ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Required Margin</span>
-                  <p className="font-black text-base text-amber-400 mt-1 font-sans">
+                  <p className="font-bold text-base text-amber-400 mt-1 font-sans">
                     {(evalResult?.mission_requested?.required_margin_hours || 0).toFixed(1)} <span className="text-[10px] font-normal text-slate-400">hrs</span>
                   </p>
                 </div>
-                <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                <div className={`p-3 rounded-xl border ${isDark ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Net Life Margin</span>
-                  <p className={`font-black text-base mt-1 font-sans ${
+                  <p className={`font-bold text-base mt-1 font-sans ${
                     ((evalResult?.prognostic_state?.conservative_rul_hours || 0) - (evalResult?.mission_requested?.required_margin_hours || 0)) >= 0
                       ? 'text-emerald-400'
                       : 'text-rose-400'
@@ -666,10 +667,10 @@ export default function PredictiveAnalytics() {
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-white/5 dark:border-white/5 text-[11px] text-slate-400 flex items-center justify-between">
+          <div className="mt-4 pt-3 border-t border-slate-500/20 text-[11px] text-slate-400 flex items-center justify-between">
             <span>Airframe: <strong className="text-slate-200">{selectedTail}</strong> &bull; Base Station: <strong className="text-slate-200">{evalResult?.base_station || 'AFS Thanjavur'}</strong></span>
-            <span className="text-cyan-400 font-semibold flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-sky-400 font-semibold flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
               Prognostic Engine Synced
             </span>
           </div>
@@ -678,10 +679,10 @@ export default function PredictiveAnalytics() {
         {/* Right (5 cols): Dynamic Clearance Result Card */}
         <GlassCard className={`p-5 lg:col-span-5 flex flex-col justify-between transition-all ${
           isGo
-            ? 'border-emerald-500/30 bg-gradient-to-br from-emerald-500/[0.08] via-transparent to-transparent shadow-[0_4px_30px_rgba(1,181,116,0.12)]'
+            ? 'border-emerald-500/30 bg-emerald-500/[0.05] '
             : isConditional
-            ? 'border-amber-500/30 bg-gradient-to-br from-amber-500/[0.08] via-transparent to-transparent shadow-[0_4px_30px_rgba(255,181,71,0.12)]'
-            : 'border-rose-500/30 bg-gradient-to-br from-rose-500/[0.08] via-transparent to-transparent shadow-[0_4px_30px_rgba(238,93,80,0.15)]'
+            ? 'border-amber-500/30 bg-amber-500/[0.05] '
+            : 'border-rose-500/30 bg-rose-500/[0.05] '
         }`}>
           <div>
             {/* Header with tactical status tag */}
@@ -692,14 +693,14 @@ export default function PredictiveAnalytics() {
                   Sortie Clearance Assessment
                 </span>
               </div>
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border ${
+              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-mono font-semibold border ${
                 isGo
                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
                   : isConditional
                   ? 'bg-amber-500/10 text-amber-400 border-amber-500/25'
                   : 'bg-rose-500/10 text-rose-400 border-rose-500/25'
               }`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${isGo ? 'bg-emerald-400' : isConditional ? 'bg-amber-400' : 'bg-rose-400 animate-pulse'}`} />
+                <span className={`w-1.5 h-1.5 rounded-full ${isGo ? 'bg-emerald-400' : isConditional ? 'bg-amber-400' : 'bg-rose-400'}`} />
                 {isGo ? 'Unrestricted Envelope' : isConditional ? 'Restricted Envelope' : 'Grounded / No-Go'}
               </span>
             </div>
@@ -707,25 +708,25 @@ export default function PredictiveAnalytics() {
             {/* Tactical Decision Banner */}
             <div className="flex items-center gap-3.5 my-4">
               {isGo ? (
-                <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-400/40 shadow-[0_0_24px_rgba(1,181,116,0.3),inset_0_1px_1px_rgba(255,255,255,0.25)] flex-shrink-0">
-                  <ShieldCheck className="w-7 h-7 text-emerald-400 drop-shadow-[0_2px_8px_rgba(1,181,116,0.5)]" />
+                <div className="relative flex items-center justify-center w-12 h-12 rounded-lg bg-emerald-500/15 border border-emerald-400/40  flex-shrink-0">
+                  <ShieldCheck className="w-7 h-7 text-emerald-400 " />
                 </div>
               ) : isConditional ? (
-                <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 border border-amber-400/40 shadow-[0_0_24px_rgba(255,181,71,0.3),inset_0_1px_1px_rgba(255,255,255,0.25)] flex-shrink-0">
-                  <ShieldAlert className="w-7 h-7 text-amber-400 drop-shadow-[0_2px_8px_rgba(255,181,71,0.5)]" />
+                <div className="relative flex items-center justify-center w-12 h-12 rounded-lg bg-amber-500/15 border border-amber-400/40  flex-shrink-0">
+                  <ShieldAlert className="w-7 h-7 text-amber-400 " />
                 </div>
               ) : (
-                <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500/20 to-red-600/10 border border-rose-400/40 shadow-[0_0_24px_rgba(238,93,80,0.35),inset_0_1px_1px_rgba(255,255,255,0.25)] flex-shrink-0">
-                  <ShieldX className="w-7 h-7 text-rose-400 animate-pulse drop-shadow-[0_2px_8px_rgba(238,93,80,0.5)]" />
+                <div className="relative flex items-center justify-center w-12 h-12 rounded-lg bg-rose-500/15 border border-rose-400/40  flex-shrink-0">
+                  <ShieldX className="w-7 h-7 text-rose-400 " />
                 </div>
               )}
 
               <div>
                 <div className="flex items-center gap-2.5">
-                  <h4 className="text-2xl font-black tracking-tight text-white font-sans">
+                  <h4 className="text-2xl font-bold tracking-tight text-white">
                     {isGo ? 'Cleared for Sortie' : isConditional ? 'Conditional Clearance' : 'Sortie Withheld'}
                   </h4>
-                  <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider ${
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider ${
                     isGo
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/35'
                       : isConditional
@@ -747,7 +748,7 @@ export default function PredictiveAnalytics() {
 
             {/* Assessment Cards */}
             <div className="space-y-3 mt-4 text-xs font-sans">
-              <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/10">
+              <div className="py-3 border-t border-slate-500/20">
                 <div className="flex items-center justify-between text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
                   <span>Engineering Prognostics Basis</span>
                   <span className={`text-[10px] font-bold ${isGo ? 'text-emerald-400' : isConditional ? 'text-amber-400' : 'text-rose-400'}`}>
@@ -759,12 +760,12 @@ export default function PredictiveAnalytics() {
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/10">
+              <div className="py-3 border-t border-slate-500/20">
                 <div className="flex items-center justify-between text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
                   <span>Operational Flight Directives</span>
-                  <span className="text-cyan-300 text-[10px] font-bold">Standard Procedures</span>
+                  <span className="text-sky-300 text-[10px] font-bold">Standard Procedures</span>
                 </div>
-                <p className="text-cyan-200/90 font-medium text-xs leading-relaxed">
+                <p className="text-sky-200/90 font-medium text-xs leading-relaxed">
                   {evalResult?.recommendations?.join(' ')}
                 </p>
               </div>
@@ -776,13 +777,13 @@ export default function PredictiveAnalytics() {
                   : 'bg-emerald-500/10 border-emerald-500/25'
               }`}>
                 <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider mb-2">
-                  <span className="flex items-center gap-1.5 text-cyan-300">
-                    <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                  <span className="flex items-center gap-1.5 text-sky-300">
+                    <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
                     AI Multimodal NLP Snag-to-Sensor Fusion
                   </span>
                   <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${
                     activeFlightLog?.nlp_fusion
-                      ? 'bg-blue-500/20 text-cyan-200 border border-blue-500/30'
+                      ? 'bg-blue-500/20 text-sky-200 border border-blue-500/30'
                       : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                   }`}>
                     {activeFlightLog?.nlp_fusion ? '98.4% Fused Confidence (+22.4% Boost)' : '100% Cleared (0 Open Snags)'}
@@ -802,10 +803,10 @@ export default function PredictiveAnalytics() {
                     </div>
                     <div className="flex flex-wrap items-center gap-1.5">
                       <span className="text-[11px] text-slate-400">Correlated Sensor Channels:</span>
-                      <span className="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 font-semibold text-[11px] border border-cyan-500/30">
+                      <span className="px-2 py-0.5 rounded bg-sky-500/15 text-sky-300 font-semibold text-[11px] border border-sky-500/30">
                         T30 (+28.4°R drift)
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 font-semibold text-[11px] border border-cyan-500/30">
+                      <span className="px-2 py-0.5 rounded bg-sky-500/15 text-sky-300 font-semibold text-[11px] border border-sky-500/30">
                         Acoustic Vibration (0.94)
                       </span>
                     </div>
@@ -822,7 +823,7 @@ export default function PredictiveAnalytics() {
 
               {/* Spares Status Cross-Reference */}
               {evalResult?.spares_status && (
-                <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between text-xs font-sans">
+                <div className="py-3 border-t border-slate-500/20 flex items-center justify-between text-xs font-sans">
                   <div>
                     <span className="text-slate-400 text-[10px] font-semibold uppercase tracking-wider block">
                       {evalResult.spares_status.stock_sufficient ? 'Operational LRU Subsystem' : 'Critical Impending LRU Component'}
@@ -900,11 +901,12 @@ export default function PredictiveAnalytics() {
           {/* Left (7 cols): Formation Flight Controls & Ranked Squadron Roster */}
           <GlassCard className="p-5 lg:col-span-7 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
+              <div className="flex items-center justify-between border-b border-slate-500/20 pb-3 mb-4">
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5 text-sky-400" />
                   <div>
-                    <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <span className="font-mono text-[11px] tracking-widest text-blue-400 mr-2 tabular-nums">02 //</span>
                       {formationSize} Ship Squadron Formation Sortie Optimizer
                     </h3>
                     <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
@@ -912,7 +914,7 @@ export default function PredictiveAnalytics() {
                     </p>
                   </div>
                 </div>
-                <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border flex items-center gap-1.5 font-sans ${
+                <span className={`text-[11px] font-semibold px-2 py-1 rounded border flex items-center gap-1.5 font-sans ${
                   formationRoster.clearedCount === formationSize
                     ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                     : 'bg-amber-500/10 text-amber-300 border-amber-500/25'
@@ -960,11 +962,11 @@ export default function PredictiveAnalytics() {
                 </div>
 
                 {/* Duration Slider */}
-                <div className={`p-4 rounded-2xl border transition-all ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200 shadow-sm'}`}>
+                <div className={`p-4 rounded-lg border transition-all ${isDark ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-50 border-slate-200 shadow-sm'}`}>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-xs font-semibold text-slate-300 font-sans">Formation Sortie Duration</span>
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-2xl font-black text-sky-400 font-sans tracking-tight">{durationHours.toFixed(1)}</span>
+                      <span className="text-2xl font-bold text-sky-400 font-mono tabular-nums tracking-tight">{durationHours.toFixed(1)}</span>
                       <span className="text-xs font-semibold text-slate-400 uppercase font-sans">Hours / Aircraft</span>
                     </div>
                   </div>
@@ -1011,7 +1013,7 @@ export default function PredictiveAnalytics() {
                           }`}
                         >
                           <div className="flex items-center justify-between gap-2">
-                            <span className="font-extrabold text-sm text-sky-400 font-mono whitespace-nowrap">
+                            <span className="font-bold text-sm text-sky-400 font-mono whitespace-nowrap">
                               #{plane.rank} &bull; {plane.tail_no}
                             </span>
                             <span className={`text-[10px] font-bold px-2 py-0.5 rounded border whitespace-nowrap ${
@@ -1109,7 +1111,7 @@ export default function PredictiveAnalytics() {
           </GlassCard>
 
           {/* Right (5 cols): Formation Operational Feasibility & Burnout Prevention */}
-          <GlassCard className="p-5 lg:col-span-5 flex flex-col justify-between border-slate-800 bg-slate-900/90 shadow-sm">
+          <GlassCard className="p-5 lg:col-span-5 flex flex-col justify-between ">
             <div>
               <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 font-sans">
                 <div className="flex items-center gap-2">
@@ -1118,7 +1120,7 @@ export default function PredictiveAnalytics() {
                     Formation Sortie Clearance
                   </span>
                 </div>
-                <span className="px-3 py-1 rounded-full text-[11px] font-semibold border bg-slate-800/90 text-slate-200 border-slate-700">
+                <span className="px-2.5 py-1 rounded text-[11px] font-mono font-semibold border bg-slate-800/90 text-slate-200 border-slate-700">
                   Full Squadron Cleared
                 </span>
               </div>
@@ -1130,7 +1132,7 @@ export default function PredictiveAnalytics() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2.5">
-                    <h4 className="text-xl font-bold tracking-tight text-white font-sans">
+                    <h4 className="text-xl font-bold tracking-tight text-white font-mono tabular-nums">
                       {formationSize} Ship Formation {formationRoster.clearedCount === formationSize ? 'Cleared' : 'Advisory'}
                     </h4>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${
@@ -1194,11 +1196,12 @@ export default function PredictiveAnalytics() {
 
       {/* 3. FAULT PREDICTION TIMELINE (Chronological Impending Faults) */}
       <GlassCard className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-500/20 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-amber-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <span className="font-mono text-[11px] tracking-widest text-blue-400 mr-2 tabular-nums">03 //</span>
                 Fault Prediction Timeline & Maintenance Milestones
               </h3>
             </div>
@@ -1220,7 +1223,7 @@ export default function PredictiveAnalytics() {
             return (
               <div
                 key={item.id}
-                className={`relative p-4 rounded-2xl border transition-all ${
+                className={`relative p-4 rounded-lg border transition-all ${
                   isDark
                     ? 'bg-slate-900/90 hover:bg-slate-900 border-slate-700/70'
                     : 'bg-white border-slate-200 shadow-sm hover:shadow'
@@ -1237,7 +1240,7 @@ export default function PredictiveAnalytics() {
 
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2 font-sans">
-                    <span className="font-extrabold text-sky-400 text-sm tracking-tight">
+                    <span className="font-bold text-sky-400 text-sm tracking-tight">
                       {item.tail_no}
                     </span>
                     <span className="text-[11px] px-2 py-0.5 rounded-md font-semibold bg-white/5 text-slate-300 border border-white/10">
@@ -1275,11 +1278,12 @@ export default function PredictiveAnalytics() {
 
       {/* 4. FAILURE PROBABILITY HEATMAPS MATRIX (Subsystems x Flight Regimes) */}
       <GlassCard className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-500/20 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
               <Grid className="w-5 h-5 text-sky-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <span className="font-mono text-[11px] tracking-widest text-blue-400 mr-2 tabular-nums">04 //</span>
                 Failure Probability Heatmap (Subsystems vs. Operational Regimes)
               </h3>
             </div>
@@ -1308,7 +1312,7 @@ export default function PredictiveAnalytics() {
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 dark:divide-white/5 font-medium">
+            <tbody className="divide-y divide-slate-500/20 font-medium">
               {failureHeatmap.subsystems.map((sub, idx) => (
                 <tr key={idx} className={isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'}>
                   <td className={`p-3 font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
@@ -1330,7 +1334,7 @@ export default function PredictiveAnalytics() {
                           onClick={() => setSelectedHeatmapCell({ subsystem: sub.name, regime: cell.regime, risk, driver: cell.driver })}
                           className={`w-full py-2.5 px-2 rounded-xl border font-bold transition-all ${cellColor}`}
                         >
-                          <span className="text-sm font-extrabold">{risk}%</span>
+                          <span className="text-sm font-bold">{risk}%</span>
                         </button>
                       </td>
                     );
@@ -1343,7 +1347,7 @@ export default function PredictiveAnalytics() {
 
         {/* Selected Heatmap Cell Detail Card */}
         {selectedHeatmapCell && (
-          <div className="mt-4 p-3.5 rounded-2xl bg-blue-600/10 border border-blue-500/30 flex flex-wrap items-center justify-between gap-3 text-xs font-sans animate-fadeIn">
+          <div className="mt-4 p-3.5 rounded-lg bg-blue-600/10 border border-blue-500/30 flex flex-wrap items-center justify-between gap-3 text-xs font-sans animate-fadeIn">
             <div>
               <span className="text-sky-400 font-bold uppercase tracking-wider">{selectedHeatmapCell.subsystem}</span> &bull; 
               <span className="text-white ml-1 font-semibold">{selectedHeatmapCell.regime}</span>
@@ -1352,7 +1356,7 @@ export default function PredictiveAnalytics() {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-base font-extrabold text-sky-400 tracking-tight">{selectedHeatmapCell.risk}% Failure Prob</span>
+              <span className="text-base font-bold text-sky-400 tracking-tight">{selectedHeatmapCell.risk}% Failure Prob</span>
               <button
                 onClick={() => setSelectedHeatmapCell(null)}
                 className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300 text-xs font-medium transition"
@@ -1368,16 +1372,17 @@ export default function PredictiveAnalytics() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left (7 cols): Conformal 90% RUL Shaded Curve */}
         <GlassCard className="p-5 lg:col-span-7">
-          <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
+          <div className="flex items-center justify-between border-b border-slate-500/20 pb-3 mb-4">
             <div>
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <span className="font-mono text-[11px] tracking-widest text-blue-400 mr-2 tabular-nums">05 //</span>
                 Conformal 90% Confidence RUL Degradation Trajectory
               </h3>
               <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
                 Shaded uncertainty bounds (&mu; &plusmn; 1.96&sigma;) preventing false clears
               </p>
             </div>
-            <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-sans">
+            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-sans">
               Gaussian Process Band
             </span>
           </div>
@@ -1483,16 +1488,17 @@ export default function PredictiveAnalytics() {
         {/* Right (5 cols): Explainable AI (XAI / TreeSHAP) Feature Attribution Bar Chart */}
         <GlassCard className="p-5 lg:col-span-5 flex flex-col justify-between">
           <div>
-            <div className="border-b border-white/5 dark:border-white/5 pb-3 mb-4 flex items-center justify-between">
+            <div className="border-b border-slate-500/20 pb-3 mb-4 flex items-center justify-between">
               <div>
-                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <span className="font-mono text-[11px] tracking-widest text-blue-400 mr-2 tabular-nums">06 //</span>
                   Explainable AI (SHAP) Feature Attribution
                 </h3>
                 <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
                   TreeSHAP game-theoretic weights explaining predicted RUL
                 </p>
               </div>
-              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 font-sans">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 font-sans">
                 XAI / TreeSHAP
               </span>
             </div>
@@ -1580,7 +1586,7 @@ export default function PredictiveAnalytics() {
           </div>
 
           <div className={`p-3.5 rounded-xl border text-xs font-sans ${
-            isDark ? 'bg-white/5 border-white/5 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+            isDark ? 'bg-slate-900/60 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
           }`}>
             <div className="flex flex-wrap items-center gap-1.5 mb-1 text-sky-400 font-bold">
               <span>Primary Degradation Drivers ({selectedTail}):</span>
@@ -1597,11 +1603,12 @@ export default function PredictiveAnalytics() {
 
       {/* 6. VALIDATED NASA C-MAPSS (FD001–FD004) & ONLINE RLS DRIFT SCORECARD */}
       <GlassCard className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-500/20 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
               <Layers className="w-5 h-5 text-sky-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <span className="font-mono text-[11px] tracking-widest text-blue-400 mr-2 tabular-nums">07 //</span>
                 Validated NASA C-MAPSS (FD001 to FD004) Benchmark &amp; Online RLS Drift Scorecard
               </h3>
             </div>
@@ -1666,13 +1673,13 @@ export default function PredictiveAnalytics() {
           ].map((b) => (
             <div
               key={b.dataset}
-              className={`p-4 rounded-2xl border flex flex-col justify-between ${
+              className={`p-4 rounded-lg border flex flex-col justify-between ${
                 isDark ? 'bg-slate-900/90 border-slate-700/70' : 'bg-slate-50 border-slate-200'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono font-extrabold text-sm text-sky-400 px-2 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/20">
+                  <span className="font-mono font-bold text-sm text-sky-400 px-2 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/20">
                     {b.dataset}
                   </span>
                   <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
@@ -1685,7 +1692,7 @@ export default function PredictiveAnalytics() {
                 <div className="mt-3 pt-2.5 border-t border-white/5 grid grid-cols-2 gap-2 text-xs">
                   <div>
                     <span className="text-[10px] text-slate-400 block">Ensemble RMSE</span>
-                    <span className="font-mono font-extrabold text-base text-white">{b.rmse}</span>
+                    <span className="font-mono font-bold text-base text-white">{b.rmse}</span>
                     <span className="text-[9px] text-emerald-400 block font-mono">Cap: {b.cappedRmse}</span>
                   </div>
                   <div>
@@ -1699,12 +1706,12 @@ export default function PredictiveAnalytics() {
           ))}
 
           {/* Card 5: Online RLS Drift Adaptation Scorecard */}
-          <div className={`p-4 rounded-2xl border flex flex-col justify-between ${
+          <div className={`p-4 rounded-lg border flex flex-col justify-between ${
             isDark ? 'bg-slate-900/90 border-blue-500/35' : 'bg-blue-50/50 border-blue-200'
           }`}>
             <div>
               <div className="flex items-center justify-between gap-2">
-                <span className="font-mono font-extrabold text-xs text-amber-300 px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/25">
+                <span className="font-mono font-bold text-xs text-amber-300 px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/25">
                   ONLINE RLS
                 </span>
                 <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-mono">
@@ -1726,7 +1733,7 @@ export default function PredictiveAnalytics() {
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 block">Adaptive RLS</span>
-                  <span className="font-mono font-extrabold text-base text-emerald-400">2.82</span>
+                  <span className="font-mono font-bold text-base text-emerald-400">2.82</span>
                   <span className="text-[9px] text-emerald-300 block">Online Tracked</span>
                 </div>
               </div>

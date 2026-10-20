@@ -86,7 +86,7 @@ export default function Sidebar({ isOpen, onClose }) {
           isSidebarCollapsed ? 'lg:w-20' : 'lg:w-72'
         } w-72 flex flex-col justify-between my-0 lg:my-3 lg:ml-3 lg:rounded-3xl p-3 sm:p-4 ${
           isDark
-            ? 'bg-[#171824] border border-[#343448] text-[#F5F4FF] shadow-2xl shadow-black/60'
+            ? 'bg-[#0B0F17] border border-[#243044] text-[#F1F5F9] shadow-2xl shadow-black/60'
             : 'bg-white border border-slate-200 text-slate-800'
         }`}
       >
@@ -94,7 +94,7 @@ export default function Sidebar({ isOpen, onClose }) {
         <div>
           {isSidebarCollapsed ? (
             /* COLLAPSED HEADER (Rail Style) */
-            <div className={`flex flex-col items-center justify-center py-2 border-b ${isDark ? 'border-[#343448]' : 'border-slate-200'}`}>
+            <div className={`flex flex-col items-center justify-center py-2 border-b ${isDark ? 'border-[#243044]' : 'border-slate-200'}`}>
               <button
                 onClick={toggleSidebarCollapse}
                 title="Expand sidebar (Ctrl+B)"
@@ -107,7 +107,7 @@ export default function Sidebar({ isOpen, onClose }) {
                 title="Expand sidebar (Ctrl+B)"
                 className={`mt-2 p-1.5 rounded-lg transition-all hidden lg:flex items-center justify-center ${
                   isDark
-                    ? 'text-[#A7A8C2] hover:text-[#F5F4FF] hover:bg-[#20212F]'
+                    ? 'text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#0F172A]'
                     : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
@@ -116,7 +116,7 @@ export default function Sidebar({ isOpen, onClose }) {
             </div>
           ) : (
             /* EXPANDED HEADER */
-            <div className={`flex items-center justify-between px-2 py-3 border-b ${isDark ? 'border-[#343448]' : 'border-slate-200'}`}>
+            <div className={`flex items-center justify-between px-2 py-3 border-b ${isDark ? 'border-[#243044]' : 'border-slate-200'}`}>
               <div className="flex items-center gap-3 min-w-0">
                 <div className="w-10 h-10 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm shrink-0">
                   <Plane className="w-5 h-5 -rotate-45" />
@@ -137,7 +137,7 @@ export default function Sidebar({ isOpen, onClose }) {
                 title="Collapse sidebar (Ctrl+B)"
                 className={`p-1.5 rounded-xl transition-all duration-200 hidden lg:flex items-center justify-center shrink-0 ${
                   isDark
-                    ? 'text-[#A7A8C2] hover:text-[#F5F4FF] hover:bg-[#20212F]'
+                    ? 'text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#0F172A]'
                     : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
@@ -149,7 +149,7 @@ export default function Sidebar({ isOpen, onClose }) {
           {/* Navigation Section */}
           <div className="mt-5">
             {!isSidebarCollapsed && (
-              <p className={`px-3 text-[11px] font-bold uppercase tracking-widest font-sans mb-2.5 ${isDark ? 'text-[#A7A8C2]' : 'text-slate-400'}`}>
+              <p className={`px-3 text-[11px] font-bold uppercase tracking-widest font-sans mb-2.5 ${isDark ? 'text-[#94A3B8]' : 'text-slate-400'}`}>
                 Fleet Systems
               </p>
             )}
@@ -173,14 +173,14 @@ export default function Sidebar({ isOpen, onClose }) {
                         isActive
                           ? 'vision-nav-active text-white'
                           : isDark
-                          ? 'text-[#A7A8C2] hover:text-[#F5F4FF] hover:bg-[#20212F]/80'
+                          ? 'text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#0F172A]/80'
                           : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                       }`}
                     >
                       <div
                         className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
                           isActive
-                            ? 'bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] text-white shadow-md shadow-purple-900/40'
+                            ? 'bg-blue-700 border border-blue-500/30 text-white shadow-md shadow-black/30'
                             : isDark
                             ? 'bg-slate-800/80 text-slate-400 group-hover:text-sky-400 group-hover:bg-slate-800'
                             : 'bg-slate-100 text-slate-500 group-hover:text-blue-600'
@@ -191,7 +191,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
                       <span
                         className={`text-[9px] font-bold tracking-tight text-center mt-1 truncate max-w-full leading-tight ${
-                          isActive ? (isDark ? 'text-[#F5F4FF]' : 'text-purple-900') : (isDark ? 'text-[#A7A8C2]' : 'text-slate-500')
+                          isActive ? (isDark ? 'text-[#F1F5F9]' : 'text-slate-900') : (isDark ? 'text-[#94A3B8]' : 'text-slate-500')
                         }`}
                       >
                         {item.shortLabel}
@@ -211,17 +211,17 @@ export default function Sidebar({ isOpen, onClose }) {
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left transition-all duration-200 group relative ${
                       isActive
                         ? isDark
-                          ? 'bg-[#20212F] text-[#F5F4FF] border border-[#9147FF]/50 shadow-lg shadow-purple-950/40'
-                          : 'bg-purple-50 text-purple-900 border border-purple-200'
+                          ? 'bg-[#0F172A] text-[#F1F5F9] border border-[#2563EB]/50 shadow-lg shadow-black/30'
+                          : 'bg-blue-50 text-slate-900 border border-blue-200'
                         : isDark
-                        ? 'text-[#A7A8C2] hover:text-[#F5F4FF] hover:bg-[#20212F]/80'
+                        ? 'text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#0F172A]/80'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                     }`}
                   >
                     <div
                       className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all shrink-0 ${
                         isActive
-                          ? 'bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] text-white shadow-md shadow-purple-900/40'
+                          ? 'bg-blue-700 border border-blue-500/30 text-white shadow-md shadow-black/30'
                           : isDark
                           ? 'bg-slate-800/80 text-slate-400 group-hover:text-sky-400 group-hover:bg-slate-800'
                           : 'bg-slate-100 text-slate-500 group-hover:text-blue-600'
@@ -231,16 +231,16 @@ export default function Sidebar({ isOpen, onClose }) {
                     </div>
 
                     <div className="flex-1 truncate">
-                      <p className={`text-xs font-bold leading-tight ${isActive ? (isDark ? 'text-[#F5F4FF]' : 'text-purple-950') : ''}`}>
+                      <p className={`text-xs font-bold leading-tight ${isActive ? (isDark ? 'text-[#F1F5F9]' : 'text-slate-900') : ''}`}>
                         {item.label}
                       </p>
-                      <p className={`text-[10px] truncate ${isActive ? isDark ? 'text-[#BC83FF]' : 'text-purple-700' : isDark ? 'text-[#A7A8C2]' : 'text-slate-500'}`}>
+                      <p className={`text-[10px] truncate ${isActive ? isDark ? 'text-[#38BDF8]' : 'text-blue-700' : isDark ? 'text-[#94A3B8]' : 'text-slate-500'}`}>
                         {item.subtitle}
                       </p>
                     </div>
 
                     {isActive && (
-                      <ChevronRight className={`w-4 h-4 shrink-0 ${isDark ? 'text-[#BC83FF]' : 'text-purple-700'}`} />
+                      <ChevronRight className={`w-4 h-4 shrink-0 ${isDark ? 'text-[#38BDF8]' : 'text-blue-700'}`} />
                     )}
                   </button>
                 );
@@ -252,7 +252,7 @@ export default function Sidebar({ isOpen, onClose }) {
         {/* Footer */}
         {isSidebarCollapsed ? (
           /* COLLAPSED FOOTER */
-          <div className={`flex flex-col items-center gap-3 pt-3 border-t ${isDark ? 'border-[#343448]' : 'border-slate-200'}`}>
+          <div className={`flex flex-col items-center gap-3 pt-3 border-t ${isDark ? 'border-[#243044]' : 'border-slate-200'}`}>
             <span
               className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#22C55E]"
               title="Fleet C2 Operational & Active"
@@ -261,7 +261,7 @@ export default function Sidebar({ isOpen, onClose }) {
               onClick={() => setIsDocsOpen(true)}
               title="Technical Docs (SIH26249 Dossier)"
               className={`p-2 rounded-xl transition ${
-                isDark ? 'text-[#A7A8C2] hover:text-[#BC83FF] hover:bg-[#20212F]' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200'
+                isDark ? 'text-[#94A3B8] hover:text-[#38BDF8] hover:bg-[#0F172A]' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200'
               }`}
             >
               <ExternalLink className="w-4 h-4" />
@@ -270,7 +270,7 @@ export default function Sidebar({ isOpen, onClose }) {
         ) : (
           /* EXPANDED FOOTER */
           <div className={`mt-auto pt-3 border-t text-[11px] font-sans flex items-center justify-between ${
-            isDark ? 'border-[#343448] text-[#A7A8C2]' : 'border-slate-200 text-slate-500'
+            isDark ? 'border-[#243044] text-[#94A3B8]' : 'border-slate-200 text-slate-500'
           }`}>
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#22C55E]" />
@@ -279,7 +279,7 @@ export default function Sidebar({ isOpen, onClose }) {
             <button
               onClick={() => setIsDocsOpen(true)}
               className={`hover:underline flex items-center gap-1 text-[11px] font-medium transition ${
-                isDark ? 'text-[#A7A8C2] hover:text-[#BC83FF]' : 'text-slate-600 hover:text-slate-900'
+                isDark ? 'text-[#94A3B8] hover:text-[#38BDF8]' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Docs
