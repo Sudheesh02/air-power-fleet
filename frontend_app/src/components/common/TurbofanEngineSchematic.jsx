@@ -21,7 +21,7 @@ export default function TurbofanEngineSchematic({
   const getStatusStroke = (status) => {
     if (status === 'CRITICAL') return '#EF4444';
     if (status === 'CAUTION') return '#F59E0B';
-    return '#00D5FF';
+    return '#BC83FF';
   };
 
   const getStatusFill = (status, isHovered, isSelected) => {
@@ -42,7 +42,7 @@ export default function TurbofanEngineSchematic({
 
   return (
     <div className={`p-4 rounded-2xl border transition-all ${
-      isDark ? 'bg-gradient-to-b from-[#0B1437]/90 to-slate-900/90 border-white/10' : 'bg-slate-50 border-slate-200'
+      isDark ? 'bg-gradient-to-b from-[#20212F]/90 to-slate-900/90 border-white/10' : 'bg-slate-50 border-slate-200'
     }`}>
       {/* Top Header of the Schematic */}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
@@ -66,7 +66,7 @@ export default function TurbofanEngineSchematic({
         {/* Legend */}
         <div className="flex items-center gap-3 text-[11px] font-sans">
           <span className="flex items-center gap-1.5 text-slate-300">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00D5FF]" /> Nominal
+            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#BC83FF]" /> Nominal
           </span>
           <span className="flex items-center gap-1.5 text-slate-300">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_#F59E0B]" /> Advisory
@@ -93,7 +93,7 @@ export default function TurbofanEngineSchematic({
             </linearGradient>
 
             <linearGradient id="coreFlowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00D5FF" stopOpacity="0.15" />
+              <stop offset="0%" stopColor="#BC83FF" stopOpacity="0.15" />
               <stop offset="45%" stopColor="#38BDF8" stopOpacity="0.2" />
               <stop offset="60%" stopColor="#F97316" stopOpacity="0.35" />
               <stop offset="80%" stopColor="#EF4444" stopOpacity="0.4" />
@@ -261,7 +261,7 @@ export default function TurbofanEngineSchematic({
             <path
               d="M 60 110 Q 100 88 135 90 L 135 130 Q 100 132 60 110 Z"
               fill="#0F172A"
-              stroke="#00D5FF"
+              stroke="#BC83FF"
               strokeWidth="1.5"
             />
             {/* Spinner Spiral Stripe */}

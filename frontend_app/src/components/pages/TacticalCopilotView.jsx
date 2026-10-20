@@ -332,7 +332,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
       {/* 1. TOP HEADER & OPERATIONAL CONTROLS */}
       <GlassCard className="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3.5 min-w-0">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
             <Plane className="w-6 h-6 -rotate-45" />
           </div>
           <div>
@@ -342,7 +342,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
               </span>
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Voice Channel Active" />
             </div>
-            <h2 className={`text-lg sm:text-xl font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h2 className={`text-lg sm:text-xl font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-[#1E2030]'}`}>
               Tactical Voice Copilot & Flight-Line Assistant
             </h2>
           </div>
@@ -358,7 +358,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
               onClick={() => setViewMode('orb')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
                 viewMode === 'orb'
-                  ? 'bg-gradient-to-r from-[#0075FF] to-[#00D5FF] text-white shadow-sm'
+                  ? 'bg-gradient-to-r from-[#9147FF] to-[#BC83FF] text-white shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -369,7 +369,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
               onClick={() => setViewMode('chat')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
                 viewMode === 'chat'
-                  ? 'bg-gradient-to-r from-[#0075FF] to-[#00D5FF] text-white shadow-sm'
+                  ? 'bg-gradient-to-r from-[#9147FF] to-[#BC83FF] text-white shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -487,9 +487,9 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
                     isListening
                       ? 'bg-gradient-to-tr from-red-600 via-rose-500 to-amber-500 scale-105 shadow-[0_0_50px_rgba(239,68,68,0.7)]'
                       : isPlayingAudio
-                      ? 'bg-gradient-to-tr from-[#0052D4] via-[#0075FF] to-[#00D5FF] scale-100 shadow-[0_0_60px_rgba(0,213,255,0.6)] animate-pulse'
+                      ? 'bg-gradient-to-tr from-[#7B2CFF] via-[#9147FF] to-[#BC83FF] scale-100 shadow-[0_0_60px_rgba(0,213,255,0.6)] animate-pulse'
                       : isDark
-                      ? 'bg-gradient-to-tr from-blue-900 via-slate-900 to-[#0B1437] border-2 border-cyan-500/40 hover:border-cyan-400 hover:scale-105'
+                      ? 'bg-gradient-to-tr from-blue-900 via-slate-900 to-[#20212F] border-2 border-cyan-500/40 hover:border-cyan-400 hover:scale-105'
                       : 'bg-gradient-to-tr from-blue-600 to-indigo-600 text-white hover:scale-105 shadow-xl'
                   }`}
                   title={isListening ? 'Click to Stop Listening' : 'Click Orb to Speak'}
@@ -559,7 +559,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
           {/* Right Rail: Quick Directives & Operational Telemetry (1 Col) */}
           <div className="space-y-4">
             <GlassCard className="p-5">
-              <h3 className={`font-bold text-sm tracking-tight mb-1 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h3 className={`font-bold text-sm tracking-tight mb-1 ${isDark ? 'text-white' : 'text-[#1E2030]'}`}>
                 Flight-Line Quick Directives
               </h3>
               <p className="text-xs text-slate-400 mb-3">
@@ -611,7 +611,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
               if (isUser) {
                 return (
                   <div key={msg.id} className="flex justify-end">
-                    <div className="max-w-[80%] rounded-2xl rounded-tr-sm px-4 py-2.5 text-xs sm:text-sm bg-gradient-to-r from-[#0075FF] to-[#0052D4] text-white shadow-sm leading-relaxed">
+                    <div className="max-w-[80%] rounded-2xl rounded-tr-sm px-4 py-2.5 text-xs sm:text-sm bg-gradient-to-r from-[#9147FF] to-[#7B2CFF] text-white shadow-sm leading-relaxed">
                       {msg.text}
                     </div>
                   </div>
@@ -620,7 +620,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
 
               return (
                 <div key={msg.id} className="flex items-start gap-3.5">
-                  <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shrink-0 mt-0.5 shadow-sm">
+                  <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] flex items-center justify-center text-white shrink-0 mt-0.5 shadow-sm">
                     <Plane className="w-4 h-4 -rotate-45" />
                   </div>
 
@@ -751,7 +751,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
               <button
                 type="submit"
                 disabled={!inputQuery.trim()}
-                className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0"
+                className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0"
               >
                 <Send className="w-4 h-4" />
               </button>

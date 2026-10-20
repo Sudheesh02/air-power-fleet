@@ -80,10 +80,10 @@ export default function Navbar({ onToggleSidebar }) {
   return (
     <header className="sticky top-0 z-30 px-4 sm:px-6 py-2 transition-colors">
       <div
-        className={`px-4 sm:px-5 py-2 rounded-xl flex items-center justify-between gap-3 transition-all duration-300 ${
+        className={`px-4 sm:px-5 py-2.5 rounded-2xl flex items-center justify-between gap-3 transition-all duration-300 ${
           isDark
-            ? 'vision-glass border-white/10'
-            : 'vision-glass-light border-slate-200'
+            ? 'bg-[#191A27] border border-[#343448] shadow-lg shadow-black/40 text-[#F5F4FF]'
+            : 'bg-white border border-slate-200 shadow-sm text-slate-800'
         }`}
       >
         {/* Left: YouTube Music-style Hamburger Toggle & Page Title */}
@@ -99,14 +99,14 @@ export default function Navbar({ onToggleSidebar }) {
             title={isSidebarCollapsed ? "Expand sidebar (Ctrl+B)" : "Collapse sidebar (Ctrl+B)"}
             className={`p-2 rounded-xl transition-all duration-200 shrink-0 group active:scale-95 ${
               isDark
-                ? 'text-white hover:bg-white/10 hover:border-cyan-500/40 border border-white/10'
-                : 'text-slate-800 hover:bg-slate-100 hover:border-blue-300 border border-slate-200'
+                ? 'text-[#F5F4FF] hover:bg-[#252638] hover:border-[#9147FF]/50 border border-[#343448]'
+                : 'text-slate-800 hover:bg-slate-100 hover:border-purple-300 border border-slate-200'
             }`}
           >
-            <Menu className="w-4 h-4 transition-transform duration-200 group-hover:scale-110 text-cyan-400" />
+            <Menu className="w-4 h-4 transition-transform duration-200 group-hover:scale-110 text-[#BC83FF]" />
           </button>
 
-          <h2 className={`text-sm sm:text-base font-bold tracking-tight truncate ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+          <h2 className={`text-sm sm:text-base font-bold tracking-tight truncate ${isDark ? 'text-[#F5F4FF]' : 'text-slate-900'}`}>
             {currentMeta.title}
           </h2>
         </div>
@@ -118,53 +118,53 @@ export default function Navbar({ onToggleSidebar }) {
             <select
               value={selectedSquadron}
               onChange={(e) => setSelectedSquadron(e.target.value)}
-              className={`text-xs font-semibold py-1.5 px-3 pr-7 rounded-lg appearance-none cursor-pointer transition focus:outline-none focus:ring-1 focus:ring-[#0075FF] max-w-[210px] sm:max-w-none truncate ${
+              className={`text-xs font-semibold py-1.5 px-3 pr-7 rounded-xl appearance-none cursor-pointer transition focus:outline-none focus:ring-1 focus:ring-[#9147FF] max-w-[210px] sm:max-w-none truncate ${
                 isDark
-                  ? 'bg-slate-900/90 text-cyan-300 border border-white/15'
-                  : 'bg-slate-100 text-[#1B2559] border border-slate-200'
+                  ? 'bg-[#252638] text-[#BC83FF] border border-[#343448] hover:border-[#9147FF]/50'
+                  : 'bg-slate-100 text-slate-800 border border-slate-200'
               }`}
             >
               {SQUADRONS.map((sq) => (
-                <option key={sq.id} value={sq.id} className="bg-slate-900 text-white">
+                <option key={sq.id} value={sq.id} className="bg-[#20212F] text-[#F5F4FF]">
                   {sq.name}
                 </option>
               ))}
             </select>
-            <ChevronDown className="w-3.5 h-3.5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" />
+            <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#A7A8C2]" />
           </div>
 
           {/* Commander Profile Badge (Real Name & Defense Rank) */}
           <div
-            className={`hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-lg border text-xs shrink-0 transition-all ${
+            className={`hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-xl border text-xs shrink-0 transition-all ${
               isDark
-                ? 'bg-slate-900/80 border-white/10 hover:border-cyan-500/40 text-slate-200'
-                : 'bg-slate-100 border-slate-200 hover:border-blue-400 text-slate-800'
+                ? 'bg-[#252638] border-[#343448] hover:border-[#9147FF]/40 text-[#F5F4FF]'
+                : 'bg-slate-100 border-slate-200 hover:border-purple-300 text-slate-800'
             }`}
           >
-            <div className="w-5 h-5 rounded-md bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center font-bold font-sans text-[10px] text-white shadow-sm shrink-0">
+            <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] flex items-center justify-center font-bold font-sans text-[10px] text-white shadow-sm shrink-0">
               AS
             </div>
             <div className="text-left leading-none">
               <p className="font-bold tracking-tight text-xs">Air Chief Marshal A. P. Singh</p>
-              <p className={`text-[9px] font-sans font-medium mt-0.5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>
+              <p className={`text-[9px] font-sans font-medium mt-0.5 ${isDark ? 'text-[#BC83FF]' : 'text-purple-700'}`}>
                 Chief of the Air Staff · IAF
               </p>
             </div>
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5 shrink-0" title="Encrypted Defence Link Active" />
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5 shrink-0 shadow-[0_0_6px_#22C55E]" title="Encrypted Defence Link Active" />
           </div>
 
           {/* Notification Bell with Dropdown */}
           <div className="relative shrink-0">
             <button
               onClick={() => setIsAlertOpen(!isAlertOpen)}
-              className={`p-2 rounded-lg transition relative ${
+              className={`p-2 rounded-xl transition relative ${
                 isDark
-                  ? 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-white/10'
+                  ? 'bg-[#252638] hover:bg-[#20212F] text-[#A7A8C2] hover:text-[#F5F4FF] border border-[#343448]'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200'
               }`}
             >
               <Bell className="w-3.5 h-3.5" />
-              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#EE5D50] text-[9px] font-sans font-bold text-white flex items-center justify-center animate-pulse">
+              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-rose-500 text-[9px] font-sans font-bold text-white flex items-center justify-center animate-pulse shadow-[0_0_6px_#EF4444]">
                 3
               </span>
             </button>
@@ -174,11 +174,11 @@ export default function Navbar({ onToggleSidebar }) {
               <div
                 className={`absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl p-4 shadow-2xl z-50 animate-fadeIn ${
                   isDark
-                    ? 'bg-[#0B1437] border border-white/15 text-white'
+                    ? 'bg-[#252638] border border-[#343448] text-[#F5F4FF] shadow-black/80'
                     : 'bg-white border border-slate-200 text-slate-800'
                 }`}
               >
-                <div className="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/10">
+                <div className={`flex items-center justify-between pb-3 border-b ${isDark ? 'border-[#343448]' : 'border-slate-200'}`}>
                   <div className="flex items-center gap-2">
                     <AlertTriangle className="w-4 h-4 text-amber-400" />
                     <span className="font-bold text-xs uppercase tracking-wider font-sans">
@@ -187,7 +187,7 @@ export default function Navbar({ onToggleSidebar }) {
                   </div>
                   <button
                     onClick={() => setIsAlertOpen(false)}
-                    className={isDark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}
+                    className={isDark ? 'text-[#A7A8C2] hover:text-[#F5F4FF]' : 'text-slate-500 hover:text-slate-900'}
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -208,21 +208,21 @@ export default function Navbar({ onToggleSidebar }) {
                       }}
                       className={`p-3 rounded-xl cursor-pointer border transition flex items-start gap-3 ${
                         isDark
-                          ? 'bg-white/5 hover:bg-white/10 border-white/5'
+                          ? 'bg-[#20212F] hover:bg-[#20212F]/80 border-[#343448]'
                           : 'bg-slate-50 hover:bg-slate-100 border-slate-200'
                       }`}
                     >
-                      <div className="w-2 h-2 rounded-full bg-[#EE5D50] mt-1.5 shrink-0 animate-ping" />
+                      <div className="w-2 h-2 rounded-full bg-rose-500 mt-1.5 shrink-0 animate-ping" />
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
-                          <span className="font-bold font-sans text-cyan-300 text-xs">
+                          <span className="font-bold font-sans text-[#BC83FF] text-xs">
                             {al.tail}
                           </span>
-                          <span className="text-[10px] text-slate-400 font-sans">
+                          <span className="text-[10px] text-[#A7A8C2] font-sans">
                             {al.time}
                           </span>
                         </div>
-                        <p className={`text-xs mt-0.5 leading-snug ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                        <p className={`text-xs mt-0.5 leading-snug ${isDark ? 'text-[#A7A8C2]' : 'text-slate-600'}`}>
                           {al.msg}
                         </p>
                       </div>
@@ -236,17 +236,17 @@ export default function Navbar({ onToggleSidebar }) {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            title={isDark ? 'Switch to Venus/Purity Light Mode' : 'Switch to Vision UI Dark Mode'}
-            className={`p-2 rounded-lg transition-all duration-300 ease-out transform active:scale-90 flex items-center justify-center shrink-0 group ${
+            title={isDark ? 'Switch to Light Mode' : 'Switch to Charcoal Dark Mode'}
+            className={`p-2 rounded-xl transition-all duration-300 ease-out transform active:scale-90 flex items-center justify-center shrink-0 group ${
               isDark
-                ? 'bg-slate-900/80 hover:bg-slate-800 text-amber-300 border border-white/10 shadow-[0_0_12px_rgba(255,181,71,0.25)] hover:border-amber-400/40'
-                : 'bg-slate-100 hover:bg-slate-200 text-[#0075FF] border border-slate-200 shadow-sm hover:border-blue-400/40'
+                ? 'bg-[#252638] hover:bg-[#20212F] text-amber-300 border border-[#343448]'
+                : 'bg-slate-100 hover:bg-slate-200 text-purple-600 border border-slate-200'
             }`}
           >
             {isDark ? (
               <Sun className="w-3.5 h-3.5 transition-transform duration-500 group-hover:rotate-90 text-amber-300" />
             ) : (
-              <Moon className="w-3.5 h-3.5 transition-transform duration-500 group-hover:-rotate-45 text-[#0075FF]" />
+              <Moon className="w-3.5 h-3.5 transition-transform duration-500 group-hover:-rotate-45 text-purple-600" />
             )}
           </button>
         </div>
