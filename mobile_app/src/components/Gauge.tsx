@@ -28,12 +28,12 @@ export function ReadinessGauge({ pct, size = 200 }: { pct: number; size?: number
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
       <Svg width={size} height={size} style={{ position: 'absolute' }}>
         <Defs>
-          <LinearGradient id="gg" x1="0" y1="1" x2="1" y2="0"><Stop offset="0" stopColor="#FF8A3D" /><Stop offset="1" stopColor="#FFD27A" /></LinearGradient>
+          <LinearGradient id="gg" x1="0" y1="1" x2="1" y2="0"><Stop offset="0" stopColor={C.g2} /><Stop offset="1" stopColor={C.g1} /></LinearGradient>
         </Defs>
-        {ticks.map((a, i) => { const [x0, y0] = pt(a, r + 9), [x1, y1] = pt(a, r + (i % 3 === 0 ? 14 : 12)); return <Line key={i} x1={x0} y1={y0} x2={x1} y2={y1} stroke="rgba(255,255,255,0.18)" strokeWidth={1.2} />; })}
-        <Path d={arc(start, start + sweep)} stroke="rgba(255,255,255,0.08)" strokeWidth={12} fill="none" strokeLinecap="round" />
+        {ticks.map((a, i) => { const [x0, y0] = pt(a, r + 9), [x1, y1] = pt(a, r + (i % 3 === 0 ? 14 : 12)); return <Line key={i} x1={x0} y1={y0} x2={x1} y2={y1} stroke={C.tick} strokeWidth={1.2} />; })}
+        <Path d={arc(start, start + sweep)} stroke={C.track} strokeWidth={12} fill="none" strokeLinecap="round" />
         <AP d={arc(start, start + sweep)} stroke="url(#gg)" strokeWidth={12} fill="none" strokeLinecap="round" strokeDasharray={`${len} ${len}`} animatedProps={ap} />
-        <Circle cx={end[0]} cy={end[1]} r={6} fill="#fff" stroke="#FFC566" strokeWidth={2} />
+        <Circle cx={end[0]} cy={end[1]} r={6} fill={C.dot} stroke={C.g1} strokeWidth={2} />
       </Svg>
       <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
         <T style={{ fontFamily: F.disp, fontSize: 56, letterSpacing: -1.5, lineHeight: 62 }}>{pct}</T>

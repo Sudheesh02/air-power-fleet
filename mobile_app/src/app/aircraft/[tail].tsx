@@ -1,3 +1,4 @@
+import { useThemeMode } from '../../lib/settings';
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -176,6 +177,7 @@ function LogsTab({ tail }: { tail: string }) {
 }
 
 export default function Aircraft() {
+  useThemeMode();
   const { tail = 'SB-024' } = useLocalSearchParams<{ tail: string }>();
   const tq = useTwin(tail);
   const [tab, setTab] = useState('Health');

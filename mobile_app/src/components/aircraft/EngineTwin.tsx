@@ -19,7 +19,7 @@ export function EngineTwin({ stages }: { stages: { key: string; label: string; p
         <Defs>
           <RadialGradient id="hot" cx="50%" cy="50%" r="50%"><Stop offset="0" stopColor={C.bad} stopOpacity="0.25" /><Stop offset="1" stopColor={C.bad} stopOpacity="0" /></RadialGradient>
         </Defs>
-        <Line x1={0} y1={H / 2} x2={W} y2={H / 2} stroke="rgba(255,255,255,0.12)" strokeDasharray="3 4" />
+        <Line x1={0} y1={H / 2} x2={W} y2={H / 2} stroke={C.line2} strokeDasharray="3 4" />
         {stages.map((s, i) => {
           const g = geo[i];
           const col = toneColor(healthTone(s.pct));

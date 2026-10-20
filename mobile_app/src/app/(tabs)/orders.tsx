@@ -1,3 +1,4 @@
+import { useThemeMode } from '../../lib/settings';
 import React, { useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
@@ -8,6 +9,7 @@ import { useWorkOrders } from '../../lib/queries';
 import { ago, hoursAgo, bayShort, groupOf, initials, prio, shortId, techName, woTitle } from '../../lib/wo';
 
 export default function Orders() {
+  useThemeMode();
   const wq = useWorkOrders();
   const [tab, setTab] = useState('open');
   const [q, setQ] = useState<string | null>(null);
@@ -84,8 +86,8 @@ export default function Orders() {
           </>
         )}
       </Screen>
-      <Pressable onPress={() => router.push('/fleet')} accessibilityLabel="New work order from an aircraft" style={{ position: 'absolute', right: 20, bottom: 16, borderRadius: 18, overflow: 'hidden', elevation: 10, shadowColor: '#FFAA32', shadowOpacity: 0.6, shadowRadius: 16 }}>
-        <LinearGradient colors={['#FFC566', '#FFA930']} style={{ height: 56, paddingLeft: 16, paddingRight: 20, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+      <Pressable onPress={() => router.push('/fleet')} accessibilityLabel="New work order from an aircraft" style={{ position: 'absolute', right: 20, bottom: 16, borderRadius: 18, overflow: 'hidden', elevation: 10, shadowColor: C.glow, shadowOpacity: 0.6, shadowRadius: 16 }}>
+        <LinearGradient colors={[C.g1, C.g2]} style={{ height: 56, paddingLeft: 16, paddingRight: 20, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <Icon name="plus" size={22} color={C.onac} />
           <T style={{ fontFamily: F.uiB, fontSize: 15, color: C.onac }}>New order</T>
         </LinearGradient>

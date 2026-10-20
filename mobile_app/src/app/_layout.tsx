@@ -21,7 +21,7 @@ SplashScreen.setOptions?.({ duration: 0, fade: false });
 const qc = new QueryClient({ defaultOptions: { queries: { staleTime: 60_000, retry: 0 } } });
 
 function Root() {
-  const { ready } = useSettings();
+  const { ready, mode } = useSettings();
   const [fontsLoaded] = useFonts({
     SpaceGrotesk_500Medium, SpaceGrotesk_600SemiBold, SpaceGrotesk_700Bold,
     Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold,
@@ -35,6 +35,7 @@ function Root() {
   if (!loaded) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
   return (
     <View style={{ flex: 1, backgroundColor: C.bg }}>
+      <StatusBar style={mode === 'day' ? 'dark' : 'light'} />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: C.bg }, animation: 'fade_from_bottom' }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="voice" options={{ animation: 'fade', presentation: 'fullScreenModal' }} />
@@ -52,7 +53,6 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <QueryClientProvider client={qc}>
         <SettingsProvider>
-          <StatusBar style="light" />
           <CopilotProvider>
             <Root />
           </CopilotProvider>

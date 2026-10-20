@@ -19,11 +19,11 @@ export function Backdrop() {
     <Svg style={StyleSheet.absoluteFill} pointerEvents="none">
       <Defs>
         <RadialGradient id="amb" cx="85%" cy="-10%" rx="120%" ry="60%" fx="85%" fy="-10%">
-          <Stop offset="0" stopColor="#FFB547" stopOpacity="0.10" />
+          <Stop offset="0" stopColor={C.ac} stopOpacity={C.ambOp} />
           <Stop offset="0.55" stopColor="#FFB547" stopOpacity="0" />
         </RadialGradient>
         <RadialGradient id="blu" cx="0%" cy="0%" rx="90%" ry="50%" fx="0%" fy="0%">
-          <Stop offset="0" stopColor="#60A5FA" stopOpacity="0.10" />
+          <Stop offset="0" stopColor={C.info} stopOpacity={C.ambOp} />
           <Stop offset="0.6" stopColor="#60A5FA" stopOpacity="0" />
         </RadialGradient>
       </Defs>
@@ -53,7 +53,7 @@ export function Screen({
       )}
       {footer ? (
         <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14 + (tabs ? 0 : ins.bottom) }}>
-          <LinearGradient colors={['rgba(6,8,12,0)', 'rgba(6,8,12,0.94)', C.bg]} style={StyleSheet.absoluteFill} pointerEvents="none" />
+          <LinearGradient colors={[C.fade0, C.fade1, C.bg]} style={StyleSheet.absoluteFill} pointerEvents="none" />
           {footer}
         </View>
       ) : null}
@@ -91,7 +91,7 @@ export function IconBtn({
       accessibilityRole="button" accessibilityLabel={label || icon} onPress={onPress} hitSlop={6}
       style={({ pressed }) => [{
         width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center',
-        backgroundColor: ghost ? 'transparent' : tint || C.s2, borderWidth: ghost ? 0 : 1, borderColor: tint ? 'rgba(255,181,71,0.35)' : C.line, opacity: pressed ? 0.7 : 1,
+        backgroundColor: ghost ? 'transparent' : tint || C.s2, borderWidth: ghost ? 0 : 1, borderColor: tint ? C.tintLine : C.line, opacity: pressed ? 0.7 : 1,
       }]}
     >
       <Icon name={icon} size={21} color={color} />
@@ -102,7 +102,7 @@ export function IconBtn({
 
 export function Card({ children, style, onPress }: { children: React.ReactNode; style?: StyleProp<ViewStyle>; onPress?: () => void }) {
   const body = (
-    <LinearGradient colors={['rgba(255,255,255,0.055)', 'rgba(255,255,255,0.025)']} style={[{ borderRadius: 22, borderWidth: 1, borderColor: C.line, overflow: 'hidden' }, style]}>
+    <LinearGradient colors={[C.card1, C.card2]} style={[{ borderRadius: 22, borderWidth: 1, borderColor: C.line, overflow: 'hidden' }, style]}>
       {children}
     </LinearGradient>
   );
@@ -143,9 +143,9 @@ export function Chip({ label, on, onPress, icon, count, dotColor }: { label: str
       style={{ flexDirection: 'row', alignItems: 'center', gap: 6, height: 32, paddingHorizontal: 13, borderRadius: 16, borderWidth: 1, borderColor: on ? 'transparent' : C.line2, backgroundColor: on ? C.tx : 'transparent' }}
     >
       {dotColor ? <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: dotColor }} /> : null}
-      {icon ? <Icon name={icon} size={16} color={on ? '#0B0E14' : C.tx} /> : null}
-      <T style={{ fontSize: 12.5, fontFamily: F.uiS, color: on ? '#0B0E14' : C.tx }}>{label}</T>
-      {count != null ? <T style={{ fontSize: 12.5, fontFamily: F.uiS, color: on ? '#0B0E14' : C.mu }}>{count}</T> : null}
+      {icon ? <Icon name={icon} size={16} color={on ? C.bg : C.tx} /> : null}
+      <T style={{ fontSize: 12.5, fontFamily: F.uiS, color: on ? C.bg : C.tx }}>{label}</T>
+      {count != null ? <T style={{ fontSize: 12.5, fontFamily: F.uiS, color: on ? C.bg : C.mu }}>{count}</T> : null}
     </Pressable>
   );
 }
@@ -164,7 +164,7 @@ export function Btn({
       onPress={onPress} disabled={disabled || loading} accessibilityRole="button" accessibilityLabel={label}
       style={({ pressed }) => [width ? { width, flexGrow: 0, flexShrink: 0 } : { flexGrow: 1, flexBasis: 0 }, { borderRadius: 26, overflow: 'hidden', opacity: disabled ? 0.5 : pressed ? 0.85 : 1 }, kind === 'p' ? styles.glow : { backgroundColor: C.s2, borderWidth: 1, borderColor: C.line2 }, style]}
     >
-      {kind === 'p' ? <LinearGradient colors={['#FFC566', '#FFA930']} style={{ borderRadius: 26 }}>{inner}</LinearGradient> : inner}
+      {kind === 'p' ? <LinearGradient colors={[C.g1, C.g2]} style={{ borderRadius: 26 }}>{inner}</LinearGradient> : inner}
     </Pressable>
   );
 }
@@ -172,7 +172,7 @@ export function Btn({
 export const Divider = ({ style }: { style?: StyleProp<ViewStyle> }) => <View style={[{ height: 1, backgroundColor: C.line }, style]} />;
 
 export function Ring({
-  size = 46, stroke = 4, pct, color, track = 'rgba(255,255,255,0.08)', children,
+  size = 46, stroke = 4, pct, color, track = C.track, children,
 }: { size?: number; stroke?: number; pct: number; color: string; track?: string; children?: React.ReactNode }) {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
@@ -194,7 +194,7 @@ export function Kpis({ items }: { items: { value: string; label: string; color?:
   return (
     <View style={{ flexDirection: 'row', gap: 8 }}>
       {items.map((k) => (
-        <LinearGradient key={k.label} colors={['rgba(255,255,255,0.055)', 'rgba(255,255,255,0.025)']} style={{ flex: 1, paddingHorizontal: 12, paddingTop: 12, paddingBottom: 11, borderRadius: 16, borderWidth: 1, borderColor: C.line }}>
+        <LinearGradient key={k.label} colors={[C.card1, C.card2]} style={{ flex: 1, paddingHorizontal: 12, paddingTop: 12, paddingBottom: 11, borderRadius: 16, borderWidth: 1, borderColor: C.line }}>
           <Disp style={{ fontSize: 24, color: k.color || C.tx }} numberOfLines={1} adjustsFontSizeToFit>{k.value}</Disp>
           <T style={{ fontSize: 11.5, color: C.mu }} numberOfLines={1}>{k.label}</T>
         </LinearGradient>
@@ -213,10 +213,10 @@ export function StackBar({ parts }: { parts: { n: number; color: string }[] }) {
 
 export function Seg({ options, value, onChange }: { options: { key: string; label: string }[]; value: string; onChange: (k: string) => void }) {
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: 1, borderColor: C.line, borderRadius: 14, padding: 3 }}>
+    <View style={{ flexDirection: 'row', backgroundColor: C.s1, borderWidth: 1, borderColor: C.line, borderRadius: 14, padding: 3 }}>
       {options.map((o) => (
         <Pressable key={o.key} onPress={() => onChange(o.key)} accessibilityRole="tab" accessibilityState={{ selected: o.key === value }}
-          style={{ flex: 1, height: 30, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: o.key === value ? 'rgba(255,255,255,0.1)' : 'transparent' }}>
+          style={{ flex: 1, height: 30, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: o.key === value ? C.segOn : 'transparent' }}>
           <T style={{ fontSize: 12.5, fontFamily: F.uiS, color: o.key === value ? C.tx : C.mu }}>{o.label}</T>
         </Pressable>
       ))}
@@ -241,9 +241,9 @@ export function Sheet({ visible, onClose, children }: { visible: boolean; onClos
   const ins = useSafeAreaInsets();
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent navigationBarTranslucent>
-      <Pressable style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.55)' }} onPress={onClose} accessibilityLabel="Close sheet" />
+      <Pressable style={{ flex: 1, backgroundColor: C.scrim }} onPress={onClose} accessibilityLabel="Close sheet" />
       <View style={{ backgroundColor: C.sheet, borderTopLeftRadius: 28, borderTopRightRadius: 28, borderTopWidth: 1, borderColor: C.line2, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 24 + ins.bottom, maxHeight: '92%' }}>
-        <View style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: 'rgba(255,255,255,0.25)', alignSelf: 'center', marginBottom: 14 }} />
+        <View style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: C.handle, alignSelf: 'center', marginBottom: 14 }} />
         <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
       </View>
     </Modal>
@@ -267,7 +267,7 @@ export function Spark({ data, color, w = 150, h = 34, dot = true }: { data: numb
       </Defs>
       <Path d={`${d} L${last[0]} ${h} L2 ${h} Z`} fill="url(#sg)" />
       <Path d={d} stroke={color} strokeWidth={2} fill="none" strokeLinecap="round" />
-      {dot ? <Circle cx={last[0]} cy={last[1]} r={4.5} fill="#fff" stroke={color} strokeWidth={2.5} /> : null}
+      {dot ? <Circle cx={last[0]} cy={last[1]} r={4.5} fill={C.dot} stroke={color} strokeWidth={2.5} /> : null}
     </Svg>
   );
 }
@@ -292,5 +292,5 @@ export function VMark({ size = 88 }: { size?: number }) {
 }
 
 const styles = StyleSheet.create({
-  glow: { shadowColor: '#FFAA32', shadowOpacity: 0.55, shadowRadius: 16, shadowOffset: { width: 0, height: 8 }, elevation: 8 },
+  glow: { shadowColor: C.glow, shadowOpacity: 0.55, shadowRadius: 16, shadowOffset: { width: 0, height: 8 }, elevation: 8 },
 });

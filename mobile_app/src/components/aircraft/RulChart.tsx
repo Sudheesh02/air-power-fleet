@@ -32,14 +32,14 @@ export function RulChart({ past, lo, hi, floor = 20, color = C.ac, labels }: { p
         <Defs>
           <LinearGradient id="ra" x1="0" y1="0" x2="0" y2="1"><Stop offset="0" stopColor={color} stopOpacity="0.32" /><Stop offset="1" stopColor={color} stopOpacity="0" /></LinearGradient>
         </Defs>
-        {[0.25, 0.5, 0.75].map((f) => <Line key={f} x1={0} x2={W} y1={(H - padB) * f} y2={(H - padB) * f} stroke="rgba(255,255,255,0.05)" />)}
+        {[0.25, 0.5, 0.75].map((f) => <Line key={f} x1={0} x2={W} y1={(H - padB) * f} y2={(H - padB) * f} stroke={C.grid} />)}
         <Path d={`${line} L${last[0]} ${H - padB} L0 ${H - padB} Z`} fill="url(#ra)" />
         <Path d={line} stroke={color} strokeWidth={2.4} fill="none" />
         <Path d={cone} fill={color} fillOpacity={0.12} />
         <Line x1={last[0]} y1={last[1]} x2={W - 4} y2={y(endMid)} stroke={color} strokeWidth={2} strokeDasharray="5 5" />
         <Line x1={0} x2={W} y1={y(floor)} y2={y(floor)} stroke={C.bad} strokeOpacity={0.7} strokeDasharray="4 4" />
         <SText x={4} y={y(floor) - 6} fill={C.bad} fontSize={10.5} fontFamily="IBMPlexMono_500Medium">maintenance floor {floor} h</SText>
-        <Circle cx={last[0]} cy={last[1]} r={5} fill="#fff" stroke={color} strokeWidth={2.5} />
+        <Circle cx={last[0]} cy={last[1]} r={5} fill={C.dot} stroke={color} strokeWidth={2.5} />
         {labels.map((l, i) => <SText key={l + i} x={(i / (labels.length - 1)) * (W - 30) + 2} y={H - 4} fill={C.fa} fontSize={10.5} fontFamily="Inter_500Medium">{l}</SText>)}
       </Svg>
     </View>

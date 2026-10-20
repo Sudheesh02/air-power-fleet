@@ -1,3 +1,4 @@
+import { useThemeMode } from '../../lib/settings';
 import React from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
@@ -17,7 +18,7 @@ function IndiaDots({ bases }: { bases: { base: string; tone: string }[] }) {
   const rows = [[7, 9], [6, 10], [5, 11], [3, 12], [2, 14], [1, 16], [1, 18], [2, 19], [3, 17], [4, 15], [5, 14], [5, 13], [6, 12], [6, 12], [7, 11], [7, 11], [8, 11], [8, 10], [8, 10], [9, 10], [9, 9]];
   return (
     <Svg width={130} height={150}>
-      {rows.flatMap((r, y) => Array.from({ length: r[1] - r[0] + 1 }, (_, i) => <Circle key={`${y}-${i}`} cx={(r[0] + i) * 6 + 3} cy={y * 7 + 6} r={1.4} fill="rgba(255,255,255,0.16)" />))}
+      {rows.flatMap((r, y) => Array.from({ length: r[1] - r[0] + 1 }, (_, i) => <Circle key={`${y}-${i}`} cx={(r[0] + i) * 6 + 3} cy={y * 7 + 6} r={1.4} fill={C.tick} />))}
       {bases.map((b) => {
         const p = BASES[b.base];
         if (!p) return null;
@@ -31,6 +32,7 @@ function IndiaDots({ bases }: { bases: { base: string; tone: string }[] }) {
 }
 
 export default function Command() {
+  useThemeMode();
   const rq = useReadiness();
   const aq = useAircraft();
   if (!aq.data || !rq.data) return <Screen tabs><View style={{ paddingTop: 120 }}><Loading /><T style={{ textAlign: 'center', color: C.mu, fontSize: 13 }}>Connecting to fleet server…</T></View></Screen>;
@@ -63,7 +65,7 @@ export default function Command() {
         <Row style={{ gap: 10 }}>
           <IconBtn icon="cog-outline" label="Settings" onPress={() => router.push('/settings')} />
           <IconBtn icon="bell-outline" badge label="Alerts and predictions" onPress={() => router.push('/predictive')} />
-          <IconBtn icon="microphone-outline" color={C.ac} tint="rgba(255,181,71,0.14)" label="Voice copilot" onPress={() => router.push('/voice')} />
+          <IconBtn icon="microphone-outline" color={C.ac} tint={C.tint} label="Voice copilot" onPress={() => router.push('/voice')} />
         </Row>
       </Row>
 

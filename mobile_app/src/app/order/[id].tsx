@@ -1,3 +1,4 @@
+import { useThemeMode } from '../../lib/settings';
 import React, { useState } from 'react';
 import { Alert, TextInput, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -10,6 +11,7 @@ const STAGE_LABEL = ['Open', 'In progress', 'QA check', 'Closed'];
 const NEXT_LABEL = ['Start work', 'Move to QA check', 'Close order', 'Reopen'];
 
 export default function OrderDetail() {
+  useThemeMode();
   const { id } = useLocalSearchParams<{ id: string }>();
   const wq = useWorkOrders();
   const up = useUpdateWorkOrder();
@@ -53,7 +55,7 @@ export default function OrderDetail() {
       <T style={{ fontSize: 13.5, color: C.mu, marginTop: 6 }}><Mono style={{ fontSize: 13.5, color: C.mu }}>{w.tail_no}</Mono> · {w.aircraft_type?.split(' ')[0] || ''} · {baseShort(w.base_station)} · {ago(w.created_at)} ago</T>
 
       <Row style={{ gap: 4, marginTop: 22 }}>
-        {STAGE_LABEL.map((s, i) => <View key={s} style={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: i <= st ? C.ac : 'rgba(255,255,255,0.08)' }} />)}
+        {STAGE_LABEL.map((s, i) => <View key={s} style={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: i <= st ? C.ac : C.track }} />)}
       </Row>
       <Row style={{ marginTop: 8 }}>
         {STAGE_LABEL.map((s, i) => <T key={s} style={{ flex: 1, fontSize: 11.5, color: i === st ? C.tx : C.fa, fontFamily: i === st ? F.uiS : F.ui }}>{s}</T>)}

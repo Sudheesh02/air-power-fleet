@@ -1,3 +1,4 @@
+import { useThemeMode } from '../lib/settings';
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
@@ -7,7 +8,7 @@ import { C, F } from '../lib/theme';
 import { Card, Divider, Eyebrow, IconBtn, Loading, Mono, Row, Screen, Seg, T, TopBar } from '../components/ui';
 import { useAircraft } from '../lib/queries';
 
-const heat = (p: number) => (p >= 70 ? C.bad : p >= 45 ? C.ac : p >= 25 ? 'rgba(255,181,71,0.35)' : 'rgba(255,255,255,0.06)');
+const heat = (p: number) => (p >= 70 ? C.bad : p >= 45 ? C.ac : p >= 25 ? C.heatLo : C.track);
 
 function TrendChart({ data, k }: { data: any[]; k: string }) {
   const W = 340, H = 150;
@@ -21,7 +22,7 @@ function TrendChart({ data, k }: { data: any[]; k: string }) {
   return (
     <Svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`}>
       <Defs><LinearGradient id="pt" x1="0" y1="0" x2="0" y2="1"><Stop offset="0" stopColor={C.ac} stopOpacity="0.4" /><Stop offset="1" stopColor={C.ac} stopOpacity="0" /></LinearGradient></Defs>
-      {[25, 50, 75].map((g) => <Line key={g} x1={0} x2={W} y1={y(g)} y2={y(g)} stroke="rgba(255,255,255,0.05)" />)}
+      {[25, 50, 75].map((g) => <Line key={g} x1={0} x2={W} y1={y(g)} y2={y(g)} stroke={C.grid} />)}
       <Path d={`${line} L${W} ${H - 18} L0 ${H - 18} Z`} fill="url(#pt)" />
       <Path d={line} stroke={C.ac} strokeWidth={2.2} fill="none" />
       <Path d={bl} stroke={C.mu} strokeWidth={1.2} strokeDasharray="4 4" fill="none" />
@@ -31,6 +32,7 @@ function TrendChart({ data, k }: { data: any[]; k: string }) {
 }
 
 export default function Predictive() {
+  useThemeMode();
   const aq = useAircraft();
   const [type, setType] = useState('su30');
   const hm = fleetApi.getFailureHeatmap();
@@ -54,7 +56,7 @@ export default function Predictive() {
               <Row style={{ paddingHorizontal: 14, height: 44, gap: 10 }} onPress={() => router.push(`/aircraft/${a.tail_no}`)}>
                 <Mono style={{ width: 70, fontSize: 13.5 }}>{a.tail_no}</Mono>
                 <T style={{ width: 54, fontSize: 11.5, color: C.fa }} numberOfLines={1}>{a.aircraft_type.split(' ')[0]}</T>
-                <View style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                <View style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: C.track }}>
                   <View style={{ width: `${Math.min(100, (a.rul_hours / maxR) * 100)}%`, height: 6, borderRadius: 3, backgroundColor: col }} />
                 </View>
                 <Mono style={{ width: 34, textAlign: 'right', fontSize: 13.5, color: col }}>{Math.round(a.rul_hours)}</Mono>
@@ -75,7 +77,7 @@ export default function Predictive() {
             <T style={{ width: 92, fontSize: 11.5, color: C.mu }} numberOfLines={1}>{s.name.replace(/ (Turbofan Stages|Turbine Blades|Delivery Pump|Actuator Loop|& Avionics Bus)/, '')}</T>
             {s.risks.map((r: any) => (
               <View key={r.regime} style={{ flex: 1, height: 30, marginHorizontal: 2, borderRadius: 7, backgroundColor: heat(r.risk_pct), alignItems: 'center', justifyContent: 'center' }}>
-                {r.risk_pct >= 45 ? <T style={{ fontSize: 11, fontFamily: F.uiB, color: r.risk_pct >= 70 ? '#2A0A0A' : C.onac }}>{r.risk_pct}</T> : null}
+                {r.risk_pct >= 45 ? <T style={{ fontSize: 11, fontFamily: F.uiB, color: r.risk_pct >= 70 ? C.onbad : C.onac }}>{r.risk_pct}</T> : null}
               </View>
             ))}
           </Row>

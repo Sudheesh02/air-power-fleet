@@ -1,9 +1,10 @@
+import { useThemeMode } from '../lib/settings';
 import React, { useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMutation } from '@tanstack/react-query';
 import { fleetApi } from '../api/fleetApi';
-import { C, F } from '../lib/theme';
+import { C, F, toneBg } from '../lib/theme';
 import { Btn, Card, Disp, Icon, IconBtn, Mono, Row, Screen, Sheet, T, Tag } from '../components/ui';
 import { useInvalidateOps, useInventory, useWorkOrders } from '../lib/queries';
 import { shortId } from '../lib/wo';
@@ -16,6 +17,7 @@ const PRIOS = [
 const DEPOTS = ['3 BRD Chandigarh', '11 BRD Nashik', 'HAL Engine Division (Bengaluru)'];
 
 export default function Requisition() {
+  useThemeMode();
   const p = useLocalSearchParams<{ tail?: string; base?: string; part?: string; trigger?: string }>();
   const iq = useInventory();
   const wq = useWorkOrders();
@@ -51,7 +53,7 @@ export default function Requisition() {
     return (
       <Screen footer={<Row><Btn label="Back to logistics" onPress={() => router.back()} /></Row>}>
         <View style={{ alignItems: 'flex-start', marginTop: 90 }}>
-          <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: 'rgba(52,211,153,0.14)', alignItems: 'center', justifyContent: 'center' }}><Icon name="check" size={26} color={C.ok} /></View>
+          <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: toneBg.ok, alignItems: 'center', justifyContent: 'center' }}><Icon name="check" size={26} color={C.ok} /></View>
           <Disp style={{ fontSize: 26, marginTop: 16 }}>Requisition raised</Disp>
           <Mono style={{ marginTop: 8, color: C.mu }}>{m.data.data?.req_id}</Mono>
           <T style={{ color: C.mu, marginTop: 8, lineHeight: 21 }}>{q} × {part?.component_name} from {depot} to {base}. Expected {arrive}. {m.data.isLive ? '' : '(Demo mode: stored on this device.)'}</T>
@@ -68,7 +70,7 @@ export default function Requisition() {
         <Pressable onPress={() => setSaved(true)} hitSlop={8}><T style={{ color: C.ac, fontFamily: F.uiS, fontSize: 15 }}>{saved ? 'Saved' : 'Save draft'}</T></Pressable>
       </Row>
       {tail ? (
-        <Row style={{ gap: 10, padding: 14, borderRadius: 16, backgroundColor: 'rgba(96,165,250,0.08)', borderWidth: 1, borderColor: 'rgba(96,165,250,0.25)', marginTop: 6 }}>
+        <Row style={{ gap: 10, padding: 14, borderRadius: 16, backgroundColor: toneBg.info, borderWidth: 1, borderColor: C.infoLine, marginTop: 6 }}>
           <Icon name="link-variant" size={18} color={C.info} />
           <T style={{ flex: 1, fontSize: 14 }}>For <Mono style={{ fontSize: 14 }}>{tail}{wo ? ` · ${shortId(wo.order_id)}` : ''}</Mono></T>
           <Pressable onPress={() => router.push('/orders')}><T style={{ color: C.info, fontFamily: F.uiS }}>Change</T></Pressable>
@@ -97,7 +99,7 @@ export default function Requisition() {
         {PRIOS.map((x) => {
           const on = x.key === prio;
           return (
-            <Pressable key={x.key} onPress={() => setPrio(x.key)} accessibilityState={{ selected: on }} style={{ flex: 1, height: 44, borderRadius: 12, borderWidth: 1, borderColor: on ? 'rgba(248,113,113,0.6)' : C.line2, backgroundColor: on ? 'rgba(248,113,113,0.12)' : 'transparent', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 }}>
+            <Pressable key={x.key} onPress={() => setPrio(x.key)} accessibilityState={{ selected: on }} style={{ flex: 1, height: 44, borderRadius: 12, borderWidth: 1, borderColor: on ? C.badLine : C.line2, backgroundColor: on ? toneBg.bad : 'transparent', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 }}>
               {on && x.key === 'CRITICAL_AOG' ? <Icon name="exclamation" size={14} color={C.bad} /> : null}
               <T style={{ fontSize: 13.5, fontFamily: F.uiS, color: on ? C.bad : C.mu }}>{x.label}</T>
             </Pressable>

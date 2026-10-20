@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AccessibilityInfo } from 'react-native';
+import { AccessibilityInfo, useColorScheme } from 'react-native';
+import { applyTheme, ThemeMode } from './theme';
 import { configureApi } from '../api/fleetApi';
 
 export type Settings = {
@@ -11,6 +12,9 @@ export type Settings = {
   speed: number;
   reduceMotion: boolean;
   theme: 'day' | 'night' | 'system';
+  unitName: string;
+  role: string;
+  unitBase: string;
 };
 
 const DEFAULTS: Settings = {
@@ -21,10 +25,13 @@ const DEFAULTS: Settings = {
   speed: 1,
   reduceMotion: false,
   theme: 'night',
+  unitName: '',
+  role: 'Squadron Commander',
+  unitBase: '',
 };
 
-type Ctx = { s: Settings; set: (p: Partial<Settings>) => void; ready: boolean; systemReduceMotion: boolean };
-const SettingsCtx = createContext<Ctx>({ s: DEFAULTS, set: () => {}, ready: false, systemReduceMotion: false });
+type Ctx = { s: Settings; set: (p: Partial<Settings>) => void; ready: boolean; systemReduceMotion: boolean; mode: ThemeMode };
+const SettingsCtx = createContext<Ctx>({ s: DEFAULTS, set: () => {}, ready: false, systemReduceMotion: false, mode: 'night' });
 const KEY = 'vayu.settings.v2';
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
@@ -51,7 +58,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       AsyncStorage.setItem(KEY, JSON.stringify(next)).catch(() => {});
       return next;
     });
-  return <SettingsCtx.Provider value={{ s, set, ready, systemReduceMotion }}>{children}</SettingsCtx.Provider>;
+  const sys = useColorScheme();
+  const mode: ThemeMode = s.theme === 'system' ? (sys === 'light' ? 'day' : 'night') : s.theme;
+  applyTheme(mode);
+  return <SettingsCtx.Provider value={{ s, set, ready, systemReduceMotion, mode }}>{children}</SettingsCtx.Provider>;
 }
 
 export const useSettings = () => useContext(SettingsCtx);
@@ -59,3 +69,5 @@ export const useReducedMotion = () => {
   const { s, systemReduceMotion } = useSettings();
   return s.reduceMotion || systemReduceMotion;
 };
+/** Subscribe a screen to theme changes so its inline styles re-read the live palette. */
+export const useThemeMode = () => useSettings().mode;

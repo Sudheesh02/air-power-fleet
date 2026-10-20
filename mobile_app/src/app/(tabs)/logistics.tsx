@@ -1,3 +1,4 @@
+import { useThemeMode } from '../../lib/settings';
 import React, { useMemo, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
@@ -10,6 +11,7 @@ import { useInventory } from '../../lib/queries';
 const SUB_ICON: Record<string, IconName> = { HPC: 'fan', 'LPC/Fan': 'fan', LPT: 'fire', 'Fuel System': 'gas-station-outline', 'FADEC/Avionics': 'chip' };
 
 export default function Logistics() {
+  useThemeMode();
   const iq = useInventory();
   const [base, setBase] = useState('AFS Thanjavur');
   const [pick, setPick] = useState(false);
@@ -51,7 +53,7 @@ export default function Logistics() {
             { value: nextDay, label: 'Next delivery' },
           ]} />
           {trig ? (
-            <LinearGradient colors={['rgba(255,181,71,0.14)', 'rgba(255,181,71,0.05)']} style={{ marginTop: 14, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(255,181,71,0.3)', padding: 14, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <LinearGradient colors={[C.tint, C.tintSoft]} style={{ marginTop: 14, borderRadius: 18, borderWidth: 1, borderColor: C.tintLine, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
               <Icon name="creation" size={20} color={C.ac} />
               <View style={{ flex: 1 }}>
                 <T style={{ fontFamily: F.uiS, fontSize: 15 }} numberOfLines={1}>Reorder {trig.lru_component}</T>
@@ -81,7 +83,7 @@ export default function Logistics() {
                       <Mono style={{ color: col, fontSize: 14 }}>{q}</Mono>
                       <Mono style={{ color: C.fa, fontSize: 13, fontFamily: F.mono }}> / {min}</Mono>
                     </Row>
-                    <View style={{ height: 5, borderRadius: 3, backgroundColor: 'rgba(255,255,255,0.06)', marginTop: 8 }}>
+                    <View style={{ height: 5, borderRadius: 3, backgroundColor: C.track, marginTop: 8 }}>
                       <View style={{ width: `${Math.min(100, (q / max) * 100)}%`, height: 5, borderRadius: 3, backgroundColor: col }} />
                       <View style={{ position: 'absolute', left: `${(min / max) * 100}%`, top: -3, width: 2, height: 11, borderRadius: 1, backgroundColor: C.mu }} />
                     </View>
@@ -105,7 +107,7 @@ export default function Logistics() {
                 <T style={{ fontSize: 15.5, fontFamily: F.uiS, marginTop: 6 }}>{r.component_name}</T>
                 <T style={{ fontSize: 12.5, color: C.mu, marginTop: 2 }}>{r.depot_source || 'Central depot'} → {baseShort(r.base_station)}</T>
                 <Row style={{ gap: 4, marginTop: 12 }}>
-                  {Array.from({ length: tot }, (_, k) => <View key={k} style={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: k < done ? C.ac : 'rgba(255,255,255,0.08)' }} />)}
+                  {Array.from({ length: tot }, (_, k) => <View key={k} style={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: k < done ? C.ac : C.track }} />)}
                 </Row>
                 <Row style={{ marginTop: 8 }}>
                   <T style={{ flex: 1, fontSize: 12, color: C.mu }}>{String(r.status).replace(/_/g, ' ').toLowerCase()} · {r.transit_mode || ''}</T>

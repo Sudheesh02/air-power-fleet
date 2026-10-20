@@ -1,13 +1,15 @@
+import { useThemeMode } from '../../lib/settings';
 import React from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMutation } from '@tanstack/react-query';
 import { fleetApi } from '../../api/fleetApi';
-import { C, F, baseShort } from '../../lib/theme';
+import { C, F, baseShort, toneBg } from '../../lib/theme';
 import { Btn, Card, Disp, Eyebrow, Icon, IconBtn, Kpis, Loading, Mono, Row, Screen, T, Tag } from '../../components/ui';
 import { useInvalidateOps, useTwin } from '../../lib/queries';
 
 export default function Triage() {
+  useThemeMode();
   const { tail = 'SB-024' } = useLocalSearchParams<{ tail: string }>();
   const tq = useTwin(tail);
   const inv = useInvalidateOps();
@@ -50,7 +52,7 @@ export default function Triage() {
       {!tw ? <Loading /> : (
         <>
           <Row style={{ gap: 16, marginTop: 8 }}>
-            <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: done ? 'rgba(52,211,153,0.14)' : 'rgba(255,181,71,0.14)', borderWidth: 1, borderColor: done ? 'rgba(52,211,153,0.4)' : 'rgba(255,181,71,0.4)', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: done ? toneBg.ok : C.tint, borderWidth: 1, borderColor: done ? C.okLine : C.tintLine, alignItems: 'center', justifyContent: 'center' }}>
               <Icon name={done ? 'check' : 'medical-bag'} size={26} color={done ? C.ok : C.ac} />
             </View>
             <View style={{ flexGrow: 1 }}>
@@ -80,7 +82,7 @@ export default function Triage() {
             return (
               <Row key={s} style={{ gap: 14, alignItems: 'flex-start' }}>
                 <View style={{ alignItems: 'center', width: 22 }}>
-                  <View style={{ width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: pending ? 'transparent' : 'rgba(52,211,153,0.16)', borderWidth: pending ? 1 : 0, borderStyle: 'dashed', borderColor: last && done ? C.ac : C.line2 }}>
+                  <View style={{ width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: pending ? 'transparent' : toneBg.ok, borderWidth: pending ? 1 : 0, borderStyle: 'dashed', borderColor: last && done ? C.ac : C.line2 }}>
                     <Icon name={pending ? 'clock-outline' : 'check'} size={13} color={pending ? (last && done ? C.ac : C.fa) : C.ok} />
                   </View>
                   {!last ? <View style={{ width: 2, height: 30, backgroundColor: C.line2 }} /> : null}

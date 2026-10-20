@@ -27,7 +27,7 @@ export function PersonaSheet({ visible, onClose }: { visible: boolean; onClose: 
         {VOICE_SPEAKERS.map((v, i) => {
           const on = v.id === sel;
           return (
-            <Pressable key={v.id} onPress={() => setSel(v.id)} accessibilityState={{ selected: on }} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 16, borderWidth: 1, borderColor: on ? 'rgba(255,181,71,0.5)' : C.line, backgroundColor: on ? 'rgba(255,181,71,0.08)' : C.s1 }}>
+            <Pressable key={v.id} onPress={() => setSel(v.id)} accessibilityState={{ selected: on }} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 16, borderWidth: 1, borderColor: on ? C.tintLine : C.line, backgroundColor: on ? C.tintSoft : C.s1 }}>
               <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: i === 0 ? C.ac : C.s2, alignItems: 'center', justifyContent: 'center' }}>
                 <T style={{ fontFamily: F.uiB, color: i === 0 ? C.onac : C.tx }}>{v.name.split(' ').pop()![0]}</T>
               </View>

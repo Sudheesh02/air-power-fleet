@@ -1,3 +1,4 @@
+import { useThemeMode } from '../../lib/settings';
 import React from 'react';
 import { Pressable, View } from 'react-native';
 import { Tabs } from 'expo-router';
@@ -15,6 +16,7 @@ const META: Record<string, { label: string; icon: IconName; iconOn: IconName }> 
 };
 
 function Bar({ state, navigateToTab }: BottomTabBarProps) {
+  useThemeMode();
   const ins = useSafeAreaInsets();
   return (
     <View style={{ flexDirection: 'row', height: 80 + ins.bottom, paddingBottom: ins.bottom, backgroundColor: C.nav, borderTopWidth: 1, borderColor: C.line }}>
@@ -28,7 +30,7 @@ function Bar({ state, navigateToTab }: BottomTabBarProps) {
             onPress={() => { if (!on) navigateToTab(r.key); }}
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4 }}
           >
-            <View style={{ width: 64, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? 'rgba(255,181,71,0.16)' : 'transparent' }}>
+            <View style={{ width: 64, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? C.tint : 'transparent' }}>
               <Icon name={on ? m.iconOn : m.icon} size={22} color={on ? C.ac : C.mu} />
             </View>
             <T style={{ fontSize: 12, fontFamily: on ? F.uiS : F.uiM, color: on ? C.tx : C.mu }}>{m.label}</T>
@@ -40,6 +42,7 @@ function Bar({ state, navigateToTab }: BottomTabBarProps) {
 }
 
 export default function TabsLayout() {
+  useThemeMode();
   return (
     <Tabs tabBar={(p) => <Bar {...p} />} screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: C.bg }, animation: 'fade' }}>
       <Tabs.Screen name="index" />

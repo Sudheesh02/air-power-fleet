@@ -1,3 +1,4 @@
+import { useThemeMode } from '../../lib/settings';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FlatList, Pressable, ScrollView, TextInput, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -10,6 +11,7 @@ const TYPES = ['Su-30MKI', 'Tejas', 'Rafale', 'C-17', 'ALH'];
 const RISK: Record<string, number> = { MAINTENANCE_GROUNDED: 0, CONDITIONAL_STANDBY: 1, MISSION_CAPABLE: 2 };
 
 export default function Fleet() {
+  useThemeMode();
   const ins = useSafeAreaInsets();
   const params = useLocalSearchParams<{ filter?: string }>();
   const aq = useAircraft();
@@ -34,7 +36,7 @@ export default function Fleet() {
       <Row style={{ height: 52, borderRadius: 26, backgroundColor: C.s2, borderWidth: 1, borderColor: C.line, paddingLeft: 16, paddingRight: 8, gap: 10, marginTop: 4 }}>
         <Icon name="magnify" size={21} color={C.mu} />
         <TextInput value={q} onChangeText={setQ} placeholder="Tail, engine serial or fault" placeholderTextColor={C.mu} style={{ flex: 1, color: C.tx, fontFamily: F.ui, fontSize: 15.5 }} />
-        <Pressable onPress={() => router.push('/voice')} accessibilityLabel="Search by voice" style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(255,181,71,0.14)', alignItems: 'center', justifyContent: 'center' }}>
+        <Pressable onPress={() => router.push('/voice')} accessibilityLabel="Search by voice" style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: C.tint, alignItems: 'center', justifyContent: 'center' }}>
           <Icon name="microphone-outline" size={19} color={C.ac} />
         </Pressable>
       </Row>

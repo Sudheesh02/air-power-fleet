@@ -44,7 +44,7 @@ export function SortieSheet({ tail, visible, onClose }: { tail: string; visible:
       </Row>
       <Row style={{ gap: 10, marginTop: 8 }}>
         <IconBtn icon="minus" label="Shorter" onPress={() => setHours(Math.max(0.5, hours - 0.5))} />
-        <View style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: 'rgba(255,255,255,0.08)' }}>
+        <View style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: C.track }}>
           <View style={{ width: `${(hours / 8) * 100}%`, height: 6, borderRadius: 3, backgroundColor: C.ac }} />
         </View>
         <IconBtn icon="plus" label="Longer" onPress={() => setHours(Math.min(8, hours + 0.5))} />
@@ -79,7 +79,7 @@ export function SortieSheet({ tail, visible, onClose }: { tail: string; visible:
             </Row>
           ) : null}
           {!go && sub ? (
-            <Card style={{ padding: 14, marginTop: 6, borderColor: 'rgba(52,211,153,0.3)' }} onPress={() => { onClose(); router.push(`/aircraft/${sub.tail_no}`); }}>
+            <Card style={{ padding: 14, marginTop: 6, borderColor: C.okLine }} onPress={() => { onClose(); router.push(`/aircraft/${sub.tail_no}`); }}>
               <T style={{ fontSize: 12, color: C.mu }}>Suggested substitute</T>
               <Row style={{ gap: 8, marginTop: 4 }}>
                 <Icon name="swap-horizontal" size={18} color={C.ok} />
