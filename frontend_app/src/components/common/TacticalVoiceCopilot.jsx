@@ -12,7 +12,7 @@ import {
   RotateCcw,
   Play,
   Square,
-  Shield,
+  Plane,
   Copy,
   Check,
   PlusCircle,
@@ -301,7 +301,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
             aria-label="Open Air Power Copilot"
             className="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] shadow-vision-glow hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer border border-white/20"
           >
-            <Radio className="w-5 h-5 text-white" />
+            <Plane className="w-5 h-5 text-white -rotate-45" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-900 shadow-sm animate-pulse" />
           </button>
         </div>
@@ -335,13 +335,13 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
           {/* Left: Brand Squircle + Title + Context Subtitle */}
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
-              <Shield className="w-4 h-4" />
+              <Plane className="w-4 h-4 -rotate-45" />
             </div>
-            <div className="truncate leading-tight">
-              <h3 className={`font-bold text-sm tracking-tight truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <div className="min-w-0 leading-tight">
+              <h3 className={`font-bold text-sm tracking-tight whitespace-nowrap ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Air Power Copilot
               </h3>
-              <p className="text-[11px] text-slate-400 font-sans truncate mt-0.5">
+              <p className="text-[10px] text-slate-400 font-sans truncate max-w-[125px] sm:max-w-[160px] mt-0.5">
                 {getContextLabel(activeTab)}
               </p>
             </div>
@@ -354,7 +354,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
               <select
                 value={selectedSpeaker}
                 onChange={(e) => setSelectedSpeaker(e.target.value)}
-                className={`text-[11px] font-semibold py-1 px-2 pr-6 rounded-lg appearance-none cursor-pointer border transition ${
+                className={`text-[11px] font-semibold py-1 px-2 pr-6 rounded-lg appearance-none cursor-pointer border transition max-w-[100px] sm:max-w-[125px] truncate ${
                   isDark
                     ? 'bg-slate-900/90 text-cyan-300 border-white/15 hover:border-cyan-500/40'
                     : 'bg-slate-100 text-slate-800 border-slate-200 hover:border-blue-400'
@@ -363,7 +363,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
               >
                 {VOICE_SPEAKERS.map((sp) => (
                   <option key={sp.id} value={sp.id} className="bg-slate-900 text-white">
-                    {sp.name}
+                    {sp.name.split(' ')[0]} ({sp.role.split(' ')[0]})
                   </option>
                 ))}
               </select>
@@ -458,7 +458,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
               <div key={msg.id} className="flex items-start gap-3">
                 {/* Subtle Brand Squircle Avatar on Left */}
                 <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shrink-0 mt-0.5 shadow-xs">
-                  <Shield className="w-3.5 h-3.5" />
+                  <Plane className="w-3.5 h-3.5 -rotate-45" />
                 </div>
 
                 <div className="flex-1 min-w-0">

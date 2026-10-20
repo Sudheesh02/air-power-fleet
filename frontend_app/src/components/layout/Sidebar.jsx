@@ -5,7 +5,7 @@ import {
   TrendingUp,
   Boxes,
   ClipboardList,
-  Shield,
+  Plane,
   ExternalLink,
   ChevronRight,
   PanelLeftClose,
@@ -92,7 +92,7 @@ export default function Sidebar({ isOpen, onClose }) {
                 title="Expand sidebar (Ctrl+B)"
                 className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow hover:scale-105 active:scale-95 transition-all"
               >
-                <Shield className="w-5 h-5" />
+                <Plane className="w-5 h-5 -rotate-45" />
               </button>
               <button
                 onClick={toggleSidebarCollapse}
@@ -111,13 +111,13 @@ export default function Sidebar({ isOpen, onClose }) {
             <div className="flex items-center justify-between px-2 py-3 border-b border-white/10 dark:border-white/10">
               <div className="flex items-center gap-3 min-w-0">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
-                  <Shield className="w-5 h-5" />
+                  <Plane className="w-5 h-5 -rotate-45" />
                 </div>
-                <div className="truncate">
-                  <h1 className={`text-sm font-extrabold tracking-wide uppercase truncate ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
-                    Air Power Command
+                <div className="min-w-0">
+                  <h1 className={`text-xs sm:text-sm font-black tracking-wider uppercase leading-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                    Air Power Fleet
                   </h1>
-                  <p className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">
+                  <p className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider mt-0.5">
                     Defense Fleet AI
                   </p>
                 </div>
