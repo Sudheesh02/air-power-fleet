@@ -18,7 +18,8 @@ import {
   Sparkles,
   Link2,
   Wrench,
-  ShieldCheck
+  ShieldCheck,
+  Activity
 } from 'lucide-react';
 import GlassCard from '../common/GlassCard';
 import StatusBadge from '../common/StatusBadge';
