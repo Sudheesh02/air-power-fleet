@@ -10,7 +10,6 @@ import {
 } from 'lucide-react';
 import GlassCard from '../common/GlassCard';
 import StatusBadge from '../common/StatusBadge';
-import TurbofanEngineSchematic from '../common/TurbofanEngineSchematic';
 import { useTheme } from '../../context/ThemeContext';
 import { fleetApi } from '../../api/fleetApi';
 import { MOCK_AIRCRAFT_LIST } from '../../data/mockFleetData';
@@ -630,17 +629,7 @@ export default function DigitalTwinView() {
           </div>
         </div>
 
-        {/* Interactive 5-Stage Twin-Spool Turbofan SVG Cutaway Schematic */}
-        <div className="mb-4">
-          <TurbofanEngineSchematic
-            stages={stages}
-            telemetry={tel}
-            selectedStage={selectedStageKey}
-            onSelectStage={(key) => setSelectedStageKey(selectedStageKey === key ? null : key)}
-            isDark={isDark}
-            aircraftType={twinData?.aircraft_type}
-          />
-        </div>
+        
 
         {/* 5 Stages Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
