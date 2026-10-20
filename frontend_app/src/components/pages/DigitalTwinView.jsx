@@ -547,7 +547,7 @@ export default function DigitalTwinView() {
             <div className="flex items-center gap-2">
               <Activity className="w-5 h-5 text-emerald-400" />
               <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Turbofan Gas Path Cross-Section Breakdown (Stations 2 &rarr; 50)
+                Turbofan 5-Stage Gas Path Health (Stations 2 &rarr; 50)
               </h3>
             </div>
             <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5 font-sans`}>
