@@ -1,6 +1,7 @@
 import React from 'react';
 import GlassCard from './GlassCard';
 import { useTheme } from '../../context/ThemeContext';
+import { ArrowUpRight } from 'lucide-react';
 
 function Sparkline({ data, color = '#2563EB', height = 28 }) {
   if (!data || data.length < 2) return null;
@@ -44,7 +45,7 @@ function Sparkline({ data, color = '#2563EB', height = 28 }) {
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full block">
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={color} stopOpacity={0.3} />
+            <stop offset="0%" stopColor={color} stopOpacity={0.35} />
             <stop offset="100%" stopColor={color} stopOpacity={0.0} />
           </linearGradient>
         </defs>
@@ -68,11 +69,11 @@ export default function StatCard({
   title,
   value,
   change,
-  changeType = 'positive', // positive, negative, neutral, amber
+  changeType = 'positive', // positive, negative, neutral, amber, purple
   icon: Icon,
   subtitle,
   progress = null,
-  glowColor = 'blue',
+  glowColor = 'purple',
   sparklineData = null
 }) {
   const { isDark } = useTheme();
@@ -132,28 +133,31 @@ export default function StatCard({
   };
 
   return (
-    <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 relative group">
-      {/* 1. TOP HEADER ROW: Icon + Title on Left, Status/Trend Badge on Right */}
+    <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 relative group border border-[#343448] bg-[#20212F] shadow-lg shadow-black/40">
+      {/* 1. TOP HEADER ROW: Icon + Title on Left, Reference Circular Arrow on Right */}
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0 flex-1">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
           {Icon && (
-            <div className={`w-8 h-8 rounded-xl ${iconTonalStyles[glowColor] || iconTonalStyles.blue} flex items-center justify-center shrink-0`}>
-              <Icon className="w-4 h-4 stroke-[2.2]" />
+            <div className={`w-7 h-7 rounded-lg ${iconTonalStyles[glowColor] || iconTonalStyles.purple} flex items-center justify-center shrink-0`}>
+              <Icon className="w-3.5 h-3.5 stroke-[2.2]" />
             </div>
           )}
-          <span className={`text-xs font-semibold tracking-tight font-sans truncate ${isDark ? 'text-slate-300' : 'text-slate-600'}`} title={title}>
+          <span className={`text-xs font-semibold tracking-tight font-sans truncate ${isDark ? 'text-[#A7A8C2]' : 'text-slate-600'}`} title={title}>
             {title}
           </span>
         </div>
 
-        {change && (
-          <span className={`text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full font-semibold font-sans whitespace-nowrap shrink-0 ml-1 ${changeColors[changeType] || changeColors.neutral}`}>
-            {change}
-          </span>
-        )}
+        {/* Reference Circular Action Indicator */}
+        <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors shrink-0 ${
+          isDark
+            ? 'bg-[#252638] border border-[#343448] text-[#A7A8C2] group-hover:text-[#BC83FF] group-hover:border-[#9147FF]/50'
+            : 'bg-slate-100 border border-slate-200 text-slate-500 group-hover:text-purple-600'
+        }`}>
+          <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.2]" />
+        </div>
       </div>
 
-      {/* 2. DEDICATED METRIC ROW: Big Value on Left, Sparkline on Right */}
+      {/* 2. DEDICATED METRIC ROW: Big Value on Left with Pill Badge, Sparkline on Right */}
       <div className="mt-3 mb-2 flex items-center justify-between gap-3">
         <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight font-sans whitespace-nowrap ${isDark ? 'text-white' : 'text-slate-900'}`}>
           {renderFormattedValue(value)}
@@ -168,15 +172,15 @@ export default function StatCard({
         )}
       </div>
 
-      {/* 3. CONTEXT FOOTER ROW: Clean Subtitle with 100% Horizontal Space (Zero Ellipses/Truncation) */}
-      <div className="pt-2 border-t border-white/5 dark:border-white/5 flex items-center justify-between">
+      {/* 3. CONTEXT FOOTER ROW: Clean Subtitle with 100% Horizontal Space */}
+      <div className={`pt-2 border-t flex items-center justify-between ${isDark ? 'border-[#343448]' : 'border-slate-100'}`}>
         {progress !== null ? (
           <div className="w-full">
             <div className="flex justify-between text-[11px] mb-1 font-sans font-medium">
               <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>{subtitle || 'Readiness index'}</span>
               <span className="font-bold text-sky-400 ml-1">{progress}%</span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-slate-700/40 overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-[#252638] overflow-hidden">
               <div
                 className="h-full rounded-full bg-blue-600 transition-all duration-700"
                 style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
@@ -184,7 +188,7 @@ export default function StatCard({
             </div>
           </div>
         ) : (
-          <p className={`text-xs font-sans font-normal leading-tight ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+          <p className={`text-xs font-sans font-normal leading-tight ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'}`}>
             {subtitle}
           </p>
         )}

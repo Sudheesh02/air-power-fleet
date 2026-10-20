@@ -118,7 +118,7 @@ export default function CommandOverview() {
 
   const handleSort = (field) => {
     if (sortField === field) {
-      setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc'));
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
       setSortField(field);
       setSortDirection('asc');
@@ -145,13 +145,13 @@ export default function CommandOverview() {
   const aogSparkline = groundedCount === 0
     ? [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     : [
-        Number((groundedCount * 5.2).toFixed(1)),
-        Number((groundedCount * 4.8).toFixed(1)),
-        Number((groundedCount * 4.4).toFixed(1)),
-        Number((groundedCount * 4.1).toFixed(1)),
         Number((groundedCount * 3.8).toFixed(1)),
         Number((groundedCount * 3.6).toFixed(1)),
-        Number((groundedCount * 3.5).toFixed(1))
+        Number((groundedCount * 3.5).toFixed(1)),
+        Number((groundedCount * 3.2).toFixed(1)),
+        Number((groundedCount * 3.0).toFixed(1)),
+        Number((groundedCount * 2.8).toFixed(1)),
+        Number((groundedCount * 2.5).toFixed(1))
       ];
 
   const radialData = [
@@ -189,7 +189,7 @@ export default function CommandOverview() {
           change={dynamicMcRate >= 75 ? `+${(dynamicMcRate - 75.0).toFixed(1)}% Target` : `${(dynamicMcRate - 75.0).toFixed(1)}% Target`}
           changeType={dynamicMcRate >= 75 ? 'positive' : 'amber'}
           icon={Activity}
-          glowColor="emerald"
+          glowColor="purple"
           subtitle={`MoD Target: 75.0% (${activeSquadronLabel})`}
           sparklineData={availabilitySparkline}
         />
@@ -200,7 +200,7 @@ export default function CommandOverview() {
           change="+2 Active"
           changeType="positive"
           icon={Plane}
-          glowColor="blue"
+          glowColor="purple"
           subtitle="Cleared for combat sortie envelope"
           sparklineData={capableSparkline}
         />
@@ -231,8 +231,8 @@ export default function CommandOverview() {
       {/* 2. MAIN CHARTS ROW (Telemetry Trend & Circular Squadron Readiness Gauge) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left (2 cols): Multi-Line Predicted Fault Probability vs Flight Hours */}
-        <GlassCard className="p-5 lg:col-span-2 flex flex-col justify-between">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
+        <GlassCard className="p-5 lg:col-span-2 flex flex-col justify-between border border-[#343448] bg-[#20212F] shadow-lg shadow-black/40">
+          <div className={`flex flex-wrap items-center justify-between gap-3 border-b pb-4 mb-4 ${isDark ? 'border-[#343448]' : 'border-slate-100'}`}>
             <div>
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
@@ -240,7 +240,7 @@ export default function CommandOverview() {
                   Predicted Fault Probability vs. Flight Hours
                 </h3>
               </div>
-              <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+              <p className={`text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'} mt-0.5`}>
                 Multi-squadron prognostic degradation telemetry mapped across NASA C-MAPSS gas-path regimes
               </p>
             </div>
@@ -255,7 +255,7 @@ export default function CommandOverview() {
           <div className="w-full h-72">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={telemetryData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} />
+                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#343448' : 'rgba(0,0,0,0.06)'} />
                 <XAxis
                   dataKey="hours"
                   stroke={isDark ? '#64748B' : '#94A3B8'}
@@ -276,8 +276,8 @@ export default function CommandOverview() {
                     borderRadius: '12px',
                     fontSize: '12px',
                     fontFamily: 'JetBrains Mono',
-                    boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
-                    color: isDark ? '#FFF' : '#000'
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+                    color: isDark ? '#F5F4FF' : '#000'
                   }}
                 />
                 <Legend
@@ -332,7 +332,7 @@ export default function CommandOverview() {
             <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Overall Squadron Readiness Score
             </h3>
-            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+            <p className={`text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'} mt-0.5`}>
               Composite readiness index for {selectedSquadron === 'ALL' ? 'Combined Fleet' : activeSquadronLabel}
             </p>
           </div>
@@ -351,7 +351,7 @@ export default function CommandOverview() {
               >
                 <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
                 <RadialBar
-                  background={{ fill: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' }}
+                  background={{ fill: isDark ? '#252638' : 'rgba(0,0,0,0.05)' }}
                   dataKey="value"
                   cornerRadius={10}
                 />
@@ -363,7 +363,7 @@ export default function CommandOverview() {
               <span className="text-4xl font-black font-sans text-sky-400 tracking-tight">
                 {dynamicMcRate}%
               </span>
-              <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-1`}>
+              <span className={`text-xs font-semibold ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'} mt-1`}>
                 Readiness Score
               </span>
               <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-500/10 text-sky-400 font-sans font-medium mt-1 border border-blue-500/20">
@@ -373,18 +373,18 @@ export default function CommandOverview() {
           </div>
 
           <div className={`p-3.5 rounded-2xl border text-xs space-y-2 ${
-            isDark ? 'bg-white/5 border-white/5 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+            isDark ? 'bg-[#252638] border-[#343448] text-[#F5F4FF]' : 'bg-slate-50 border-slate-200 text-slate-700'
           }`}>
             <div className="flex justify-between items-center">
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Combat Mission Ready:</span>
+              <span className={isDark ? 'text-[#A7A8C2]' : 'text-slate-500'}>Combat Mission Ready:</span>
               <span className="font-bold font-sans text-emerald-400 text-xs">{capableCount} Aircraft</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Predictive Maintenance Scheduled:</span>
+              <span className={isDark ? 'text-[#A7A8C2]' : 'text-slate-500'}>Predictive Maintenance Scheduled:</span>
               <span className="font-bold font-sans text-amber-400 text-xs">{standbyCount} Aircraft</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Critical Alert / Grounded:</span>
+              <span className={isDark ? 'text-[#A7A8C2]' : 'text-slate-500'}>Critical Alert / Grounded:</span>
               <span className="font-bold font-sans text-rose-400 text-xs">{groundedCount} Aircraft</span>
             </div>
           </div>
@@ -392,8 +392,8 @@ export default function CommandOverview() {
       </div>
 
       {/* 3. LIVE FLEET STATUS & RUL MATRIX TABLE */}
-      <GlassCard className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
+      <GlassCard className="p-5 border border-[#343448] bg-[#20212F] shadow-lg shadow-black/40">
+        <div className={`flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-4 ${isDark ? 'border-[#343448]' : 'border-slate-100'}`}>
           <div>
             <div className="flex items-center gap-2">
               <Plane className="w-5 h-5 text-sky-400" />
@@ -401,7 +401,7 @@ export default function CommandOverview() {
                 Live Fleet Status & RUL Matrix
               </h3>
             </div>
-            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+            <p className={`text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'} mt-0.5`}>
               Showing {sortedAircraft.length} aircraft &bull; Sortable columns &bull; Click any tail to inspect its Digital Twin
             </p>
           </div>
@@ -425,7 +425,7 @@ export default function CommandOverview() {
 
             {/* Quick Search */}
             <div className="relative">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A7A8C2]" />
               <input
                 type="text"
                 placeholder="Filter tail, model, base..."
@@ -433,7 +433,7 @@ export default function CommandOverview() {
                 onChange={(e) => setSearchFilter(e.target.value)}
                 className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                   isDark
-                    ? 'bg-slate-900/80 text-white placeholder-slate-500 border border-white/10'
+                    ? 'bg-[#252638] text-[#F5F4FF] placeholder-[#A7A8C2] border border-[#343448]'
                     : 'bg-slate-100 text-slate-800 placeholder-slate-400 border border-slate-200'
                 }`}
               />
@@ -445,7 +445,7 @@ export default function CommandOverview() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-sans">
             <thead className={`uppercase font-sans font-bold text-[11px] tracking-wider border-b ${
-              isDark ? 'text-slate-400 bg-slate-900/50 border-white/10' : 'text-slate-500 bg-slate-100 border-slate-200'
+              isDark ? 'text-[#A7A8C2] bg-[#252638] border-[#343448]' : 'text-slate-500 bg-slate-100 border-slate-200'
             }`}>
               <tr>
                 <th
@@ -499,7 +499,7 @@ export default function CommandOverview() {
                 <th className="p-3 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 dark:divide-white/5 font-medium">
+            <tbody className={`divide-y font-medium ${isDark ? 'divide-[#343448]' : 'divide-slate-100'}`}>
               {sortedAircraft.map((ac) => {
                 return (
                   <tr
@@ -509,24 +509,24 @@ export default function CommandOverview() {
                       setActiveTab('twin');
                     }}
                     className={`cursor-pointer transition-colors ${
-                      isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'
+                      isDark ? 'hover:bg-[#252638]/70' : 'hover:bg-slate-50'
                     }`}
                   >
                     <td className="p-3 font-sans font-bold text-sky-400 text-sm tracking-tight">
                       {ac.tail_no}
                     </td>
-                    <td className={`p-3 font-medium text-xs ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                    <td className={`p-3 font-medium text-xs ${isDark ? 'text-[#F5F4FF]' : 'text-slate-800'}`}>
                       {ac.aircraft_type}
                     </td>
                     <td className="p-3">
-                      <div className={`font-semibold text-xs ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                      <div className={`font-semibold text-xs ${isDark ? 'text-[#F5F4FF]' : 'text-slate-800'}`}>
                         {ac.squadron}
                       </div>
-                      <div className="text-[11px] text-slate-400 font-medium">
+                      <div className="text-[11px] text-[#A7A8C2] font-medium">
                         {ac.base_station}
                       </div>
                     </td>
-                    <td className={`p-3 font-sans font-semibold text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                    <td className={`p-3 font-sans font-semibold text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-700'}`}>
                       {ac.airframe_hours} h
                     </td>
                     <td className="p-3">
@@ -536,7 +536,7 @@ export default function CommandOverview() {
                         }`}>
                           {ac.health_score}%
                         </span>
-                        <div className="w-16 h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
+                        <div className="w-16 h-1.5 rounded-full bg-[#252638] overflow-hidden">
                           <div
                             className={`h-full rounded-full ${
                               ac.health_score > 75
@@ -550,10 +550,10 @@ export default function CommandOverview() {
                         </div>
                       </div>
                     </td>
-                    <td className={`p-3 font-sans font-medium text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                    <td className={`p-3 font-sans font-medium text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-600'}`}>
                       {ac.next_fault}
                     </td>
-                    <td className={`p-3 font-sans font-bold text-xs ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                    <td className={`p-3 font-sans font-bold text-xs ${isDark ? 'text-[#F5F4FF]' : 'text-slate-800'}`}>
                       ~{ac.rul_hours} h
                     </td>
                     <td className="p-3">

@@ -80,10 +80,10 @@ export default function Navbar({ onToggleSidebar }) {
   return (
     <header className="sticky top-0 z-30 px-4 sm:px-6 py-2 transition-colors">
       <div
-        className={`px-4 sm:px-5 py-2 rounded-xl flex items-center justify-between gap-3 transition-all duration-300 ${
+        className={`px-4 sm:px-5 py-2.5 rounded-2xl flex items-center justify-between gap-3 transition-all duration-300 ${
           isDark
-            ? 'vision-glass border-white/10'
-            : 'vision-glass-light border-slate-200'
+            ? 'bg-[#191A27] border border-[#343448] shadow-lg shadow-black/40 text-[#F5F4FF]'
+            : 'bg-white border border-slate-200 shadow-sm text-slate-800'
         }`}
       >
         {/* Left: YouTube Music-style Hamburger Toggle & Page Title */}
@@ -125,17 +125,17 @@ export default function Navbar({ onToggleSidebar }) {
               }`}
             >
               {SQUADRONS.map((sq) => (
-                <option key={sq.id} value={sq.id} className="bg-slate-900 text-white">
+                <option key={sq.id} value={sq.id} className="bg-[#20212F] text-[#F5F4FF]">
                   {sq.name}
                 </option>
               ))}
             </select>
-            <ChevronDown className="w-3.5 h-3.5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" />
+            <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#A7A8C2]" />
           </div>
 
           {/* Commander Profile Badge (Real Name & Defense Rank) */}
           <div
-            className={`hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-lg border text-xs shrink-0 transition-all ${
+            className={`hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-xl border text-xs shrink-0 transition-all ${
               isDark
                 ? 'bg-slate-900/80 border-white/10 hover:border-blue-500/40 text-slate-200'
                 : 'bg-slate-100 border-slate-200 hover:border-blue-400 text-slate-800'
@@ -150,16 +150,16 @@ export default function Navbar({ onToggleSidebar }) {
                 Chief of the Air Staff · IAF
               </p>
             </div>
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5 shrink-0" title="Encrypted Defence Link Active" />
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5 shrink-0 shadow-[0_0_6px_#22C55E]" title="Encrypted Defence Link Active" />
           </div>
 
           {/* Notification Bell with Dropdown */}
           <div className="relative shrink-0">
             <button
               onClick={() => setIsAlertOpen(!isAlertOpen)}
-              className={`p-2 rounded-lg transition relative ${
+              className={`p-2 rounded-xl transition relative ${
                 isDark
-                  ? 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-white/10'
+                  ? 'bg-[#252638] hover:bg-[#20212F] text-[#A7A8C2] hover:text-[#F5F4FF] border border-[#343448]'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200'
               }`}
             >
@@ -178,7 +178,7 @@ export default function Navbar({ onToggleSidebar }) {
                     : 'bg-white border border-slate-200 text-slate-800'
                 }`}
               >
-                <div className="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/10">
+                <div className={`flex items-center justify-between pb-3 border-b ${isDark ? 'border-[#343448]' : 'border-slate-200'}`}>
                   <div className="flex items-center gap-2">
                     <AlertTriangle className="w-4 h-4 text-amber-400" />
                     <span className="font-bold text-xs uppercase tracking-wider font-sans">
@@ -187,7 +187,7 @@ export default function Navbar({ onToggleSidebar }) {
                   </div>
                   <button
                     onClick={() => setIsAlertOpen(false)}
-                    className={isDark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}
+                    className={isDark ? 'text-[#A7A8C2] hover:text-[#F5F4FF]' : 'text-slate-500 hover:text-slate-900'}
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -208,7 +208,7 @@ export default function Navbar({ onToggleSidebar }) {
                       }}
                       className={`p-3 rounded-xl cursor-pointer border transition flex items-start gap-3 ${
                         isDark
-                          ? 'bg-white/5 hover:bg-white/10 border-white/5'
+                          ? 'bg-[#20212F] hover:bg-[#20212F]/80 border-[#343448]'
                           : 'bg-slate-50 hover:bg-slate-100 border-slate-200'
                       }`}
                     >
@@ -218,11 +218,11 @@ export default function Navbar({ onToggleSidebar }) {
                           <span className="font-bold font-sans text-sky-400 text-xs">
                             {al.tail}
                           </span>
-                          <span className="text-[10px] text-slate-400 font-sans">
+                          <span className="text-[10px] text-[#A7A8C2] font-sans">
                             {al.time}
                           </span>
                         </div>
-                        <p className={`text-xs mt-0.5 leading-snug ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                        <p className={`text-xs mt-0.5 leading-snug ${isDark ? 'text-[#A7A8C2]' : 'text-slate-600'}`}>
                           {al.msg}
                         </p>
                       </div>
@@ -236,8 +236,8 @@ export default function Navbar({ onToggleSidebar }) {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            title={isDark ? 'Switch to Venus/Purity Light Mode' : 'Switch to Vision UI Dark Mode'}
-            className={`p-2 rounded-lg transition-all duration-300 ease-out transform active:scale-90 flex items-center justify-center shrink-0 group ${
+            title={isDark ? 'Switch to Light Mode' : 'Switch to Charcoal Dark Mode'}
+            className={`p-2 rounded-xl transition-all duration-300 ease-out transform active:scale-90 flex items-center justify-center shrink-0 group ${
               isDark
                 ? 'bg-slate-900/80 hover:bg-slate-800 text-amber-300 border border-white/10 shadow-[0_0_12px_rgba(255,181,71,0.25)] hover:border-amber-400/40'
                 : 'bg-slate-100 hover:bg-slate-200 text-blue-600 border border-slate-200 shadow-sm hover:border-blue-400/40'

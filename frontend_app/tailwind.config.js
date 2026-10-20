@@ -8,6 +8,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        charcoal: {
+          950: '#0B0B12', // Main page background: Near-black
+          900: '#171824', // Sidebar background: Dark charcoal
+          850: '#191A27', // Header and toolbar surfaces
+          800: '#20212F', // Primary dashboard cards: Lighter charcoal (clearly distinguishable!)
+          750: '#252638', // Secondary cards and nested panels
+          700: '#343448', // Card borders: Subtle gray-purple
+          650: '#3D3E56',
+          600: '#484A66',
+          500: '#5C5E82',
+        },
         navy: {
           950: '#0B0F17',
           900: '#0F172A',
