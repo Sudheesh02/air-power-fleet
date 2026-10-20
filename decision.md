@@ -163,3 +163,12 @@ Whenever modifying code in this codebase, log all new architectural choices, int
 - **Tradeoffs & Mitigations**:
   - *Tradeoff*: Comprehensive style transformation across multiple JSX files.
   - *Mitigation*: Validated with full `vite build` (0 warnings, 2.08s) and executed all 7 automated backend integration tests (100% pass).
+
+
+### [2026-10-20] - Main Branch Rollback & Develop Branch Isolation Strategy
+- **Component Affected**: Git Branches (`main`, `develop`), Deployment Strategy
+- **Change Description**: Hard-reset the `main` branch back to pristine upstream commit `2914a68` and pushed with `--force-with-lease`. All UI redesign work, documentation, and enhancements remain completely isolated on `develop` (`a1f6a0b`).
+- **Library / Method Chosen**: Git branch separation ensuring zero unsolicited changes exist on `main`. Vercel configuration guided to target `develop` as the production/preview branch or via a GitHub Pull Request.
+- **Tradeoffs & Mitigations**:
+  - *Tradeoff*: `main` no longer serves the new UI redesign on Vercel unless Vercel's production branch is re-targeted to `develop`.
+  - *Mitigation*: Provided exact 2-click steps in Vercel project settings to point production to `develop`, ensuring total safety for `main`.
