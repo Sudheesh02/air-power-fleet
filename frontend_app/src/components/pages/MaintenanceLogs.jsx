@@ -595,19 +595,19 @@ export default function MaintenanceLogs() {
                           : 'hover:bg-slate-50'
                       }`}
                     >
-                      <td className="p-3 font-mono font-bold text-sky-400 text-xs tracking-tight">
+                      <td className="p-3 font-sans font-bold text-cyan-300 text-xs tracking-tight">
                         {log.log_id}
                       </td>
-                      <td className={`p-3 font-mono font-bold text-xs whitespace-nowrap ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                      <td className={`p-3 font-sans font-bold text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>
                         {log.tail_no}
                       </td>
                       <td className="p-3 font-sans text-xs text-slate-300">
                         {log.mission_type}
                       </td>
-                      <td className="p-3 font-mono text-xs text-slate-300 tabular-nums">
+                      <td className="p-3 font-sans text-xs text-slate-300">
                         {log.duration_hours} hrs
                       </td>
-                      <td className="p-3 font-mono font-semibold text-slate-200 text-xs">
+                      <td className="p-3 font-sans font-semibold text-cyan-200 text-xs">
                         {log.pilot_callsign}
                       </td>
                       <td className="p-3 font-sans text-xs">
@@ -645,7 +645,7 @@ export default function MaintenanceLogs() {
                                 : 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'
                             }`}
                           >
-                            <Activity className="w-3.5 h-3.5 text-sky-400" />
+                            <Sparkles className="w-3.5 h-3.5 text-sky-400" />
                             <span>{isNlpExpanded ? 'Collapse Correlation Drawer' : 'Inspect Multimodal Correlation'}</span>
                             {isNlpExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                           </button>
