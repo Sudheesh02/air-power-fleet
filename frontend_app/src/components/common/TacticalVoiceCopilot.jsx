@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Mic,
   MicOff,
@@ -6,583 +6,619 @@ import {
   VolumeX,
   Send,
   X,
-  Sliders,
-  Square,
+  Radio,
+  User,
+  ChevronDown,
   RotateCcw,
-  Terminal,
-  ChevronRight,
-  Activity
+  Play,
+  Square,
+  Plane,
+  Copy,
+  Check,
+  PlusCircle,
+  ExternalLink,
+  Maximize2
 } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 import {
-  VOICE_SPEAKERS,
   synthesizeSpeech,
   createSpeechRecognizer,
-  queryVayuBrain
+  queryVayuBrain,
+  VOICE_SPEAKERS
 } from '../../services/voiceAgentService';
 
-const QUICK_PROMPTS = [
-  {
-    id: 'briefing',
-    label: 'Sortie Readiness Briefing',
-    prompt: 'Give me a full sortie clearance and 4-ship formation readiness briefing.'
-  },
-  {
-    id: 'sb024',
-    label: 'Tail SB-024 AOG Status',
-    prompt: 'Why is tail SB-024 grounded at AFS Thanjavur and what is the depot ETA?'
-  },
-  {
-    id: 'kh204_rb004',
-    label: 'Grounded Tails KH-204 & RB-004',
-    prompt: 'What is the status of grounded tails KH-204 at Sulur and RB-004 at Ambala?'
-  },
-  {
-    id: 'cmapss',
-    label: 'C-MAPSS & RLS Drift Metrics',
-    prompt: 'Show NASA C-MAPSS benchmark RMSE scores and Online RLS sensor drift metrics.'
-  }
-];
+export default function TacticalVoiceCopilot() {
+  const { isDark, isVoiceAgentOpen, setIsVoiceAgentOpen, activeTab, setActiveTab } = useTheme();
 
-export default function TacticalVoiceCopilot({ isDark }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      id: 'welcome',
-      role: 'assistant',
-      text: `VAYU-OPS Comms Drawer active. 13 of 20 airframes are Mission Ready, 4 in Scheduled Maintenance, and 3 Grounded (SB-024, KH-204, RB-004).
-
-Select a quick dispatch below or push the microphone to query flight-line readiness.`,
-      spokenText: 'VAYU-OPS Comms Drawer online. 13 of 20 airframes are mission ready. Ready for voice or text query.',
-      formulaCard: {
-        title: 'Fleet Readiness Gate',
-        formula: '13/20 Ready (65.0%) | 3 AOG Grounded'
-      },
-      suggestions: [
-        'Why is tail SB-024 grounded at AFS Thanjavur?',
-        'What is the status of grounded tails KH-204 and RB-004?',
-        'Show NASA C-MAPSS benchmark and RLS drift metrics'
-      ],
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  const getContextLabel = (tab) => {
+    switch (tab) {
+      case 'overview':
+        return 'Looking at Fleet Command Overview';
+      case 'twin':
+        return 'Looking at 5 Stage Digital Twin';
+      case 'predictive':
+        return 'Looking at Predictive AI & Sorties';
+      case 'spares':
+        return 'Looking at Spares & Depot Pipeline';
+      case 'logs':
+        return 'Looking at Maintenance Work Orders';
+      default:
+        return 'Looking at Fleet Operations';
     }
-  ]);
+  };
 
-  const [inputText, setInputText] = useState('');
+  const initialGreetingMessage = {
+    id: 'init-1',
+    sender: 'agent',
+    time: 'Just now',
+    text: `I am the Air Power Copilot, your tactical flight line guide for the Indian Air Force predictive maintenance platform. I monitor frontline combat airframe readiness, 5-stage gas path digital twins, conformal RUL thresholds, and forward depot supply chains.
+
+Explaining fleet capabilities:
+I can explain real time aircraft telemetry, diagnose conservative RUL safety bounds, inspect forward base spares inventory, and evaluate sortie clearance feasibility across our 20 frontline airframes.`,
+    formulaCard: {
+      title: "Fleet Availability Standard",
+      formula: "Mission Ready (13) / Total Airframes (20) = 65.0% (MoD Target: 75.0%)"
+    },
+    spokenText: 'Jai Hind, Commander. Air Power Copilot is online. Thirteen combat aircraft are mission ready, and tail SB-024 is currently grounded at Thanjavur for compressor maintenance. Awaiting your flight directive.',
+    suggestions: [
+      'Give me a sortie clearance briefing',
+      'Why is tail SB-024 grounded at AFS Thanjavur?',
+      'Explain the 5-stage thermodynamic turbofan twin',
+      'How does conformal RUL calculation work?'
+    ]
+  };
+
+  const [messages, setMessages] = useState([initialGreetingMessage]);
+  const [inputQuery, setInputQuery] = useState('');
   const [isListening, setIsListening] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [autoSpeak, setAutoSpeak] = useState(false);
   const [selectedSpeaker, setSelectedSpeaker] = useState('shubh');
-  const [autoSpeak, setAutoSpeak] = useState(true);
-  const [sarvamKey, setSarvamKey] = useState(() => localStorage.getItem('SARVAM_API_KEY') || 'REDACTED_SARVAM_KEY');
-  const [showSettings, setShowSettings] = useState(false);
-  const [liveTranscript, setLiveTranscript] = useState('');
+  const [copiedId, setCopiedId] = useState(null);
+  const [currentAudio, setCurrentAudio] = useState(null);
 
-  const chatEndRef = useRef(null);
-  const currentAudioRef = useRef(null);
+  const messagesEndRef = useRef(null);
   const recognizerRef = useRef(null);
-  const handleSendRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen) {
-      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages, isOpen, isProcessing]);
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isVoiceAgentOpen]);
 
-  const stopAudio = useCallback(() => {
-    if (currentAudioRef.current) {
-      if (typeof currentAudioRef.current.pause === 'function') {
-        currentAudioRef.current.pause();
-      }
-      currentAudioRef.current = null;
-    }
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-    setIsSpeaking(false);
-  }, []);
-
-  const speakResponse = useCallback(async (textToSpeak) => {
-    try {
-      stopAudio();
-      setIsSpeaking(true);
-      const audioObj = await synthesizeSpeech(textToSpeak, {
-        apiKey: sarvamKey,
-        speaker: selectedSpeaker
-      });
-
-      currentAudioRef.current = audioObj;
-
-      if (audioObj instanceof Audio) {
-        audioObj.onended = () => setIsSpeaking(false);
-        audioObj.onerror = () => setIsSpeaking(false);
-        await audioObj.play();
-      } else if (audioObj && typeof audioObj.play === 'function') {
-        await audioObj.play();
-        setIsSpeaking(false);
-      } else {
-        setIsSpeaking(false);
-      }
-    } catch (err) {
-      console.error('Audio playback error:', err);
-      setIsSpeaking(false);
-    }
-  }, [sarvamKey, selectedSpeaker, stopAudio]);
-
-  const handleSendMessage = useCallback(async (customPrompt) => {
-    const promptText = typeof customPrompt === 'string' ? customPrompt : inputText;
-    if (!promptText || !promptText.trim()) return;
-
-    const cleanPrompt = promptText.trim();
-    const userMsg = {
-      id: `user-${Date.now()}`,
-      role: 'user',
-      text: cleanPrompt,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-
-    setMessages((prev) => [...prev, userMsg]);
-    setInputText('');
-    setLiveTranscript('');
-    setIsProcessing(true);
-
-    setTimeout(async () => {
-      const response = queryVayuBrain(cleanPrompt);
-      const assistantMsg = {
-        id: `ai-${Date.now()}`,
-        role: 'assistant',
-        text: response.displayText,
-        spokenText: response.spokenText,
-        formulaCard: response.formulaCard,
-        suggestions: response.suggestions || [],
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-
-      setMessages((prev) => [...prev, assistantMsg]);
-      setIsProcessing(false);
-
-      if (autoSpeak) {
-        await speakResponse(response.spokenText);
-      }
-    }, 280);
-  }, [inputText, autoSpeak, speakResponse]);
-
+  // Speech Recognition initialization
   useEffect(() => {
-    handleSendRef.current = handleSendMessage;
-  }, [handleSendMessage]);
-
-  useEffect(() => {
-    recognizerRef.current = createSpeechRecognizer({
+    const recognizer = createSpeechRecognizer({
       onResult: (transcript, isFinal) => {
-        setLiveTranscript(transcript);
-        setInputText(transcript);
-        if (isFinal && transcript.trim().length > 0) {
+        setInputQuery(transcript);
+        if (isFinal && transcript.trim()) {
+          handleSendMessage(transcript.trim());
           setIsListening(false);
-          if (handleSendRef.current) {
-            handleSendRef.current(transcript.trim());
-          }
         }
       },
-      onError: () => {
+      onError: (err) => {
+        console.warn('Speech recognition error:', err);
         setIsListening(false);
       },
       onEnd: () => {
         setIsListening(false);
       }
     });
-
-    return () => {
-      stopAudio();
-    };
-  }, [stopAudio]);
+    recognizerRef.current = recognizer;
+  }, [selectedSpeaker, autoSpeak]);
 
   const toggleListening = () => {
     if (!recognizerRef.current) {
-      alert('Speech recognition is supported in Chrome, Edge, and Safari.');
+      alert('Speech recognition is not supported in this browser. Please type your message.');
       return;
     }
-
     if (isListening) {
       recognizerRef.current.stop();
       setIsListening(false);
     } else {
       stopAudio();
-      setLiveTranscript('');
       try {
         recognizerRef.current.start();
         setIsListening(true);
       } catch (e) {
-        console.warn(e);
+        console.error(e);
       }
     }
   };
 
-  const handleSaveKey = (val) => {
-    setSarvamKey(val);
-    localStorage.setItem('SARVAM_API_KEY', val);
+  const stopAudio = () => {
+    if (currentAudio) {
+      currentAudio.pause();
+      if (currentAudio.currentTime) currentAudio.currentTime = 0;
+      setCurrentAudio(null);
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    setIsPlayingAudio(false);
   };
 
-  const renderMessageContent = (msg) => {
-    const paragraphs = msg.text.split('\n\n');
+  const playVoice = async (text) => {
+    stopAudio();
+    setIsPlayingAudio(true);
+    try {
+      const audioInstance = await synthesizeSpeech(text, {
+        speaker: selectedSpeaker,
+      });
+      setCurrentAudio(audioInstance);
 
-    return (
-      <div className="space-y-3">
-        <div className="space-y-2.5">
-          {paragraphs.map((para, pIdx) => {
-            const lines = para.split('\n');
-            const isList = lines.some(l => l.trim().startsWith('•') || l.trim().startsWith('-'));
+      if (audioInstance.play) {
+        audioInstance.onended = () => setIsPlayingAudio(false);
+        audioInstance.onerror = () => setIsPlayingAudio(false);
+        const playPromise = audioInstance.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => setIsPlayingAudio(false));
+        }
+      } else {
+        setIsPlayingAudio(false);
+      }
+    } catch (err) {
+      console.error('Sarvam Audio playback error:', err);
+      setIsPlayingAudio(false);
+    }
+  };
 
-            if (isList) {
-              const headerLine = !lines[0].trim().startsWith('•') && !lines[0].trim().startsWith('-') ? lines[0] : null;
-              const listLines = headerLine ? lines.slice(1) : lines;
+  const handleSendMessage = async (textToSend) => {
+    const query = (textToSend || inputQuery).trim();
+    if (!query) return;
 
-              return (
-                <div key={pIdx} className="space-y-1">
-                  {headerLine && (
-                    <div className={`text-[11px] font-semibold uppercase tracking-wider ${
-                      isDark ? 'text-slate-300' : 'text-slate-700'
-                    }`}>
-                      {headerLine}
-                    </div>
-                  )}
-                  <ul className="space-y-1">
-                    {listLines.map((line, lIdx) => {
-                      const cleanLine = line.replace(/^[•\-]\s*/, '').trim();
-                      return (
-                        <li key={lIdx} className="flex items-start gap-2 text-xs leading-relaxed">
-                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
-                          <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>{cleanLine}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            }
+    stopAudio();
+    const userMsg = {
+      id: `user-${Date.now()}`,
+      sender: 'user',
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      text: query
+    };
 
-            return (
-              <p key={pIdx} className={`text-xs leading-relaxed ${
-                isDark ? 'text-slate-200' : 'text-slate-700'
-              }`}>
-                {para}
-              </p>
-            );
-          })}
-        </div>
+    setMessages((prev) => [...prev, userMsg]);
+    setInputQuery('');
 
-        {msg.formulaCard && (
-          <div className={`p-2.5 rounded-lg border ${
-            isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'
-          }`}>
-            <div className={`text-[10px] font-mono uppercase tracking-wider mb-0.5 ${
-              isDark ? 'text-slate-400' : 'text-slate-500'
-            }`}>
-              {msg.formulaCard.title}
-            </div>
-            <div className={`text-xs font-mono font-semibold tabular-nums ${
-              isDark ? 'text-sky-400' : 'text-blue-700'
-            }`}>
-              {msg.formulaCard.formula}
-            </div>
+    // Generate military intelligence response
+    setTimeout(async () => {
+      const response = queryVayuBrain(query, { activeTab });
+      const agentMsg = {
+        id: `agent-${Date.now()}`,
+        sender: 'agent',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        text: response.displayText,
+        formulaCard: response.formulaCard,
+        spokenText: response.spokenText,
+        suggestions: response.suggestions
+      };
+
+      setMessages((prev) => [...prev, agentMsg]);
+
+      if (autoSpeak && response.spokenText) {
+        playVoice(response.spokenText);
+      }
+    }, 150);
+  };
+
+  const handleCopy = (text, id) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const handleNewChat = () => {
+    stopAudio();
+    setMessages([initialGreetingMessage]);
+  };
+
+  // Helper to cleanly parse and render inline text
+  const formatInline = (text) => {
+    if (!text) return null;
+    const tokens = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\$[^\$]+\$)/g);
+    return tokens.map((token, i) => {
+      if (token.startsWith('**') && token.endsWith('**')) {
+        return (
+          <strong key={i} className={`font-bold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            {token.slice(2, -2)}
+          </strong>
+        );
+      }
+      if (token.startsWith('`') && token.endsWith('`')) {
+        return (
+          <code key={i} className="font-mono text-[11px] px-1 py-0.5 rounded bg-cyan-950/40 text-cyan-400 border border-cyan-500/20">
+            {token.slice(1, -1)}
+          </code>
+        );
+      }
+      if (token.startsWith('$') && token.endsWith('$')) {
+        return (
+          <span key={i} className="font-mono text-[11px] font-semibold text-cyan-400 bg-cyan-950/20 px-1 py-0.2 rounded">
+            {token.slice(1, -1)}
+          </span>
+        );
+      }
+      return token;
+    });
+  };
+
+  // Structured message line formatter matching Vanna Assist typography
+  const renderFormattedText = (text) => {
+    if (!text) return null;
+    const lines = text.split('\n');
+    return lines.map((line, idx) => {
+      const trimmed = line.trim();
+
+      if (trimmed.startsWith('### ')) {
+        return (
+          <h4 key={idx} className={`font-bold text-xs uppercase tracking-wider mt-3 mb-1.5 ${isDark ? 'text-cyan-300' : 'text-blue-700'}`}>
+            {trimmed.replace('### ', '')}
+          </h4>
+        );
+      }
+
+      if (trimmed.startsWith('• ') || trimmed.startsWith('- ')) {
+        const content = trimmed.replace(/^[•\-]\s+/, '');
+        return (
+          <div key={idx} className={`flex items-start gap-2 text-xs sm:text-[13px] my-1.5 pl-0.5 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 shrink-0" />
+            <div className="flex-1">{formatInline(content)}</div>
           </div>
-        )}
+        );
+      }
 
-        {msg.suggestions && msg.suggestions.length > 0 && (
-          <div className={`pt-2 border-t flex flex-col gap-1 ${
-            isDark ? 'border-slate-800' : 'border-slate-200'
-          }`}>
-            {msg.suggestions.slice(0, 2).map((s, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleSendMessage(s)}
-                className={`text-left text-[11px] px-2.5 py-1.5 rounded border transition-colors flex items-center justify-between gap-2 ${
-                  isDark
-                    ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-800'
-                    : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200'
-                }`}
-              >
-                <span className="truncate">{s}</span>
-                <ChevronRight className="w-3 h-3 text-blue-500 shrink-0" />
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
+      if (!trimmed) return <div key={idx} className="h-1.5" />;
+
+      // Header-like sentences (e.g. "Current Operational State:", "Explaining fleet capabilities:")
+      if (trimmed.endsWith(':')) {
+        return (
+          <p key={idx} className={`font-semibold text-xs sm:text-[13px] mt-2.5 mb-1 ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+            {trimmed}
+          </p>
+        );
+      }
+
+      return (
+        <p key={idx} className={`text-xs sm:text-[13px] my-1 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+          {formatInline(line)}
+        </p>
+      );
+    });
   };
 
   return (
     <>
-      {/* Floating Tactical Comms Button */}
-      <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5">
-        {!isOpen && (
-          <button
-            onClick={() => setIsOpen(true)}
-            className={`hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-lg border text-xs font-mono font-semibold shadow-lg transition-colors ${
-              isDark
-                ? 'bg-slate-900/95 border-slate-700 text-slate-200 hover:border-blue-500'
-                : 'bg-white/95 border-slate-300 text-slate-800 hover:border-blue-600'
-            }`}
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span>VAYU-OPS VOICE COMMS</span>
-          </button>
-        )}
-
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors shadow-lg border ${
-            isOpen
-              ? 'bg-slate-800 border-slate-700 text-white'
-              : 'bg-blue-700 hover:bg-blue-600 border-blue-500/40 text-white'
-          }`}
-          title="Toggle VAYU-OPS Comms Drawer"
-        >
-          {isOpen ? <X className="w-5 h-5" /> : <Terminal className="w-5 h-5" />}
-        </button>
-      </div>
-
-      {/* Right-Docked Comms Drawer */}
-      {isOpen && (
-        <div
-          className={`fixed bottom-20 right-5 z-50 w-[92vw] sm:w-[420px] h-[580px] max-h-[80vh] rounded-xl border shadow-2xl flex flex-col overflow-hidden ${
-            isDark
-              ? 'bg-slate-900/98 border-slate-700/80 text-white'
-              : 'bg-white border-slate-300 text-slate-900'
-          }`}
-        >
-          {/* Drawer Header */}
-          <div className={`px-4 py-3 border-b flex items-center justify-between ${
-            isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'
-          }`}>
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-blue-700 flex items-center justify-center text-white">
-                <Terminal className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h3 className="text-xs font-bold tracking-tight">VAYU-OPS COMMS</h3>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                    LIVE
-                  </span>
-                </div>
-                <p className={`text-[10px] font-mono ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                  Sarvam bulbul:v3 • 20 Airframes Synced
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-1">
-              {isSpeaking && (
-                <button
-                  onClick={stopAudio}
-                  className="p-1.5 rounded bg-red-500/10 text-red-400 border border-red-500/30 text-[10px] font-mono"
-                  title="Stop Audio"
-                >
-                  <Square className="w-3.5 h-3.5 fill-current" />
-                </button>
-              )}
-              <button
-                onClick={() => {
-                  if (isSpeaking) stopAudio();
-                  setAutoSpeak(!autoSpeak);
-                }}
-                className={`p-1.5 rounded border transition-colors ${
-                  autoSpeak
-                    ? isDark ? 'bg-slate-900 border-slate-700 text-emerald-400' : 'bg-white border-slate-200 text-emerald-700'
-                    : isDark ? 'bg-slate-900 border-slate-800 text-slate-500' : 'bg-slate-100 border-slate-200 text-slate-400'
-                }`}
-                title={autoSpeak ? 'Mute Auto Voice' : 'Enable Auto Voice'}
-              >
-                {autoSpeak ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-              </button>
-              <button
-                onClick={() => setShowSettings(!showSettings)}
-                className={`p-1.5 rounded border transition-colors ${
-                  showSettings
-                    ? 'bg-blue-700 border-blue-500 text-white'
-                    : isDark ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-white border-slate-200 text-slate-600'
-                }`}
-                title="Voice Settings"
-              >
-                <Sliders className="w-3.5 h-3.5" />
-              </button>
-              <button
-                onClick={() => {
-                  stopAudio();
-                  setMessages([messages[0]]);
-                }}
-                className={`p-1.5 rounded border transition-colors ${
-                  isDark ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-white border-slate-200 text-slate-600'
-                }`}
-                title="Reset Log"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Settings Drawer */}
-          {showSettings && (
-            <div className={`p-3 border-b space-y-2.5 text-xs ${
-              isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-200'
+      {/* 1. Tactical Floating Trigger Button (Bottom-Right, hidden when on full copilot page) */}
+      {!isVoiceAgentOpen && activeTab !== 'copilot' && (
+        <div className="fixed bottom-6 right-6 z-40 flex items-center gap-2 group">
+          <div className="hidden sm:flex flex-col items-end pr-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+            <span className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border shadow-lg ${
+              isDark ? 'text-cyan-300 bg-slate-900/90 border-cyan-500/30' : 'text-blue-900 bg-white border-slate-200'
             }`}>
-              <div>
-                <label className="block text-[10px] font-mono uppercase text-slate-400 mb-1">
-                  Briefing Officer Voice
-                </label>
-                <select
-                  value={selectedSpeaker}
-                  onChange={(e) => setSelectedSpeaker(e.target.value)}
-                  className={`w-full px-2.5 py-1.5 rounded border text-xs outline-none ${
-                    isDark ? 'bg-slate-900 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
-                  }`}
-                >
-                  {VOICE_SPEAKERS.map((spk) => (
-                    <option key={spk.id} value={spk.id}>
-                      {spk.name} — {spk.role}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-[10px] font-mono uppercase text-slate-400 mb-1">
-                  Sarvam API Key
-                </label>
-                <input
-                  type="password"
-                  value={sarvamKey}
-                  onChange={(e) => handleSaveKey(e.target.value)}
-                  className={`w-full px-2.5 py-1.5 rounded border text-xs font-mono outline-none ${
-                    isDark ? 'bg-slate-900 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
-                  }`}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Quick Prompt Bar */}
-          <div className={`px-3 py-2 border-b flex items-center gap-1.5 overflow-x-auto no-scrollbar ${
-            isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-slate-50 border-slate-200'
-          }`}>
-            {QUICK_PROMPTS.map((q) => (
-              <button
-                key={q.id}
-                onClick={() => handleSendMessage(q.prompt)}
-                className={`px-2.5 py-1 rounded text-[11px] font-medium whitespace-nowrap border transition-colors ${
-                  isDark
-                    ? 'bg-slate-950 hover:bg-slate-800 text-slate-300 border-slate-800'
-                    : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200'
-                }`}
-              >
-                {q.label}
-              </button>
-            ))}
+              Air Power Copilot
+            </span>
+            <span className="text-[9px] text-slate-400 pr-1">Sarvam bulbul:v3 &bull; Encrypted</span>
           </div>
 
-          {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-3.5 space-y-3">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
-              >
-                <div className="flex items-center gap-1.5 mb-1 px-1">
-                  <span className="text-[10px] font-mono uppercase text-slate-400">
-                    {msg.role === 'user' ? 'COMMANDER' : 'VAYU-OPS'} • {msg.timestamp}
-                  </span>
-                  {msg.role === 'assistant' && msg.spokenText && (
-                    <button
-                      onClick={() => speakResponse(msg.spokenText)}
-                      className="text-[10px] font-mono text-blue-400 hover:underline flex items-center gap-0.5"
-                    >
-                      <Volume2 className="w-2.5 h-2.5" /> Replay
-                    </button>
-                  )}
-                </div>
-                <div
-                  className={`max-w-[92%] rounded-xl p-3 ${
-                    msg.role === 'user'
-                      ? 'bg-blue-700 text-white'
-                      : isDark
-                      ? 'bg-slate-950/90 border border-slate-800 text-slate-200'
-                      : 'bg-slate-50 border border-slate-200 text-slate-800'
-                  }`}
-                >
-                  {msg.role === 'user' ? (
-                    <p className="text-xs leading-relaxed">{msg.text}</p>
-                  ) : (
-                    renderMessageContent(msg)
-                  )}
-                </div>
-              </div>
-            ))}
-
-            {isProcessing && (
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-400 px-2">
-                <Activity className="w-3.5 h-3.5 text-blue-500 animate-spin" />
-                <span>Analyzing telemetry...</span>
-              </div>
-            )}
-            <div ref={chatEndRef} />
-          </div>
-
-          {/* Input Footer */}
-          <div className={`p-3 border-t ${
-            isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'
-          }`}>
-            {isListening && (
-              <div className="mb-2 px-2.5 py-1 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-[11px] font-mono">
-                MIC LIVE: {liveTranscript || 'Listening...'}
-              </div>
-            )}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSendMessage();
-              }}
-              className="flex items-center gap-1.5"
-            >
-              <button
-                type="button"
-                onClick={toggleListening}
-                className={`p-2 rounded-lg border transition-colors shrink-0 ${
-                  isListening
-                    ? 'bg-red-600 text-white border-red-500'
-                    : isDark
-                    ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800'
-                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
-                }`}
-                title="Voice Input"
-              >
-                {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-blue-500" />}
-              </button>
-              <input
-                type="text"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                placeholder="Ask SB-024, KH-204, RB-004, C-MAPSS..."
-                className={`flex-1 px-3 py-2 rounded-lg text-xs border outline-none ${
-                  isDark
-                    ? 'bg-slate-900 border-slate-800 text-white placeholder-slate-500 focus:border-blue-500'
-                    : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-600'
-                }`}
-              />
-              <button
-                type="submit"
-                disabled={!inputText.trim()}
-                className={`p-2 rounded-lg transition-colors shrink-0 ${
-                  inputText.trim()
-                    ? 'bg-blue-700 hover:bg-blue-600 text-white'
-                    : isDark
-                    ? 'bg-slate-900 text-slate-600 border border-slate-800'
-                    : 'bg-slate-200 text-slate-400'
-                }`}
-              >
-                <Send className="w-4 h-4" />
-              </button>
-            </form>
-          </div>
+          <button
+            onClick={() => setIsVoiceAgentOpen(true)}
+            aria-label="Open Air Power Copilot"
+            className="relative w-12 h-12 rounded-2xl bg-blue-700 hover:bg-blue-600 border border-blue-500/30 text-white shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
+          >
+            <Plane className="w-5 h-5 text-white -rotate-45" />
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-900 shadow-sm animate-pulse" />
+          </button>
         </div>
       )}
+
+      {/* 2. Mobile Backdrop */}
+      {isVoiceAgentOpen && (
+        <div
+          onClick={() => {
+            stopAudio();
+            setIsVoiceAgentOpen(false);
+          }}
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs lg:hidden animate-fadeIn"
+        />
+      )}
+
+      {/* 3. Vanna-Style Clean Docked Sidecar Drawer (Right-Docked) */}
+      <aside
+        className={`fixed top-0 bottom-0 right-0 z-50 w-full sm:w-[460px] md:w-[480px] h-full shadow-2xl flex flex-col border-l transition-transform duration-300 ease-in-out ${
+          isVoiceAgentOpen ? 'translate-x-0' : 'translate-x-full'
+        } ${
+          isDark
+            ? 'bg-slate-900/98 border-slate-700/60 text-white'
+            : 'bg-white/98 border-slate-200 text-slate-900'
+        } backdrop-blur-2xl`}
+      >
+        {/* Top Header Bar (Identical to Vanna Assist) */}
+        <div className={`px-4 sm:px-5 py-3.5 border-b flex items-center justify-between gap-3 shrink-0 ${
+          isDark ? 'border-white/10' : 'border-slate-100'
+        }`}>
+          {/* Left: Brand Squircle + Title + Context Subtitle */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm shrink-0">
+              <Plane className="w-4 h-4 -rotate-45" />
+            </div>
+            <div className="min-w-0 leading-tight">
+              <h3 className={`font-bold text-sm tracking-tight whitespace-nowrap ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                Air Power Copilot
+              </h3>
+              <p className="text-[10px] text-slate-400 font-sans truncate max-w-[125px] sm:max-w-[160px] mt-0.5">
+                {getContextLabel(activeTab)}
+              </p>
+            </div>
+          </div>
+
+          {/* Right: Speaker Selector + New Chat + Close */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* Voice Speaker Selector Pill */}
+            <div className="relative">
+              <select
+                value={selectedSpeaker}
+                onChange={(e) => setSelectedSpeaker(e.target.value)}
+                className={`text-[11px] font-semibold py-1 px-2 pr-6 rounded-lg appearance-none cursor-pointer border transition max-w-[100px] sm:max-w-[125px] truncate ${
+                  isDark
+                    ? 'bg-slate-900/90 text-slate-200 border-slate-700 hover:border-blue-500/40'
+                    : 'bg-slate-100 text-slate-800 border-slate-200 hover:border-blue-400'
+                }`}
+                title="Select Sarvam Audio Speaker"
+              >
+                {VOICE_SPEAKERS.map((sp) => (
+                  <option key={sp.id} value={sp.id} className="bg-slate-900 text-white">
+                    {sp.name.split(' ')[0]} ({sp.role.split(' ')[0]})
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-3 h-3 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" />
+            </div>
+
+            {/* Audio Stop Button (if playing) */}
+            {isPlayingAudio && (
+              <button
+                onClick={stopAudio}
+                className="p-1.5 rounded-lg border bg-amber-500/20 border-amber-500/40 text-amber-300 animate-pulse transition"
+                title="Stop Audio"
+              >
+                <Square className="w-3.5 h-3.5" />
+              </button>
+            )}
+
+            {/* Expand to Full Live Studio */}
+            <button
+              onClick={() => {
+                stopAudio();
+                setIsVoiceAgentOpen(false);
+                setActiveTab('copilot');
+              }}
+              title="Open Fullscreen Live Voice Studio"
+              className={`p-1.5 rounded-lg border text-xs font-medium transition ${
+                isDark
+                  ? 'border-white/10 hover:bg-white/10 text-cyan-300 hover:text-cyan-200'
+                  : 'border-slate-200 hover:bg-slate-100 text-blue-600 hover:text-blue-800'
+              }`}
+            >
+              <Maximize2 className="w-3.5 h-3.5" />
+            </button>
+
+            {/* "New chat" Button (Identical to Vanna Assist) */}
+            <button
+              onClick={handleNewChat}
+              title="Start a fresh briefing"
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border text-xs font-medium transition ${
+                isDark
+                  ? 'border-white/10 hover:bg-white/10 text-slate-300 hover:text-white'
+                  : 'border-slate-200 hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span className="hidden sm:inline">New chat</span>
+            </button>
+
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                stopAudio();
+                setIsVoiceAgentOpen(false);
+              }}
+              title="Close Copilot"
+              className={`p-1.5 rounded-lg transition ${
+                isDark ? 'text-slate-400 hover:text-white hover:bg-white/10' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Audio Equalizer Sound Wave Indicator (When Sarvam is speaking or listening) */}
+        {(isPlayingAudio || isListening) && (
+          <div className="px-5 py-2 bg-gradient-to-r from-blue-950/40 to-cyan-950/40 border-b border-cyan-500/20 flex items-center justify-between gap-3 shrink-0">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-cyan-300 font-sans">
+              <Radio className="w-3.5 h-3.5 animate-pulse text-cyan-400" />
+              <span>{isListening ? 'Listening via microphone...' : 'Transmitting via Sarvam bulbul:v3...'}</span>
+            </div>
+            <div className="flex items-center gap-0.5 h-3.5">
+              {[4, 9, 13, 7, 15, 11, 6, 12, 8, 14, 10, 5].map((h, i) => (
+                <span
+                  key={i}
+                  style={{
+                    height: `${h}px`,
+                    animationDelay: `${i * 0.08}s`
+                  }}
+                  className="w-1 bg-gradient-to-t from-cyan-400 to-blue-500 rounded-full animate-bounce"
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Messages Body (Clean Vanna Assist Structure) */}
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-6 font-sans">
+          {messages.map((msg) => {
+            const isUser = msg.sender === 'user';
+
+            if (isUser) {
+              /* USER MESSAGE BUBBLE */
+              return (
+                <div key={msg.id} className="flex justify-end">
+                  <div className={`max-w-[85%] rounded-2xl rounded-tr-sm px-4 py-2.5 text-xs sm:text-[13px] shadow-sm leading-relaxed ${
+                    isDark
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-blue-600 text-white'
+                  }`}>
+                    {msg.text}
+                  </div>
+                </div>
+              );
+            }
+
+            /* ASSISTANT MESSAGE (Clean Left-Aligned Vanna Assist Pattern) */
+            return (
+              <div key={msg.id} className="flex items-start gap-3">
+                {/* Subtle Brand Squircle Avatar on Left */}
+                <div className="w-6 h-6 rounded-lg bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shrink-0 mt-0.5 shadow-sm">
+                  <Plane className="w-3.5 h-3.5 -rotate-45" />
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  {/* Message Content */}
+                  <div className="space-y-1">
+                    {renderFormattedText(msg.text)}
+                  </div>
+
+                  {/* Highlighted Formula / Stat Card (Identical to Vanna Assist Formula Card) */}
+                  {msg.formulaCard && (
+                    <div className={`my-3 p-3.5 rounded-xl border transition-all ${
+                      isDark
+                        ? 'bg-slate-900/80 border-white/10'
+                        : 'bg-slate-50 border-slate-200'
+                    }`}>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-sans mb-1">
+                        {msg.formulaCard.title || 'Formula'}
+                      </p>
+                      <p className={`text-xs sm:text-[13px] font-mono font-semibold ${
+                        isDark ? 'text-sky-300' : 'text-blue-700'
+                      }`}>
+                        {msg.formulaCard.formula}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Actions Row: Copy & Listen Aloud (Sarvam) */}
+                  <div className="flex items-center gap-3 mt-2 text-xs text-slate-400 font-sans">
+                    <button
+                      onClick={() => handleCopy(msg.text, msg.id)}
+                      className="flex items-center gap-1 hover:text-slate-200 transition py-1"
+                    >
+                      {copiedId === msg.id ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="text-emerald-400 font-medium">Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
+
+                    {msg.spokenText && (
+                      <button
+                        onClick={() => playVoice(msg.spokenText)}
+                        className={`flex items-center gap-1 transition py-1 font-medium ${
+                          isDark ? 'text-sky-400 hover:text-sky-300' : 'text-blue-600 hover:text-blue-700'
+                        }`}
+                      >
+                        <Play className="w-3 h-3 fill-current" />
+                        <span>Listen Aloud</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* "Keep going" Suggested Follow up Questions (Identical to Vanna Assist in Image 2) */}
+                  {msg.suggestions && msg.suggestions.length > 0 && (
+                    <div className={`mt-4 pt-3.5 border-t ${isDark ? 'border-white/10' : 'border-slate-100'}`}>
+                      <p className={`text-xs font-semibold mb-2 font-sans ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                        Keep going
+                      </p>
+                      <div className="space-y-1.5">
+                        {msg.suggestions.map((suggestion, sIdx) => (
+                          <button
+                            key={sIdx}
+                            onClick={() => handleSendMessage(suggestion)}
+                            className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-[12.5px] border transition-all duration-200 font-medium leading-snug group flex items-center justify-between gap-2 ${
+                              isDark
+                                ? 'bg-slate-900/60 hover:bg-blue-500/10 border-white/10 hover:border-blue-500/30 text-slate-300 hover:text-sky-200'
+                                : 'bg-slate-50 hover:bg-blue-50 border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-700'
+                            }`}
+                          >
+                            <span>{suggestion}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Bottom Input Area (Identical to Vanna Assist Floating Bar) */}
+        <div className={`p-3.5 sm:p-4 border-t shrink-0 ${
+          isDark ? 'border-slate-800 bg-slate-900/95' : 'border-slate-200 bg-white/95'
+        }`}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSendMessage();
+            }}
+            className={`flex items-center gap-2 p-1.5 pl-2.5 rounded-2xl border transition-all ${
+              isDark
+                ? 'bg-slate-900/90 border-white/10 focus-within:border-blue-500/50 shadow-inner'
+                : 'bg-slate-50 border-slate-200 focus-within:border-blue-400 shadow-sm'
+            }`}
+          >
+            {/* Mic Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleListening}
+              className={`p-2 rounded-xl flex items-center justify-center transition-all ${
+                isListening
+                  ? 'bg-red-500 text-white animate-pulse shadow-md'
+                  : isDark
+                  ? 'text-slate-400 hover:text-sky-400 hover:bg-white/5'
+                  : 'text-slate-500 hover:text-blue-600 hover:bg-slate-200/60'
+              }`}
+              title={isListening ? 'Stop Listening' : 'Speak via Microphone'}
+            >
+              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+            </button>
+
+            {/* Input Field */}
+            <input
+              type="text"
+              value={inputQuery}
+              onChange={(e) => setInputQuery(e.target.value)}
+              placeholder="Ask anything..."
+              className={`flex-1 bg-transparent text-xs sm:text-sm focus:outline-none px-1 ${
+                isDark ? 'text-white placeholder-slate-500' : 'text-slate-800 placeholder-slate-400'
+              }`}
+            />
+
+            {/* Send Button */}
+            <button
+              type="submit"
+              disabled={!inputQuery.trim()}
+              className="w-8 h-8 rounded-xl bg-blue-700 hover:bg-blue-600 text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0"
+              title="Send message"
+            >
+              <Send className="w-3.5 h-3.5" />
+            </button>
+          </form>
+        </div>
+      </aside>
     </>
   );
 }

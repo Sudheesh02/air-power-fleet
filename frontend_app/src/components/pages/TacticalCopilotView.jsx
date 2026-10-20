@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Mic,
   MicOff,
@@ -6,1003 +6,759 @@ import {
   VolumeX,
   Send,
   Radio,
-  Shield,
-  Sliders,
-  CheckCircle2,
-  AlertTriangle,
-  Activity,
   RotateCcw,
   Play,
   Square,
-  MessageSquare,
-  Terminal,
   Plane,
-  Wrench,
-  Cpu,
-  ChevronRight
+  Copy,
+  Check,
+  Sparkles,
+  MessageSquare,
+  Headphones,
+  ChevronDown,
+  Settings2,
+  Activity,
+  CheckCircle2,
+  Zap,
+  ArrowRight
 } from 'lucide-react';
-import GlassCard from '../common/GlassCard';
+import { useTheme } from '../../context/ThemeContext';
 import {
-  VOICE_SPEAKERS,
   synthesizeSpeech,
   createSpeechRecognizer,
-  queryVayuBrain
+  queryVayuBrain,
+  VOICE_SPEAKERS
 } from '../../services/voiceAgentService';
+import GlassCard from '../common/GlassCard';
 
-const QUICK_MISSIONS = [
-  {
-    id: 'briefing',
-    title: 'Squadron Sortie & 4-Ship Formation Briefing',
-    prompt: 'Give me a full sortie clearance and 4-ship formation readiness briefing.',
-    category: 'FLIGHT OPS',
-    metric: '13/20 READY',
-    icon: Plane
-  },
-  {
-    id: 'sb024',
-    title: 'AOG Diagnostic: Tail SB-024 (AFS Thanjavur)',
-    prompt: 'Why is tail SB-024 grounded at AFS Thanjavur and what is the depot ETA?',
-    category: 'AOG TRIAGE',
-    metric: 'HPC 21.2%',
-    icon: AlertTriangle
-  },
-  {
-    id: 'kh204_rb004',
-    title: 'Grounded Fleet Audit: KH-204 & RB-004',
-    prompt: 'What is the status of grounded tails KH-204 at Sulur and RB-004 at Ambala?',
-    category: 'HANGAR HOLD',
-    metric: '2 TAILS HOLD',
-    icon: Wrench
-  },
-  {
-    id: 'cmapss',
-    title: 'NASA C-MAPSS (FD001-FD004) & Online RLS Drift',
-    prompt: 'Show NASA C-MAPSS benchmark RMSE scores and Online RLS sensor drift metrics.',
-    category: 'ML VALIDATION',
-    metric: '100% CATCH',
-    icon: Cpu
-  },
-  {
-    id: 'twin',
-    title: '5-Stage Gas Path Thermodynamic Stations',
-    prompt: 'Explain the 5-stage thermodynamic turbofan twin stations and residuals.',
-    category: 'PROPULSION',
-    metric: 'STN 2 TO 50',
-    icon: Activity
-  },
-  {
-    id: 'conformal',
-    title: 'Split Conformal 90% Lower Bound Formulation',
-    prompt: 'How does the Conformal RUL 90% confidence lower bound prevent in-flight failure?',
-    category: 'SAFETY GATE',
-    metric: '90% COVERAGE',
-    icon: Shield
-  }
-];
+export default function TacticalCopilotView() {
+  const { isDark, activeTab } = useTheme();
 
-const GROUNDED_WATCHLIST = [
-  {
-    tail: 'SB-024',
-    type: 'Su-30MKI',
-    base: 'AFS Thanjavur',
-    fault: 'Station 30 HPC Blade Erosion',
-    stageHealth: '21.2%',
-    consRul: '16.4h',
-    prompt: 'Why is tail SB-024 grounded at AFS Thanjavur?'
-  },
-  {
-    tail: 'KH-204',
-    type: 'Tejas Mk1A',
-    base: 'AFS Sulur',
-    fault: 'Station 24 LPC & Fuel Metering',
-    stageHealth: '28.0%',
-    consRul: '19.5h',
-    prompt: 'What is the status of grounded tail KH-204 at Sulur?'
-  },
-  {
-    tail: 'RB-004',
-    type: 'Rafale EH',
-    base: 'AFS Ambala',
-    fault: 'Station 50 LPT Thermal Creep',
-    stageHealth: '24.0%',
-    consRul: '17.8h',
-    prompt: 'What is the status of grounded tail RB-004 at Ambala?'
-  }
-];
-
-export default function TacticalCopilotView({ isDark }) {
-  // 'briefing' (Structured Comms & Telemetry Console) or 'voice' (Live Acoustic Push-to-Talk Console)
-  const [mode, setMode] = useState('briefing');
-
-  const [messages, setMessages] = useState([
-    {
-      id: 'welcome',
-      role: 'assistant',
-      text: `VAYU-OPS Flight Line Intelligence is online and synchronized with all 20 frontline airframes.
-
-Active Fleet Snapshot:
-• Readiness: 13 Mission Ready (65.0%) | 4 Scheduled Maintenance | 3 Grounded (AOG)
-• Grounded Airframes:
-  - SB-024 (Su-30MKI, Thanjavur): Station 30 HPC erosion (21.2% stage health, 16.4h Cons. RUL)
-  - KH-204 (Tejas Mk1A, Sulur): Station 24 LPC & fuel metering fault (28.0% stage health, 19.5h Cons. RUL)
-  - RB-004 (Rafale, Ambala): Station 50 LPT thermal creep (24.0% stage health, 17.8h Cons. RUL)
-• Validated Prognostics: NASA C-MAPSS FD001–FD004 (100% critical failure catch rate) + Online RLS Drift Filter (λ = 0.992).`,
-      spokenText: "VAYU-OPS Flight Line Intelligence online. Across 20 frontline airframes, 13 are mission ready, 4 are in scheduled maintenance, and 3 are grounded: SB-024 at Thanjavur, KH-204 at Sulur, and RB-004 at Ambala. Ready for voice or text query.",
-      formulaCard: {
-        title: "Fleet Readiness & Prognostic Gate",
-        formula: "13/20 Mission Ready (65.0%) | 3 AOG (SB-024, KH-204, RB-004)"
-      },
-      suggestions: [
-        "Give me a sortie clearance briefing",
-        "Why is tail SB-024 grounded at AFS Thanjavur?",
-        "What is the status of grounded tails KH-204 and RB-004?",
-        "Show NASA C-MAPSS benchmark and RLS drift metrics"
-      ],
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    }
-  ]);
-
-  const [inputText, setInputText] = useState('');
-  const [isListening, setIsListening] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  // Mode: 'orb' (Gemini Live / ChatGPT Voice Mode) vs 'chat' (Vanna Assist Feed)
+  const [viewMode, setViewMode] = useState('orb');
   const [selectedSpeaker, setSelectedSpeaker] = useState('shubh');
-  const [autoSpeak, setAutoSpeak] = useState(true);
-  const [sarvamKey, setSarvamKey] = useState(() => localStorage.getItem('SARVAM_API_KEY') || 'REDACTED_SARVAM_KEY');
-  const [showSettings, setShowSettings] = useState(false);
+  const [isContinuousLive, setIsContinuousLive] = useState(true);
+
+  const [inputQuery, setInputQuery] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
+  const [copiedId, setCopiedId] = useState(null);
+
+  // Live transcript state for the Voice Orb
   const [liveTranscript, setLiveTranscript] = useState('');
-  const [speechError, setSpeechError] = useState(null);
+  const [lastAgentSpoken, setLastAgentSpoken] = useState(
+    'Jai Hind, Commander. Tactical flight line communications are online. Thirteen combat aircraft are mission ready, and tail SB-024 is on maintenance hold at Thanjavur. Awaiting your flight directive.'
+  );
 
-  const chatEndRef = useRef(null);
-  const currentAudioRef = useRef(null);
+  const initialGreetingMessage = {
+    id: 'init-1',
+    sender: 'agent',
+    time: 'Just now',
+    text: `I am the Air Power Copilot, your tactical flight line guide for the Indian Air Force predictive maintenance platform. I monitor frontline combat airframe readiness, 5-stage gas path digital twins, conformal RUL thresholds, and forward depot supply chains.
+
+Explaining fleet capabilities:
+I can diagnose conservative RUL safety bounds, inspect forward base spares inventory, and evaluate sortie clearance feasibility across our 20 frontline airframes.`,
+    formulaCard: {
+      title: "Fleet Availability Standard",
+      formula: "Mission Ready (13) / Total Airframes (20) = 65.0% (MoD Target: 75.0%)"
+    },
+    spokenText: 'Jai Hind, Commander. Tactical flight line communications are online. Thirteen combat aircraft are mission ready, and tail SB-024 is on maintenance hold at Thanjavur. Awaiting your flight directive.',
+    suggestions: [
+      'Give me a sortie clearance briefing',
+      'Why is tail SB-024 grounded at AFS Thanjavur?',
+      'Explain the 5-stage thermodynamic turbofan twin',
+      'How does conformal RUL calculation work?'
+    ]
+  };
+
+  const [messages, setMessages] = useState([initialGreetingMessage]);
+  const [currentAudio, setCurrentAudio] = useState(null);
+
+  const messagesEndRef = useRef(null);
   const recognizerRef = useRef(null);
-  const handleSendRef = useRef(null);
+  const isContinuousLiveRef = useRef(isContinuousLive);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isProcessing]);
-
-  const stopAudio = useCallback(() => {
-    if (currentAudioRef.current) {
-      if (typeof currentAudioRef.current.pause === 'function') {
-        currentAudioRef.current.pause();
-      }
-      currentAudioRef.current = null;
-    }
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-    setIsSpeaking(false);
-  }, []);
-
-  const speakResponse = useCallback(async (textToSpeak) => {
-    try {
-      stopAudio();
-      setIsSpeaking(true);
-      const audioObj = await synthesizeSpeech(textToSpeak, {
-        apiKey: sarvamKey,
-        speaker: selectedSpeaker
-      });
-
-      currentAudioRef.current = audioObj;
-
-      if (audioObj instanceof Audio) {
-        audioObj.onended = () => setIsSpeaking(false);
-        audioObj.onerror = () => setIsSpeaking(false);
-        await audioObj.play();
-      } else if (audioObj && typeof audioObj.play === 'function') {
-        await audioObj.play();
-        setIsSpeaking(false);
-      } else {
-        setIsSpeaking(false);
-      }
-    } catch (err) {
-      console.error('Audio playback error:', err);
-      setIsSpeaking(false);
-    }
-  }, [sarvamKey, selectedSpeaker, stopAudio]);
-
-  const handleSendMessage = useCallback(async (customPrompt) => {
-    const promptText = typeof customPrompt === 'string' ? customPrompt : inputText;
-    if (!promptText || !promptText.trim()) return;
-
-    const cleanPrompt = promptText.trim();
-    const userMsg = {
-      id: `user-${Date.now()}`,
-      role: 'user',
-      text: cleanPrompt,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-
-    setMessages((prev) => [...prev, userMsg]);
-    setInputText('');
-    setLiveTranscript('');
-    setSpeechError(null);
-    setIsProcessing(true);
-
-    setTimeout(async () => {
-      const response = queryVayuBrain(cleanPrompt);
-      const assistantMsg = {
-        id: `ai-${Date.now()}`,
-        role: 'assistant',
-        text: response.displayText,
-        spokenText: response.spokenText,
-        formulaCard: response.formulaCard,
-        suggestions: response.suggestions || [],
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-
-      setMessages((prev) => [...prev, assistantMsg]);
-      setIsProcessing(false);
-
-      if (autoSpeak || mode === 'voice') {
-        await speakResponse(response.spokenText);
-      }
-    }, 280);
-  }, [inputText, autoSpeak, mode, speakResponse]);
-
-  // Keep latest handleSendMessage in ref so SpeechRecognition never suffers from stale closure
-  useEffect(() => {
-    handleSendRef.current = handleSendMessage;
-  }, [handleSendMessage]);
+    isContinuousLiveRef.current = isContinuousLive;
+  }, [isContinuousLive]);
 
   useEffect(() => {
-    recognizerRef.current = createSpeechRecognizer({
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, viewMode]);
+
+  // Speech Recognition initialization
+  useEffect(() => {
+    const recognizer = createSpeechRecognizer({
       onResult: (transcript, isFinal) => {
         setLiveTranscript(transcript);
-        setInputText(transcript);
-        if (isFinal && transcript.trim().length > 0) {
+        setInputQuery(transcript);
+        if (isFinal && transcript.trim()) {
+          handleSendMessage(transcript.trim());
           setIsListening(false);
-          if (handleSendRef.current) {
-            handleSendRef.current(transcript.trim());
-          }
         }
       },
       onError: (err) => {
         console.warn('Speech recognition error:', err);
         setIsListening(false);
-        if (err === 'not-allowed') {
-          setSpeechError('Microphone permission denied by browser. Use text input or enable mic access.');
-        }
       },
       onEnd: () => {
         setIsListening(false);
       }
     });
+    recognizerRef.current = recognizer;
+  }, [selectedSpeaker]);
 
-    return () => {
-      stopAudio();
-    };
-  }, [stopAudio]);
+  const stopAudio = () => {
+    if (currentAudio) {
+      currentAudio.pause();
+      if (currentAudio.currentTime) currentAudio.currentTime = 0;
+      setCurrentAudio(null);
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    setIsPlayingAudio(false);
+  };
 
-  const toggleListening = () => {
-    setSpeechError(null);
+  const startListening = () => {
+    stopAudio();
     if (!recognizerRef.current) {
-      setSpeechError('Speech recognition requires Chrome, Edge, or Safari.');
+      alert('Speech recognition is not supported in this browser. Please type your message.');
       return;
     }
-
-    if (isListening) {
-      recognizerRef.current.stop();
-      setIsListening(false);
-    } else {
-      stopAudio();
+    try {
       setLiveTranscript('');
-      try {
-        recognizerRef.current.start();
-        setIsListening(true);
-      } catch (e) {
-        console.warn(e);
-      }
+      recognizerRef.current.start();
+      setIsListening(true);
+    } catch (e) {
+      console.warn('Recognition start error:', e);
     }
   };
 
-  const handleSaveKey = (val) => {
-    setSarvamKey(val);
-    localStorage.setItem('SARVAM_API_KEY', val);
+  const stopListening = () => {
+    if (recognizerRef.current && isListening) {
+      recognizerRef.current.stop();
+      setIsListening(false);
+    }
   };
 
-  const resetConversation = () => {
+  const toggleListening = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  };
+
+  // Play audio via Sarvam AI bulbul:v3 with automatic continuous loop
+  const playVoice = async (text) => {
     stopAudio();
-    setMessages([messages[0]]);
+    setIsPlayingAudio(true);
+    setLastAgentSpoken(text);
+
+    try {
+      const audioInstance = await synthesizeSpeech(text, {
+        speaker: selectedSpeaker,
+      });
+      setCurrentAudio(audioInstance);
+
+      if (audioInstance.play) {
+        audioInstance.onended = () => {
+          setIsPlayingAudio(false);
+          // CONTINUOUS GEMINI LIVE / CHATGPT VOICE LOOP:
+          // If in continuous mode and in Voice Orb view, automatically start listening for user's reply!
+          if (isContinuousLiveRef.current) {
+            setTimeout(() => {
+              startListening();
+            }, 400);
+          }
+        };
+
+        audioInstance.onerror = () => setIsPlayingAudio(false);
+        const playPromise = audioInstance.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => setIsPlayingAudio(false));
+        }
+      } else {
+        setIsPlayingAudio(false);
+      }
+    } catch (err) {
+      console.error('Sarvam Audio playback error:', err);
+      setIsPlayingAudio(false);
+    }
+  };
+
+  const handleSendMessage = async (textToSend) => {
+    const query = (textToSend || inputQuery).trim();
+    if (!query) return;
+
+    stopAudio();
+    stopListening();
+    setIsThinking(true);
+
+    const userMsg = {
+      id: `user-${Date.now()}`,
+      sender: 'user',
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      text: query
+    };
+
+    setMessages((prev) => [...prev, userMsg]);
+    setInputQuery('');
+
+    // Generate military intelligence response
+    setTimeout(async () => {
+      setIsThinking(false);
+      const response = queryVayuBrain(query, { activeTab });
+      const agentMsg = {
+        id: `agent-${Date.now()}`,
+        sender: 'agent',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        text: response.displayText,
+        formulaCard: response.formulaCard,
+        spokenText: response.spokenText,
+        suggestions: response.suggestions
+      };
+
+      setMessages((prev) => [...prev, agentMsg]);
+
+      // Automatically speak the briefing with Sarvam AI voice
+      if (response.spokenText) {
+        playVoice(response.spokenText);
+      }
+    }, 200);
+  };
+
+  const handleCopy = (text, id) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const handleNewChat = () => {
+    stopAudio();
+    stopListening();
     setLiveTranscript('');
-    setSpeechError(null);
+    setMessages([initialGreetingMessage]);
+    setLastAgentSpoken(initialGreetingMessage.spokenText);
   };
 
-  const renderMessageContent = (msg) => {
-    const paragraphs = msg.text.split('\n\n');
+  const quickPrompts = [
+    { label: 'Sortie Clearance Briefing', prompt: 'Give me a sortie clearance briefing' },
+    { label: 'Why is SB-024 Grounded?', prompt: 'Why is tail SB-024 grounded at AFS Thanjavur?' },
+    { label: '5 Stage Engine Telemetry', prompt: 'Explain the 5-stage thermodynamic turbofan twin' },
+    { label: 'Conformal RUL Calculation', prompt: 'How does conformal RUL calculation work?' },
+    { label: 'Spares & Depot Logistics', prompt: 'What is the status of base spares and central depot logistics?' },
+    { label: 'Pilot Snag Log Fusion', prompt: 'Explain the multi-modal NLP snag-to-sensor fusion' },
+  ];
 
-    return (
-      <div className="space-y-4">
-        <div className="space-y-3">
-          {paragraphs.map((para, pIdx) => {
-            const lines = para.split('\n');
-            const isList = lines.some(l => l.trim().startsWith('•') || l.trim().startsWith('-'));
-
-            if (isList) {
-              const headerLine = !lines[0].trim().startsWith('•') && !lines[0].trim().startsWith('-') ? lines[0] : null;
-              const listLines = headerLine ? lines.slice(1) : lines;
-
-              return (
-                <div key={pIdx} className="space-y-1.5">
-                  {headerLine && (
-                    <div className={`text-xs font-semibold uppercase tracking-wider ${
-                      isDark ? 'text-slate-300' : 'text-slate-700'
-                    }`}>
-                      {headerLine}
-                    </div>
-                  )}
-                  <ul className="space-y-1.5 pl-1">
-                    {listLines.map((line, lIdx) => {
-                      const cleanLine = line.replace(/^[•\-]\s*/, '').trim();
-                      const colonIndex = cleanLine.indexOf(':');
-                      if (colonIndex !== -1 && colonIndex < 42) {
-                        const label = cleanLine.slice(0, colonIndex);
-                        const rest = cleanLine.slice(colonIndex + 1);
-                        return (
-                          <li key={lIdx} className="flex items-start gap-2.5 text-sm leading-relaxed">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 shrink-0" />
-                            <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>
-                              <strong className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>{label}:</strong>
-                              {rest}
-                            </span>
-                          </li>
-                        );
-                      }
-                      return (
-                        <li key={lIdx} className="flex items-start gap-2.5 text-sm leading-relaxed">
-                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 shrink-0" />
-                          <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>{cleanLine}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            }
-
-            return (
-              <p key={pIdx} className={`text-sm leading-relaxed ${
-                isDark ? 'text-slate-200' : 'text-slate-700'
-              }`}>
-                {para}
-              </p>
-            );
-          })}
-        </div>
-
-        {/* Clean Engineering Specification Box */}
-        {msg.formulaCard && (
-          <div className={`p-3.5 rounded-lg border ${
-            isDark
-              ? 'bg-slate-950/90 border-slate-800'
-              : 'bg-slate-50 border-slate-200'
-          }`}>
-            <div className="flex items-center justify-between mb-1">
-              <span className={`text-[10px] font-mono uppercase tracking-widest ${
-                isDark ? 'text-slate-400' : 'text-slate-500'
-              }`}>
-                {msg.formulaCard.title}
-              </span>
-              <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                isDark ? 'bg-slate-900 text-sky-400 border border-slate-800' : 'bg-white text-blue-700 border border-slate-200'
-              }`}>
-                VERIFIED RULE
-              </span>
-            </div>
-            <div className={`text-xs sm:text-sm font-mono font-semibold tracking-tight tabular-nums ${
-              isDark ? 'text-slate-100' : 'text-slate-900'
-            }`}>
-              {msg.formulaCard.formula}
-            </div>
-          </div>
-        )}
-
-        {/* Follow-up Tactical Queries */}
-        {msg.suggestions && msg.suggestions.length > 0 && (
-          <div className={`pt-3 border-t ${isDark ? 'border-slate-800/80' : 'border-slate-200'}`}>
-            <div className={`text-[10px] font-mono uppercase tracking-wider mb-2 ${
-              isDark ? 'text-slate-400' : 'text-slate-500'
-            }`}>
-              Follow-Up Operational Queries
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {msg.suggestions.map((suggestion, sIdx) => (
-                <button
-                  key={sIdx}
-                  onClick={() => handleSendMessage(suggestion)}
-                  className={`text-left text-xs px-3 py-1.5 rounded-md border transition-colors flex items-center gap-1.5 ${
-                    isDark
-                      ? 'bg-slate-900 hover:bg-slate-800 text-slate-200 border-slate-700/80 hover:border-blue-500/50'
-                      : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200 hover:border-blue-400'
-                  }`}
-                >
-                  <span>{suggestion}</span>
-                  <ChevronRight className="w-3 h-3 text-blue-500 shrink-0" />
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
+  // Helper to cleanly parse and render inline text
+  const formatInline = (text) => {
+    if (!text) return null;
+    const tokens = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\$[^\$]+\$)/g);
+    return tokens.map((token, i) => {
+      if (token.startsWith('**') && token.endsWith('**')) {
+        return (
+          <strong key={i} className={`font-bold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            {token.slice(2, -2)}
+          </strong>
+        );
+      }
+      if (token.startsWith('`') && token.endsWith('`')) {
+        return (
+          <code key={i} className="font-mono text-[11px] px-1 py-0.5 rounded bg-cyan-950/40 text-cyan-400 border border-cyan-500/20">
+            {token.slice(1, -1)}
+          </code>
+        );
+      }
+      if (token.startsWith('$') && token.endsWith('$')) {
+        return (
+          <span key={i} className="font-mono text-[11px] font-semibold text-cyan-400 bg-cyan-950/20 px-1 py-0.2 rounded">
+            {token.slice(1, -1)}
+          </span>
+        );
+      }
+      return token;
+    });
   };
 
-  const activeMessage = [...messages].reverse().find(m => m.role === 'assistant') || messages[0];
-  const activeSpeakerObj = VOICE_SPEAKERS.find(s => s.id === selectedSpeaker) || VOICE_SPEAKERS[0];
+  // Structured message line formatter matching Vanna Assist typography
+  const renderFormattedText = (text) => {
+    if (!text) return null;
+    const lines = text.split('\n');
+    return lines.map((line, idx) => {
+      const trimmed = line.trim();
+
+      if (trimmed.startsWith('### ')) {
+        return (
+          <h4 key={idx} className={`font-bold text-xs uppercase tracking-wider mt-3 mb-1.5 ${isDark ? 'text-cyan-300' : 'text-blue-700'}`}>
+            {trimmed.replace('### ', '')}
+          </h4>
+        );
+      }
+
+      if (trimmed.startsWith('• ') || trimmed.startsWith('- ')) {
+        const content = trimmed.replace(/^[•\-]\s+/, '');
+        return (
+          <div key={idx} className={`flex items-start gap-2 text-xs sm:text-[13px] my-1.5 pl-0.5 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 shrink-0" />
+            <div className="flex-1">{formatInline(content)}</div>
+          </div>
+        );
+      }
+
+      if (!trimmed) return <div key={idx} className="h-1.5" />;
+
+      if (trimmed.endsWith(':')) {
+        return (
+          <p key={idx} className={`font-semibold text-xs sm:text-[13px] mt-2.5 mb-1 ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+            {trimmed}
+          </p>
+        );
+      }
+
+      return (
+        <p key={idx} className={`text-xs sm:text-[13px] my-1 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+          {formatInline(line)}
+        </p>
+      );
+    });
+  };
 
   return (
-    <div className="space-y-5">
-      {/* Top Command Header Bar */}
-      <GlassCard className="p-5">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-11 h-11 rounded-lg bg-blue-700 border border-blue-500/30 flex items-center justify-center shrink-0">
-              <Terminal className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <h2 className={`text-lg font-bold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  VAYU-OPS Flight Line Intelligence & Voice Terminal
-                </h2>
-                <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold uppercase tracking-wider border ${
-                  isDark
-                    ? 'bg-emerald-950/60 text-emerald-400 border-emerald-500/30'
-                    : 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                }`}>
-                  SARVAM BULBUL:V3 TTS
-                </span>
-              </div>
-              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Bilingual Indian-English acoustic briefing terminal synchronized with 20 aircraft digital twins, C-MAPSS prognostics, and depot pipelines
-              </p>
-            </div>
+    <div className="space-y-6 pb-12 animate-fadeIn">
+      {/* 1. TOP HEADER & OPERATIONAL CONTROLS */}
+      <GlassCard className="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5 min-w-0">
+          <div className="w-11 h-11 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm shrink-0">
+            <Plane className="w-6 h-6 -rotate-45" />
           </div>
-
-          {/* Mode Switcher & Audio Controls */}
-          <div className="flex flex-wrap items-center gap-2">
-            <div className={`p-1 rounded-lg border flex items-center gap-1 ${
-              isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-200'
-            }`}>
-              <button
-                onClick={() => setMode('briefing')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
-                  mode === 'briefing'
-                    ? 'bg-blue-700 text-white'
-                    : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <MessageSquare className="w-3.5 h-3.5" />
-                <span>Briefing Log</span>
-              </button>
-              <button
-                onClick={() => setMode('voice')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
-                  mode === 'voice'
-                    ? 'bg-blue-700 text-white'
-                    : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <Radio className="w-3.5 h-3.5" />
-                <span>Acoustic PTT Console</span>
-              </button>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-sans px-2.5 py-0.5 rounded-full bg-blue-500/10 text-sky-400 font-semibold border border-blue-500/20">
+                Sarvam AI bulbul:v3 Voice Link
+              </span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Voice Channel Active" />
             </div>
-
-            <button
-              onClick={() => {
-                if (isSpeaking) stopAudio();
-                setAutoSpeak(!autoSpeak);
-              }}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border transition-colors ${
-                autoSpeak
-                  ? isDark
-                    ? 'bg-slate-900 border-slate-700 text-emerald-400'
-                    : 'bg-white border-slate-200 text-emerald-700'
-                  : isDark
-                    ? 'bg-slate-900 border-slate-800 text-slate-400'
-                    : 'bg-slate-100 border-slate-200 text-slate-500'
-              }`}
-              title="Toggle automatic voice synthesis on response"
-            >
-              {autoSpeak ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-              <span>{autoSpeak ? 'Voice Out: ON' : 'Voice Out: MUTE'}</span>
-            </button>
-
-            <button
-              onClick={() => setShowSettings(!showSettings)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border transition-colors ${
-                showSettings
-                  ? 'bg-blue-700 border-blue-500 text-white'
-                  : isDark
-                  ? 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800'
-                  : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              <Sliders className="w-3.5 h-3.5" />
-              <span>Voice Officer</span>
-            </button>
-
-            <button
-              onClick={resetConversation}
-              className={`p-2 rounded-lg border transition-colors ${
-                isDark
-                  ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
-                  : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-              title="Reset Comms Log"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-            </button>
+            <h2 className={`text-lg sm:text-xl font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              Tactical Voice Copilot & Flight Line Assistant
+            </h2>
           </div>
         </div>
 
-        {/* Collapsible Voice Officer & API Key Drawer */}
-        {showSettings && (
-          <div className={`mt-4 pt-4 border-t grid grid-cols-1 md:grid-cols-2 gap-4 ${
-            isDark ? 'border-slate-800' : 'border-slate-200'
+        {/* Action Controls: Mode Switch, Speaker Selector, Hands Free Toggle, New Chat */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          {/* Mode Switch: Live Voice Orb vs Chat Feed */}
+          <div className={`p-1 rounded-xl border flex items-center gap-1 ${
+            isDark ? 'bg-slate-900/90 border-white/10' : 'bg-slate-100 border-slate-200'
           }`}>
-            <div>
-              <label className={`block text-[11px] font-mono uppercase tracking-wider mb-1.5 ${
-                isDark ? 'text-slate-400' : 'text-slate-600'
-              }`}>
-                Briefing Officer Voice Profile (Sarvam en-IN)
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {VOICE_SPEAKERS.map((spk) => (
-                  <button
-                    key={spk.id}
-                    onClick={() => setSelectedSpeaker(spk.id)}
-                    className={`p-2.5 rounded-lg border text-left transition-colors ${
-                      selectedSpeaker === spk.id
-                        ? isDark
-                          ? 'bg-blue-950/50 border-blue-500/60 text-white'
-                          : 'bg-blue-50 border-blue-500 text-slate-900'
-                        : isDark
-                          ? 'bg-slate-900/70 border-slate-800 text-slate-400 hover:border-slate-700'
-                          : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
+            <button
+              onClick={() => setViewMode('orb')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                viewMode === 'orb'
+                  ? 'bg-blue-700 text-white border border-blue-500/30 shadow-sm'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Headphones className="w-3.5 h-3.5" />
+              <span>Live Voice (Gemini Style)</span>
+            </button>
+            <button
+              onClick={() => setViewMode('chat')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                viewMode === 'chat'
+                  ? 'bg-blue-700 text-white border border-blue-500/30 shadow-sm'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              <span>Chat & Dossier</span>
+            </button>
+          </div>
+
+          {/* Speaker Selector */}
+          <div className="relative">
+            <select
+              value={selectedSpeaker}
+              onChange={(e) => setSelectedSpeaker(e.target.value)}
+              className={`text-xs font-semibold py-2 px-3 pr-8 rounded-xl appearance-none cursor-pointer border transition ${
+                isDark
+                  ? 'bg-slate-900/90 text-cyan-300 border-white/15 hover:border-cyan-500/40'
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-blue-400'
+              }`}
+            >
+              {VOICE_SPEAKERS.map((sp) => (
+                <option key={sp.id} value={sp.id} className="bg-slate-900 text-white">
+                  {sp.name}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" />
+          </div>
+
+          {/* Hands Free Continuous Voice Loop Toggle */}
+          <button
+            onClick={() => setIsContinuousLive(!isContinuousLive)}
+            title="When active, the assistant automatically listens for your reply after speaking (hands-free like ChatGPT / Gemini)"
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition ${
+              isContinuousLive
+                ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-sm'
+                : isDark
+                ? 'bg-slate-900 border-white/10 text-slate-400 hover:text-white'
+                : 'bg-slate-100 border-slate-200 text-slate-600'
+            }`}
+          >
+            <span className={`w-2 h-2 rounded-full ${isContinuousLive ? 'bg-emerald-400 animate-ping' : 'bg-slate-500'}`} />
+            <span>Hands Free Loop</span>
+          </button>
+
+          {/* New Chat Button */}
+          <button
+            onClick={handleNewChat}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition ${
+              isDark
+                ? 'border-white/10 hover:bg-white/10 text-slate-300 hover:text-white'
+                : 'border-slate-200 hover:bg-slate-100 text-slate-700'
+            }`}
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Reset</span>
+          </button>
+        </div>
+      </GlassCard>
+
+      {/* 2. MAIN VIEW AREA (GEMINI LIVE ORB OR VANNA CHAT) */}
+      {viewMode === 'orb' ? (
+        /* ========================================================= */
+        /* GEMINI LIVE / CHATGPT VOICE INTERACTIVE ORB VIEW          */
+        /* ========================================================= */
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Visualizer Canvas (2 Cols) */}
+          <GlassCard className="p-6 sm:p-10 lg:col-span-2 flex flex-col items-center justify-between min-h-[500px] relative overflow-hidden">
+            {/* Background Tactical Radar Sweep Effect */}
+            <div className="absolute inset-0 pointer-events-none opacity-20 flex items-center justify-center">
+              <div className="w-[420px] h-[420px] rounded-full border border-cyan-500/20 animate-ping" style={{ animationDuration: '4s' }} />
+              <div className="w-[300px] h-[300px] rounded-full border border-blue-500/30" />
+              <div className="w-[180px] h-[180px] rounded-full border border-cyan-400/40" />
+            </div>
+
+            {/* Top Status Banner */}
+            <div className="z-10 text-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-white/10 text-xs text-slate-300 backdrop-blur-md">
+                <span className={`w-2 h-2 rounded-full ${
+                  isListening
+                    ? 'bg-red-500 animate-ping'
+                    : isPlayingAudio
+                    ? 'bg-cyan-400 animate-pulse'
+                    : 'bg-emerald-400'
+                }`} />
+                <span className="font-semibold">
+                  {isListening
+                    ? 'Listening to microphone...'
+                    : isPlayingAudio
+                    ? 'Transmitting via Sarvam bulbul:v3...'
+                    : isThinking
+                    ? 'Synthesizing tactical intelligence...'
+                    : 'Tactical Voice Channel Ready'}
+                </span>
+              </div>
+            </div>
+
+            {/* Central Glowing Interactive Voice Orb */}
+            <div className="my-8 z-10 flex flex-col items-center justify-center">
+              <div className="relative flex items-center justify-center">
+                {/* Outer Glow Halo */}
+                <div
+                  className={`absolute rounded-full filter blur-2xl transition-all duration-700 ${
+                    isListening
+                      ? 'w-64 h-64 bg-red-500/25 animate-pulse'
+                      : isPlayingAudio
+                      ? 'w-72 h-72 bg-blue-500/25 animate-pulse'
+                      : 'w-52 h-52 bg-blue-500/10'
+                  }`}
+                />
+
+                {/* Interactive Clickable Orb Button */}
+                <button
+                  onClick={toggleListening}
+                  className={`relative w-40 h-40 sm:w-48 sm:h-48 rounded-full flex flex-col items-center justify-center transition-all duration-500 cursor-pointer shadow-xl ${
+                    isListening
+                      ? 'bg-slate-900 border-2 border-red-500 shadow-md ring-4 ring-red-500/20'
+                      : isPlayingAudio
+                      ? 'bg-slate-900 border-2 border-blue-500 shadow-md ring-4 ring-blue-500/20 animate-pulse'
+                      : isDark
+                      ? 'bg-slate-900 border border-slate-700 hover:border-blue-500'
+                      : 'bg-white border border-slate-300 text-slate-800 hover:border-blue-600 shadow-md'
+                  }`}
+                  title={isListening ? 'Click to Stop Listening' : 'Click Orb to Speak'}
+                >
+                  {isListening ? (
+                    <>
+                      <Mic className="w-12 h-12 text-red-400 animate-bounce" />
+                      <span className="text-[11px] font-bold text-red-400 tracking-widest uppercase mt-2">
+                        Listening...
+                      </span>
+                    </>
+                  ) : isPlayingAudio ? (
+                    <>
+                      <Volume2 className="w-12 h-12 text-blue-400 animate-pulse" />
+                      <span className="text-[11px] font-bold text-sky-400 tracking-widest uppercase mt-2">
+                        Speaking...
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <Mic className="w-10 h-10 text-slate-400 group-hover:scale-110 transition" />
+                      <span className="text-[11px] font-bold text-slate-300 tracking-wider uppercase mt-2">
+                        Tap to Talk
+                      </span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Real-time Frequency Equalizer Waves */}
+              <div className="flex items-center gap-1.5 h-6 mt-6">
+                {[5, 12, 18, 9, 24, 16, 8, 20, 14, 22, 10, 6].map((h, i) => (
+                  <span
+                    key={i}
+                    style={{
+                      height: isPlayingAudio || isListening ? `${h}px` : '4px',
+                      animationDelay: `${i * 0.08}s`
+                    }}
+                    className={`w-1.5 rounded-full transition-all duration-300 ${
+                      isListening
+                        ? 'bg-red-400 animate-bounce'
+                        : isPlayingAudio
+                        ? 'bg-blue-500 animate-bounce'
+                        : 'bg-slate-700'
                     }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold">{spk.name}</span>
-                      <span className="text-[10px] font-mono text-sky-400">{spk.callsign}</span>
-                    </div>
-                    <div className="text-[11px] opacity-75 truncate mt-0.5">{spk.role}</div>
-                  </button>
+                  />
                 ))}
               </div>
             </div>
 
-            <div>
-              <label className={`block text-[11px] font-mono uppercase tracking-wider mb-1.5 ${
-                isDark ? 'text-slate-400' : 'text-slate-600'
-              }`}>
-                Sarvam AI Subscription Key (Fallback to Web Speech API if empty)
-              </label>
-              <input
-                type="password"
-                value={sarvamKey}
-                onChange={(e) => handleSaveKey(e.target.value)}
-                placeholder="sk_..."
-                className={`w-full px-3 py-2 rounded-lg text-xs font-mono border outline-none ${
-                  isDark
-                    ? 'bg-slate-950 border-slate-800 text-white focus:border-blue-500'
-                    : 'bg-white border-slate-300 text-slate-900 focus:border-blue-600'
-                }`}
-              />
-              <p className={`text-[11px] mt-1.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                Uses Sarvam <code className="font-mono">bulbul:v3</code> neural Indian-English synthesis with automatic browser Web Speech API failover.
-              </p>
+            {/* Bottom Live Speech Readout */}
+            <div className="z-10 w-full max-w-xl text-center px-4">
+              {liveTranscript ? (
+                <div className="p-3 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-white font-sans text-sm animate-fadeIn">
+                  <span className="text-cyan-400 font-bold uppercase text-[10px] block mb-0.5">You said:</span>
+                  "{liveTranscript}"
+                </div>
+              ) : (
+                <div className="p-3 rounded-xl bg-slate-900/70 border border-white/5 text-slate-300 text-xs font-sans leading-relaxed">
+                  <span className="text-cyan-400 font-bold uppercase text-[10px] block mb-0.5">Last Briefing Transmitted:</span>
+                  "{lastAgentSpoken.slice(0, 180)}..."
+                </div>
+              )}
             </div>
-          </div>
-        )}
-      </GlassCard>
+          </GlassCard>
 
-      {/* Main Content Layout: 8-Col Comms Terminal + 4-Col Operational Dispatch & Watchlist */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-        {/* Left 8 Columns: Active Mode View */}
-        <div className="lg:col-span-8">
-          {mode === 'briefing' ? (
-            <GlassCard className="flex flex-col h-[640px] overflow-hidden">
-              {/* Console Status Bar */}
-              <div className={`px-5 py-3 border-b flex items-center justify-between ${
-                isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-slate-50 border-slate-200'
-              }`}>
-                <div className="flex items-center gap-2.5">
-                  <span className={`w-2 h-2 rounded-full ${
-                    isSpeaking ? 'bg-emerald-400' : isListening ? 'bg-red-500' : 'bg-blue-500'
-                  }`} />
-                  <span className={`text-xs font-mono font-semibold uppercase tracking-wider ${
-                    isDark ? 'text-slate-200' : 'text-slate-800'
-                  }`}>
-                    {activeSpeakerObj.callsign} • {activeSpeakerObj.name} ({activeSpeakerObj.role})
-                  </span>
-                </div>
+          {/* Right Rail: Quick Directives & Operational Telemetry (1 Col) */}
+          <div className="space-y-4">
+            <GlassCard className="p-5">
+              <h3 className={`font-bold text-sm tracking-tight mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                Flight Line Quick Directives
+              </h3>
+              <p className="text-xs text-slate-400 mb-3">
+                Tap any directive to immediately trigger the live spoken voice briefing:
+              </p>
 
-                <div className="flex items-center gap-2">
-                  {isSpeaking && (
-                    <button
-                      onClick={stopAudio}
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-[11px] font-semibold"
-                    >
-                      <Square className="w-3 h-3 fill-current" />
-                      <span>Stop Audio</span>
-                    </button>
-                  )}
-                  <span className={`text-[11px] font-mono tabular-nums ${
-                    isDark ? 'text-slate-400' : 'text-slate-500'
-                  }`}>
-                    {messages.length} LOG ENTRIES
-                  </span>
-                </div>
-              </div>
-
-              {/* Message Feed */}
-              <div className="flex-1 overflow-y-auto p-5 space-y-4">
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
+              <div className="space-y-2">
+                {quickPrompts.map((qp, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleSendMessage(qp.prompt)}
+                    className={`w-full text-left p-3 rounded-xl border text-xs font-medium transition-all flex items-center justify-between group ${
+                      isDark
+                        ? 'bg-slate-900/70 hover:bg-cyan-500/10 border-white/5 hover:border-cyan-500/30 text-slate-300 hover:text-white'
+                        : 'bg-slate-50 hover:bg-blue-50 border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-800'
+                    }`}
                   >
-                    <div className="flex items-center gap-2 mb-1 px-1">
-                      <span className={`text-[10px] font-mono font-semibold uppercase tracking-wider ${
-                        msg.role === 'user'
-                          ? 'text-blue-400'
-                          : isDark ? 'text-slate-400' : 'text-slate-500'
+                    <span>{qp.label}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition" />
+                  </button>
+                ))}
+              </div>
+            </GlassCard>
+
+            <GlassCard className="p-4 flex items-center justify-between text-xs font-sans">
+              <div>
+                <p className="font-bold text-slate-300">Continuous Hands Free Mode</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Talk freely without pressing mic each time</p>
+              </div>
+              <button
+                onClick={() => setIsContinuousLive(!isContinuousLive)}
+                className={`w-11 h-6 rounded-full transition-colors p-1 ${isContinuousLive ? 'bg-cyan-500' : 'bg-slate-700'}`}
+              >
+                <div className={`w-4 h-4 rounded-full bg-white transition-transform ${isContinuousLive ? 'translate-x-5' : 'translate-x-0'}`} />
+              </button>
+            </GlassCard>
+          </div>
+        </div>
+      ) : (
+        /* ========================================================= */
+        /* CHAT & TELEMETRY FEED VIEW (VANNA ASSIST ARCHITECTURE)    */
+        /* ========================================================= */
+        <GlassCard className="p-4 sm:p-6 min-h-[600px] flex flex-col justify-between">
+          {/* Scrollable Message Feed */}
+          <div className="flex-1 overflow-y-auto space-y-6 max-h-[580px] pr-2 font-sans">
+            {messages.map((msg) => {
+              const isUser = msg.sender === 'user';
+
+              if (isUser) {
+                return (
+                  <div key={msg.id} className="flex justify-end">
+                    <div className="max-w-[80%] rounded-2xl rounded-tr-sm px-4 py-2.5 text-xs sm:text-sm bg-blue-700 text-white shadow-sm leading-relaxed border border-blue-600/30">
+                      {msg.text}
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <div key={msg.id} className="flex items-start gap-3.5">
+                  <div className="w-7 h-7 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shrink-0 mt-0.5 shadow-sm">
+                    <Plane className="w-4 h-4 -rotate-45" />
+                  </div>
+
+                  <div className="flex-1 min-w-0 max-w-[92%]">
+                    <div className="space-y-1">
+                      {renderFormattedText(msg.text)}
+                    </div>
+
+                    {/* Formula Card */}
+                    {msg.formulaCard && (
+                      <div className={`my-3 p-3.5 rounded-xl border transition-all ${
+                        isDark
+                          ? 'bg-slate-900/80 border-white/10'
+                          : 'bg-slate-50 border-slate-200'
                       }`}>
-                        {msg.role === 'user' ? 'COMMANDER QUERY' : `${activeSpeakerObj.callsign} BRIEFING`}
-                      </span>
-                      <span className={`text-[10px] font-mono tabular-nums ${
-                        isDark ? 'text-slate-500' : 'text-slate-400'
-                      }`}>
-                        {msg.timestamp}
-                      </span>
-                      {msg.role === 'assistant' && msg.spokenText && (
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-sans mb-1">
+                          {msg.formulaCard.title || 'Formula'}
+                        </p>
+                        <p className={`text-xs sm:text-[13px] font-mono font-semibold ${
+                          isDark ? 'text-cyan-300' : 'text-blue-700'
+                        }`}>
+                          {msg.formulaCard.formula}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Action Bar: Copy & Listen Aloud */}
+                    <div className="flex items-center gap-3.5 mt-2.5 text-xs text-slate-400 font-sans">
+                      <button
+                        onClick={() => handleCopy(msg.text, msg.id)}
+                        className="flex items-center gap-1 hover:text-slate-200 transition py-1"
+                      >
+                        {copiedId === msg.id ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-400" />
+                            <span className="text-emerald-400 font-medium">Copied</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </button>
+
+                      {msg.spokenText && (
                         <button
-                          onClick={() => speakResponse(msg.spokenText)}
-                          className={`inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded border transition-colors ${
-                            isDark
-                              ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
-                              : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900'
+                          onClick={() => playVoice(msg.spokenText)}
+                          className={`flex items-center gap-1 transition py-1 font-semibold ${
+                            isDark ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700'
                           }`}
-                          title="Replay voice briefing"
                         >
-                          <Volume2 className="w-3 h-3 text-blue-500" />
-                          <span>Replay</span>
+                          <Play className="w-3 h-3 fill-current" />
+                          <span>Listen Aloud (Sarvam Voice)</span>
                         </button>
                       )}
                     </div>
 
-                    <div
-                      className={`max-w-[92%] rounded-xl p-4 ${
-                        msg.role === 'user'
-                          ? 'bg-blue-700 text-white border border-blue-500/40'
-                          : isDark
-                          ? 'bg-slate-900/95 border border-slate-800 text-slate-100'
-                          : 'bg-white border border-slate-200 text-slate-800 shadow-sm'
-                      }`}
-                    >
-                      {msg.role === 'user' ? (
-                        <p className="text-sm font-medium leading-relaxed">{msg.text}</p>
-                      ) : (
-                        renderMessageContent(msg)
-                      )}
-                    </div>
-                  </div>
-                ))}
-
-                {isProcessing && (
-                  <div className="flex items-center gap-2.5 text-xs font-mono text-slate-400 px-2">
-                    <Activity className="w-4 h-4 text-blue-500 animate-spin" />
-                    <span>Correlating C-MAPSS prognostic vectors & base inventory...</span>
-                  </div>
-                )}
-                <div ref={chatEndRef} />
-              </div>
-
-              {/* Input Command Bar */}
-              <div className={`p-3.5 border-t ${
-                isDark ? 'bg-slate-950/90 border-slate-800' : 'bg-slate-50 border-slate-200'
-              }`}>
-                {speechError && (
-                  <div className="mb-2 px-3 py-1.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs flex items-center justify-between">
-                    <span>{speechError}</span>
-                    <button onClick={() => setSpeechError(null)} className="text-[10px] underline ml-2">Dismiss</button>
-                  </div>
-                )}
-
-                {isListening && (
-                  <div className="mb-2 px-3 py-1.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono flex items-center justify-between">
-                    <span>MIC LIVE: {liveTranscript || 'Listening for aircraft tail number or tactical query...'}</span>
-                    <span className="text-[10px] uppercase tracking-wider font-bold">Speak Now</span>
-                  </div>
-                )}
-
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSendMessage();
-                  }}
-                  className="flex items-center gap-2"
-                >
-                  <button
-                    type="button"
-                    onClick={toggleListening}
-                    className={`px-3.5 py-2.5 rounded-lg border flex items-center gap-2 text-xs font-semibold transition-colors shrink-0 ${
-                      isListening
-                        ? 'bg-red-600 text-white border-red-500'
-                        : isDark
-                        ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800'
-                        : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
-                    }`}
-                    title={isListening ? 'Stop Microphone' : 'Push to Speak Query'}
-                  >
-                    {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-blue-500" />}
-                    <span className="hidden sm:inline">{isListening ? 'Stop Mic' : 'Voice Mic'}</span>
-                  </button>
-
-                  <input
-                    type="text"
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                    placeholder="Ask about SB-024, KH-204, RB-004, 4-ship formation clearance, or C-MAPSS RMSE..."
-                    className={`flex-1 px-3.5 py-2.5 rounded-lg text-xs sm:text-sm border outline-none transition-colors ${
-                      isDark
-                        ? 'bg-slate-900 border-slate-800 text-white placeholder-slate-500 focus:border-blue-500'
-                        : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-600'
-                    }`}
-                  />
-
-                  <button
-                    type="submit"
-                    disabled={!inputText.trim()}
-                    className={`px-4 py-2.5 rounded-lg font-semibold text-xs flex items-center gap-1.5 transition-colors shrink-0 ${
-                      inputText.trim()
-                        ? 'bg-blue-700 hover:bg-blue-600 text-white border border-blue-500/40'
-                        : isDark
-                        ? 'bg-slate-900 text-slate-600 border border-slate-800 cursor-not-allowed'
-                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                    }`}
-                  >
-                    <span>Transmit</span>
-                    <Send className="w-3.5 h-3.5" />
-                  </button>
-                </form>
-              </div>
-            </GlassCard>
-          ) : (
-            /* Acoustic Push-To-Talk Console Mode (Clean, Hardware-Grade, No Neon Toy Rings) */
-            <GlassCard className="p-6 flex flex-col justify-between h-[640px]">
-              {/* Top Acoustic Channel Header */}
-              <div className={`flex flex-wrap items-center justify-between gap-3 pb-4 border-b ${
-                isDark ? 'border-slate-800' : 'border-slate-200'
-              }`}>
-                <div>
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-blue-500 font-semibold">
-                    ACOUSTIC CHANNEL • {activeSpeakerObj.callsign}
-                  </div>
-                  <h3 className={`text-base font-bold mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                    {activeSpeakerObj.name} — {activeSpeakerObj.role}
-                  </h3>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className={`px-2.5 py-1 rounded text-xs font-mono font-semibold border ${
-                    isListening
-                      ? 'bg-red-500/10 text-red-400 border-red-500/30'
-                      : isSpeaking
-                      ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                      : isDark
-                      ? 'bg-slate-900 text-slate-400 border-slate-800'
-                      : 'bg-slate-100 text-slate-600 border-slate-200'
-                  }`}>
-                    {isListening ? 'STATE: MIC RECEIVING' : isSpeaking ? 'STATE: TRANSMITTING AUDIO' : 'STATE: STANDBY'}
-                  </span>
-                </div>
-              </div>
-
-              {/* Center Push-to-Talk Hardware Control & Live Telemetry Transcript */}
-              <div className="my-auto flex flex-col items-center text-center max-w-xl mx-auto w-full py-6">
-                <button
-                  onClick={isSpeaking ? stopAudio : toggleListening}
-                  className={`w-28 h-28 rounded-2xl flex flex-col items-center justify-center gap-2 transition-all border-2 ${
-                    isListening
-                      ? 'bg-red-600/20 border-red-500 text-red-400 ring-4 ring-red-500/15'
-                      : isSpeaking
-                      ? 'bg-emerald-600/20 border-emerald-500 text-emerald-400 ring-4 ring-emerald-500/15'
-                      : isDark
-                      ? 'bg-slate-900 border-slate-700 hover:border-blue-500 text-slate-200'
-                      : 'bg-slate-100 border-slate-300 hover:border-blue-600 text-slate-800'
-                  }`}
-                >
-                  {isListening ? (
-                    <>
-                      <MicOff className="w-8 h-8" />
-                      <span className="text-[10px] font-mono uppercase tracking-wider font-bold">End PTT</span>
-                    </>
-                  ) : isSpeaking ? (
-                    <>
-                      <Square className="w-7 h-7 fill-current" />
-                      <span className="text-[10px] font-mono uppercase tracking-wider font-bold">Halt Audio</span>
-                    </>
-                  ) : (
-                    <>
-                      <Mic className="w-8 h-8 text-blue-500" />
-                      <span className="text-[10px] font-mono uppercase tracking-wider font-bold">Push To Talk</span>
-                    </>
-                  )}
-                </button>
-
-                <div className="mt-5 w-full">
-                  <div className={`text-xs font-mono uppercase tracking-wider mb-2 ${
-                    isDark ? 'text-slate-400' : 'text-slate-500'
-                  }`}>
-                    {isListening
-                      ? 'Live Speech-to-Text Capture'
-                      : isSpeaking
-                      ? 'Active Voice Transmission'
-                      : 'Latest Tactical Briefing Output'}
-                  </div>
-
-                  <div className={`p-4 rounded-xl border text-left ${
-                    isDark ? 'bg-slate-950/90 border-slate-800' : 'bg-slate-50 border-slate-200'
-                  }`}>
-                    <p className={`text-sm leading-relaxed ${
-                      isDark ? 'text-slate-200' : 'text-slate-800'
-                    }`}>
-                      {isListening
-                        ? (liveTranscript || 'Listening... Ask about SB-024, KH-204, RB-004, or sortie readiness.')
-                        : (activeMessage?.spokenText || activeMessage?.text)}
-                    </p>
-
-                    {activeMessage?.formulaCard && !isListening && (
-                      <div className={`mt-3 pt-3 border-t flex flex-wrap items-center justify-between gap-2 text-xs font-mono ${
-                        isDark ? 'border-slate-800 text-sky-400' : 'border-slate-200 text-blue-700'
-                      }`}>
-                        <span>{activeMessage.formulaCard.title}:</span>
-                        <span className="font-bold">{activeMessage.formulaCard.formula}</span>
+                    {/* Keep going Suggestions */}
+                    {msg.suggestions && msg.suggestions.length > 0 && (
+                      <div className={`mt-4 pt-3.5 border-t ${isDark ? 'border-white/10' : 'border-slate-100'}`}>
+                        <p className={`text-xs font-semibold mb-2 font-sans ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                          Keep going
+                        </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {msg.suggestions.map((suggestion, sIdx) => (
+                            <button
+                              key={sIdx}
+                              onClick={() => handleSendMessage(suggestion)}
+                              className={`text-left px-3.5 py-2.5 rounded-xl text-xs border transition-all duration-200 font-medium leading-snug flex items-center justify-between gap-2 ${
+                                isDark
+                                  ? 'bg-slate-900/60 hover:bg-cyan-500/10 border-white/10 hover:border-cyan-500/30 text-slate-300 hover:text-cyan-200'
+                                  : 'bg-slate-50 hover:bg-blue-50 border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-700'
+                              }`}
+                            >
+                              <span>{suggestion}</span>
+                              <ArrowRight className="w-3 h-3 shrink-0 opacity-50" />
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
                 </div>
-              </div>
+              );
+            })}
+            <div ref={messagesEndRef} />
+          </div>
 
-              {/* Bottom Instant Voice Dispatch Buttons */}
-              <div className={`pt-4 border-t ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
-                <div className={`text-[10px] font-mono uppercase tracking-wider mb-2.5 ${
-                  isDark ? 'text-slate-400' : 'text-slate-500'
-                }`}>
-                  One-Click Acoustic Briefing Dispatches
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  {QUICK_MISSIONS.slice(0, 3).map((m) => (
-                    <button
-                      key={m.id}
-                      onClick={() => handleSendMessage(m.prompt)}
-                      className={`p-2.5 rounded-lg border text-left transition-colors ${
-                        isDark
-                          ? 'bg-slate-900 hover:bg-slate-800 border-slate-800 text-slate-200'
-                          : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-800'
-                      }`}
-                    >
-                      <div className="text-[10px] font-mono text-blue-500 font-semibold">{m.category}</div>
-                      <div className="text-xs font-semibold truncate mt-0.5">{m.title}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </GlassCard>
-          )}
-        </div>
+          {/* Bottom Floating Bar */}
+          <div className="mt-4 pt-3 border-t border-white/10">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSendMessage();
+              }}
+              className={`flex items-center gap-2 p-1.5 pl-3 rounded-2xl border transition-all ${
+                isDark
+                  ? 'bg-slate-900/90 border-white/10 focus-within:border-cyan-500/50 shadow-inner'
+                  : 'bg-slate-50 border-slate-200 focus-within:border-blue-400 shadow-sm'
+              }`}
+            >
+              <button
+                type="button"
+                onClick={toggleListening}
+                className={`p-2 rounded-xl flex items-center justify-center transition-all ${
+                  isListening
+                    ? 'bg-red-500 text-white animate-pulse shadow-md'
+                    : isDark
+                    ? 'text-slate-400 hover:text-cyan-400 hover:bg-white/5'
+                    : 'text-slate-500 hover:text-blue-600 hover:bg-slate-200/60'
+                }`}
+                title={isListening ? 'Stop Listening' : 'Speak via Microphone'}
+              >
+                {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+              </button>
 
-        {/* Right 4 Columns: Grounded Tail Watchlist & Structured Tactical Dispatch Matrix */}
-        <div className="lg:col-span-4 space-y-5">
-          {/* Grounded Airframe Live Watchlist */}
-          <GlassCard className="p-5">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-red-400 font-semibold block">
-                  AOG HANGAR WATCHLIST
-                </span>
-                <h3 className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  3 Grounded Combat Airframes
-                </h3>
-              </div>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-red-500/10 text-red-400 border border-red-500/30">
-                STRICT NO-GO
-              </span>
-            </div>
+              <input
+                type="text"
+                value={inputQuery}
+                onChange={(e) => setInputQuery(e.target.value)}
+                placeholder="Ask about fleet readiness, RUL, engine twin, tail SB-024..."
+                className={`flex-1 bg-transparent text-xs sm:text-sm focus:outline-none px-1 ${
+                  isDark ? 'text-white placeholder-slate-500' : 'text-slate-800 placeholder-slate-400'
+                }`}
+              />
 
-            <div className={`divide-y ${isDark ? 'divide-slate-800' : 'divide-slate-200'}`}>
-              {GROUNDED_WATCHLIST.map((item) => (
-                <div key={item.tail} className="py-3 first:pt-1 last:pb-1">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className={`text-xs font-mono font-bold whitespace-nowrap ${
-                        isDark ? 'text-sky-400' : 'text-blue-700'
-                      }`}>
-                        {item.tail}
-                      </span>
-                      <span className={`text-xs font-medium ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                        {item.type}
-                      </span>
-                      <span className={`text-[11px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                        • {item.base}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => handleSendMessage(item.prompt)}
-                      className={`text-[11px] font-semibold px-2 py-0.5 rounded border transition-colors ${
-                        isDark
-                          ? 'bg-slate-900 border-slate-700 text-slate-200 hover:border-blue-500'
-                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-blue-500'
-                      }`}
-                    >
-                      Inspect
-                    </button>
-                  </div>
-                  <div className="flex items-center justify-between mt-1.5 text-xs">
-                    <span className={isDark ? 'text-slate-400' : 'text-slate-600'}>{item.fault}</span>
-                    <span className="font-mono tabular-nums text-red-400 font-semibold">
-                      {item.stageHealth} | {item.consRul} RUL
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </GlassCard>
-
-          {/* Tactical Briefing Presets */}
-          <GlassCard className="p-5">
-            <div className="mb-3">
-              <span className={`text-[10px] font-mono uppercase tracking-widest font-semibold block ${
-                isDark ? 'text-slate-400' : 'text-slate-500'
-              }`}>
-                DIRECT QUERY DISPATCH
-              </span>
-              <h3 className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Standard Flight Line Briefings
-              </h3>
-            </div>
-
-            <div className="space-y-2">
-              {QUICK_MISSIONS.map((m) => {
-                const IconComp = m.icon;
-                return (
-                  <button
-                    key={m.id}
-                    onClick={() => handleSendMessage(m.prompt)}
-                    className={`w-full p-3 rounded-lg border text-left transition-colors flex items-start justify-between gap-3 ${
-                      isDark
-                        ? 'bg-slate-900/80 hover:bg-slate-800/90 border-slate-800 hover:border-slate-700'
-                        : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300'
-                    }`}
-                  >
-                    <div className="flex items-start gap-2.5 min-w-0">
-                      <IconComp className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                      <div className="min-w-0">
-                        <div className={`text-xs font-semibold leading-snug ${
-                          isDark ? 'text-slate-100' : 'text-slate-900'
-                        }`}>
-                          {m.title}
-                        </div>
-                        <div className={`text-[11px] truncate mt-0.5 ${
-                          isDark ? 'text-slate-400' : 'text-slate-500'
-                        }`}>
-                          {m.prompt}
-                        </div>
-                      </div>
-                    </div>
-                    <span className={`text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded shrink-0 tabular-nums ${
-                      isDark ? 'bg-slate-950 text-slate-300 border border-slate-800' : 'bg-slate-100 text-slate-700'
-                    }`}>
-                      {m.metric}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </GlassCard>
-        </div>
-      </div>
+              <button
+                type="submit"
+                disabled={!inputQuery.trim()}
+                className="w-9 h-9 rounded-xl bg-blue-700 hover:bg-blue-600 border border-blue-500/40 text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </form>
+          </div>
+        </GlassCard>
+      )}
     </div>
   );
 }
