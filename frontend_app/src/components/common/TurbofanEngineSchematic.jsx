@@ -12,23 +12,24 @@ export default function TurbofanEngineSchematic({
   const [hoveredStage, setHoveredStage] = useState(null);
 
   // Status color mappings with tactical aerospace glow
+  // Status color mappings with tactical aerospace standard (MIL-STD-1472H)
   const getStatusColor = (status, alpha = 1) => {
     if (status === 'CRITICAL') return `rgba(239, 68, 68, ${alpha})`;
     if (status === 'CAUTION') return `rgba(245, 158, 11, ${alpha})`;
-    return `rgba(0, 213, 255, ${alpha})`;
+    return `rgba(16, 185, 129, ${alpha})`;
   };
 
   const getStatusStroke = (status) => {
     if (status === 'CRITICAL') return '#EF4444';
     if (status === 'CAUTION') return '#F59E0B';
-    return '#00D5FF';
+    return '#10B981';
   };
 
   const getStatusFill = (status, isHovered, isSelected) => {
     const baseAlpha = isSelected ? 0.35 : isHovered ? 0.28 : 0.12;
     if (status === 'CRITICAL') return `rgba(239, 68, 68, ${baseAlpha})`;
     if (status === 'CAUTION') return `rgba(245, 158, 11, ${baseAlpha})`;
-    return `rgba(0, 213, 255, ${baseAlpha})`;
+    return `rgba(16, 185, 129, ${baseAlpha})`;
   };
 
   const fanStatus = stages.fan?.status || 'NOMINAL';
@@ -42,18 +43,18 @@ export default function TurbofanEngineSchematic({
 
   return (
     <div className={`p-4 rounded-2xl border transition-all ${
-      isDark ? 'bg-gradient-to-b from-[#0B1437]/90 to-slate-900/90 border-white/10' : 'bg-slate-50 border-slate-200'
+      isDark ? 'bg-slate-900/90 border-slate-700/60' : 'bg-slate-50 border-slate-200'
     }`}>
       {/* Top Header of the Schematic */}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+          <div className="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-sky-400">
             <Layers className="w-4 h-4" />
           </div>
           <div>
             <h4 className="font-sans font-bold text-xs tracking-tight text-white flex items-center gap-1.5">
               Interactive 5-Stage Twin-Spool Turbofan Schematic
-              <span className="text-[10px] font-sans px-2 py-0.5 rounded-full bg-blue-500/20 text-cyan-300 font-semibold border border-blue-500/30">
+              <span className="text-[10px] font-sans px-2 py-0.5 rounded-full bg-blue-500/20 text-sky-300 font-semibold border border-blue-500/30">
                 Stations 2.0 &rarr; 5.0
               </span>
             </h4>
@@ -66,7 +67,7 @@ export default function TurbofanEngineSchematic({
         {/* Legend */}
         <div className="flex items-center gap-3 text-[11px] font-sans">
           <span className="flex items-center gap-1.5 text-slate-300">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00D5FF]" /> Nominal
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#10B981]" /> Nominal
           </span>
           <span className="flex items-center gap-1.5 text-slate-300">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_#F59E0B]" /> Advisory
@@ -93,7 +94,7 @@ export default function TurbofanEngineSchematic({
             </linearGradient>
 
             <linearGradient id="coreFlowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00D5FF" stopOpacity="0.15" />
+              <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.15" />
               <stop offset="45%" stopColor="#38BDF8" stopOpacity="0.2" />
               <stop offset="60%" stopColor="#F97316" stopOpacity="0.35" />
               <stop offset="80%" stopColor="#EF4444" stopOpacity="0.4" />
@@ -261,7 +262,7 @@ export default function TurbofanEngineSchematic({
             <path
               d="M 60 110 Q 100 88 135 90 L 135 130 Q 100 132 60 110 Z"
               fill="#0F172A"
-              stroke="#00D5FF"
+              stroke="#38BDF8"
               strokeWidth="1.5"
             />
             {/* Spinner Spiral Stripe */}
@@ -533,19 +534,19 @@ export default function TurbofanEngineSchematic({
             ? 'bg-red-500/10 border-red-500/30'
             : activeStageData.status === 'CAUTION'
             ? 'bg-amber-500/10 border-amber-500/30'
-            : 'bg-cyan-500/10 border-cyan-500/30'
+            : 'bg-emerald-500/10 border-emerald-500/30'
         }`}>
           <div className="flex items-center gap-2">
             <span className={`w-2.5 h-2.5 rounded-full ${
               activeStageData.status === 'CRITICAL' ? 'bg-red-500 animate-pulse' :
-              activeStageData.status === 'CAUTION' ? 'bg-amber-400' : 'bg-cyan-400'
+              activeStageData.status === 'CAUTION' ? 'bg-amber-400' : 'bg-emerald-400'
             }`} />
             <span className="font-bold text-white tracking-wide">
               {activeStageData.name || activeStageKey.toUpperCase()}
             </span>
             <span className="text-slate-400">&bull;</span>
             <span className="text-slate-300">
-              Degradation Mode: <strong className="text-cyan-300">{activeStageData.wear_mode || 'Nominal clearance'}</strong>
+              Degradation Mode: <strong className={activeStageData.status === 'CRITICAL' ? 'text-red-300' : activeStageData.status === 'CAUTION' ? 'text-amber-300' : 'text-emerald-300'}>{activeStageData.wear_mode || 'Nominal clearance'}</strong>
             </span>
           </div>
 

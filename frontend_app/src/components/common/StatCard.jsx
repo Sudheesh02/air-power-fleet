@@ -2,7 +2,7 @@ import React from 'react';
 import GlassCard from './GlassCard';
 import { useTheme } from '../../context/ThemeContext';
 
-function Sparkline({ data, color = '#0075FF', height = 28 }) {
+function Sparkline({ data, color = '#2563EB', height = 28 }) {
   if (!data || data.length < 2) return null;
 
   const min = Math.min(...data);
@@ -80,24 +80,24 @@ export default function StatCard({
   const changeColors = {
     positive: 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/25',
     negative: 'text-rose-400 bg-rose-500/10 border border-rose-500/25',
-    neutral: 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/25',
+    neutral: 'text-sky-400 bg-sky-500/10 border border-sky-500/25',
     amber: 'text-amber-400 bg-amber-500/10 border border-amber-500/25',
   };
 
   const strokeColors = {
-    blue: '#0075FF',
-    emerald: '#01B574',
-    amber: '#FFB547',
-    rose: '#EE5D50',
-    purple: '#7551FF',
+    blue: '#2563EB',
+    emerald: '#10B981',
+    amber: '#F59E0B',
+    rose: '#EF4444',
+    purple: '#64748B',
   };
 
   const iconTonalStyles = {
-    blue: 'bg-[#0075FF]/10 text-cyan-400 border border-[#0075FF]/20 shadow-[0_0_12px_rgba(0,117,255,0.15)]',
-    emerald: 'bg-[#01B574]/10 text-emerald-400 border border-[#01B574]/20 shadow-[0_0_12px_rgba(1,181,116,0.15)]',
-    amber: 'bg-[#FFB547]/10 text-amber-400 border border-[#FFB547]/20 shadow-[0_0_12px_rgba(255,181,71,0.15)]',
-    rose: 'bg-[#EE5D50]/10 text-rose-400 border border-[#EE5D50]/20 shadow-[0_0_12px_rgba(238,93,80,0.15)]',
-    purple: 'bg-[#7551FF]/10 text-purple-400 border border-[#7551FF]/20 shadow-[0_0_12px_rgba(117,81,255,0.15)]',
+    blue: 'bg-blue-500/10 text-sky-400 border border-blue-500/20',
+    emerald: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+    amber: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+    rose: 'bg-rose-500/10 text-rose-400 border border-rose-500/20',
+    purple: 'bg-slate-500/10 text-slate-400 border border-slate-500/20',
   };
 
   // Helper to parse composite values like "12 / 18" or "3 Tails" or "3 Grounded"
@@ -155,14 +155,14 @@ export default function StatCard({
 
       {/* 2. DEDICATED METRIC ROW: Big Value on Left, Sparkline on Right */}
       <div className="mt-3 mb-2 flex items-center justify-between gap-3">
-        <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight font-sans whitespace-nowrap ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+        <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight font-sans whitespace-nowrap ${isDark ? 'text-white' : 'text-slate-900'}`}>
           {renderFormattedValue(value)}
         </div>
 
         {sparklineData && (
           <Sparkline
             data={sparklineData}
-            color={strokeColors[glowColor] || '#0075FF'}
+            color={strokeColors[glowColor] || '#2563EB'}
             height={28}
           />
         )}
@@ -174,11 +174,11 @@ export default function StatCard({
           <div className="w-full">
             <div className="flex justify-between text-[11px] mb-1 font-sans font-medium">
               <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>{subtitle || 'Readiness index'}</span>
-              <span className="font-bold text-cyan-400 ml-1">{progress}%</span>
+              <span className="font-bold text-sky-400 ml-1">{progress}%</span>
             </div>
             <div className="w-full h-1.5 rounded-full bg-slate-700/40 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#0075FF] to-[#00D5FF] transition-all duration-700"
+                className="h-full rounded-full bg-blue-600 transition-all duration-700"
                 style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
               />
             </div>

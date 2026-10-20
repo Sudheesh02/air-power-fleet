@@ -35,7 +35,7 @@ export default function DigitalTwinView() {
   if (!twinData && loading) {
     return (
       <div className="flex items-center justify-center p-16 text-slate-400 font-sans text-sm">
-        <RefreshCw className="w-5 h-5 animate-spin mr-2 text-[#0075FF]" />
+        <RefreshCw className="w-5 h-5 animate-spin mr-2 text-blue-500" />
         Loading 5-Stage Gas-Path Digital Twin & Subsystem Telemetry...
       </div>
     );
@@ -60,19 +60,19 @@ export default function DigitalTwinView() {
       {/* 1. TOP HEADER & TAIL SELECTOR CARD */}
       <GlassCard className="p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow">
+          <div className="w-12 h-12 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
             <Cpu className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-sans px-2.5 py-0.5 rounded-full bg-blue-500/15 text-cyan-300 font-semibold border border-blue-500/30">
+              <span className="text-[11px] font-sans px-2.5 py-0.5 rounded-full bg-blue-500/15 text-sky-300 font-semibold border border-blue-500/30">
                 Multi-Subsystem Digital Twin
               </span>
               <span className="text-xs text-slate-400 font-sans">
                 Sortie Cycle #{twinData?.flight_cycle || 0}
               </span>
             </div>
-            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Aircraft Subsystems & Gas-Path Health Monitor
             </h2>
           </div>
@@ -86,10 +86,10 @@ export default function DigitalTwinView() {
           <select
             value={selectedTail}
             onChange={(e) => setSelectedTail(e.target.value)}
-            className={`text-xs font-sans font-semibold py-2 px-3 rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+            className={`text-xs font-sans font-semibold py-2 px-3 rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
               isDark
-                ? 'bg-slate-900 text-cyan-300 border border-white/15'
-                : 'bg-slate-100 text-[#1B2559] border border-slate-200'
+                ? 'bg-slate-900 text-slate-200 border border-white/15'
+                : 'bg-slate-100 text-slate-900 border border-slate-200'
             }`}
           >
             {MOCK_AIRCRAFT_LIST.map((ac) => (
@@ -125,10 +125,10 @@ export default function DigitalTwinView() {
             Squadron & Base
           </p>
           <div className="mt-2">
-            <h4 className={`text-sm font-bold ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h4 className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
               {twinData?.squadron}
             </h4>
-            <p className="text-xs font-sans text-cyan-300 mt-0.5 font-medium">
+            <p className="text-xs font-sans text-sky-400 mt-0.5 font-medium">
               {twinData?.base_station}
             </p>
           </div>
@@ -158,10 +158,10 @@ export default function DigitalTwinView() {
               <div
                 className={`h-full rounded-full ${
                   (twinData?.overall_health_pct || 0) > 75
-                    ? 'bg-[#01B574]'
+                    ? 'bg-[#10B981]'
                     : (twinData?.overall_health_pct || 0) > 50
-                    ? 'bg-[#FFB547]'
-                    : 'bg-[#EE5D50]'
+                    ? 'bg-[#F59E0B]'
+                    : 'bg-[#EF4444]'
                 }`}
                 style={{ width: `${twinData?.overall_health_pct || 0}%` }}
               />
@@ -174,7 +174,7 @@ export default function DigitalTwinView() {
             Conservative RUL (90% Conf)
           </p>
           <div className="mt-2">
-            <h4 className="text-2xl font-sans font-bold text-[#00D5FF] tracking-tight">
+            <h4 className={`text-2xl font-sans font-bold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
               {prog.conservative_rul_hours} hrs
             </h4>
             <p className="text-xs text-slate-400 font-sans mt-0.5">
@@ -193,8 +193,8 @@ export default function DigitalTwinView() {
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <Layers className="w-5 h-5 text-cyan-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <Layers className="w-5 h-5 text-sky-400" />
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Aircraft Subsystem Architecture & AI Anomaly Detection Scores
               </h3>
             </div>
@@ -217,7 +217,7 @@ export default function DigitalTwinView() {
                 onClick={() => setActiveSubsystemTab(tab.id)}
                 className={`px-3 py-1.5 rounded-xl border transition ${
                   activeSubsystemTab === tab.id
-                    ? 'bg-[#0075FF] text-white border-[#0075FF] font-bold shadow-vision-glow'
+                    ? 'bg-blue-700 text-white border-blue-500/40 font-bold shadow-sm'
                     : isDark
                     ? 'bg-white/5 text-slate-400 border-white/10 hover:text-white'
                     : 'bg-slate-100 text-slate-600 border-slate-200 hover:text-slate-900'
@@ -236,21 +236,21 @@ export default function DigitalTwinView() {
             <div className={`p-5 rounded-2xl border transition-all ${
               isDark ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'
             } ${subsystems.avionics?.health_score < 75 ? 'border-l-4 border-l-amber-500/70' : ''}`}>
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-blue-500/15 text-cyan-300 border border-blue-500/25 font-sans">
+              <div className="flex items-center justify-between gap-1.5 min-w-0">
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-blue-500/10 text-sky-400 border border-blue-500/20 font-sans whitespace-nowrap shrink-0">
                   Avionics & Bus
                 </span>
                 <StatusBadge status={subsystems.avionics?.status} size="sm" />
               </div>
 
-              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {subsystems.avionics?.name || 'Avionics System'}
               </h4>
 
               <div className="mt-3 flex items-baseline justify-between font-sans">
                 <div>
                   <span className="text-xs text-slate-400 font-medium">Subsystem Health</span>
-                  <p className="text-2xl font-black text-cyan-400 tracking-tight mt-0.5">
+                  <p className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mt-0.5">
                     {subsystems.avionics?.health_score || 94}%
                   </p>
                 </div>
@@ -268,7 +268,7 @@ export default function DigitalTwinView() {
               <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-sans">
                 <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-slate-200'}`}>
                   <span className="text-[11px] text-slate-400 block font-normal">Bus Voltage</span>
-                  <span className="text-xs font-bold text-cyan-400 mt-0.5 block">{subsystems.avionics?.telemetry?.bus_voltage_v || 28.2} V</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white mt-0.5 block">{subsystems.avionics?.telemetry?.bus_voltage_v || 28.2} V</span>
                 </div>
                 <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-slate-200'}`}>
                   <span className="text-[11px] text-slate-400 block font-normal">FADEC Desync</span>
@@ -301,14 +301,14 @@ export default function DigitalTwinView() {
                 ? 'border-l-4 border-l-amber-500/70'
                 : ''
             }`}>
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/25 font-sans">
+              <div className="flex items-center justify-between gap-1.5 min-w-0">
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20 font-sans whitespace-nowrap shrink-0">
                   Propulsion & Turbofan
                 </span>
                 <StatusBadge status={subsystems.propulsion?.status} size="sm" />
               </div>
 
-              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {subsystems.propulsion?.name || 'Propulsion System'}
               </h4>
 
@@ -328,7 +328,7 @@ export default function DigitalTwinView() {
                 <div className="text-right">
                   <span className="text-xs text-slate-400 font-medium">AI Anomaly Risk</span>
                   <p className={`text-base font-bold mt-0.5 ${
-                    (subsystems.propulsion?.anomaly_score || 0) > 0.5 ? 'text-rose-400' : 'text-cyan-400'
+                    (subsystems.propulsion?.anomaly_score || 0) > 0.5 ? 'text-rose-400' : 'text-emerald-400'
                   }`}>
                     {Math.round((subsystems.propulsion?.anomaly_score || 0.18) * 100)}%
                   </p>
@@ -348,7 +348,7 @@ export default function DigitalTwinView() {
                 <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-slate-200'}`}>
                   <span className="text-[11px] text-slate-400 block font-normal">Oil Pressure</span>
                   <span className={`text-xs font-bold mt-0.5 block ${
-                    (subsystems.propulsion?.telemetry?.oil_pressure_psi || 48) < 40 ? 'text-rose-400' : 'text-cyan-400'
+                    (subsystems.propulsion?.telemetry?.oil_pressure_psi || 48) < 40 ? 'text-rose-400' : 'text-slate-900 dark:text-white'
                   }`}>
                     {subsystems.propulsion?.telemetry?.oil_pressure_psi || 49.2} psi
                   </span>
@@ -380,21 +380,21 @@ export default function DigitalTwinView() {
             <div className={`p-5 rounded-2xl border transition-all ${
               isDark ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'
             } ${subsystems.hydraulics?.health_score < 75 ? 'border-l-4 border-l-amber-500/70' : ''}`}>
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-sans">
+              <div className="flex items-center justify-between gap-1.5 min-w-0">
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-sans whitespace-nowrap shrink-0">
                   Hydraulics & Actuators
                 </span>
                 <StatusBadge status={subsystems.hydraulics?.status} size="sm" />
               </div>
 
-              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {subsystems.hydraulics?.name || 'Hydraulic Subsystem'}
               </h4>
 
               <div className="mt-3 flex items-baseline justify-between font-sans">
                 <div>
                   <span className="text-xs text-slate-400 font-medium">Subsystem Health</span>
-                  <p className="text-2xl font-black text-cyan-400 tracking-tight mt-0.5">
+                  <p className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mt-0.5">
                     {subsystems.hydraulics?.health_score || 91}%
                   </p>
                 </div>
@@ -410,11 +410,11 @@ export default function DigitalTwinView() {
               <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-sans">
                 <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-slate-200'}`}>
                   <span className="text-[11px] text-slate-400 block font-normal">Circuit A Pres</span>
-                  <span className="text-xs font-bold text-cyan-400 mt-0.5 block">{subsystems.hydraulics?.telemetry?.sys_a_pressure_psi || 3045} psi</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white mt-0.5 block">{subsystems.hydraulics?.telemetry?.sys_a_pressure_psi || 3045} psi</span>
                 </div>
                 <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-slate-200'}`}>
                   <span className="text-[11px] text-slate-400 block font-normal">Circuit B Pres</span>
-                  <span className="text-xs font-bold text-cyan-400 mt-0.5 block">{subsystems.hydraulics?.telemetry?.sys_b_pressure_psi || 3020} psi</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white mt-0.5 block">{subsystems.hydraulics?.telemetry?.sys_b_pressure_psi || 3020} psi</span>
                 </div>
                 <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-slate-200'}`}>
                   <span className="text-[11px] text-slate-400 block font-normal">Actuator Latency</span>
@@ -437,21 +437,21 @@ export default function DigitalTwinView() {
             <div className={`p-5 rounded-2xl border transition-all ${
               isDark ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'
             } ${subsystems.airframe?.health_score < 75 ? 'border-l-4 border-l-amber-500/70' : ''}`}>
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/25 font-sans">
+              <div className="flex items-center justify-between gap-1.5 min-w-0">
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-slate-700/30 text-slate-300 border border-slate-600/30 font-sans whitespace-nowrap shrink-0">
                   Airframe Structure
                 </span>
                 <StatusBadge status={subsystems.airframe?.status} size="sm" />
               </div>
 
-              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {subsystems.airframe?.name || 'Airframe Structure'}
               </h4>
 
               <div className="mt-3 flex items-baseline justify-between font-sans">
                 <div>
                   <span className="text-xs text-slate-400 font-medium">Subsystem Health</span>
-                  <p className="text-2xl font-black text-cyan-400 tracking-tight mt-0.5">
+                  <p className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mt-0.5">
                     {subsystems.airframe?.health_score || 88}%
                   </p>
                 </div>
@@ -471,7 +471,7 @@ export default function DigitalTwinView() {
                 </div>
                 <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-slate-200'}`}>
                   <span className="text-[11px] text-slate-400 block font-normal">Wing Root Strain</span>
-                  <span className="text-xs font-bold text-cyan-400 mt-0.5 block">{subsystems.airframe?.telemetry?.wing_root_strain_g || 3.2} G</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white mt-0.5 block">{subsystems.airframe?.telemetry?.wing_root_strain_g || 3.2} G</span>
                 </div>
                 <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-white/5 border-white/5' : 'bg-white border-slate-200'}`}>
                   <span className="text-[11px] text-slate-400 block font-normal">Acoustic dB</span>
@@ -497,7 +497,7 @@ export default function DigitalTwinView() {
           <div>
             <div className="flex items-center gap-2">
               <Activity className="w-5 h-5 text-emerald-400" />
-              <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Turbofan Gas-Path Cross-Section Breakdown (Stations 2 &rarr; 50)
               </h3>
             </div>
@@ -509,7 +509,7 @@ export default function DigitalTwinView() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('predictive')}
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#0075FF] to-[#00D5FF] hover:from-[#005CE6] hover:to-[#00B4D8] text-white font-sans text-xs font-semibold transition flex items-center gap-1.5 shadow-vision-glow"
+              className="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-600 text-white font-sans text-xs font-semibold transition flex items-center gap-1.5 border border-blue-500/40 shadow-sm"
             >
               Test in Sortie Simulator
               <ArrowRight className="w-3.5 h-3.5" />
@@ -534,7 +534,7 @@ export default function DigitalTwinView() {
 
             // Authentic tactical aerospace border & elevation (no gaudy border-l-4 stripes)
             const cardBorder = isSelected
-              ? 'ring-2 ring-cyan-400 shadow-vision-glow border-cyan-400/60'
+              ? 'ring-2 ring-blue-500 border-blue-500/60 bg-blue-950/20 shadow-sm'
               : isCritical
               ? (isDark ? 'border-red-500/35 bg-red-950/[0.08]' : 'border-red-300 bg-red-50/60')
               : isCaution
@@ -556,13 +556,13 @@ export default function DigitalTwinView() {
                 <div>
                   {/* Stage Station Header: Tonal Pill on Left, Status Badge on Right */}
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-bold px-2 py-0.5 rounded-lg bg-blue-500/15 text-cyan-300 border border-blue-500/25 font-sans whitespace-nowrap shrink-0">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded-lg bg-blue-500/10 text-sky-400 border border-blue-500/20 font-sans whitespace-nowrap shrink-0">
                       {station.replace(' ', '\u00A0')}
                     </span>
                     <StatusBadge status={st.status} size="sm" />
                   </div>
 
-                  <h5 className={`font-bold text-xs mt-3 tracking-tight font-sans line-clamp-1 ${isDark ? 'text-white' : 'text-[#1B2559]'}`} title={st.name}>
+                  <h5 className={`font-bold text-xs mt-3 tracking-tight font-sans line-clamp-1 ${isDark ? 'text-white' : 'text-slate-900'}`} title={st.name}>
                     {st.name}
                   </h5>
 
@@ -591,8 +591,8 @@ export default function DigitalTwinView() {
                 <div className="mt-3.5 pt-3 border-t border-white/5 dark:border-white/5 space-y-1.5">
                   <div className="flex items-center justify-between text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-sans">
                     <span>Active Sensors</span>
-                    <span className="text-[9px] text-cyan-400/90 font-mono flex items-center gap-1">
-                      <span className="w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
+                    <span className="text-[9px] text-sky-400 font-mono flex items-center gap-1">
+                      <span className="w-1 h-1 rounded-full bg-sky-400 animate-pulse" />
                       LIVE
                     </span>
                   </div>
@@ -608,7 +608,7 @@ export default function DigitalTwinView() {
                         title={s}
                       >
                         <span className="truncate">{s}</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/80 ml-1.5 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-sky-400/80 ml-1.5 shrink-0" />
                       </div>
                     ))}
                   </div>
@@ -641,29 +641,29 @@ export default function DigitalTwinView() {
           <div>
             <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
               <div className="flex items-center gap-2">
-                <Gauge className="w-5 h-5 text-cyan-400" />
-                <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                <Gauge className="w-5 h-5 text-sky-400" />
+                <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   IoT Gas-Path Sensor Telemetry Stream (Live Values)
                 </h3>
               </div>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-sans">
+              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 font-sans">
                 {Object.keys(tel).length > 0 ? Object.keys(tel).length : 6} Telemetry Channels Active
               </span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
               {/* Sensor 1: T24 */}
-              <div className={`p-4 rounded-2xl border transition-all duration-200 hover:border-cyan-500/30 flex flex-col justify-between ${
+              <div className={`p-4 rounded-2xl border transition-all duration-200 hover:border-sky-500/30 flex flex-col justify-between ${
                 isDark ? 'bg-white/5 border-white/5 hover:bg-white/[0.07]' : 'bg-slate-50 border-slate-200 hover:bg-white'
               }`}>
                 <div className="flex items-center justify-between gap-1.5 font-sans">
                   <span className="text-xs font-semibold text-slate-300">LPC Temp (T24)</span>
-                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20">
                     Station 24
                   </span>
                 </div>
                 <div className="my-2 flex items-baseline gap-1.5 font-sans">
-                  <span className="text-2xl font-black text-cyan-400 tracking-tight">
+                  <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                     {tel.T24_LPC_Temp_R || 642.3}
                   </span>
                   <span className="text-xs font-semibold text-slate-400">°R</span>
@@ -697,17 +697,17 @@ export default function DigitalTwinView() {
               </div>
 
               {/* Sensor 3: P30 */}
-              <div className={`p-4 rounded-2xl border transition-all duration-200 hover:border-cyan-500/30 flex flex-col justify-between ${
+              <div className={`p-4 rounded-2xl border transition-all duration-200 hover:border-sky-500/30 flex flex-col justify-between ${
                 isDark ? 'bg-white/5 border-white/5 hover:bg-white/[0.07]' : 'bg-slate-50 border-slate-200 hover:bg-white'
               }`}>
                 <div className="flex items-center justify-between gap-1.5 font-sans">
                   <span className="text-xs font-semibold text-slate-300">HPC Pressure (P30)</span>
-                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20">
                     Station 30
                   </span>
                 </div>
                 <div className="my-2 flex items-baseline gap-1.5 font-sans">
-                  <span className="text-2xl font-black text-cyan-400 tracking-tight">
+                  <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                     {tel.P30_HPC_Pres_psia || 553.8}
                   </span>
                   <span className="text-xs font-semibold text-slate-400">psia</span>
@@ -741,12 +741,12 @@ export default function DigitalTwinView() {
               </div>
 
               {/* Sensor 5: Fan Speed */}
-              <div className={`p-4 rounded-2xl border transition-all duration-200 hover:border-cyan-500/30 flex flex-col justify-between ${
+              <div className={`p-4 rounded-2xl border transition-all duration-200 hover:border-sky-500/30 flex flex-col justify-between ${
                 isDark ? 'bg-white/5 border-white/5 hover:bg-white/[0.07]' : 'bg-slate-50 border-slate-200 hover:bg-white'
               }`}>
                 <div className="flex items-center justify-between gap-1.5 font-sans">
                   <span className="text-xs font-semibold text-slate-300">Fan Speed (Nf)</span>
-                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20">
                     Rotor
                   </span>
                 </div>
@@ -795,7 +795,7 @@ export default function DigitalTwinView() {
                   <Zap className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className={`font-bold text-sm tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                  <h3 className={`font-bold text-sm tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     RLS Drift Adaptation Filter
                   </h3>
                   <p className="text-[11px] text-slate-400 font-sans">Real-time sensor gain & bias tracking</p>
@@ -812,11 +812,11 @@ export default function DigitalTwinView() {
               }`}>
                 <div>
                   <span className="text-[11px] text-slate-400 font-medium block">Filter Calibration State</span>
-                  <p className="font-bold text-xs text-cyan-300 mt-0.5">
+                  <p className="font-bold text-xs text-sky-400 mt-0.5">
                     {drift.drift_type || 'Calibrated RLS State'}
                   </p>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 font-medium border border-cyan-500/25">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 font-medium border border-sky-500/20">
                   Locked
                 </span>
               </div>

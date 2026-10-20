@@ -155,8 +155,8 @@ export default function CommandOverview() {
       ];
 
   const radialData = [
-    { name: 'Target', value: 75, fill: '#3D8CFF' },
-    { name: 'Availability', value: dynamicMcRate, fill: dynamicMcRate >= 75 ? '#01B574' : '#FFB547' }
+    { name: 'Target', value: 75, fill: isDark ? '#334155' : '#CBD5E1' },
+    { name: 'Availability', value: dynamicMcRate, fill: dynamicMcRate >= 75 ? '#10B981' : '#F59E0B' }
   ];
 
   const renderSortIndicator = (field) => {
@@ -164,16 +164,16 @@ export default function CommandOverview() {
       return <ArrowUpDown className="w-3 h-3 ml-1 opacity-40 inline" />;
     }
     return sortDirection === 'asc' ? (
-      <ArrowUp className="w-3 h-3 ml-1 text-cyan-400 inline" />
+      <ArrowUp className="w-3 h-3 ml-1 text-sky-400 inline" />
     ) : (
-      <ArrowDown className="w-3 h-3 ml-1 text-cyan-400 inline" />
+      <ArrowDown className="w-3 h-3 ml-1 text-sky-400 inline" />
     );
   };
 
   if (loading && !fleetReadiness) {
     return (
       <div className="flex items-center justify-center p-16 text-slate-400 font-sans text-sm">
-        <Plane className="w-5 h-5 animate-pulse mr-2 text-[#0075FF]" />
+        <Plane className="w-5 h-5 animate-pulse mr-2 text-blue-500" />
         Loading Fleet Readiness Telemetry...
       </div>
     );
@@ -235,8 +235,8 @@ export default function CommandOverview() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
             <div>
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#0075FF] shadow-[0_0_8px_#0075FF]" />
-                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
+                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Predicted Fault Probability vs. Flight Hours
                 </h3>
               </div>
@@ -246,7 +246,7 @@ export default function CommandOverview() {
             </div>
 
             <div className="flex items-center gap-2 text-xs font-sans">
-              <span className="px-2.5 py-0.5 rounded-full bg-[#0075FF]/15 text-[#00D5FF] font-semibold border border-[#0075FF]/30 text-[11px]">
+              <span className="px-2.5 py-0.5 rounded-full bg-blue-500/15 text-sky-400 font-semibold border border-blue-500/30 text-[11px]">
                 Prognostic ML
               </span>
             </div>
@@ -258,12 +258,12 @@ export default function CommandOverview() {
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} />
                 <XAxis
                   dataKey="hours"
-                  stroke={isDark ? '#8F9BBA' : '#718096'}
+                  stroke={isDark ? '#64748B' : '#94A3B8'}
                   fontSize={11}
                   fontFamily="JetBrains Mono"
                 />
                 <YAxis
-                  stroke={isDark ? '#8F9BBA' : '#718096'}
+                  stroke={isDark ? '#64748B' : '#94A3B8'}
                   fontSize={11}
                   fontFamily="JetBrains Mono"
                   unit="%"
@@ -271,7 +271,7 @@ export default function CommandOverview() {
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: isDark ? '#0B1437' : '#FFFFFF',
+                    backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
                     borderColor: isDark ? 'rgba(255,255,255,0.1)' : '#E2E8F0',
                     borderRadius: '12px',
                     fontSize: '12px',
@@ -289,34 +289,34 @@ export default function CommandOverview() {
                   type="monotone"
                   dataKey="su30_fault_prob"
                   name="Su-30MKI (No. 222)"
-                  stroke="#EE5D50"
+                  stroke="#EF4444"
                   strokeWidth={2.5}
-                  dot={{ r: 3, fill: '#EE5D50' }}
+                  dot={{ r: 3, fill: '#EF4444' }}
                   activeDot={{ r: 6 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="tejas_fault_prob"
                   name="Tejas Mk1A (No. 45)"
-                  stroke="#FFB547"
+                  stroke="#F59E0B"
                   strokeWidth={2.5}
-                  dot={{ r: 3, fill: '#FFB547' }}
+                  dot={{ r: 3, fill: '#F59E0B' }}
                   activeDot={{ r: 6 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="rafale_fault_prob"
                   name="Rafale (No. 17)"
-                  stroke="#00D5FF"
+                  stroke="#0EA5E9"
                   strokeWidth={2.5}
-                  dot={{ r: 3, fill: '#00D5FF' }}
+                  dot={{ r: 3, fill: '#0EA5E9' }}
                   activeDot={{ r: 6 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="nominal_baseline"
                   name="Nominal Baseline"
-                  stroke="#01B574"
+                  stroke="#10B981"
                   strokeWidth={1.5}
                   strokeDasharray="5 5"
                   dot={false}
@@ -329,7 +329,7 @@ export default function CommandOverview() {
         {/* Right (1 col): Circular Readiness Score Gauge */}
         <GlassCard className="p-5 flex flex-col justify-between">
           <div className="border-b border-white/5 dark:border-white/5 pb-4 mb-2">
-            <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Overall Squadron Readiness Score
             </h3>
             <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
@@ -360,13 +360,13 @@ export default function CommandOverview() {
 
             {/* Inner Center Content */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pt-8">
-              <span className="text-4xl font-black font-sans text-cyan-400 tracking-tight">
+              <span className="text-4xl font-black font-sans text-sky-400 tracking-tight">
                 {dynamicMcRate}%
               </span>
               <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-1`}>
                 Readiness Score
               </span>
-              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-500/10 text-cyan-300 font-sans font-medium mt-1">
+              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-500/10 text-sky-400 font-sans font-medium mt-1 border border-blue-500/20">
                 MoD Target: 75.0%
               </span>
             </div>
@@ -396,8 +396,8 @@ export default function CommandOverview() {
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <Plane className="w-5 h-5 text-cyan-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <Plane className="w-5 h-5 text-sky-400" />
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Live Fleet Status & RUL Matrix
               </h3>
             </div>
@@ -411,10 +411,10 @@ export default function CommandOverview() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className={`text-xs font-semibold py-2 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+              className={`text-xs font-semibold py-2 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                 isDark
-                  ? 'bg-slate-900 text-cyan-300 border border-white/10'
-                  : 'bg-slate-100 text-[#1B2559] border border-slate-200'
+                  ? 'bg-slate-900 text-slate-200 border border-white/10'
+                  : 'bg-slate-100 text-slate-900 border border-slate-200'
               }`}
             >
               <option value="ALL">All Statuses</option>
@@ -431,7 +431,7 @@ export default function CommandOverview() {
                 placeholder="Filter tail, model, base..."
                 value={searchFilter}
                 onChange={(e) => setSearchFilter(e.target.value)}
-                className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+                className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                   isDark
                     ? 'bg-slate-900/80 text-white placeholder-slate-500 border border-white/10'
                     : 'bg-slate-100 text-slate-800 placeholder-slate-400 border border-slate-200'
@@ -450,49 +450,49 @@ export default function CommandOverview() {
               <tr>
                 <th
                   onClick={() => handleSort('tail_no')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
+                  className="p-3 cursor-pointer hover:text-sky-400 transition select-none"
                 >
                   Tail Number {renderSortIndicator('tail_no')}
                 </th>
                 <th
                   onClick={() => handleSort('aircraft_type')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
+                  className="p-3 cursor-pointer hover:text-sky-400 transition select-none"
                 >
                   Aircraft Model {renderSortIndicator('aircraft_type')}
                 </th>
                 <th
                   onClick={() => handleSort('squadron')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
+                  className="p-3 cursor-pointer hover:text-sky-400 transition select-none"
                 >
                   Squadron & Base {renderSortIndicator('squadron')}
                 </th>
                 <th
                   onClick={() => handleSort('airframe_hours')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
+                  className="p-3 cursor-pointer hover:text-sky-400 transition select-none"
                 >
                   Airframe FH {renderSortIndicator('airframe_hours')}
                 </th>
                 <th
                   onClick={() => handleSort('health_score')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
+                  className="p-3 cursor-pointer hover:text-sky-400 transition select-none"
                 >
                   Health Score {renderSortIndicator('health_score')}
                 </th>
                 <th
                   onClick={() => handleSort('next_fault')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
+                  className="p-3 cursor-pointer hover:text-sky-400 transition select-none"
                 >
                   Predicted Next Fault {renderSortIndicator('next_fault')}
                 </th>
                 <th
                   onClick={() => handleSort('rul_hours')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
+                  className="p-3 cursor-pointer hover:text-sky-400 transition select-none"
                 >
                   Est. RUL {renderSortIndicator('rul_hours')}
                 </th>
                 <th
                   onClick={() => handleSort('status')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
+                  className="p-3 cursor-pointer hover:text-sky-400 transition select-none"
                 >
                   Status {renderSortIndicator('status')}
                 </th>
@@ -512,7 +512,7 @@ export default function CommandOverview() {
                       isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'
                     }`}
                   >
-                    <td className="p-3 font-sans font-bold text-cyan-400 text-sm tracking-tight">
+                    <td className="p-3 font-sans font-bold text-sky-400 text-sm tracking-tight">
                       {ac.tail_no}
                     </td>
                     <td className={`p-3 font-medium text-xs ${isDark ? 'text-white' : 'text-slate-800'}`}>
@@ -540,10 +540,10 @@ export default function CommandOverview() {
                           <div
                             className={`h-full rounded-full ${
                               ac.health_score > 75
-                                ? 'bg-[#01B574]'
+                                ? 'bg-[#10B981]'
                                 : ac.health_score > 50
-                                ? 'bg-[#FFB547]'
-                                : 'bg-[#EE5D50]'
+                                ? 'bg-[#F59E0B]'
+                                : 'bg-[#EF4444]'
                             }`}
                             style={{ width: `${ac.health_score}%` }}
                           />
@@ -566,7 +566,7 @@ export default function CommandOverview() {
                           setSelectedTail(ac.tail_no);
                           setActiveTab('twin');
                         }}
-                        className="px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-[#0075FF] text-cyan-300 hover:text-white border border-blue-500/30 text-xs font-sans font-semibold transition flex items-center gap-1 ml-auto"
+                        className="px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-sky-300 hover:text-white border border-blue-500/30 text-xs font-sans font-semibold transition flex items-center gap-1 ml-auto"
                       >
                         Inspect Twin
                         <ChevronRight className="w-3 h-3" />

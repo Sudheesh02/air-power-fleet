@@ -289,44 +289,44 @@ export default function PredictiveAnalytics() {
 
     if (fault.includes('fuel') || fault.includes('pump') || selectedTail === 'KH-204') {
       return [
-        { feature: 'HP Fuel Pump Delivery Delta', weight: 46, impact: 'Accelerates Degradation (+46%)', color: '#EE5D50' },
-        { feature: 'Fuel Rail Pressure Ripple', weight: 31, impact: 'Accelerates Degradation (+31%)', color: '#FFB547' },
-        { feature: 'Throttle Lever Stiction Snag', weight: 19, impact: 'Accelerates Degradation (+19%)', color: '#7551FF' },
-        { feature: 'P30 Static Pressure Margin', weight: -8, impact: 'Extends Life Resilience (-8%)', color: '#01B574' },
-        { feature: 'Cumulative Airframe Hours', weight: -5, impact: 'Extends Life Resilience (-5%)', color: '#00D5FF' }
+        { feature: 'HP Fuel Pump Delivery Delta', weight: 46, impact: 'Accelerates Degradation (+46%)', color: '#EF4444' },
+        { feature: 'Fuel Rail Pressure Ripple', weight: 31, impact: 'Accelerates Degradation (+31%)', color: '#F59E0B' },
+        { feature: 'Throttle Lever Stiction Snag', weight: 19, impact: 'Accelerates Degradation (+19%)', color: '#64748B' },
+        { feature: 'P30 Static Pressure Margin', weight: -8, impact: 'Extends Life Resilience (-8%)', color: '#10B981' },
+        { feature: 'Cumulative Airframe Hours', weight: -5, impact: 'Extends Life Resilience (-5%)', color: '#0EA5E9' }
       ];
     } else if (fault.includes('turbine') || fault.includes('lpt') || fault.includes('creep') || selectedTail === 'RB-004') {
       return [
-        { feature: 'T50 LPT Thermal Creep Gradient', weight: 48, impact: 'Accelerates Degradation (+48%)', color: '#EE5D50' },
-        { feature: 'Turbine Disk Coating Ablation', weight: 28, impact: 'Accelerates Degradation (+28%)', color: '#FFB547' },
-        { feature: 'MFD Over-Temp Advisory Snag', weight: 18, impact: 'Accelerates Degradation (+18%)', color: '#7551FF' },
-        { feature: 'Compressor Bleed Margin', weight: -9, impact: 'Extends Life Resilience (-9%)', color: '#01B574' },
-        { feature: 'Cumulative Airframe Hours', weight: -5, impact: 'Extends Life Resilience (-5%)', color: '#00D5FF' }
+        { feature: 'T50 LPT Thermal Creep Gradient', weight: 48, impact: 'Accelerates Degradation (+48%)', color: '#EF4444' },
+        { feature: 'Turbine Disk Coating Ablation', weight: 28, impact: 'Accelerates Degradation (+28%)', color: '#F59E0B' },
+        { feature: 'MFD Over-Temp Advisory Snag', weight: 18, impact: 'Accelerates Degradation (+18%)', color: '#64748B' },
+        { feature: 'Compressor Bleed Margin', weight: -9, impact: 'Extends Life Resilience (-9%)', color: '#10B981' },
+        { feature: 'Cumulative Airframe Hours', weight: -5, impact: 'Extends Life Resilience (-5%)', color: '#0EA5E9' }
       ];
     } else if (fault.includes('blade') || fault.includes('hpc') || fault.includes('erosion') || selectedTail === 'SB-024') {
       return [
-        { feature: 'T30 HPC Outlet Temp Surge', weight: 44, impact: 'Accelerates Degradation (+44%)', color: '#EE5D50' },
-        { feature: 'Core Acoustic Vibration Harmonics', weight: 32, impact: 'Accelerates Degradation (+32%)', color: '#FFB547' },
-        { feature: 'Pilot Log Afterburner Snag', weight: 19, impact: 'Accelerates Degradation (+19%)', color: '#7551FF' },
-        { feature: 'P30 Static Pressure Margin', weight: -9, impact: 'Extends Life Resilience (-9%)', color: '#01B574' },
-        { feature: 'Cumulative Airframe Hours', weight: -6, impact: 'Extends Life Resilience (-6%)', color: '#00D5FF' }
+        { feature: 'T30 HPC Outlet Temp Surge', weight: 44, impact: 'Accelerates Degradation (+44%)', color: '#EF4444' },
+        { feature: 'Core Acoustic Vibration Harmonics', weight: 32, impact: 'Accelerates Degradation (+32%)', color: '#F59E0B' },
+        { feature: 'Pilot Log Afterburner Snag', weight: 19, impact: 'Accelerates Degradation (+19%)', color: '#64748B' },
+        { feature: 'P30 Static Pressure Margin', weight: -9, impact: 'Extends Life Resilience (-9%)', color: '#10B981' },
+        { feature: 'Cumulative Airframe Hours', weight: -6, impact: 'Extends Life Resilience (-6%)', color: '#0EA5E9' }
       ];
     } else if (fault.includes('drift') || fault.includes('fadec') || selectedTail === 'SB-023' || selectedTail === 'KH-203') {
       return [
-        { feature: 'RLS Sensor Gain Drift Index', weight: 41, impact: 'Accelerates Degradation (+41%)', color: '#EE5D50' },
-        { feature: 'FADEC Channel Desynchronization', weight: 28, impact: 'Accelerates Degradation (+28%)', color: '#FFB547' },
-        { feature: 'Pilot Debrief Response Lag', weight: 18, impact: 'Accelerates Degradation (+18%)', color: '#7551FF' },
-        { feature: 'Bus Static Voltage Integrity', weight: -10, impact: 'Extends Life Resilience (-10%)', color: '#01B574' },
-        { feature: 'Cumulative Airframe Hours', weight: -7, impact: 'Extends Life Resilience (-7%)', color: '#00D5FF' }
+        { feature: 'RLS Sensor Gain Drift Index', weight: 41, impact: 'Accelerates Degradation (+41%)', color: '#EF4444' },
+        { feature: 'FADEC Channel Desynchronization', weight: 28, impact: 'Accelerates Degradation (+28%)', color: '#F59E0B' },
+        { feature: 'Pilot Debrief Response Lag', weight: 18, impact: 'Accelerates Degradation (+18%)', color: '#64748B' },
+        { feature: 'Bus Static Voltage Integrity', weight: -10, impact: 'Extends Life Resilience (-10%)', color: '#10B981' },
+        { feature: 'Cumulative Airframe Hours', weight: -7, impact: 'Extends Life Resilience (-7%)', color: '#0EA5E9' }
       ];
     } else {
       // Nominal / Healthy Airframes (SB-021, KH-201, RB-001, etc.)
       return [
-        { feature: 'T30 Combustor Ingress Temp', weight: 22, impact: 'Nominal Operational Wear (+22%)', color: '#FFB547' },
-        { feature: 'Core Acoustic Baseline', weight: 18, impact: 'Nominal Operational Wear (+18%)', color: '#00D5FF' },
-        { feature: 'Routine Flight Log Debrief', weight: 12, impact: 'Verified Logged Clearance (+12%)', color: '#7551FF' },
-        { feature: 'P30 Static Pressure Margin', weight: -28, impact: 'High Healthy Life Reserve (-28%)', color: '#01B574' },
-        { feature: 'Airframe Fatigue Life Reserve', weight: -20, impact: 'Significant Life Reserve (-20%)', color: '#01B574' }
+        { feature: 'T30 Combustor Ingress Temp', weight: 22, impact: 'Nominal Operational Wear (+22%)', color: '#F59E0B' },
+        { feature: 'Core Acoustic Baseline', weight: 18, impact: 'Nominal Operational Wear (+18%)', color: '#0EA5E9' },
+        { feature: 'Routine Flight Log Debrief', weight: 12, impact: 'Verified Logged Clearance (+12%)', color: '#64748B' },
+        { feature: 'P30 Static Pressure Margin', weight: -28, impact: 'High Healthy Life Reserve (-28%)', color: '#10B981' },
+        { feature: 'Airframe Fatigue Life Reserve', weight: -20, impact: 'Significant Life Reserve (-20%)', color: '#10B981' }
       ];
     }
   }, [selectedTail]);
@@ -371,19 +371,19 @@ export default function PredictiveAnalytics() {
       {/* 1. TOP HEADER */}
       <GlassCard className="p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#7551FF] flex items-center justify-center text-white shadow-vision-glow">
+          <div className="w-12 h-12 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
             <TrendingUp className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 font-sans border border-purple-500/30">
+              <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-sky-400 font-sans border border-blue-500/20">
                 Prognostics & Health Management
               </span>
               <span className="text-xs text-slate-400 font-medium">
                 Conformal Risk Bands & Failure Attribution
               </span>
             </div>
-            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Predictive Maintenance, Conformal RUL & Sortie Clearance Engine
             </h2>
           </div>
@@ -399,10 +399,10 @@ export default function PredictiveAnalytics() {
               setSelectedTail(e.target.value);
               setTriageStatus(null);
             }}
-            className={`text-xs font-sans font-bold py-2 px-3 rounded-xl cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-[#0075FF] ${
+            className={`text-xs font-sans font-bold py-2 px-3 rounded-xl cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               isDark
-                ? 'bg-slate-900/90 text-cyan-300 border border-white/15'
-                : 'bg-white text-[#1B2559] border border-slate-200 shadow-sm'
+                ? 'bg-slate-900/90 text-slate-200 border border-white/15'
+                : 'bg-white text-slate-900 border border-slate-200 shadow-sm'
             }`}
           >
             {MOCK_AIRCRAFT_LIST.map((ac) => {
@@ -432,7 +432,7 @@ export default function PredictiveAnalytics() {
               onClick={() => setSimMode('single')}
               className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
                 simMode === 'single'
-                  ? 'bg-gradient-to-r from-[#0075FF] to-[#00D5FF] text-white shadow-vision-glow'
+                  ? 'bg-blue-700 text-white border border-blue-500/30 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -443,7 +443,7 @@ export default function PredictiveAnalytics() {
               onClick={() => setSimMode('formation')}
               className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
                 simMode === 'formation'
-                  ? 'bg-gradient-to-r from-[#0075FF] to-[#00D5FF] text-white shadow-vision-glow'
+                  ? 'bg-blue-700 text-white border border-blue-500/30 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -483,13 +483,13 @@ export default function PredictiveAnalytics() {
           <div>
             <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
               <div className="flex items-center gap-2">
-                <Crosshair className="w-5 h-5 text-cyan-400" />
-                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                <Crosshair className="w-5 h-5 text-sky-400" />
+                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Mission Sortie Prognostic Simulator
                 </h3>
               </div>
-              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
                 Instant Feasibility Sync
               </span>
             </div>
@@ -515,7 +515,7 @@ export default function PredictiveAnalytics() {
                         onClick={() => setSortieType(m.id)}
                         className={`p-2.5 rounded-xl text-center border transition-all ${
                           active
-                            ? 'bg-[#0075FF] text-white border-[#0075FF] shadow-[0_0_15px_rgba(0,117,255,0.4)] font-bold'
+                            ? 'bg-blue-700 text-white border-blue-500/40 shadow-sm font-bold'
                             : isDark
                             ? 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10'
                             : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'
@@ -533,13 +533,13 @@ export default function PredictiveAnalytics() {
               <div className={`p-4 rounded-2xl border transition-all ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200 shadow-sm'}`}>
                 <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-[#0075FF] animate-pulse" />
+                    <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
                     <span className="text-xs font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 tracking-wide">
                       Planned Sortie Duration
                     </span>
                   </div>
                   <div className="flex items-baseline gap-1.5">
-                    <span className="text-2xl font-black text-cyan-400 font-sans tracking-tight">
+                    <span className="text-2xl font-black text-slate-900 dark:text-white font-sans tracking-tight">
                       {durationHours.toFixed(1)}
                     </span>
                     <span className="text-xs font-semibold text-slate-400 uppercase">Hours</span>
@@ -557,7 +557,7 @@ export default function PredictiveAnalytics() {
                     onChange={(e) => setDurationHours(parseFloat(e.target.value))}
                     className="tactical-slider"
                     style={{
-                      background: `linear-gradient(to right, #0075FF 0%, #00D5FF ${((durationHours - 1.0) / 5.0) * 100}%, ${
+                      background: `linear-gradient(to right, #2563EB 0%, #0EA5E9 ${((durationHours - 1.0) / 5.0) * 100}%, ${
                         isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.1)'
                       } ${((durationHours - 1.0) / 5.0) * 100}%, ${
                         isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.1)'
@@ -583,7 +583,7 @@ export default function PredictiveAnalytics() {
                         onClick={() => setDurationHours(preset.hrs)}
                         className={`flex-1 py-1.5 px-1 rounded-lg text-center transition-all ${
                           isSelected
-                            ? 'bg-[#0075FF]/20 border border-[#0075FF] text-cyan-300 font-bold shadow-sm'
+                            ? 'bg-blue-600/20 border border-blue-500/50 text-sky-300 font-bold shadow-sm'
                             : isDark
                             ? 'bg-white/5 border border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/10'
                             : 'bg-slate-200/60 border border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-200'
@@ -822,7 +822,7 @@ export default function PredictiveAnalytics() {
                 <button
                   type="button"
                   onClick={handleTriggerTriage}
-                  className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#EE5D50] to-[#C92A2A] hover:from-[#FF453A] hover:to-[#B81D1D] text-white font-sans font-bold text-xs uppercase tracking-wider transition shadow-[0_0_20px_rgba(238,93,80,0.35)] flex items-center justify-center gap-2"
+                  className="w-full py-2.5 px-4 rounded-xl bg-red-700 hover:bg-red-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition border border-red-500/40 shadow-sm flex items-center justify-center gap-2"
                 >
                   <Wrench className="w-4 h-4" />
                   Dispatch Autonomous AOG Triage Order
@@ -840,9 +840,9 @@ export default function PredictiveAnalytics() {
             <div>
               <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
                 <div className="flex items-center gap-2">
-                  <Users className="w-5 h-5 text-cyan-400" />
+                  <Users className="w-5 h-5 text-sky-400" />
                   <div>
-                    <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                    <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                       4-Ship Squadron Formation Sortie Optimizer
                     </h3>
                     <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
@@ -877,7 +877,7 @@ export default function PredictiveAnalytics() {
                           onClick={() => setSortieType(m.id)}
                           className={`p-2.5 rounded-xl text-center border transition-all ${
                             active
-                              ? 'bg-[#0075FF] text-white border-[#0075FF] shadow-[0_0_15px_rgba(0,117,255,0.4)] font-bold'
+                              ? 'bg-blue-700 text-white border-blue-500/40 shadow-sm font-bold'
                               : isDark
                               ? 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10'
                               : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'
@@ -1049,7 +1049,7 @@ export default function PredictiveAnalytics() {
           <div>
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-amber-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Fault Prediction Timeline & Maintenance Milestones
               </h3>
             </div>
@@ -1058,12 +1058,12 @@ export default function PredictiveAnalytics() {
             </p>
           </div>
           <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-xl bg-white/5 text-slate-300 border border-white/10">
-            <Clock className="w-3.5 h-3.5 text-cyan-400" />
+            <Clock className="w-3.5 h-3.5 text-sky-400" />
             <span>30-Day Fleet Horizon</span>
           </div>
         </div>
 
-        <div className="relative pl-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-[#0075FF] before:via-amber-400/50 before:to-rose-400/50 space-y-4">
+        <div className="relative pl-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-700 space-y-4">
           {faultTimeline.map((item) => {
             const isCritical = item.severity === 'CRITICAL';
             const isCaution = item.severity === 'CAUTION';
@@ -1087,12 +1087,12 @@ export default function PredictiveAnalytics() {
                     ? 'border-rose-400 bg-rose-500 shadow-sm'
                     : isCaution
                     ? 'border-amber-300 bg-amber-400 shadow-sm'
-                    : 'border-cyan-400 bg-cyan-500 shadow-sm'
+                    : 'border-sky-400 bg-sky-500 shadow-sm'
                 }`} />
 
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2 font-sans">
-                    <span className="font-extrabold text-cyan-300 text-sm tracking-tight">
+                    <span className="font-extrabold text-sky-400 text-sm tracking-tight">
                       {item.tail_no}
                     </span>
                     <span className="text-[11px] px-2 py-0.5 rounded-md font-semibold bg-white/5 text-slate-300 border border-white/10">
@@ -1107,13 +1107,13 @@ export default function PredictiveAnalytics() {
                 </div>
 
                 <div className="mt-2.5 flex flex-wrap items-center gap-2 font-sans">
-                  <h5 className={`font-bold text-sm ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                  <h5 className={`font-bold text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     {item.component}
                   </h5>
                   <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-lg border ${
                     isCritical
                       ? 'bg-rose-500/10 text-rose-300 border-rose-500/20'
-                      : 'bg-blue-500/10 text-cyan-300 border-blue-500/20'
+                      : 'bg-blue-500/10 text-sky-400 border border-blue-500/20'
                   }`}>
                     {item.action_type}
                   </span>
@@ -1133,8 +1133,8 @@ export default function PredictiveAnalytics() {
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <Grid className="w-5 h-5 text-cyan-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <Grid className="w-5 h-5 text-sky-400" />
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Failure Probability Heatmap (Subsystems vs. Operational Regimes)
               </h3>
             </div>
@@ -1144,10 +1144,10 @@ export default function PredictiveAnalytics() {
           </div>
 
           <div className="flex items-center gap-3 text-xs font-sans">
-            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#01B574]/80" /> &lt;30% Low</span>
-            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#00D5FF]/80" /> 30-50% Moderate</span>
-            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#FFB547]/80" /> 50-70% Elevated</span>
-            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#EE5D50]/80" /> &gt;70% Critical</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-emerald-500" /> &lt;30% Low</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-sky-500" /> 30-50% Moderate</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-amber-500" /> 50-70% Elevated</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-rose-500" /> &gt;70% Critical</span>
           </div>
         </div>
 
@@ -1166,7 +1166,7 @@ export default function PredictiveAnalytics() {
             <tbody className="divide-y divide-white/5 dark:divide-white/5 font-medium">
               {failureHeatmap.subsystems.map((sub, idx) => (
                 <tr key={idx} className={isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'}>
-                  <td className={`p-3 font-bold ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                  <td className={`p-3 font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     {sub.name}
                   </td>
                   {sub.risks.map((cell, cIdx) => {
@@ -1176,7 +1176,7 @@ export default function PredictiveAnalytics() {
                       : risk > 50
                       ? 'bg-amber-500/25 text-amber-300 border-amber-500/40 hover:bg-amber-500/40'
                       : risk > 30
-                      ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30 hover:bg-cyan-500/35'
+                      ? 'bg-sky-500/15 text-sky-300 border-sky-500/25 hover:bg-sky-500/30'
                       : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/35';
 
                     return (
@@ -1198,16 +1198,16 @@ export default function PredictiveAnalytics() {
 
         {/* Selected Heatmap Cell Detail Card */}
         {selectedHeatmapCell && (
-          <div className="mt-4 p-3.5 rounded-2xl bg-[#0075FF]/10 border border-[#0075FF]/30 flex flex-wrap items-center justify-between gap-3 text-xs font-sans animate-fadeIn">
+          <div className="mt-4 p-3.5 rounded-2xl bg-blue-600/10 border border-blue-500/30 flex flex-wrap items-center justify-between gap-3 text-xs font-sans animate-fadeIn">
             <div>
-              <span className="text-cyan-300 font-bold uppercase tracking-wider">{selectedHeatmapCell.subsystem}</span> &bull; 
+              <span className="text-sky-400 font-bold uppercase tracking-wider">{selectedHeatmapCell.subsystem}</span> &bull; 
               <span className="text-white ml-1 font-semibold">{selectedHeatmapCell.regime}</span>
               <p className="text-slate-300 mt-1 leading-relaxed">
                 <strong className="text-white">Primary Physics Driver:</strong> {selectedHeatmapCell.driver}
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-base font-extrabold text-cyan-300 tracking-tight">{selectedHeatmapCell.risk}% Failure Prob</span>
+              <span className="text-base font-extrabold text-sky-400 tracking-tight">{selectedHeatmapCell.risk}% Failure Prob</span>
               <button
                 onClick={() => setSelectedHeatmapCell(null)}
                 className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300 text-xs font-medium transition"
@@ -1225,7 +1225,7 @@ export default function PredictiveAnalytics() {
         <GlassCard className="p-5 lg:col-span-7">
           <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
             <div>
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Conformal 90% Confidence RUL Degradation Trajectory
               </h3>
               <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
@@ -1242,20 +1242,20 @@ export default function PredictiveAnalytics() {
               <AreaChart data={degradationData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                 <defs>
                   <linearGradient id="rulUncertainty" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0075FF" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#0075FF" stopOpacity={0.05} />
+                    <stop offset="5%" stopColor="#2563EB" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#2563EB" stopOpacity={0.05} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} />
                 <XAxis
                   dataKey="cycle"
-                  stroke={isDark ? '#8F9BBA' : '#718096'}
+                  stroke={isDark ? '#64748B' : '#94A3B8'}
                   fontSize={11}
                   fontFamily="JetBrains Mono"
                   unit=" cyc"
                 />
                 <YAxis
-                  stroke={isDark ? '#8F9BBA' : '#718096'}
+                  stroke={isDark ? '#64748B' : '#94A3B8'}
                   fontSize={11}
                   fontFamily="JetBrains Mono"
                   unit="%"
@@ -1263,13 +1263,13 @@ export default function PredictiveAnalytics() {
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: isDark ? '#0B1437' : '#FFFFFF',
+                    backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
                     borderColor: isDark ? 'rgba(255,255,255,0.1)' : '#E2E8F0',
                     borderRadius: '12px',
                     fontSize: '12px',
                     fontFamily: 'JetBrains Mono',
                     boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
-                    color: isDark ? '#FFF' : '#000'
+                    color: isDark ? '#F8FAFC' : '#0F172A'
                   }}
                 />
                 <Legend
@@ -1288,7 +1288,7 @@ export default function PredictiveAnalytics() {
                   type="monotone"
                   dataKey="lower_bound"
                   name="Conservative Lower Bound"
-                  stroke="#EE5D50"
+                  stroke="#EF4444"
                   strokeWidth={2}
                   fill="none"
                 />
@@ -1296,17 +1296,17 @@ export default function PredictiveAnalytics() {
                   type="monotone"
                   dataKey="predicted_mean"
                   name="Predicted Mean (μ)"
-                  stroke="#00D5FF"
+                  stroke="#0EA5E9"
                   strokeWidth={2.5}
-                  dot={{ r: 3, fill: '#00D5FF' }}
+                  dot={{ r: 3, fill: '#0EA5E9' }}
                 />
                 <Line
                   type="monotone"
                   dataKey="actual_health"
                   name="Historical Flight Telemetry"
-                  stroke="#01B574"
+                  stroke="#10B981"
                   strokeWidth={3}
-                  dot={{ r: 4, fill: '#01B574' }}
+                  dot={{ r: 4, fill: '#10B981' }}
                 />
               </AreaChart>
             </ResponsiveContainer>
@@ -1318,14 +1318,14 @@ export default function PredictiveAnalytics() {
           <div>
             <div className="border-b border-white/5 dark:border-white/5 pb-3 mb-4 flex items-center justify-between">
               <div>
-                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Explainable AI (SHAP) Feature Attribution
                 </h3>
                 <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
                   TreeSHAP game-theoretic weights explaining predicted RUL
                 </p>
               </div>
-              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-sans">
+              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 font-sans">
                 XAI / TreeSHAP
               </span>
             </div>
@@ -1338,15 +1338,15 @@ export default function PredictiveAnalytics() {
                   margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} horizontal={false} />
-                  <XAxis type="number" domain={[-15, 45]} unit="%" stroke={isDark ? '#8F9BBA' : '#718096'} fontSize={10} fontFamily="JetBrains Mono" />
-                  <YAxis type="category" dataKey="feature" stroke={isDark ? '#8F9BBA' : '#718096'} fontSize={10} width={138} />
+                  <XAxis type="number" domain={[-15, 45]} unit="%" stroke={isDark ? '#64748B' : '#94A3B8'} fontSize={10} fontFamily="JetBrains Mono" />
+                  <YAxis type="category" dataKey="feature" stroke={isDark ? '#64748B' : '#94A3B8'} fontSize={10} width={138} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: isDark ? '#0B1437' : '#FFFFFF',
+                      backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
                       borderRadius: '10px',
                       fontSize: '11px',
                       fontFamily: 'JetBrains Mono',
-                      color: isDark ? '#FFF' : '#000'
+                      color: isDark ? '#F8FAFC' : '#0F172A'
                     }}
                     formatter={(val, name, props) => [`${val > 0 ? '+' : ''}${val}% (${props.payload.impact})`, 'SHAP Weight']}
                   />
@@ -1363,7 +1363,7 @@ export default function PredictiveAnalytics() {
           <div className={`p-3.5 rounded-xl border text-xs font-sans ${
             isDark ? 'bg-white/5 border-white/5 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
           }`}>
-            <div className="flex items-center gap-1.5 mb-1 text-cyan-300 font-bold">
+            <div className="flex items-center gap-1.5 mb-1 text-sky-400 font-bold">
               <span>Primary Degradation Drivers:</span>
               <span className="text-white">T30 Temp (+38%) & Acoustic Vibration (+29%)</span>
             </div>

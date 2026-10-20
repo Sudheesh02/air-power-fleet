@@ -135,7 +135,7 @@ export default function MaintenanceLogs() {
   if (loading && workOrders.length === 0) {
     return (
       <div className="flex items-center justify-center p-16 text-slate-400 font-sans text-sm">
-        <ClipboardList className="w-5 h-5 animate-pulse mr-2 text-[#0075FF]" />
+        <ClipboardList className="w-5 h-5 animate-pulse mr-2 text-blue-500" />
         Loading Maintenance Work Orders & Flight Logbooks...
       </div>
     );
@@ -146,7 +146,7 @@ export default function MaintenanceLogs() {
       {/* 1. TOP HEADER & VIEW MODE TOGGLE */}
       <GlassCard className="p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#01B574] flex items-center justify-center text-white shadow-vision-glow">
+          <div className="w-12 h-12 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
             <ClipboardList className="w-6 h-6" />
           </div>
           <div>
@@ -158,7 +158,7 @@ export default function MaintenanceLogs() {
                 Structured Workflows & Flight Logbooks
               </span>
             </div>
-            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Maintenance Work Orders, Technician Assignment & Pilot Flight Logs
             </h2>
           </div>
@@ -172,7 +172,7 @@ export default function MaintenanceLogs() {
               onClick={() => setViewMode('kanban')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition font-bold ${
                 viewMode === 'kanban'
-                  ? 'bg-[#0075FF] text-white shadow-vision-glow'
+                  ? 'bg-blue-700 text-white border border-blue-500/30 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -184,7 +184,7 @@ export default function MaintenanceLogs() {
               onClick={() => setViewMode('table')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition font-bold ${
                 viewMode === 'table'
-                  ? 'bg-[#0075FF] text-white shadow-vision-glow'
+                  ? 'bg-blue-700 text-white border border-blue-500/30 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -212,7 +212,7 @@ export default function MaintenanceLogs() {
                 onClick={() => setSeverityFilter(f.id)}
                 className={`px-3 py-1.5 rounded-xl border transition-all ${
                   severityFilter === f.id
-                    ? 'bg-[#0075FF] text-white border-[#0075FF] font-bold shadow-vision-glow'
+                    ? 'bg-blue-700 text-white border-blue-500/40 font-bold shadow-sm'
                     : isDark
                     ? 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10'
                     : 'bg-slate-100 text-slate-600 border-slate-200 hover:text-slate-900'
@@ -235,7 +235,7 @@ export default function MaintenanceLogs() {
                 onClick={() => setActiveFilter(f.id)}
                 className={`px-3 py-1.5 rounded-xl border transition-all ${
                   activeFilter === f.id
-                    ? 'bg-[#0075FF] text-white border-[#0075FF] font-bold shadow-vision-glow'
+                    ? 'bg-blue-700 text-white border-blue-500/40 font-bold shadow-sm'
                     : isDark
                     ? 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10'
                     : 'bg-slate-100 text-slate-600 border-slate-200 hover:text-slate-900'
@@ -255,7 +255,7 @@ export default function MaintenanceLogs() {
             placeholder="Search order ID, tail, fault..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+            className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
               isDark
                 ? 'bg-slate-900/80 text-white placeholder-slate-500 border border-white/10'
                 : 'bg-slate-100 text-slate-800 placeholder-slate-400 border border-slate-200'
@@ -276,15 +276,15 @@ export default function MaintenanceLogs() {
                   <div className="flex items-center justify-between border-b border-white/10 dark:border-white/10 pb-3 mb-3">
                     <div className="flex items-center gap-2">
                       <span className={`w-2 h-2 rounded-full ${
-                        col.id === 'DISPATCHED' ? 'bg-cyan-400' :
+                        col.id === 'DISPATCHED' ? 'bg-sky-400' :
                         col.id === 'IN_PROGRESS' ? 'bg-amber-400' :
                         col.id === 'AWAITING_SPARES' ? 'bg-rose-400' : 'bg-emerald-400'
                       }`} />
-                      <h4 className={`font-bold text-xs tracking-wide font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                      <h4 className={`font-bold text-xs tracking-wide font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                         {col.title}
                       </h4>
                     </div>
-                    <span className="w-5 h-5 rounded-full bg-white/10 text-cyan-300 font-sans text-[11px] font-bold flex items-center justify-center">
+                    <span className="w-5 h-5 rounded-full bg-white/10 text-sky-400 font-sans text-[11px] font-bold flex items-center justify-center">
                       {columnOrders.length}
                     </span>
                   </div>
@@ -305,11 +305,11 @@ export default function MaintenanceLogs() {
                             className={`p-3.5 rounded-2xl border transition-all ${
                               isDark ? 'bg-white/[0.03] hover:bg-white/[0.06] border-white/10' : 'bg-white border-slate-200 shadow-sm'
                             } ${
-                              isCritical ? 'border-l-4 border-l-rose-500/80' : isAdvisory ? 'border-l-4 border-l-amber-500/70' : 'border-l-4 border-l-cyan-500/50'
+                              isCritical ? 'border-l-4 border-l-rose-500/80' : isAdvisory ? 'border-l-4 border-l-amber-500/70' : 'border-l-4 border-l-sky-500/50'
                             }`}
                           >
                             <div className="flex items-center justify-between">
-                              <span className="font-sans text-xs font-bold text-cyan-300 tracking-tight">
+                              <span className="font-sans text-xs font-bold text-sky-400 tracking-tight">
                                 {wo.order_id}
                               </span>
                               <span className="text-[11px] px-2 py-0.5 rounded-md font-semibold bg-white/5 text-slate-300 border border-white/10 font-sans">
@@ -321,7 +321,7 @@ export default function MaintenanceLogs() {
                               {wo.aircraft_type || 'IAF Combat Jet'} &bull; {wo.base_station || 'Forward Base'}
                             </p>
 
-                            <p className="text-[11px] text-cyan-300 font-sans mt-1 font-semibold">
+                            <p className="text-[11px] text-sky-400 font-sans mt-1 font-semibold">
                               Subsystem: {wo.fault_subsystem}
                             </p>
 
@@ -331,14 +331,14 @@ export default function MaintenanceLogs() {
 
                             {/* Remaining Life Margin Pill */}
                             <div className="mt-2 flex items-center justify-between text-[10px] font-sans px-2.5 py-1 rounded-lg bg-black/20 border border-white/5 text-slate-300">
-                              <span>Predicted RUL: <strong className="text-cyan-300">{wo.predicted_rul}h</strong></span>
+                              <span>Predicted RUL: <strong className="text-sky-400">{wo.predicted_rul}h</strong></span>
                               <span>Lower Bound: <strong className="text-amber-300">{wo.lower_bound_rul}h</strong></span>
                             </div>
 
                             {/* Tooling & Logistics Link */}
                             {wo.required_tooling && (
                               <div className="mt-1.5 flex items-center gap-1.5 text-[10px] font-sans text-slate-400">
-                                <Wrench className="w-3 h-3 text-cyan-400 shrink-0" />
+                                <Wrench className="w-3 h-3 text-sky-400 shrink-0" />
                                 <span className="truncate">{wo.required_tooling}</span>
                               </div>
                             )}
@@ -354,7 +354,7 @@ export default function MaintenanceLogs() {
                               <div className={`mt-2 p-2.5 rounded-xl text-[11px] font-sans border ${
                                 isDark ? 'bg-black/30 border-white/5 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
                               }`}>
-                                <div className="text-cyan-300 font-semibold">{wo.technician}</div>
+                                <div className="text-sky-400 font-semibold">{wo.technician}</div>
                                 <div className="text-slate-400 text-[10px] mt-0.5">{wo.hangar_bay}</div>
                               </div>
                             )}
@@ -363,7 +363,7 @@ export default function MaintenanceLogs() {
                             <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5 flex items-center justify-between gap-1 text-[11px] font-sans">
                               <button
                                 onClick={() => setAssignModalOrder(wo)}
-                                className="text-slate-400 hover:text-cyan-300 transition text-[11px] font-medium"
+                                className="text-slate-400 hover:text-sky-400 transition text-[11px] font-medium"
                               >
                                 {wo.technician ? 'Reassign Tech' : '+ Assign Tech'}
                               </button>
@@ -371,7 +371,7 @@ export default function MaintenanceLogs() {
                               {col.nextStatus && (
                                 <button
                                   onClick={() => handleAdvanceStatus(wo.order_id, col.nextStatus)}
-                                  className="px-2.5 py-1 rounded-lg bg-blue-600/25 hover:bg-[#0075FF] text-cyan-300 hover:text-white border border-blue-500/40 text-[11px] font-semibold transition flex items-center gap-1"
+                                  className="px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-700 text-sky-300 hover:text-white border border-blue-500/40 text-[11px] font-semibold transition flex items-center gap-1"
                                 >
                                   Advance
                                   <ChevronRight className="w-3 h-3" />
@@ -410,7 +410,7 @@ export default function MaintenanceLogs() {
               <tbody className="divide-y divide-white/5 dark:divide-white/5 font-medium">
                 {filteredOrders.map((wo) => (
                   <tr key={wo.order_id} className={isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'}>
-                    <td className="p-3 font-sans font-bold text-cyan-300 text-xs tracking-tight">
+                    <td className="p-3 font-sans font-bold text-sky-400 text-xs tracking-tight">
                       {wo.order_id}
                     </td>
                     <td className={`p-3 font-sans font-bold text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>
@@ -440,7 +440,7 @@ export default function MaintenanceLogs() {
                     <td className="p-3 text-[11px] font-sans">
                       {wo.technician ? (
                         <div>
-                          <p className="text-cyan-300 font-semibold">{wo.technician}</p>
+                          <p className="text-sky-400 font-semibold">{wo.technician}</p>
                           <span className="text-slate-400 text-[10px]">{wo.hangar_bay}</span>
                         </div>
                       ) : (
@@ -453,7 +453,7 @@ export default function MaintenanceLogs() {
                     <td className="p-3 text-right">
                       <button
                         onClick={() => setAssignModalOrder(wo)}
-                        className="px-2.5 py-1 rounded-lg bg-blue-600/25 hover:bg-[#0075FF] text-cyan-300 hover:text-white border border-blue-500/40 text-[11px] font-sans font-semibold transition"
+                        className="px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-700 text-sky-300 hover:text-white border border-blue-500/40 text-[11px] font-sans font-semibold transition"
                       >
                         Assign
                       </button>
@@ -470,7 +470,7 @@ export default function MaintenanceLogs() {
       <GlassCard className="p-5">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 dark:border-white/5 pb-3 mb-4">
           <div>
-            <h3 className={`font-extrabold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h3 className={`font-extrabold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               <FileText className="w-5 h-5 text-emerald-400" />
               Historical Technical Flight Logs & Pilot Debriefs
             </h3>
@@ -583,18 +583,18 @@ export default function MaintenanceLogs() {
                       <tr className={`${isDark ? 'bg-blue-950/30' : 'bg-blue-50/70'} border-y border-blue-500/30 transition-all`}>
                         <td colSpan={8} className="p-4.5">
                           <div className={`p-4 rounded-2xl border transition-all ${
-                            isDark ? 'bg-slate-900/90 border-blue-500/30 shadow-[0_4px_24px_rgba(0,117,255,0.12)]' : 'bg-white border-blue-300 shadow-md'
+                            isDark ? 'bg-slate-900/90 border-blue-500/30 shadow-sm' : 'bg-white border-blue-300 shadow-md'
                           }`}>
                             {/* Header */}
                             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3 mb-3">
                               <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow">
+                                <div className="w-8 h-8 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
                                   <Cpu className="w-4 h-4" />
                                 </div>
                                 <div>
                                   <h5 className="font-bold text-xs tracking-tight text-white flex items-center gap-2">
                                     AI Multi-Modal Fusion Engine: Pilot Debrief NLP &cross; Telemetry Sensors
-                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-cyan-300 font-semibold border border-blue-500/30">
+                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-sky-400 font-semibold border border-blue-500/30">
                                       Silo 1 + Silo 2 Unified
                                     </span>
                                   </h5>
@@ -617,7 +617,7 @@ export default function MaintenanceLogs() {
                               {/* 1. NLP Entity Extraction */}
                               <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                                 <div className="flex items-center gap-1.5 mb-2">
-                                  <FileText className="w-3.5 h-3.5 text-cyan-400" />
+                                  <FileText className="w-3.5 h-3.5 text-sky-400" />
                                   <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
                                     Extracted Debrief Entities (NER)
                                   </span>
@@ -625,7 +625,7 @@ export default function MaintenanceLogs() {
                                 <div className="space-y-1.5">
                                   {log.nlp_fusion.extracted_entities.map((ent, eIdx) => (
                                     <div key={eIdx} className="p-2 rounded-lg bg-black/25 border border-white/5 flex flex-col">
-                                      <span className="text-[10px] text-cyan-300 font-semibold">{ent.category}</span>
+                                      <span className="text-[10px] text-sky-400 font-semibold">{ent.category}</span>
                                       <span className="text-xs text-slate-200 font-medium mt-0.5">{ent.value}</span>
                                     </div>
                                   ))}
@@ -661,7 +661,7 @@ export default function MaintenanceLogs() {
                               }`}>
                                 <div>
                                   <div className="flex items-center gap-1.5 mb-2">
-                                    <Zap className="w-3.5 h-3.5 text-cyan-400" />
+                                    <Zap className="w-3.5 h-3.5 text-sky-400" />
                                     <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
                                       Fused AI Prognostic Action
                                     </span>
@@ -669,14 +669,14 @@ export default function MaintenanceLogs() {
                                   <p className="text-xs text-slate-200 font-medium leading-relaxed">
                                     {log.nlp_fusion.diagnosis}
                                   </p>
-                                  <div className="mt-2.5 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-[11px] text-cyan-200">
-                                    <strong className="text-cyan-300">Prescription:</strong> {log.nlp_fusion.recommended_action}
+                                  <div className="mt-2.5 p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[11px] text-sky-300">
+                                    <strong className="text-sky-400">Prescription:</strong> {log.nlp_fusion.recommended_action}
                                   </div>
                                 </div>
 
                                 <div className="mt-3 pt-2 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-400">
                                   <span>Automated Triage: <strong className="text-emerald-400">PASSED</strong></span>
-                                  <span className="text-cyan-300 font-semibold">Bay Verified</span>
+                                  <span className="text-sky-400 font-semibold">Bay Verified</span>
                                 </div>
                               </div>
                             </div>
@@ -696,11 +696,11 @@ export default function MaintenanceLogs() {
       {assignModalOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
           <div className={`w-full max-w-lg rounded-3xl p-6 transition-all ${
-            isDark ? 'bg-[#0B1437] text-white border border-white/15' : 'bg-white text-slate-800 border border-slate-200'
+            isDark ? 'bg-slate-900 text-white border border-slate-700/60' : 'bg-white text-slate-800 border border-slate-200'
           }`}>
             <div className="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/10">
               <h3 className="font-bold text-base flex items-center gap-2">
-                <User className="w-5 h-5 text-cyan-400" />
+                <User className="w-5 h-5 text-sky-400" />
                 Assign Maintenance Crew & Hangar Bay
               </h3>
               <button onClick={() => setAssignModalOrder(null)} className="text-slate-400 hover:text-white">
@@ -713,7 +713,7 @@ export default function MaintenanceLogs() {
                 isDark ? 'bg-white/[0.03] border-white/10' : 'bg-slate-50 border-slate-200'
               }`}>
                 <span className="text-[11px] font-medium text-slate-400">Target Work Order</span>
-                <p className="text-sm font-bold text-cyan-300 mt-0.5">{assignModalOrder.order_id} &bull; Tail {assignModalOrder.tail_no}</p>
+                <p className="text-sm font-bold text-sky-400 mt-0.5">{assignModalOrder.order_id} &bull; Tail {assignModalOrder.tail_no}</p>
                 <p className={`text-xs mt-1 leading-snug ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{assignModalOrder.action_required}</p>
               </div>
 
@@ -724,9 +724,9 @@ export default function MaintenanceLogs() {
                 <select
                   value={assignedEngineer}
                   onChange={(e) => setAssignedEngineer(e.target.value)}
-                  className={`w-full p-2.5 rounded-xl border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+                  className={`w-full p-2.5 rounded-xl border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                     isDark
-                      ? 'bg-slate-900 border-white/15 text-cyan-300'
+                      ? 'bg-slate-900 border-white/15 text-slate-200'
                       : 'bg-white border-slate-200 text-slate-800'
                   }`}
                 >
@@ -745,7 +745,7 @@ export default function MaintenanceLogs() {
                 <select
                   value={assignedBay}
                   onChange={(e) => setAssignedBay(e.target.value)}
-                  className={`w-full p-2.5 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+                  className={`w-full p-2.5 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                     isDark
                       ? 'bg-slate-900 border-white/15 text-white'
                       : 'bg-white border-slate-200 text-slate-800'
@@ -768,7 +768,7 @@ export default function MaintenanceLogs() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#0075FF] to-[#01B574] text-white font-bold hover:shadow-vision-glow transition flex items-center gap-1.5"
+                  className="px-5 py-2 rounded-xl bg-blue-700 hover:bg-blue-600 border border-blue-500/40 text-white font-bold shadow-sm transition flex items-center gap-1.5"
                 >
                   <CheckCircle className="w-3.5 h-3.5" />
                   Confirm & Move to In-Progress

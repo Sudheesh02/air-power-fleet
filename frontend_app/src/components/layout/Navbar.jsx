@@ -99,14 +99,14 @@ export default function Navbar({ onToggleSidebar }) {
             title={isSidebarCollapsed ? "Expand sidebar (Ctrl+B)" : "Collapse sidebar (Ctrl+B)"}
             className={`p-2 rounded-xl transition-all duration-200 shrink-0 group active:scale-95 ${
               isDark
-                ? 'text-white hover:bg-white/10 hover:border-cyan-500/40 border border-white/10'
+                ? 'text-white hover:bg-white/10 hover:border-blue-500/40 border border-white/10'
                 : 'text-slate-800 hover:bg-slate-100 hover:border-blue-300 border border-slate-200'
             }`}
           >
-            <Menu className="w-4 h-4 transition-transform duration-200 group-hover:scale-110 text-cyan-400" />
+            <Menu className="w-4 h-4 transition-transform duration-200 group-hover:scale-110 text-slate-400 group-hover:text-sky-400" />
           </button>
 
-          <h2 className={`text-sm sm:text-base font-bold tracking-tight truncate ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+          <h2 className={`text-sm sm:text-base font-bold tracking-tight truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>
             {currentMeta.title}
           </h2>
         </div>
@@ -118,10 +118,10 @@ export default function Navbar({ onToggleSidebar }) {
             <select
               value={selectedSquadron}
               onChange={(e) => setSelectedSquadron(e.target.value)}
-              className={`text-xs font-semibold py-1.5 px-3 pr-7 rounded-lg appearance-none cursor-pointer transition focus:outline-none focus:ring-1 focus:ring-[#0075FF] max-w-[210px] sm:max-w-none truncate ${
+              className={`text-xs font-semibold py-1.5 px-3 pr-7 rounded-lg appearance-none cursor-pointer transition focus:outline-none focus:ring-1 focus:ring-blue-500 max-w-[210px] sm:max-w-none truncate ${
                 isDark
-                  ? 'bg-slate-900/90 text-cyan-300 border border-white/15'
-                  : 'bg-slate-100 text-[#1B2559] border border-slate-200'
+                  ? 'bg-slate-900/90 text-slate-200 border border-white/15'
+                  : 'bg-slate-100 text-slate-900 border border-slate-200'
               }`}
             >
               {SQUADRONS.map((sq) => (
@@ -137,16 +137,16 @@ export default function Navbar({ onToggleSidebar }) {
           <div
             className={`hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-lg border text-xs shrink-0 transition-all ${
               isDark
-                ? 'bg-slate-900/80 border-white/10 hover:border-cyan-500/40 text-slate-200'
+                ? 'bg-slate-900/80 border-white/10 hover:border-blue-500/40 text-slate-200'
                 : 'bg-slate-100 border-slate-200 hover:border-blue-400 text-slate-800'
             }`}
           >
-            <div className="w-5 h-5 rounded-md bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center font-bold font-sans text-[10px] text-white shadow-sm shrink-0">
+            <div className="w-5 h-5 rounded-md bg-blue-700 border border-blue-500/30 flex items-center justify-center font-bold font-sans text-[10px] text-white shadow-sm shrink-0">
               AS
             </div>
             <div className="text-left leading-none">
               <p className="font-bold tracking-tight text-xs">Air Chief Marshal A. P. Singh</p>
-              <p className={`text-[9px] font-sans font-medium mt-0.5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>
+              <p className={`text-[9px] font-sans font-medium mt-0.5 ${isDark ? 'text-sky-400' : 'text-blue-600'}`}>
                 Chief of the Air Staff · IAF
               </p>
             </div>
@@ -164,7 +164,7 @@ export default function Navbar({ onToggleSidebar }) {
               }`}
             >
               <Bell className="w-3.5 h-3.5" />
-              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#EE5D50] text-[9px] font-sans font-bold text-white flex items-center justify-center animate-pulse">
+              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-rose-500 text-[9px] font-sans font-bold text-white flex items-center justify-center animate-pulse">
                 3
               </span>
             </button>
@@ -174,7 +174,7 @@ export default function Navbar({ onToggleSidebar }) {
               <div
                 className={`absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl p-4 shadow-2xl z-50 animate-fadeIn ${
                   isDark
-                    ? 'bg-[#0B1437] border border-white/15 text-white'
+                    ? 'bg-slate-900 border border-slate-700/60 text-white'
                     : 'bg-white border border-slate-200 text-slate-800'
                 }`}
               >
@@ -212,10 +212,10 @@ export default function Navbar({ onToggleSidebar }) {
                           : 'bg-slate-50 hover:bg-slate-100 border-slate-200'
                       }`}
                     >
-                      <div className="w-2 h-2 rounded-full bg-[#EE5D50] mt-1.5 shrink-0 animate-ping" />
+                      <div className="w-2 h-2 rounded-full bg-rose-500 mt-1.5 shrink-0 animate-ping" />
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
-                          <span className="font-bold font-sans text-cyan-300 text-xs">
+                          <span className="font-bold font-sans text-sky-400 text-xs">
                             {al.tail}
                           </span>
                           <span className="text-[10px] text-slate-400 font-sans">
@@ -240,13 +240,13 @@ export default function Navbar({ onToggleSidebar }) {
             className={`p-2 rounded-lg transition-all duration-300 ease-out transform active:scale-90 flex items-center justify-center shrink-0 group ${
               isDark
                 ? 'bg-slate-900/80 hover:bg-slate-800 text-amber-300 border border-white/10 shadow-[0_0_12px_rgba(255,181,71,0.25)] hover:border-amber-400/40'
-                : 'bg-slate-100 hover:bg-slate-200 text-[#0075FF] border border-slate-200 shadow-sm hover:border-blue-400/40'
+                : 'bg-slate-100 hover:bg-slate-200 text-blue-600 border border-slate-200 shadow-sm hover:border-blue-400/40'
             }`}
           >
             {isDark ? (
               <Sun className="w-3.5 h-3.5 transition-transform duration-500 group-hover:rotate-90 text-amber-300" />
             ) : (
-              <Moon className="w-3.5 h-3.5 transition-transform duration-500 group-hover:-rotate-45 text-[#0075FF]" />
+              <Moon className="w-3.5 h-3.5 transition-transform duration-500 group-hover:-rotate-45 text-blue-600" />
             )}
           </button>
         </div>

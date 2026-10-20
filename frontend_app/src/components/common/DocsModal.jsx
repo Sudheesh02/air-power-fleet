@@ -12,19 +12,19 @@ export default function DocsModal({ isOpen, onClose }) {
       <div
         className={`w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 transition-all shadow-2xl ${
           isDark
-            ? 'bg-[#0B1437] text-white border border-white/10 shadow-[0_0_50px_rgba(0,117,255,0.2)]'
+            ? 'bg-slate-900 text-white border border-slate-700/60 shadow-2xl'
             : 'bg-white text-slate-800 border border-slate-200'
         }`}
       >
         {/* 1. MODAL HEADER */}
         <div className="flex items-start justify-between pb-5 border-b border-white/10 dark:border-white/10">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
+            <div className="w-11 h-11 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm shrink-0">
               <Shield className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#0075FF]/15 text-[#00D5FF] font-semibold border border-[#0075FF]/30 font-sans">
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-500/10 text-sky-400 font-semibold border border-blue-500/20 font-sans">
                   SIH26249 &bull; Ministry of Defence
                 </span>
                 <span className="text-xs text-slate-400 font-sans hidden sm:inline">
@@ -52,8 +52,8 @@ export default function DocsModal({ isOpen, onClose }) {
           <div className={`p-4 rounded-2xl border ${
             isDark ? 'bg-blue-500/10 border-blue-500/20 text-slate-300' : 'bg-blue-50 border-blue-200 text-slate-700'
           }`}>
-            <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider mb-1.5">
-              <Activity className="w-4 h-4 text-cyan-400" />
+            <div className="flex items-center gap-2 text-sky-400 font-bold text-xs uppercase tracking-wider mb-1.5">
+              <Activity className="w-4 h-4 text-sky-400" />
               <span>Operational Fleet Scope</span>
             </div>
             <p className="text-xs leading-relaxed">
@@ -73,7 +73,7 @@ export default function DocsModal({ isOpen, onClose }) {
                     <Cpu className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className={`font-bold text-sm font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                    <h3 className={`font-bold text-sm font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                       5-Stage Gas-Path Digital Twin
                     </h3>
                   </div>
@@ -119,7 +119,7 @@ export default function DocsModal({ isOpen, onClose }) {
                     name: 'LP Turbine & Exhaust',
                     desc: 'Exhaust gas temperature (EGT) & thrust margin',
                     tags: 'T50 (EGT)',
-                    badgeColor: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/25',
+                    badgeColor: 'bg-sky-500/10 text-sky-300 border-sky-500/25',
                   },
                 ].map((item) => (
                   <div
@@ -155,11 +155,11 @@ export default function DocsModal({ isOpen, onClose }) {
             }`}>
               <div>
                 <div className="flex items-center gap-2.5 mb-2">
-                  <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-cyan-400 border border-blue-500/20 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-sky-400 border border-blue-500/20 flex items-center justify-center shrink-0">
                     <Layers className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className={`font-bold text-sm font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                    <h3 className={`font-bold text-sm font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                       Conformal RUL & Drift Adaptation
                     </h3>
                   </div>
@@ -172,13 +172,13 @@ export default function DocsModal({ isOpen, onClose }) {
               {/* Two Feature Explanations */}
               <div className="space-y-3">
                 <div className={`p-4 rounded-xl border ${
-                  isDark ? 'bg-cyan-500/[0.06] border-cyan-500/20' : 'bg-cyan-50 border-cyan-200'
+                  isDark ? 'bg-sky-500/[0.06] border-sky-500/20' : 'bg-sky-50 border-sky-200'
                 }`}>
                   <div className="flex items-center justify-between mb-1.5">
-                    <h4 className="font-bold text-xs text-cyan-300">
+                    <h4 className="font-bold text-xs text-sky-300">
                       Conformal 90% Lower Safety Bound
                     </h4>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-sans">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30 font-sans">
                       &mu; &minus; 1.28&sigma;
                     </span>
                   </div>
@@ -206,7 +206,7 @@ export default function DocsModal({ isOpen, onClose }) {
                 <div className={`p-3.5 rounded-xl border flex items-center gap-3 ${
                   isDark ? 'bg-white/[0.02] border-white/5 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
                 }`}>
-                  <CheckCircle2 className="w-4 h-4 text-[#01B574] shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span className="text-xs leading-snug">
                     Verified against NASA C-MAPSS FD001-FD004 sub-datasets under varied operating conditions.
                   </span>
@@ -230,8 +230,8 @@ export default function DocsModal({ isOpen, onClose }) {
               <div className={`p-3.5 rounded-xl border ${
                 isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200 shadow-sm'
               }`}>
-                <div className="flex items-center gap-2 text-xs font-bold text-cyan-300 mb-1">
-                  <span className="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center text-[11px]">1</span>
+                <div className="flex items-center gap-2 text-xs font-bold text-sky-400 mb-1">
+                  <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 flex items-center justify-center text-[11px]">1</span>
                   Sortie RUL Gate
                 </div>
                 <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -270,7 +270,7 @@ export default function DocsModal({ isOpen, onClose }) {
             isDark ? 'bg-white/[0.02] border-white/5' : 'bg-slate-50 border-slate-200'
           }`}>
             <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">
-              <Database className="w-3.5 h-3.5 text-purple-400" />
+              <Database className="w-3.5 h-3.5 text-sky-400" />
               <span>Platform Engineering Stack</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs">
@@ -280,7 +280,7 @@ export default function DocsModal({ isOpen, onClose }) {
               </div>
               <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200'}`}>
                 <p className="text-[10px] text-slate-400 font-medium">Design System</p>
-                <p className={`font-bold mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>Vision UI &bull; Tailwind</p>
+                <p className={`font-bold mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>AeroTactical C2 &bull; Tailwind</p>
               </div>
               <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200'}`}>
                 <p className="text-[10px] text-slate-400 font-medium">Prognostic Engine</p>
@@ -299,7 +299,7 @@ export default function DocsModal({ isOpen, onClose }) {
           <span>Smart India Hackathon 2026 &bull; Ministry of Defence</span>
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#0075FF] to-[#00D5FF] text-white font-bold hover:shadow-vision-glow transition"
+            className="px-5 py-2 rounded-xl bg-blue-700 hover:bg-blue-600 border border-blue-500/40 text-white font-bold shadow-sm transition"
           >
             Close Reference
           </button>
