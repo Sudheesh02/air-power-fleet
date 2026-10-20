@@ -151,19 +151,19 @@ export default function MaintenanceLogs() {
       {/* 1. TOP HEADER & VIEW MODE TOGGLE */}
       <GlassCard className="p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
+          <div className="w-12 h-12 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
             <ClipboardList className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 font-sans border border-emerald-500/25">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400">
                 Proactive Hangar Execution
               </span>
               <span className="text-xs text-slate-400 font-medium">
                 Structured Workflows & Flight Logbooks
               </span>
             </div>
-            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h2 className={`text-lg font-bold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Maintenance Work Orders, Technician Assignment & Pilot Flight Logs
             </h2>
           </div>
@@ -281,15 +281,15 @@ export default function MaintenanceLogs() {
                   <div className="flex items-center justify-between border-b border-slate-700/60 dark:border-slate-800 pb-3 mb-3">
                     <div className="flex items-center gap-2">
                       <span className={`w-2.5 h-2.5 rounded-full ${
-                        col.id === 'DISPATCHED' ? 'bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.5)]' :
-                        col.id === 'IN_PROGRESS' ? 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.5)]' :
-                        col.id === 'AWAITING_SPARES' ? 'bg-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.5)]' : 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]'
+                        col.id === 'DISPATCHED' ? 'bg-sky-400 ' :
+                        col.id === 'IN_PROGRESS' ? 'bg-amber-400 ' :
+                        col.id === 'AWAITING_SPARES' ? 'bg-rose-400 ' : 'bg-emerald-400 '
                       }`} />
                       <h4 className={`font-bold text-xs tracking-wider uppercase font-sans ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
                         {col.title}
                       </h4>
                     </div>
-                    <span className={`px-2 py-0.5 rounded-full font-mono text-[11px] font-bold border ${
+                    <span className={`px-2 py-0.5 rounded font-mono text-[11px] font-bold border ${
                       col.id === 'DISPATCHED' ? 'bg-sky-500/10 text-sky-400 border-sky-500/20' :
                       col.id === 'IN_PROGRESS' ? 'bg-amber-500/10 text-amber-300 border-amber-500/20' :
                       col.id === 'AWAITING_SPARES' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20'
@@ -365,7 +365,7 @@ export default function MaintenanceLogs() {
                             </div>
 
                             {/* Telemetry RUL Block - Clean Slate, Crisp Contrast (No Piercing Yellow) */}
-                            <div className="mt-2.5 p-2 rounded-lg bg-slate-800/60 dark:bg-slate-800/60 border border-slate-700/60 grid grid-cols-2 gap-2 text-[11px]">
+                            <div className="mt-2.5 py-2 border-y border-slate-700/60 grid grid-cols-2 gap-2 text-[11px]">
                               <div>
                                 <div className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Predicted RUL</div>
                                 <div className="text-xs font-bold text-sky-400 font-mono mt-0.5">
@@ -476,7 +476,7 @@ export default function MaintenanceLogs() {
                   <th className="p-3 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 dark:divide-white/5 font-medium">
+              <tbody className="divide-y divide-slate-500/20 font-medium">
                 {filteredOrders.map((wo) => (
                   <tr key={wo.order_id} className={isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'}>
                     <td className="p-3 font-sans font-bold text-sky-400 text-xs tracking-tight">
@@ -495,12 +495,12 @@ export default function MaintenanceLogs() {
                     </td>
                     <td className="p-3 font-sans text-xs">
                       {wo.spares_allocated ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                           Allocated
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/10 text-amber-200/90 border border-amber-500/20">
+                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-500/10 text-amber-200/90 border border-amber-500/20">
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                           Awaiting Depot
                         </span>
@@ -537,9 +537,9 @@ export default function MaintenanceLogs() {
 
       {/* 4. HISTORICAL TECHNICAL FLIGHT LOGS & PILOT DEBRIEFS */}
       <GlassCard className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 dark:border-white/5 pb-3 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-500/20 pb-3 mb-4">
           <div>
-            <h3 className={`font-extrabold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h3 className={`font-bold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               <FileText className="w-5 h-5 text-emerald-400" />
               Historical Technical Flight Logs & Pilot Debriefs
             </h3>
@@ -580,7 +580,7 @@ export default function MaintenanceLogs() {
                 <th className="p-3">Debrief Remarks</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 dark:divide-white/5 font-medium">
+            <tbody className="divide-y divide-slate-500/20 font-medium">
               {filteredLogs.map((log) => {
                 const isNlpExpanded = expandedNlpLogId === log.log_id && log.nlp_fusion;
 
@@ -620,12 +620,12 @@ export default function MaintenanceLogs() {
                       </td>
                       <td className="p-3">
                         {log.snags_reported > 0 ? (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/25 font-sans">
+                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/25 font-sans">
                             <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
                             {log.snags_reported} Snag Flagged
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 font-sans">
+                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 font-sans">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                             Nominal (Nil)
                           </span>
@@ -657,7 +657,7 @@ export default function MaintenanceLogs() {
                     {isNlpExpanded && (
                       <tr className={`${isDark ? 'bg-slate-950/60' : 'bg-slate-50/90'} border-y border-slate-700/60 transition-all`}>
                         <td colSpan={8} className="p-4 sm:p-5">
-                          <div className={`p-5 rounded-2xl border transition-all ${
+                          <div className={`p-5 rounded-lg border transition-all ${
                             isDark ? 'bg-slate-900/95 border-slate-700/80 shadow-lg' : 'bg-white border-slate-200 shadow-md'
                           }`}>
                             {/* Header */}
@@ -671,7 +671,7 @@ export default function MaintenanceLogs() {
                                     <h5 className={`font-bold text-sm tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                                       AI Multimodal Correlation: Pilot Debrief NLP & Telemetry Sensors
                                     </h5>
-                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-mono font-semibold border border-slate-700">
+                                    <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono font-semibold border border-slate-700">
                                       Dual Stream Fusion
                                     </span>
                                   </div>
@@ -707,9 +707,7 @@ export default function MaintenanceLogs() {
                                   </div>
                                   <div className="space-y-2">
                                     {log.nlp_fusion.extracted_entities.map((ent, eIdx) => (
-                                      <div key={eIdx} className={`p-2.5 rounded-lg border flex flex-col ${
-                                        isDark ? 'bg-slate-900/90 border-slate-700/60 hover:border-slate-600' : 'bg-white border-slate-200'
-                                      }`}>
+                                      <div key={eIdx} className={`py-2 border-b border-slate-500/20 flex flex-col`}>
                                         <span className="text-[10px] text-sky-400 font-mono font-semibold uppercase tracking-wider">{ent.category}</span>
                                         <span className={`text-xs font-bold mt-0.5 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>{ent.value}</span>
                                       </div>
@@ -734,9 +732,7 @@ export default function MaintenanceLogs() {
                                   </div>
                                   <div className="space-y-2">
                                     {log.nlp_fusion.telemetry_correlations.map((tele, tIdx) => (
-                                      <div key={tIdx} className={`p-2.5 rounded-lg border flex items-center justify-between gap-2 ${
-                                        isDark ? 'bg-slate-900/90 border-slate-700/60 hover:border-slate-600' : 'bg-white border-slate-200'
-                                      }`}>
+                                      <div key={tIdx} className={`py-2 border-b border-slate-500/20 flex items-center justify-between gap-2`}>
                                         <div className="min-w-0">
                                           <span className="text-[10px] text-slate-400 font-mono font-medium block truncate">{tele.station}</span>
                                           <p className={`text-sm font-bold font-mono mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>{tele.reading}</p>
@@ -746,9 +742,7 @@ export default function MaintenanceLogs() {
                                         </span>
                                       </div>
                                     ))}
-                                    <div className={`p-2.5 rounded-lg border flex items-center justify-between gap-2 ${
-                                      isDark ? 'bg-slate-900/90 border-slate-700/60' : 'bg-white border-slate-200'
-                                    }`}>
+                                    <div className={`py-2 border-b border-slate-500/20 flex items-center justify-between gap-2`}>
                                       <div>
                                         <span className="text-[10px] text-slate-400 font-mono font-medium block">Sampling Rate & Sync</span>
                                         <p className="text-xs font-bold font-mono text-sky-400 mt-0.5">50 Hz Synchronized</p>
@@ -834,8 +828,8 @@ export default function MaintenanceLogs() {
             </div>
 
             <form onSubmit={handleAssignSubmit} className="mt-4 space-y-4 text-xs font-sans">
-              <div className={`p-3.5 rounded-2xl border ${
-                isDark ? 'bg-white/[0.03] border-white/10' : 'bg-slate-50 border-slate-200'
+              <div className={`p-3.5 rounded-lg border ${
+                isDark ? 'bg-slate-900/60 border-white/10' : 'bg-slate-50 border-slate-200'
               }`}>
                 <span className="text-[11px] font-medium text-slate-400">Target Work Order</span>
                 <p className="text-sm font-bold text-sky-400 mt-0.5">{assignModalOrder.order_id} &bull; Tail {assignModalOrder.tail_no}</p>
