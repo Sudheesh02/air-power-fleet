@@ -15,8 +15,8 @@ import {
 
 // Mobile port of frontend_app/src/api/fleetApi.js.
 // Live backend when configured; bundled mock data (demo mode) otherwise. No API keys here.
-let BASE_URL = 'http://127.0.0.1:8000';
-let DEMO_MODE = true;
+let BASE_URL = 'https://vayuai-backend.onrender.com';
+let DEMO_MODE = false;
 const INITIAL_TIMEOUT_MS = 2500;
 const ACTIVE_TIMEOUT_MS = 6000;
 const RETRY_COOLDOWN_MS = 15000;
@@ -40,6 +40,24 @@ let sessionAiTriggers = [...MOCK_AI_REORDER_TRIGGERS];
 function savePersistedState() {}
 const STORAGE_KEYS = { WORK_ORDERS: 'wo', DEPOT_PIPELINE: 'dp', AI_TRIGGERS: 'ai' };
 
+// Render free tier sleeps when idle; the first request can take 30-60 s while it wakes.
+const ATTEMPT_TIMEOUT_MS = 25000;
+const MAX_ATTEMPTS = 3;
+const WAKING_AFTER_MS = 3500;
+let waking = false;
+const wakeListeners = new Set();
+function setWaking(v) {
+  if (waking === v) return;
+  waking = v;
+  wakeListeners.forEach((l) => l(v));
+}
+export function onWakingChange(cb) {
+  wakeListeners.add(cb);
+  cb(waking);
+  return () => wakeListeners.delete(cb);
+}
+let inflight = 0;
+
 async function fetchWithTimeout(url, options = {}) {
   if (DEMO_MODE || !BASE_URL) {
     isBackendReachable = false;
@@ -48,21 +66,50 @@ async function fetchWithTimeout(url, options = {}) {
   if (isBackendReachable === false && Date.now() - lastFailedTimestamp < RETRY_COOLDOWN_MS) {
     throw new Error('Backend offline cooldown');
   }
-  const timeoutMs = isBackendReachable === true ? ACTIVE_TIMEOUT_MS : INITIAL_TIMEOUT_MS;
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeoutMs);
+  inflight++;
+  const wakeTimer = setTimeout(() => { if (isBackendReachable !== true) setWaking(true); }, WAKING_AFTER_MS);
   try {
-    const res = await fetch(url, { ...options, signal: controller.signal });
-    clearTimeout(id);
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    isBackendReachable = true;
-    return await res.json();
-  } catch (err) {
-    clearTimeout(id);
+    let lastErr;
+    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), ATTEMPT_TIMEOUT_MS);
+      try {
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        if (res.status >= 500 || res.status === 429) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) { const e = new Error(`HTTP error! status: ${res.status}`); e.fatal = true; throw e; }
+        isBackendReachable = true;
+        return await res.json();
+      } catch (err) {
+        clearTimeout(id);
+        lastErr = err;
+        if (err && err.fatal) break;
+        if (attempt < MAX_ATTEMPTS - 1) { setWaking(true); await new Promise((r) => setTimeout(r, 1500 * (attempt + 1))); }
+      }
+    }
     isBackendReachable = false;
     lastFailedTimestamp = Date.now();
-    throw err;
+    throw lastErr;
+  } finally {
+    clearTimeout(wakeTimer);
+    inflight--;
+    if (inflight <= 0) { inflight = 0; setWaking(false); }
   }
+}
+
+const PROFILE_BY_TAIL = Object.fromEntries(MOCK_AIRCRAFT_LIST.map((a) => [a.tail_no, a]));
+const STEP_COUNT = { PENDING_APPROVAL: 1, ALLOCATED: 2, DISPATCHED: 2, DISPATCHED_TO_DEPOT: 2, IN_TRANSIT: 3, DELIVERED: 4 };
+// Live work orders carry only tail_no; join the static airframe profile for type/squadron/base.
+function enrichWorkOrder(w) {
+  const p = PROFILE_BY_TAIL[w.tail_no] || {};
+  return { aircraft_type: p.aircraft_type, squadron: p.squadron, base_station: p.base_station, ...w };
+}
+// Live depot rows have no tracking steps; derive them from status.
+function enrichRequisition(r) {
+  if (r.tracking_steps) return r;
+  const n = STEP_COUNT[r.status] || 1;
+  const names = ['Requisition raised', 'Depot allocation', 'In transit to base', 'Handover & fit'];
+  return { depot_source: 'Central depot', ...r, tracking_steps: names.map((step, i) => ({ step, done: i < n })) };
 }
 
 export const fleetApi = {
@@ -356,7 +403,7 @@ export const fleetApi = {
       return {
         data: {
           base_spares: data.base_spares,
-          depot_pipeline: mergedPipeline
+          depot_pipeline: mergedPipeline.map(enrichRequisition)
         },
         isLive: true
       };
@@ -380,7 +427,7 @@ export const fleetApi = {
         ...sessionWorkOrders.filter(w => !existingIds.has(w.order_id)),
         ...(res.work_orders || [])
       ];
-      return { data: mergedOrders, isLive: true };
+      return { data: mergedOrders.map(enrichWorkOrder), isLive: true };
     } catch {
       return { data: sessionWorkOrders, isLive: false };
     }
@@ -398,7 +445,7 @@ export const fleetApi = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates)
       });
-      return { data: res.work_order, isLive: true };
+      return { data: enrichWorkOrder(res.work_order), isLive: true };
     } catch {
       const updated = sessionWorkOrders.find(wo => wo.order_id === orderId);
       return { data: updated, isLive: false };

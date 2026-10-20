@@ -33,7 +33,7 @@ function IndiaDots({ bases }: { bases: { base: string; tone: string }[] }) {
 export default function Command() {
   const rq = useReadiness();
   const aq = useAircraft();
-  if (!aq.data || !rq.data) return <Screen tabs><Loading /></Screen>;
+  if (!aq.data || !rq.data) return <Screen tabs><View style={{ paddingTop: 120 }}><Loading /><T style={{ textAlign: 'center', color: C.mu, fontSize: 13 }}>Connecting to fleet server…</T></View></Screen>;
   const list = aq.data.data;
   const live = aq.data.isLive;
   const c = fleetCounts(list, rq.data.data);

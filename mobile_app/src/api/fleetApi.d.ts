@@ -1,6 +1,7 @@
 type R<T = any> = Promise<{ data: T; isLive: boolean }>;
 export declare function configureApi(c: { baseUrl?: string; demoMode?: boolean }): void;
 export declare function getApiConfig(): { baseUrl: string; demoMode: boolean };
+export declare function onWakingChange(cb: (waking: boolean) => void): () => void;
 export declare const fleetApi: {
   getBackendStatus(): boolean | null;
   synthesize(text: string, speaker: string): Promise<{ status: string; audio_base64: string | null; message?: string }>;

@@ -14,8 +14,8 @@ export type Settings = {
 };
 
 const DEFAULTS: Settings = {
-  backendUrl: 'https://vayuai-api.onrender.com',
-  demoMode: true,
+  backendUrl: 'https://vayuai-backend.onrender.com',
+  demoMode: false,
   speaker: 'shubh',
   language: 'en-IN',
   speed: 1,
@@ -25,7 +25,7 @@ const DEFAULTS: Settings = {
 
 type Ctx = { s: Settings; set: (p: Partial<Settings>) => void; ready: boolean; systemReduceMotion: boolean };
 const SettingsCtx = createContext<Ctx>({ s: DEFAULTS, set: () => {}, ready: false, systemReduceMotion: false });
-const KEY = 'vayu.settings.v1';
+const KEY = 'vayu.settings.v2';
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [s, setS] = useState<Settings>(DEFAULTS);

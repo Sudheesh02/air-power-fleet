@@ -19,7 +19,7 @@ const STEPS = ['Read fleet readiness', 'Checked RUL and open work orders', 'Comp
 
 export default function Voice() {
   const ins = useSafeAreaInsets();
-  const params = useLocalSearchParams<{ q?: string; preview?: string }>();
+  const params = useLocalSearchParams<{ q?: string }>();
   const { s } = useSettings();
   const { ask } = useCopilot();
   const [phase, setPhase] = useState<Phase>('idle');
@@ -92,9 +92,7 @@ export default function Voice() {
   });
 
   useEffect(() => {
-    if (params.preview === 'listening') { setPhase('listening'); setHeard('Brief me on Tigersharks readiness for tomorrow’s 06:30 CAP'); level.value = 0.6; }
-    else if (params.preview === 'thinking') { setPhase('thinking'); setHeard('Brief me on Tigersharks readiness for tomorrow’s 06:30 CAP'); setStep(2); }
-    else if (params.q) think(String(params.q)); else startListening();
+    if (params.q) think(String(params.q)); else startListening();
     return () => { stopSpeaking(); try { ExpoSpeechRecognitionModule.abort(); } catch {} };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

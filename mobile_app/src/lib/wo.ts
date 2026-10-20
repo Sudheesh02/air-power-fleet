@@ -16,3 +16,19 @@ export const woTitle = (w: any) => {
   return a.split(/[.;]/)[0].slice(0, 80) || `${f} inspection`;
 };
 export const TECHS = ['Sqn Ldr R. Sharma', 'Flt Lt K. Patel', 'Sgt P. Nambiar', 'JWO A. Verma', 'Sgt M. Singh', 'WO D. Mukherjee'];
+/** Parses "8.0h ago" / "Just now" (demo) or "YYYY-MM-DD HH:MM[:SS]" (live) into hours ago. */
+export function hoursAgo(v?: string): number | null {
+  const s = String(v || '');
+  if (/just now/i.test(s)) return 0;
+  const m = s.match(/([\d.]+)\s*h\s*ago/);
+  if (m) return Number(m[1]);
+  const t = Date.parse(s.replace(' ', 'T'));
+  return Number.isNaN(t) ? null : Math.max(0, (Date.now() - t) / 3600000);
+}
+export function ago(v?: string) {
+  const h = hoursAgo(v);
+  if (h == null) return String(v || '');
+  if (h < 1) return `${Math.max(1, Math.round(h * 60))}m`;
+  if (h < 24) return `${Math.round(h)}h`;
+  return `${Math.round(h / 24)}d`;
+}

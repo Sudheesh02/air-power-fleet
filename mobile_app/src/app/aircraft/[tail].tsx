@@ -38,7 +38,10 @@ function HealthTab({ tw }: { tw: any }) {
   ];
   const worst = stages.reduce((a, b) => (b.pct < a.pct ? b : a));
   const te = tw.telemetry || {};
-  const egt = te.egt_celsius ?? 760, oil = te.oil_pressure_psi ?? 48, vib = te.vibration_index ?? 0.3;
+  const pt = tw.subsystems?.propulsion?.telemetry || {};
+  const egt = te.egt_celsius ?? pt.exhaust_gas_temperature_c ?? (te.T50_LPT_Temp_R ? ((te.T50_LPT_Temp_R - 491.67) * 5) / 9 : 760);
+  const oil = te.oil_pressure_psi ?? pt.oil_pressure_psi ?? 48;
+  const vib = te.vibration_index ?? pt.vibration_anomaly_index ?? 0.3;
   const drift = tw.in_flight_drift_adaptation?.rls_drift_active;
   const t = tw.tail_no;
   const bad = (v: boolean) => (v ? C.bad : C.ok);
@@ -145,7 +148,7 @@ function LogsTab({ tail }: { tail: string }) {
         const d = String(l.mission_date || '');
         const m = d.match(/(\d{4})-(\d{2})-(\d{2})/);
         const day = m ? m[3] : d.split(' ')[0];
-        const mon = m ? new Date(d).toLocaleString('en', { month: 'short' }).toUpperCase() : (d.split(' ')[1] || '');
+        const mon = m ? new Date(d.replace(' ', 'T')).toLocaleString('en', { month: 'short' }).toUpperCase() : (d.split(' ')[1] || '');
         return (
           <View key={l.log_id || i}>
             {i ? <Divider style={{ marginLeft: 52 }} /> : null}

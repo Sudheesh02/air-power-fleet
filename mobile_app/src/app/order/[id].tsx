@@ -4,7 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { C, F, baseShort } from '../../lib/theme';
 import { Btn, Card, Disp, Divider, Eyebrow, Icon, IconBtn, Loading, Mono, Row, Screen, Sheet, T, Tag } from '../../components/ui';
 import { useUpdateWorkOrder, useWorkOrders } from '../../lib/queries';
-import { TECHS, WO_STAGES, bayShort, prio, shortId, stageOf, techName, woTitle } from '../../lib/wo';
+import { ago, TECHS, WO_STAGES, bayShort, prio, shortId, stageOf, techName, woTitle } from '../../lib/wo';
 
 const STAGE_LABEL = ['Open', 'In progress', 'QA check', 'Closed'];
 const NEXT_LABEL = ['Start work', 'Move to QA check', 'Close order', 'Reopen'];
@@ -50,7 +50,7 @@ export default function OrderDetail() {
         <Tag tone="info">{STAGE_LABEL[st].toUpperCase()}</Tag>
       </Row>
       <Disp style={{ fontSize: 24, marginTop: 10, lineHeight: 30 }}>{woTitle(w)}</Disp>
-      <T style={{ fontSize: 13.5, color: C.mu, marginTop: 6 }}><Mono style={{ fontSize: 13.5, color: C.mu }}>{w.tail_no}</Mono> · {w.aircraft_type} · {baseShort(w.base_station)} · {w.created_at}</T>
+      <T style={{ fontSize: 13.5, color: C.mu, marginTop: 6 }}><Mono style={{ fontSize: 13.5, color: C.mu }}>{w.tail_no}</Mono> · {w.aircraft_type?.split(' ')[0] || ''} · {baseShort(w.base_station)} · {ago(w.created_at)} ago</T>
 
       <Row style={{ gap: 4, marginTop: 22 }}>
         {STAGE_LABEL.map((s, i) => <View key={s} style={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: i <= st ? C.ac : 'rgba(255,255,255,0.08)' }} />)}

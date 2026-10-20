@@ -12,6 +12,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SettingsProvider, useSettings } from '../lib/settings';
 import { CopilotProvider } from '../lib/copilot';
 import { Intro } from '../components/Intro';
+import { WakingBanner } from '../components/WakingBanner';
 import { C } from '../lib/theme';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -40,6 +41,7 @@ function Root() {
         <Stack.Screen name="triage/[tail]" options={{ animation: 'slide_from_bottom' }} />
         <Stack.Screen name="requisition" options={{ animation: 'slide_from_bottom' }} />
       </Stack>
+      <WakingBanner />
       {!introDone ? <Intro onDone={() => setIntroDone(true)} /> : null}
     </View>
   );

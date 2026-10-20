@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { C, F, baseShort } from '../../lib/theme';
 import { Disp, Divider, Icon, IconBtn, Kpis, Loading, Mono, Row, Screen, T, Tabs } from '../../components/ui';
 import { useWorkOrders } from '../../lib/queries';
-import { bayShort, groupOf, initials, prio, shortId, techName, woTitle } from '../../lib/wo';
+import { ago, hoursAgo, bayShort, groupOf, initials, prio, shortId, techName, woTitle } from '../../lib/wo';
 
 export default function Orders() {
   const wq = useWorkOrders();
@@ -42,7 +42,7 @@ export default function Orders() {
             <Kpis items={[
               { value: String(active.filter((w) => w.severity_label === 'CRITICAL_AOG').length), label: 'Critical', color: C.bad },
               { value: String(active.filter((w) => !w.technician).length), label: 'Unassigned', color: C.wa },
-              { value: String(active.filter((w) => /h ago|Just now/.test(String(w.created_at)) && w.severity_tier >= 3).length), label: 'Due today' },
+              { value: String(active.filter((w) => (hoursAgo(w.created_at) ?? 99) < 24 && w.severity_tier >= 3).length), label: 'Due today' },
             ]} />
             <View style={{ marginTop: 8 }}><Tabs options={Object.values(tabLabels)} value={tabLabels[tab]} onChange={(l) => setTab(inv[l])} /></View>
             {shown.map((w, i) => {
@@ -72,7 +72,7 @@ export default function Orders() {
                           <T style={{ flex: 1, fontSize: 13.5, color: C.ac, fontFamily: F.uiS }}>Assign technician</T>
                         </>
                       )}
-                      <Mono style={{ fontSize: 12, color: C.fa, fontFamily: F.mono }}>{bayShort(w.hangar_bay)} · {String(w.created_at).replace(' ago', '').replace('.0h', 'h')}</Mono>
+                      <Mono style={{ fontSize: 12, color: C.fa, fontFamily: F.mono }}>{bayShort(w.hangar_bay)} · {ago(w.created_at)}</Mono>
                     </Row>
                     <T style={{ fontSize: 11.5, color: C.fa, marginTop: 4 }}>{baseShort(w.base_station)} · {String(w.status).replace(/_/g, ' ').toLowerCase()}</T>
                   </Pressable>
