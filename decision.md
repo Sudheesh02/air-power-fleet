@@ -172,3 +172,12 @@ Whenever modifying code in this codebase, log all new architectural choices, int
 - **Tradeoffs & Mitigations**:
   - *Tradeoff*: `main` no longer serves the new UI redesign on Vercel unless Vercel's production branch is re-targeted to `develop`.
   - *Mitigation*: Provided exact 2-click steps in Vercel project settings to point production to `develop`, ensuring total safety for `main`.
+
+
+### [2026-10-20] - Vercel Production Redeployment of Baseline UI on Main
+- **Component Affected**: Production Deployment (`https://sihairpowerplatform.vercel.app`), Git `main`
+- **Change Description**: Triggered forward redeployment on `main` (`commit 35fec21`) to force Vercel to rebuild and redeploy the original tactical navy-blue baseline (`#060B26` / `#0075FF`). Verified via HTTP GET that `index-DjStcMgs.css` and `index-DWGIS3w5.js` are live on production.
+- **Library / Method Chosen**: Triggered via standard forward commit so Vercel's build pipeline successfully executes and updates the live production site.
+- **Tradeoffs & Mitigations**:
+  - *Tradeoff*: Production URL displays the original UI.
+  - *Mitigation*: The complete reference redesign is preserved intact on `develop`.
