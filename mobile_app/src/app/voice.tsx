@@ -19,7 +19,7 @@ const STEPS = ['Read fleet readiness', 'Checked RUL and open work orders', 'Comp
 
 export default function Voice() {
   const ins = useSafeAreaInsets();
-  const params = useLocalSearchParams<{ q?: string }>();
+  const params = useLocalSearchParams<{ q?: string; preview?: string }>();
   const { s } = useSettings();
   const { ask } = useCopilot();
   const [phase, setPhase] = useState<Phase>('idle');
@@ -71,7 +71,7 @@ export default function Voice() {
           onDone: () => { setProg(1); setPhase('idle'); },
         });
       }
-    }, 650);
+    }, 800);
   };
 
   useSpeechRecognitionEvent('result', (e) => {
@@ -87,12 +87,13 @@ export default function Voice() {
   });
   useSpeechRecognitionEvent('error', (e) => {
     if (e.error === 'aborted') return;
-    setErr(e.error === 'no-speech' ? "Didn't catch that. Tap the mic and try again." : e.message || 'Speech error');
+    setErr(e.error === 'no-speech' ? "Didn't catch that. Tap the mic and try again." : e.error === 'not-allowed' ? 'Microphone access was denied.' : 'Voice input is unavailable right now. Pick a question below or type instead.');
     setPhase('error');
   });
 
   useEffect(() => {
-    if (params.q) think(String(params.q)); else startListening();
+    if (params.preview === 'listening') { setPhase('listening'); setHeard('Brief me on Tigersharks readiness for tomorrow’s 06:30 CAP'); level.value = 0.6; }
+    else if (params.q) think(String(params.q)); else startListening();
     return () => { stopSpeaking(); try { ExpoSpeechRecognitionModule.abort(); } catch {} };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

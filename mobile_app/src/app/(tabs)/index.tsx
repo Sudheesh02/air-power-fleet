@@ -74,7 +74,7 @@ export default function Command() {
             <Row style={{ gap: 6 }}>
               <Icon name="trending-up" size={16} color={C.ok} />
               <T style={{ color: C.ok, fontFamily: F.uiS, fontSize: 13 }}>{c.mc}/{c.total}</T>
-              <T style={{ color: C.mu, fontSize: 13 }}>airframes up</T>
+              <T style={{ color: C.mu, fontSize: 13 }}>up</T>
             </Row>
             {[
               { n: c.mc, l: 'Mission capable', col: C.ok },
@@ -97,7 +97,7 @@ export default function Command() {
             <T style={{ fontSize: 12.5, color: C.mu }}>Next sortie window · 06:30</T>
             <T style={{ fontSize: 16, fontFamily: F.uiS, marginTop: 3 }}>{cleared} of {fighters.length} fighters cleared</T>
           </View>
-          <Btn label="Plan" icon="airplane-takeoff" style={{ flex: 0, width: 116 }} onPress={() => router.push({ pathname: '/fleet', params: { filter: 'ready' } })} />
+          <Btn label="Plan" icon="airplane-takeoff" width={116} onPress={() => router.push({ pathname: '/fleet', params: { filter: 'ready' } })} />
         </Row>
       </Card>
 

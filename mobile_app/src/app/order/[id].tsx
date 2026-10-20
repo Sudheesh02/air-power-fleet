@@ -34,14 +34,14 @@ export default function OrderDetail() {
     <Screen
       footer={
         <Row style={{ gap: 10 }}>
-          <Btn kind="s" label="Note" icon="note-edit-outline" onPress={() => setSheet('note')} style={{ flex: 0.7 }} />
-          <Btn label={NEXT_LABEL[st]} loading={up.isPending} onPress={advance} style={{ flex: 1.3 }} />
+          <Btn kind="s" label="Note" icon="note-edit-outline" onPress={() => setSheet('note')} style={{ flexGrow: 0.7 }} />
+          <Btn label={NEXT_LABEL[st]} loading={up.isPending} onPress={advance} style={{ flexGrow: 1.3 }} />
         </Row>
       }
     >
       <Row style={{ height: 64, marginTop: 4 }}>
         <IconBtn ghost icon="arrow-left" label="Back" onPress={() => router.back()} />
-        <View style={{ flex: 1 }} />
+        <View style={{ flexGrow: 1 }} />
         <IconBtn ghost icon="airplane" label="Open aircraft" onPress={() => router.push(`/aircraft/${w.tail_no}`)} />
       </Row>
       <Row style={{ gap: 8 }}>
@@ -79,7 +79,7 @@ export default function OrderDetail() {
       </Card>
 
       <Row style={{ marginTop: 22, marginBottom: 8 }}>
-        <Eyebrow style={{ flex: 1 }}>Checklist</Eyebrow>
+        <Eyebrow style={{ flexGrow: 1 }}>Checklist</Eyebrow>
         <T style={{ fontSize: 12.5, color: C.mu }}>{doneN} / {list.length}</T>
       </Row>
       {list.map((c, i) => (

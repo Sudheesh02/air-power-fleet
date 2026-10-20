@@ -31,20 +31,20 @@ export default function Triage() {
       footer={
         done ? (
           <Row style={{ gap: 10 }}>
-            <Btn kind="s" label="Done" onPress={() => router.back()} style={{ flex: 0.8 }} />
-            <Btn label="Open work order" onPress={() => router.replace(orderId ? `/order/${encodeURIComponent(orderId)}` : '/orders')} style={{ flex: 1.2 }} />
+            <Btn kind="s" label="Done" onPress={() => router.back()} style={{ flexGrow: 0.8 }} />
+            <Btn label="Open work order" onPress={() => router.replace(orderId ? `/order/${encodeURIComponent(orderId)}` : '/orders')} style={{ flexGrow: 1.2 }} />
           </Row>
         ) : (
           <Row style={{ gap: 10 }}>
-            <Btn kind="s" label="Cancel" onPress={() => router.back()} style={{ flex: 0.8 }} />
-            <Btn label="Dispatch triage" icon="send" loading={m.isPending} onPress={() => m.mutate()} style={{ flex: 1.2 }} />
+            <Btn kind="s" label="Cancel" onPress={() => router.back()} style={{ flexGrow: 0.8 }} />
+            <Btn label="Dispatch triage" icon="send" loading={m.isPending} onPress={() => m.mutate()} style={{ flexGrow: 1.2 }} />
           </Row>
         )
       }
     >
       <Row style={{ height: 64, marginTop: 4 }}>
         <IconBtn ghost icon="close" label="Close" onPress={() => router.back()} />
-        <View style={{ flex: 1 }} />
+        <View style={{ flexGrow: 1 }} />
         <Mono style={{ fontSize: 12.5, color: C.fa, fontFamily: F.mono }}>{stamp}</Mono>
       </Row>
       {!tw ? <Loading /> : (
@@ -53,7 +53,7 @@ export default function Triage() {
             <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: done ? 'rgba(52,211,153,0.14)' : 'rgba(255,181,71,0.14)', borderWidth: 1, borderColor: done ? 'rgba(52,211,153,0.4)' : 'rgba(255,181,71,0.4)', alignItems: 'center', justifyContent: 'center' }}>
               <Icon name={done ? 'check' : 'medical-bag'} size={26} color={done ? C.ok : C.ac} />
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{ flexGrow: 1 }}>
               <Disp style={{ fontSize: 24 }}>{done ? 'Triage dispatched' : 'Dispatch triage'}</Disp>
               <T style={{ fontSize: 14, color: C.mu, marginTop: 2 }}><Mono style={{ fontSize: 14, color: C.mu }}>{tail}</Mono> {done ? 'is grounded and in the hangar queue' : 'will be grounded and queued for the hangar'}</T>
             </View>

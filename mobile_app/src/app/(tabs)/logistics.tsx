@@ -57,7 +57,7 @@ export default function Logistics() {
                 <T style={{ fontFamily: F.uiS, fontSize: 15 }} numberOfLines={1}>Reorder {trig.lru_component}</T>
                 <T style={{ fontSize: 12.5, color: C.mu, marginTop: 2 }} numberOfLines={1}>{trig.tail_no} needs it in ~{trig.predicted_demand_hours} h · {trig.confidence_score}% conf.</T>
               </View>
-              <Btn label="Review" style={{ flex: 0, width: 92 }} onPress={() => router.push({ pathname: '/requisition', params: { tail: trig.tail_no, base: trig.base_station, part: trig.lru_component, trigger: trig.trigger_id } })} />
+              <Btn label="Review" width={96} onPress={() => router.push({ pathname: '/requisition', params: { tail: trig.tail_no, base: trig.base_station, part: trig.lru_component, trigger: trig.trigger_id } })} />
             </LinearGradient>
           ) : null}
           <View style={{ marginTop: 16 }}>

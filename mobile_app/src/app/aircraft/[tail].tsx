@@ -45,7 +45,7 @@ function HealthTab({ tw }: { tw: any }) {
   return (
     <View>
       <Row style={{ marginTop: 18, marginBottom: 10 }}>
-        <Eyebrow style={{ flex: 1 }}>Digital twin · 5-stage gas path</Eyebrow>
+        <Eyebrow style={{ flexGrow: 1 }}>Digital twin · 5-stage gas path</Eyebrow>
         <T style={{ fontSize: 12, color: C.fa }}>efficiency</T>
       </Row>
       <Card style={{ padding: 14 }}>
@@ -59,7 +59,7 @@ function HealthTab({ tw }: { tw: any }) {
         </Row>
       </Card>
       <Row style={{ marginTop: 22, marginBottom: 10 }}>
-        <Eyebrow style={{ flex: 1 }}>Live sensors</Eyebrow>
+        <Eyebrow style={{ flexGrow: 1 }}>Live sensors</Eyebrow>
         <T style={{ fontSize: 12, color: C.fa }}>{tw.prognostics?.telemetry_source ? 'C-MAPSS feed' : 'latest'}</T>
       </Row>
       <Row style={{ gap: 10 }}>
@@ -81,7 +81,7 @@ function RulTab({ tw }: { tw: any }) {
   const rul = p.predicted_rul_hours ?? 50;
   const [lo, hi] = p.conformal_interval || [p.conservative_rul_hours ?? rul * 0.8, rul * 1.2];
   const n = range === '7D' ? 8 : range === '30D' ? 16 : range === '90D' ? 22 : 30;
-  const past = history(tw.tail_no + range, rul, n * 2.4, n, 0.03);
+  const past = history(tw.tail_no + range, rul, -n * 2.4, n, 0.03);
   const days = Math.max(1, Math.round((p.conservative_rul_hours ?? rul) / 2.5));
   const planBy = new Date(Date.now() + days * 86400000);
   const tone = rul < 30 ? C.bad : rul < 60 ? C.wa : C.ok;
@@ -93,7 +93,7 @@ function RulTab({ tw }: { tw: any }) {
       <Row style={{ alignItems: 'flex-end', gap: 8 }}>
         <Disp style={{ fontSize: 56, lineHeight: 62 }}>{rul.toFixed(1)}</Disp>
         <T style={{ fontSize: 18, color: C.mu, marginBottom: 10, fontFamily: F.uiM }}>hours</T>
-        <View style={{ flex: 1 }} />
+        <View style={{ flexGrow: 1 }} />
         <View style={{ marginBottom: 12 }}><Tag tone={rul < 30 ? 'bad' : rul < 60 ? 'wa' : 'ok'} dot={false}>{`↘ −${(n * 2.4 / (n / 7)).toFixed(1)} h / 7d`}</Tag></View>
       </Row>
       <Mono style={{ fontSize: 12.5, color: C.mu, fontFamily: F.mono }}>90% conformal interval {Number(lo).toFixed(1)} – {Number(hi).toFixed(1)} h</Mono>
@@ -117,7 +117,7 @@ function RulTab({ tw }: { tw: any }) {
         return (
           <Row key={f.id} style={{ gap: 12, paddingVertical: 10, alignItems: 'flex-start' }}>
             <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: c, marginTop: 6 }} />
-            <View style={{ flex: 1 }}>
+            <View style={{ flexGrow: 1 }}>
               <T style={{ fontSize: 14.5, fontFamily: F.uiM }}>{f.component}</T>
               <T style={{ fontSize: 12.5, color: C.mu, marginTop: 2 }}>{f.action_type}{f.details ? ` · ${f.details}` : ''}</T>
             </View>
@@ -154,7 +154,7 @@ function LogsTab({ tail }: { tail: string }) {
                 <Disp style={{ fontSize: day.length > 3 ? 13 : 22 }} numberOfLines={1}>{day}</Disp>
                 <T style={{ fontSize: 10.5, color: C.fa, fontFamily: F.uiS }}>{mon}</T>
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={{ flexGrow: 1 }}>
                 <T style={{ fontSize: 15, fontFamily: F.uiS }}>{l.mission_type}</T>
                 <Mono style={{ fontSize: 11.5, color: C.fa, fontFamily: F.mono, marginTop: 2 }}>{l.pilot_callsign || l.log_id}{l.g_force_peak ? ` · ${l.g_force_peak} g peak` : ''}</Mono>
                 <Row style={{ gap: 6, marginTop: 6, alignItems: 'flex-start' }}>
@@ -184,14 +184,14 @@ export default function Aircraft() {
     <Screen
       footer={tab !== 'Logs' && tw ? (
         <Row style={{ gap: 10 }}>
-          <Btn kind="s" label="Triage" icon="medical-bag" onPress={() => router.push(`/triage/${tail}`)} style={{ flex: 0.8 }} />
-          <Btn label="Evaluate sortie" icon="check-circle-outline" onPress={() => setSortie(true)} style={{ flex: 1.2 }} />
+          <Btn kind="s" label="Triage" icon="medical-bag" onPress={() => router.push(`/triage/${tail}`)} style={{ flexGrow: 0.8 }} />
+          <Btn label="Evaluate sortie" icon="check-circle-outline" onPress={() => setSortie(true)} style={{ flexGrow: 1.2 }} />
         </Row>
       ) : undefined}
     >
       <Row style={{ height: 64, marginTop: 4 }}>
         <IconBtn ghost icon="arrow-left" label="Back" onPress={() => (router.canGoBack() ? router.back() : router.replace('/fleet'))} />
-        <View style={{ flex: 1 }} />
+        <View style={{ flexGrow: 1 }} />
         <IconBtn ghost icon="microphone-outline" color={C.ac} label="Ask copilot" onPress={() => router.push({ pathname: '/voice', params: { q: `Status of ${tail}` } })} />
         <IconBtn ghost icon={star ? 'star' : 'star-outline'} color={star ? C.ac : C.tx} label="Watch" onPress={() => setStar(!star)} />
         <IconBtn ghost icon="dots-vertical" label="More" onPress={() => router.push({ pathname: '/requisition', params: { tail } })} />

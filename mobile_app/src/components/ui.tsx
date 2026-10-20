@@ -151,8 +151,8 @@ export function Chip({ label, on, onPress, icon, count, dotColor }: { label: str
 }
 
 export function Btn({
-  label, icon, kind = 'p', onPress, style, loading, disabled,
-}: { label: string; icon?: IconName; kind?: 'p' | 's'; onPress?: () => void; style?: StyleProp<ViewStyle>; loading?: boolean; disabled?: boolean }) {
+  label, icon, kind = 'p', onPress, style, loading, disabled, width,
+}: { label: string; icon?: IconName; kind?: 'p' | 's'; onPress?: () => void; style?: StyleProp<ViewStyle>; loading?: boolean; disabled?: boolean; width?: number }) {
   const inner = (
     <View style={{ height: 52, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
       {loading ? <ActivityIndicator color={kind === 'p' ? C.onac : C.tx} /> : icon ? <Icon name={icon} size={20} color={kind === 'p' ? C.onac : C.tx} /> : null}
@@ -162,7 +162,7 @@ export function Btn({
   return (
     <Pressable
       onPress={onPress} disabled={disabled || loading} accessibilityRole="button" accessibilityLabel={label}
-      style={({ pressed }) => [{ flex: 1, borderRadius: 26, overflow: 'hidden', opacity: disabled ? 0.5 : pressed ? 0.85 : 1 }, kind === 'p' ? styles.glow : { backgroundColor: C.s2, borderWidth: 1, borderColor: C.line2 }, style]}
+      style={({ pressed }) => [width ? { width, flexGrow: 0, flexShrink: 0 } : { flexGrow: 1, flexBasis: 0 }, { borderRadius: 26, overflow: 'hidden', opacity: disabled ? 0.5 : pressed ? 0.85 : 1 }, kind === 'p' ? styles.glow : { backgroundColor: C.s2, borderWidth: 1, borderColor: C.line2 }, style]}
     >
       {kind === 'p' ? <LinearGradient colors={['#FFC566', '#FFA930']} style={{ borderRadius: 26 }}>{inner}</LinearGradient> : inner}
     </Pressable>
