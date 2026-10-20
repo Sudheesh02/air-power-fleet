@@ -26,7 +26,7 @@ if str(BASE_DIR) not in sys.path:
 DB_PATH = str(BASE_DIR / "data" / "air_power_fleet.db")
 CMAPSS_DIR = str(BASE_DIR / "data" / "CMAPSSData") if (BASE_DIR / "data" / "CMAPSSData").exists() else str(ROOT_DIR / "CMAPSSData")
 
-# Synchronized Master Defense Airframe Profiles (100% matched with MOCK_AIRCRAFT_LIST & SQLite)
+# Synchronized Master Defense Airframe Profiles (100% 1:1 parity with mockFleetData.js & SQLite)
 AIRCRAFT_PROFILES = {
     "SB-021": {
         "health_score": 80.3, "rul_hours": 102.1, "conservative_rul_hours": 88.4,
@@ -47,9 +47,9 @@ AIRCRAFT_PROFILES = {
         "wear_mode": "Compressor fouling & RLS sensor gain drift", "drift_detected": True, "status": "CONDITIONAL_STANDBY"
     },
     "SB-024": {
-        "health_score": 21.2, "rul_hours": 14.5, "conservative_rul_hours": 12.6,
-        "conformal_interval": [12.6, 16.4], "cycle": 192,
-        "hpc_wear": 0.24, "lpc_wear": 0.82, "fan_wear": 0.88, "combustor_wear": 0.74, "lpt_wear": 0.76,
+        "health_score": 21.2, "rul_hours": 21.2, "conservative_rul_hours": 16.4,
+        "conformal_interval": [14.8, 25.4], "cycle": 192,
+        "hpc_wear": 0.212, "lpc_wear": 0.82, "fan_wear": 0.88, "combustor_wear": 0.74, "lpt_wear": 0.76,
         "wear_mode": "HPC Rotor Stage 1-3 blade tip degradation & micro-cracking", "drift_detected": False, "status": "MAINTENANCE_GROUNDED"
     },
     "SB-025": {
@@ -83,10 +83,10 @@ AIRCRAFT_PROFILES = {
         "wear_mode": "FADEC Channel B resistance deviation", "drift_detected": True, "status": "CONDITIONAL_STANDBY"
     },
     "KH-204": {
-        "health_score": 28.5, "rul_hours": 18.2, "conservative_rul_hours": 15.8,
-        "conformal_interval": [15.8, 20.6], "cycle": 178,
+        "health_score": 28.5, "rul_hours": 24.8, "conservative_rul_hours": 19.5,
+        "conformal_interval": [18.0, 29.6], "cycle": 178,
         "hpc_wear": 0.78, "lpc_wear": 0.28, "fan_wear": 0.85, "combustor_wear": 0.72, "lpt_wear": 0.75,
-        "wear_mode": "Digital High-Pressure Fuel Pump valve pressure oscillation", "drift_detected": False, "status": "MAINTENANCE_GROUNDED"
+        "wear_mode": "Digital High Pressure Fuel Pump valve pressure oscillation", "drift_detected": False, "status": "MAINTENANCE_GROUNDED"
     },
     "KH-205": {
         "health_score": 94.2, "rul_hours": 156.4, "conservative_rul_hours": 135.5,
@@ -119,9 +119,9 @@ AIRCRAFT_PROFILES = {
         "wear_mode": "LPT Thermocouple harness drift", "drift_detected": True, "status": "CONDITIONAL_STANDBY"
     },
     "RB-004": {
-        "health_score": 31.5, "rul_hours": 22.0, "conservative_rul_hours": 19.1,
-        "conformal_interval": [19.1, 24.9], "cycle": 170,
-        "hpc_wear": 0.82, "lpc_wear": 0.85, "fan_wear": 0.90, "combustor_wear": 0.68, "lpt_wear": 0.26,
+        "health_score": 31.5, "rul_hours": 22.0, "conservative_rul_hours": 17.8,
+        "conformal_interval": [16.2, 26.8], "cycle": 170,
+        "hpc_wear": 0.82, "lpc_wear": 0.85, "fan_wear": 0.90, "combustor_wear": 0.68, "lpt_wear": 0.24,
         "wear_mode": "Turbine Disk thermal barrier coating spallation & EGT creep", "drift_detected": False, "status": "MAINTENANCE_GROUNDED"
     },
     "RB-005": {
@@ -170,7 +170,6 @@ class GasPathDigitalTwin:
             'htBleed': 392.0 # Bleed enthalpy
         }
 
-        # Check and load genuine NASA C-MAPSS test telemetry
         cmapss_test_path = Path(self.cmapss_dir) / "test_FD001.txt"
         if cmapss_test_path.exists():
             try:
@@ -179,15 +178,6 @@ class GasPathDigitalTwin:
                         parts = line.strip().split()
                         if len(parts) >= 20:
                             u_id = int(parts[0])
-                            # In C-MAPSS FD001:
-                            # parts[6] = T24 (LPC outlet temp, nominal ~642)
-                            # parts[7] = T30 (HPC outlet temp, nominal ~1588)
-                            # parts[8] = T50 (LPT exhaust temp, nominal ~1405)
-                            # parts[11] = P30 (HPC static pressure, nominal ~553)
-                            # parts[12] = Nf (Fan speed, nominal ~2388)
-                            # parts[13] = Nc (Core speed, nominal ~9050)
-                            # parts[18] = BPR (Bypass ratio, nominal ~8.4)
-                            # parts[19] = htBleed (Bleed enthalpy, nominal ~392)
                             self.nasa_cmapss_units[u_id] = {
                                 'T24': round(float(parts[6]), 2),
                                 'T30': round(float(parts[7]), 2),
@@ -201,7 +191,6 @@ class GasPathDigitalTwin:
             except Exception:
                 pass
 
-        # Check for Champion LightGBM model from training harness
         self.lgb_model_path = ROOT_DIR / "poc" / "results" / "_lgb_cyc_FD001_model.txt"
         self.has_lgb_model = self.lgb_model_path.exists()
 
@@ -212,7 +201,7 @@ class GasPathDigitalTwin:
         """
         conn = sqlite3.connect(self.db_path)
         cur = conn.cursor()
-        
+
         cur.execute("""
             SELECT tail_no, aircraft_type, squadron, base_station, airframe_hours, engine_serial, cmapss_unit_ref, status
             FROM aircraft_fleet WHERE tail_no = ?
@@ -225,7 +214,6 @@ class GasPathDigitalTwin:
 
         _, ac_type, squadron, base, af_hours, engine_serial, unit_ref, status = row
 
-        # Use synchronized master defense profiles
         if tail_no in AIRCRAFT_PROFILES:
             prof = AIRCRAFT_PROFILES[tail_no]
             simulated_cycle = prof["cycle"]
@@ -266,19 +254,17 @@ class GasPathDigitalTwin:
                 (0.35 * hpc_wear + 0.25 * lpt_wear + 0.15 * fan_wear + 0.15 * lpc_wear + 0.10 * combustor_wear) * 100, 1
             )
 
-        # Synthesize thermodynamic gas path telemetry using real NASA C-MAPSS unit base if available
         nasa_base = self.nasa_cmapss_units.get(unit_ref, self.nominal)
         telemetry_synthetic = {
-            'T24_LPC_Temp_R': round(nasa_base['T24'] + (1.0 - lpc_wear) * 8.5, 2),
-            'T30_HPC_Temp_R': round(nasa_base['T30'] + (1.0 - hpc_wear) * 24.8, 2),
-            'T50_LPT_Temp_R': round(nasa_base['T50'] + (1.0 - lpt_wear) * 18.2, 2),
-            'P30_HPC_Pres_psia': round(nasa_base['P30'] - (1.0 - hpc_wear) * 14.2, 2),
-            'Nf_Fan_RPM': round(nasa_base['Nf'] - (1.0 - fan_wear) * 4.5, 2),
-            'Nc_Core_RPM': round(nasa_base['Nc'] + (1.0 - hpc_wear) * 18.0, 2),
-            'BPR': round(nasa_base['BPR'] + (1.0 - lpc_wear) * 0.15, 3),
+            'T24_LPC_Temp_R': round(nasa_base['T24'] + (1.0 - lpc_wear) * 12.5, 1),
+            'T30_HPC_Temp_R': round(nasa_base['T30'] + (1.0 - hpc_wear) * 32.0, 1),
+            'T50_LPT_Temp_R': round(nasa_base['T50'] + (1.0 - lpt_wear) * 28.0, 1),
+            'P30_HPC_Pres_psia': round(nasa_base['P30'] - (1.0 - hpc_wear) * 18.5, 1),
+            'Nf_Fan_RPM': round(nasa_base['Nf'] - (1.0 - fan_wear) * 12.0, 1),
+            'Nc_Core_RPM': round(nasa_base['Nc'] + (1.0 - hpc_wear) * 24.0, 1),
+            'BPR': round(nasa_base['BPR'] + (1.0 - lpc_wear) * 0.18, 2),
         }
 
-        # Full 4-Subsystem Telemetry Architecture strictly matching DigitalTwinView.jsx property names
         subsystems = {
             'avionics': {
                 'name': f"{'Thales RBE2 AESA' if 'Rafale' in ac_type else ('Uttam AESA Radar' if 'Tejas' in ac_type else 'Bars N011M PESA Radar')} & Mission Computer",
@@ -361,53 +347,50 @@ class GasPathDigitalTwin:
                     'name': 'Fan & Intake Stage',
                     'health_pct': round(fan_wear * 100, 1),
                     'status': 'NOMINAL' if fan_wear > 0.70 else ('CAUTION' if fan_wear > 0.45 else 'CRITICAL'),
-                    'key_sensors': ['Nf (Fan Speed)', 'P2 (Intake Pressure)'],
+                    'key_sensors': [f"Nf (Fan {telemetry_synthetic['Nf_Fan_RPM']} RPM)", "P2 (Intake 14.7 psia)"],
                     'wear_mode': 'Nominal fan blade clearance' if fan_wear > 0.70 else 'Fan blade surface roughness'
                 },
                 'lpc': {
                     'name': 'Low-Pressure Compressor (LPC)',
                     'health_pct': round(lpc_wear * 100, 1),
                     'status': 'NOMINAL' if lpc_wear > 0.70 else ('CAUTION' if lpc_wear > 0.45 else 'CRITICAL'),
-                    'key_sensors': ['T24 (LPC Outlet Temp)', 'P24 (Pressure)'],
-                    'wear_mode': 'Nominal booster stages' if lpc_wear > 0.70 else 'Interstage pressure drop'
+                    'key_sensors': [f"T24 (LPC {telemetry_synthetic['T24_LPC_Temp_R']} °R)", "P24 (Pres 21.4 psia)"],
+                    'wear_mode': wear_mode if lpc_wear < 0.60 else ('Nominal booster stages' if lpc_wear > 0.70 else 'Interstage pressure drop')
                 },
                 'hpc': {
                     'name': 'High-Pressure Compressor (HPC)',
                     'health_pct': round(hpc_wear * 100, 1),
                     'status': 'NOMINAL' if hpc_wear > 0.70 else ('CAUTION' if hpc_wear > 0.45 else 'CRITICAL'),
-                    'key_sensors': ['T30 (HPC Outlet Temp)', 'P30 (Static Pressure)'],
-                    'wear_mode': wear_mode if hpc_wear < 0.60 else 'Nominal axial drum clearance'
+                    'key_sensors': [f"T30 (HPC {telemetry_synthetic['T30_HPC_Temp_R']} °R)", f"P30 (Static {telemetry_synthetic['P30_HPC_Pres_psia']} psia)"],
+                    'wear_mode': wear_mode if hpc_wear < 0.65 else 'Nominal axial drum clearance'
                 },
                 'combustor_hpt': {
                     'name': 'Combustor & HP Turbine',
                     'health_pct': round(combustor_wear * 100, 1),
                     'status': 'NOMINAL' if combustor_wear > 0.70 else ('CAUTION' if combustor_wear > 0.45 else 'CRITICAL'),
-                    'key_sensors': ['W31 (Fuel Flow)', 'HtBleed (Enthalpy)'],
-                    'wear_mode': 'Nominal flame profile' if combustor_wear > 0.70 else 'Combustor liner hot spots'
+                    'key_sensors': [f"Nc (Core {telemetry_synthetic['Nc_Core_RPM']} RPM)", "HtBleed (394.2 Btu/lb)"],
+                    'wear_mode': 'Nominal flame profile' if combustor_wear > 0.70 else 'Combustor liner thermal stress'
                 },
                 'lpt': {
                     'name': 'Low-Pressure Turbine (LPT)',
                     'health_pct': round(lpt_wear * 100, 1),
                     'status': 'NOMINAL' if lpt_wear > 0.70 else ('CAUTION' if lpt_wear > 0.45 else 'CRITICAL'),
-                    'key_sensors': ['T50 (Exhaust Gas Temp)', 'P50 (Exhaust Pressure)'],
-                    'wear_mode': wear_mode if lpt_wear < 0.50 else 'Nominal turbine disk clearance'
+                    'key_sensors': [f"T50 (EGT {telemetry_synthetic['T50_LPT_Temp_R']} °R)", "P50 (Exhaust 16.8 psia)"],
+                    'wear_mode': wear_mode if lpt_wear < 0.65 else 'Nominal turbine disk clearance'
                 }
             },
             'subsystems': subsystems,
             'telemetry': telemetry_synthetic,
             'in_flight_drift_adaptation': {
                 'rls_drift_active': drift_detected,
-                'drift_type': 'Sensor Gain Drift (Gain D=1.5 on T30/P30)' if drift_detected else 'None (Calibrated)',
+                'drift_type': 'Sensor Gain Drift (Gain D=1.5 on T30/P30)' if drift_detected else 'None (Calibrated RLS State)',
                 'correction_residual_compensated': True if drift_detected else False
             }
         }
 
 if __name__ == "__main__":
     twin = GasPathDigitalTwin()
-    sample = twin.evaluate_aircraft_digital_twin("SB-021") # Healthy Su-30MKI
-    print("--- Digital Twin Evaluation for SB-021 ---")
-    print(f"Overall Health: {sample['overall_health_pct']}%")
-    print(f"RUL: {sample['prognostics']['predicted_rul_hours']}h (Conservative: {sample['prognostics']['conservative_rul_hours']}h)")
-    print(f"ML Engine: {sample['prognostics']['ml_engine']}")
-    print(f"Telemetry Source: {sample['prognostics']['telemetry_source']}")
-    print("Subsystems telemetry keys:", list(sample['subsystems']['propulsion']['telemetry'].keys()))
+    for t in ["SB-021", "SB-024", "KH-204", "RB-004"]:
+        sample = twin.evaluate_aircraft_digital_twin(t)
+        print(f"--- {t}: Health={sample['overall_health_pct']}%, RUL={sample['prognostics']['predicted_rul_hours']}h, ConsRUL={sample['prognostics']['conservative_rul_hours']}h, Conf={sample['prognostics']['conformal_interval']} ---")
+        print(f"    Stages: Fan={sample['stages']['fan']['health_pct']}%, LPC={sample['stages']['lpc']['health_pct']}%, HPC={sample['stages']['hpc']['health_pct']}%, Comb={sample['stages']['combustor_hpt']['health_pct']}%, LPT={sample['stages']['lpt']['health_pct']}%")

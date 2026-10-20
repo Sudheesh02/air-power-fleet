@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import GlassCard from '../common/GlassCard';
 import StatusBadge from '../common/StatusBadge';
+import TurbofanEngineSchematic from '../common/TurbofanEngineSchematic';
 import { useTheme } from '../../context/ThemeContext';
 import { fleetApi } from '../../api/fleetApi';
 import { MOCK_AIRCRAFT_LIST } from '../../data/mockFleetData';
@@ -31,10 +32,12 @@ export default function DigitalTwinView() {
   const [loading, setLoading] = useState(true);
   const [activeSubsystemTab, setActiveSubsystemTab] = useState('ALL'); // ALL, avionics, propulsion, hydraulics, airframe
   const [selectedStageKey, setSelectedStageKey] = useState(null);
+  const [injectionMode, setInjectionMode] = useState('nominal'); // 'nominal' | 'rls_drift' | 'hpc_surge'
 
   useEffect(() => {
     async function loadTwin() {
       setLoading(true);
+      setInjectionMode('nominal');
       const res = await fleetApi.getAircraftDigitalTwin(selectedTail);
       setTwinData(res.data);
       setLoading(false);
@@ -59,11 +62,54 @@ export default function DigitalTwinView() {
     { key: 'lpt', label: '5. Low Pressure Turb', station: 'STA 50' },
   ];
 
-  const tel = twinData?.telemetry || {};
+  const rawTel = twinData?.telemetry || {};
   const prog = twinData?.prognostics || {};
-  const stages = twinData?.stages || {};
-  const drift = twinData?.in_flight_drift_adaptation || {};
+  const rawStages = twinData?.stages || {};
+  const rawDrift = twinData?.in_flight_drift_adaptation || {};
   const subsystems = twinData?.subsystems || {};
+
+  // Apply Live Fault / Drift Injection Demo Overrides
+  const tel = injectionMode === 'hpc_surge'
+    ? {
+        ...rawTel,
+        T30_HPC_Temp_R: 1648.4,
+        P30_HPC_Pres_psia: 518.4,
+        T50_LPT_Temp_R: 1452.6,
+        Nc_Core_RPM: 9112.0
+      }
+    : injectionMode === 'rls_drift'
+    ? {
+        ...rawTel,
+        T30_HPC_Temp_R: Number(((rawTel.T30_HPC_Temp_R || 1588.0) + 14.2).toFixed(1)),
+        P30_HPC_Pres_psia: Number(((rawTel.P30_HPC_Pres_psia || 553.8) + 6.4).toFixed(1))
+      }
+    : rawTel;
+
+  const stages = injectionMode === 'hpc_surge'
+    ? {
+        ...rawStages,
+        hpc: {
+          ...(rawStages.hpc || {}),
+          name: 'High Pressure Compressor (HPC)',
+          health_pct: 34.0,
+          status: 'CRITICAL',
+          key_sensors: ['T30 (HPC 1648.4 °R)', 'P30 (Static 518.4 psia)'],
+          wear_mode: 'Foreign Object / Sand Ingestion (HPC Stall & Surge)'
+        }
+      }
+    : rawStages;
+
+  const drift = injectionMode === 'rls_drift'
+    ? {
+        rls_drift_active: true,
+        drift_type: 'Thermocouple Gain Drift (Gain D=1.5x on T30/P30)',
+        correction_residual_compensated: true,
+        gain_factor: 'D=1.5x'
+      }
+    : {
+        ...rawDrift,
+        gain_factor: rawDrift.rls_drift_active ? 'D=1.5x' : 'D=1.0x'
+      };
 
   return (
     <div className="space-y-6 pb-8">
@@ -245,7 +291,7 @@ export default function DigitalTwinView() {
           {(activeSubsystemTab === 'ALL' || activeSubsystemTab === 'avionics') && (
             <div className={`p-5 rounded-2xl border transition-all ${
               isDark ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'
-            } ${subsystems.avionics?.health_score < 75 ? 'border-l-4 border-l-amber-500/70' : ''}`}>
+            }`}>
               <div className="flex items-center justify-between gap-1.5 min-w-0">
                 <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-blue-500/10 text-sky-400 border border-blue-500/20 font-sans whitespace-nowrap shrink-0">
                   Avionics & Bus
@@ -383,7 +429,7 @@ export default function DigitalTwinView() {
           {(activeSubsystemTab === 'ALL' || activeSubsystemTab === 'hydraulics') && (
             <div className={`p-5 rounded-2xl border transition-all ${
               isDark ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'
-            } ${subsystems.hydraulics?.health_score < 75 ? 'border-l-4 border-l-amber-500/70' : ''}`}>
+            }`}>
               <div className="flex items-center justify-between gap-1.5 min-w-0">
                 <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 font-sans whitespace-nowrap shrink-0">
                   Hydraulics & Actuators
@@ -440,7 +486,7 @@ export default function DigitalTwinView() {
           {(activeSubsystemTab === 'ALL' || activeSubsystemTab === 'airframe') && (
             <div className={`p-5 rounded-2xl border transition-all ${
               isDark ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'
-            } ${subsystems.airframe?.health_score < 75 ? 'border-l-4 border-l-amber-500/70' : ''}`}>
+            }`}>
               <div className="flex items-center justify-between gap-1.5 min-w-0">
                 <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-slate-700/30 text-slate-300 border border-slate-600/30 font-sans whitespace-nowrap shrink-0">
                   Airframe Structure
@@ -519,6 +565,81 @@ export default function DigitalTwinView() {
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
+        </div>
+
+        {/* Interactive Live Telemetry Stress & Sensor Drift Simulator Controls */}
+        <div className={`mb-4 p-3.5 rounded-2xl border flex flex-wrap items-center justify-between gap-3 ${
+          isDark ? 'bg-slate-900/90 border-slate-700/70' : 'bg-slate-50 border-slate-200'
+        }`}>
+          <div className="flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-300 font-sans">
+              Live Telemetry Stress &amp; Sensor Drift Simulator:
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 font-sans">
+            <button
+              type="button"
+              onClick={() => {
+                setInjectionMode('nominal');
+                setSelectedStageKey(null);
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+                injectionMode === 'nominal'
+                  ? 'bg-blue-700 text-white border-blue-500/40 shadow-sm'
+                  : isDark
+                  ? 'bg-slate-800/80 text-slate-300 border-slate-700 hover:text-white'
+                  : 'bg-white text-slate-700 border-slate-200 hover:text-slate-900'
+              }`}
+            >
+              Nominal Baseline
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setInjectionMode('rls_drift');
+                setSelectedStageKey('hpc');
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+                injectionMode === 'rls_drift'
+                  ? 'bg-amber-600/25 text-amber-300 border-amber-500/50 shadow-sm'
+                  : isDark
+                  ? 'bg-slate-800/80 text-slate-300 border-slate-700 hover:text-amber-300'
+                  : 'bg-white text-slate-700 border-slate-200 hover:text-amber-700'
+              }`}
+            >
+              Simulate RLS Thermocouple Drift (Gain D=1.5x)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setInjectionMode('hpc_surge');
+                setSelectedStageKey('hpc');
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+                injectionMode === 'hpc_surge'
+                  ? 'bg-rose-600/25 text-rose-300 border-rose-500/50 shadow-sm'
+                  : isDark
+                  ? 'bg-slate-800/80 text-slate-300 border-slate-700 hover:text-rose-300'
+                  : 'bg-white text-slate-700 border-slate-200 hover:text-rose-700'
+              }`}
+            >
+              Simulate Foreign Object / Sand Ingestion (HPC Surge)
+            </button>
+          </div>
+        </div>
+
+        {/* Interactive 5-Stage Twin-Spool Turbofan SVG Cutaway Schematic */}
+        <div className="mb-4">
+          <TurbofanEngineSchematic
+            stages={stages}
+            telemetry={tel}
+            selectedStage={selectedStageKey}
+            onSelectStage={(key) => setSelectedStageKey(selectedStageKey === key ? null : key)}
+            isDark={isDark}
+            aircraftType={twinData?.aircraft_type}
+          />
         </div>
 
         {/* 5 Stages Grid */}
@@ -833,12 +954,18 @@ export default function DigitalTwinView() {
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className={`w-2 h-2 rounded-full ${drift.rls_drift_active ? 'bg-amber-400 animate-pulse' : 'bg-emerald-400'}`} />
                     <span className={`font-bold text-xs ${isDark ? 'text-white' : 'text-slate-800'}`}>
-                      {drift.rls_drift_active ? 'Active Residual Compensation' : 'Nominal Gain (No Drift)'}
+                      {drift.rls_drift_active
+                        ? 'Active Residual Compensation (False Grounding Prevented)'
+                        : 'Nominal Gain (No Drift)'}
                     </span>
                   </div>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 font-medium border border-emerald-500/25">
-                  Gain D=1.0
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold border ${
+                  drift.rls_drift_active
+                    ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                    : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/25'
+                }`}>
+                  Gain {drift.gain_factor || (drift.rls_drift_active ? 'D=1.5x' : 'D=1.0x')}
                 </span>
               </div>
 

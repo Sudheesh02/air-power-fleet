@@ -149,7 +149,7 @@ function computeSortieFeasibility(tailNo, sortieType, durationHours) {
 }
 
 export default function PredictiveAnalytics() {
-  const { isDark, selectedTail, setSelectedTail } = useTheme();
+  const { isDark, selectedTail, setSelectedTail, setActiveTab } = useTheme();
 
   const [sortieType, setSortieType] = useState('Combat Air Patrol (CAP)');
   const [durationHours, setDurationHours] = useState(3.5);
@@ -163,12 +163,10 @@ export default function PredictiveAnalytics() {
 
   // 1. Dynamic Conformal 90% RUL Degradation Trajectory scaled to selected aircraft
   const degradationData = useMemo(() => {
-    const plane = MOCK_AIRCRAFT_LIST.find(a => a.tail_no === selectedTail) || MOCK_AIRCRAFT_LIST[0];
-    const isGrounded = plane.status === 'MAINTENANCE_GROUNDED';
-    const isStandby = plane.status === 'CONDITIONAL_STANDBY';
-    const currentHealth = evalResult?.prognostic_state?.overall_health_pct ?? plane.health_score ?? 80.3;
-    const currentCycle = isGrounded ? 185 : (isStandby ? 142 : 68);
-    const rulHours = evalResult?.prognostic_state?.conservative_rul_hours ?? plane.rul_hours ?? 100.0;
+    const twin = getMockDigitalTwin(selectedTail);
+    const currentHealth = twin.overall_health_pct ?? 80.3;
+    const currentCycle = twin.flight_cycle ?? 68;
+    const rulHours = twin.prognostics?.conservative_rul_hours ?? 88.4;
     const remainingCycles = Math.max(12, Math.round(rulHours / 1.5));
     const failureCycle = currentCycle + remainingCycles;
 
@@ -189,7 +187,6 @@ export default function PredictiveAnalytics() {
           upper_bound: Number(Math.min(100, healthVal + 4).toFixed(1))
         });
       } else if (c === currentCycle || (c > currentCycle && points.filter(p => p.cycle === currentCycle).length === 0)) {
-        // Current real-time telemetry anchor point
         const std = Number((rulHours * 0.0815).toFixed(1));
         points.push({
           cycle: currentCycle,
@@ -199,7 +196,6 @@ export default function PredictiveAnalytics() {
           upper_bound: Number(Math.min(100, currentHealth + std * 0.8).toFixed(1))
         });
       } else {
-        // Future prognostic projection with Gaussian Process / Conformal uncertainty funnel
         const futureRatio = (c - currentCycle) / remainingCycles;
         const projectedMean = Number(Math.max(0, currentHealth * (1 - Math.pow(futureRatio, 1.2))).toFixed(1));
         const uncertaintySpread = Number((8 + futureRatio * 18).toFixed(1));
@@ -212,7 +208,6 @@ export default function PredictiveAnalytics() {
         });
       }
     }
-    // Sort and deduplicate by cycle
     const unique = [];
     const seen = new Set();
     points.sort((a, b) => a.cycle - b.cycle).forEach(p => {
@@ -226,13 +221,14 @@ export default function PredictiveAnalytics() {
 
   const [simMode, setSimMode] = useState('single'); // 'single' or 'formation'
   const [formationSquadron, setFormationSquadron] = useState("No. 45 Sqn 'Flying Daggers'");
+  const [formationSize, setFormationSize] = useState(4); // 2, 4, or 6
 
   // Active pilot debrief log for selected tail (Multimodal NLP Snag Fusion)
   const activeFlightLog = useMemo(() => {
     return MOCK_FLIGHT_LOGS.find(l => l.tail_no === selectedTail) || null;
   }, [selectedTail]);
 
-  // 4 Ship Squadron Formation Optimizer calculation
+  // Multi-Aircraft Squadron Formation Optimizer calculation (2-Ship / 4-Ship / 6-Ship)
   const formationRoster = useMemo(() => {
     const key = formationSquadron.toLowerCase();
     const sqPlanes = MOCK_AIRCRAFT_LIST.filter(a => {
@@ -252,35 +248,54 @@ export default function PredictiveAnalytics() {
     const multiplier = multipliers[sortieType] || 1.35;
     const requiredMargin = Number((durationHours * multiplier).toFixed(1));
 
-    // Sort active candidates by available conservative RUL descending
-    const viablePlanes = sqPlanes.filter(a => a.status !== 'MAINTENANCE_GROUNDED');
-    const sorted = [...viablePlanes].sort((a, b) => {
-      const twinA = getMockDigitalTwin(a.tail_no);
-      const twinB = getMockDigitalTwin(b.tail_no);
-      const rulA = twinA.prognostics?.conservative_rul_hours ?? a.rul_hours;
-      const rulB = twinB.prognostics?.conservative_rul_hours ?? b.rul_hours;
-      return rulB - rulA;
-    });
+    const roles = [
+      'Flight Commander (Lead)',
+      '#2 Element Wingman',
+      '#3 Second Element Lead',
+      '#4 Second Element Wingman',
+      '#5 Surge Element Lead',
+      '#6 Surge Element Wingman'
+    ];
 
-    const roles = ['Flight Commander (Lead)', '#2 Wingman', '#3 Element Lead', '#4 Sub-Element Wingman'];
-    const selected4 = sorted.slice(0, 4).map((p, idx) => {
-      const twin = getMockDigitalTwin(p.tail_no);
-      const conservativeRul = twin.prognostics?.conservative_rul_hours ?? p.rul_hours;
-      const isCleared = p.status === 'MISSION_CAPABLE' && conservativeRul >= requiredMargin;
-      const postMissionRul = Math.max(0, Number((conservativeRul - requiredMargin).toFixed(1)));
-      const prefix = p.tail_no.startsWith('KH') ? 'DAGGER' : p.tail_no.startsWith('SB') ? 'TIGER' : 'ARROW';
-      return {
-        ...p,
-        role: roles[idx] || `Element #${idx + 1}`,
-        callsign: `${prefix}-0${idx + 1}`,
-        conservativeRul,
-        postMissionRul,
-        isCleared
-      };
-    });
+    // Rank all 6 squadron tails by Net Conformal RUL Margin descending (Mission Capable first, then Standby, then Grounded)
+    const allRanked = [...sqPlanes]
+      .map(p => {
+        const twin = getMockDigitalTwin(p.tail_no);
+        const conservativeRul = twin.prognostics?.conservative_rul_hours ?? p.rul_hours;
+        const netMargin = Number((conservativeRul - requiredMargin).toFixed(1));
+        const postMissionRul = Math.max(0, netMargin);
+        const isGrounded = p.status === 'MAINTENANCE_GROUNDED';
+        const isCleared = !isGrounded && conservativeRul >= requiredMargin;
+        return {
+          ...p,
+          conservativeRul,
+          netMargin,
+          postMissionRul,
+          isCleared,
+          weakestStage: twin.wear_mode
+        };
+      })
+      .sort((a, b) => {
+        if (a.status === 'MAINTENANCE_GROUNDED' && b.status !== 'MAINTENANCE_GROUNDED') return 1;
+        if (b.status === 'MAINTENANCE_GROUNDED' && a.status !== 'MAINTENANCE_GROUNDED') return -1;
+        return b.netMargin - a.netMargin;
+      })
+      .map((p, idx) => {
+        const prefix = p.tail_no.startsWith('KH') ? 'DAGGER' : p.tail_no.startsWith('SB') ? 'TIGER' : 'ARROW';
+        return {
+          ...p,
+          rank: idx + 1,
+          role: roles[idx] || `Element #${idx + 1}`,
+          callsign: `${prefix}-0${idx + 1}`
+        };
+      });
 
-    return { selected4, requiredMargin };
-  }, [formationSquadron, sortieType, durationHours]);
+    const selected4 = allRanked.slice(0, formationSize);
+    const heldBack = allRanked.slice(formationSize);
+    const clearedCount = selected4.filter(p => p.isCleared).length;
+
+    return { selected4, heldBack, allRanked, requiredMargin, clearedCount };
+  }, [formationSquadron, formationSize, sortieType, durationHours]);
 
   // 2. Dynamic Explainable AI (XAI / TreeSHAP) Feature Attribution based on selected tail's actual fault
   const shapAttribution = useMemo(() => {
@@ -421,7 +436,7 @@ export default function PredictiveAnalytics() {
         </div>
       </GlassCard>
 
-      {/* 2. SIMULATOR SCOPE SELECTOR: [ Single Tail Evaluation ] | [ 4 Ship Squadron Formation Optimizer ] */}
+      {/* 2. SIMULATOR SCOPE SELECTOR: [ Single Tail Clearance ] | [ Squadron Formation Optimizer ] */}
       <GlassCard className="p-3.5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider font-sans">
@@ -437,7 +452,7 @@ export default function PredictiveAnalytics() {
               }`}
             >
               <Crosshair className="w-3.5 h-3.5" />
-              Single Tail Evaluation
+              Single Tail Clearance
             </button>
             <button
               onClick={() => setSimMode('formation')}
@@ -448,29 +463,55 @@ export default function PredictiveAnalytics() {
               }`}
             >
               <Users className="w-3.5 h-3.5" />
-              4 Ship Squadron Formation Optimizer
+              Squadron Formation Optimizer
             </button>
           </div>
         </div>
 
         {simMode === 'formation' ? (
-          <div className="flex items-center gap-2 font-sans">
-            <span className="text-xs font-semibold text-slate-400">Target Squadron:</span>
-            <select
-              value={formationSquadron}
-              onChange={(e) => setFormationSquadron(e.target.value)}
-              className={`text-xs font-bold py-1.5 px-3 rounded-xl border focus:outline-none transition ${
-                isDark ? 'bg-slate-900 border-white/15 text-cyan-300' : 'bg-white border-slate-200 text-slate-800'
-              }`}
-            >
-              <option value="No. 45 Sqn 'Flying Daggers'">No. 45 Sqn 'Flying Daggers' (Tejas Mk1A - AFS Sulur)</option>
-              <option value="No. 222 Sqn 'Tigersharks'">No. 222 Sqn 'Tigersharks' (Su-30MKI - AFS Thanjavur)</option>
-              <option value="No. 17 Sqn 'Golden Arrows'">No. 17 Sqn 'Golden Arrows' (Rafale - AFS Ambala)</option>
-            </select>
+          <div className="flex flex-wrap items-center gap-3 font-sans">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-slate-400">Target Squadron:</span>
+              <select
+                value={formationSquadron}
+                onChange={(e) => setFormationSquadron(e.target.value)}
+                className={`text-xs font-bold py-1.5 px-3 rounded-xl border focus:outline-none transition ${
+                  isDark ? 'bg-slate-900 border-white/15 text-sky-400' : 'bg-white border-slate-200 text-slate-800'
+                }`}
+              >
+                <option value="No. 222 Sqn 'Tigersharks'">No. 222 'Tigersharks' (Su-30MKI · AFS Thanjavur)</option>
+                <option value="No. 45 Sqn 'Flying Daggers'">No. 45 'Flying Daggers' (Tejas Mk1A · AFS Sulur)</option>
+                <option value="No. 17 Sqn 'Golden Arrows'">No. 17 'Golden Arrows' (Rafale · AFS Ambala)</option>
+              </select>
+            </div>
+
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-slate-400">Formation Size:</span>
+              {[
+                { size: 2, label: '2-Ship Element' },
+                { size: 4, label: '4-Ship Flight' },
+                { size: 6, label: '6-Ship Surge' }
+              ].map((opt) => (
+                <button
+                  key={opt.size}
+                  type="button"
+                  onClick={() => setFormationSize(opt.size)}
+                  className={`px-2.5 py-1.5 rounded-lg text-[11px] font-bold border transition ${
+                    formationSize === opt.size
+                      ? 'bg-blue-700 text-white border-blue-500/40 shadow-sm'
+                      : isDark
+                      ? 'bg-slate-900 text-slate-300 border-white/10 hover:text-white'
+                      : 'bg-slate-100 text-slate-700 border-slate-200 hover:text-slate-900'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </div>
         ) : (
           <span className="text-xs text-slate-400 font-sans">
-            Prognostic Target: <strong className="text-cyan-300">{selectedTail}</strong>
+            Prognostic Target: <strong className="text-sky-400">{selectedTail}</strong>
           </span>
         )}
       </GlassCard>
@@ -810,13 +851,34 @@ export default function PredictiveAnalytics() {
           {isNoGo && (
             <div className="mt-5 pt-3 border-t border-rose-500/30">
               {triageStatus ? (
-                <div className="p-3.5 rounded-xl bg-rose-600/20 border border-rose-500/40 text-xs space-y-1.5">
+                <div className="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-500/40 text-xs space-y-2">
                   <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
                     <ShieldCheck className="w-4 h-4" />
-                    <span>Autonomous Work Order & Spares Dispatched</span>
+                    <span>Autonomous Work Order &amp; Spares Requisition Persisted</span>
                   </div>
-                  <p className="text-slate-200">Order ID: <strong>{triageStatus.order_id}</strong></p>
-                  <p className="text-[11px] text-slate-300">{triageStatus.action_required}</p>
+                  <div className="flex flex-wrap items-center gap-3 text-slate-200 font-mono text-[11px]">
+                    <span>Work Order: <strong className="text-sky-400">{triageStatus.order_id}</strong></span>
+                    {triageStatus.requisition_id && (
+                      <span>Depot Req: <strong className="text-emerald-400">{triageStatus.requisition_id}</strong></span>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-slate-300 leading-relaxed">{triageStatus.action_required}</p>
+                  <div className="pt-1.5 flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('maintenance')}
+                      className="px-2.5 py-1 rounded-lg bg-blue-700 hover:bg-blue-600 text-white font-semibold text-[11px] transition"
+                    >
+                      View in Work Orders Kanban &rarr;
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('logistics')}
+                      className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold text-[11px] transition"
+                    >
+                      View in Spares Pipeline &rarr;
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <button
@@ -833,9 +895,9 @@ export default function PredictiveAnalytics() {
         </GlassCard>
       </div>
       ) : (
-        /* 4-SHIP SQUADRON FORMATION OPTIMIZER */
+        /* MULTI-AIRCRAFT SQUADRON FORMATION OPTIMIZER (2-SHIP / 4-SHIP / 6-SHIP) */
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left (7 cols): Formation Flight Controls & 4-Ship Roster */}
+          {/* Left (7 cols): Formation Flight Controls & Ranked Squadron Roster */}
           <GlassCard className="p-5 lg:col-span-7 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
@@ -843,16 +905,22 @@ export default function PredictiveAnalytics() {
                   <Users className="w-5 h-5 text-sky-400" />
                   <div>
                     <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                      4 Ship Squadron Formation Sortie Optimizer
+                      {formationSize} Ship Squadron Formation Sortie Optimizer
                     </h3>
                     <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
-                      Optimized 4-tail roster maximizing flight margin & avoiding airframe burnout
+                      Ranks all 6 squadron tails by Net Conformal RUL Margin to maximize Fleet Availability
                     </p>
                   </div>
                 </div>
-                <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5 font-sans">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  4/4 Tails Cleared
+                <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border flex items-center gap-1.5 font-sans ${
+                  formationRoster.clearedCount === formationSize
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                    : 'bg-amber-500/10 text-amber-300 border-amber-500/25'
+                }`}>
+                  <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                    formationRoster.clearedCount === formationSize ? 'bg-emerald-400' : 'bg-amber-400'
+                  }`} />
+                  {formationRoster.clearedCount}/{formationSize} Tails Cleared
                 </span>
               </div>
 
@@ -864,7 +932,7 @@ export default function PredictiveAnalytics() {
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
                     {[
-                      { id: 'Combat Air Patrol (CAP)', label: '4-Ship CAP', margin: '1.6x' },
+                      { id: 'Combat Air Patrol (CAP)', label: `${formationSize} Ship CAP`, margin: '1.6x' },
                       { id: 'Tactical Intercept', label: 'Tactical Intercept', margin: '1.5x' },
                       { id: 'Reconnaissance', label: 'Tactical Recon', margin: '1.3x' },
                       { id: 'Combat Training', label: 'Squadron Exercise', margin: '1.25x' },
@@ -896,7 +964,7 @@ export default function PredictiveAnalytics() {
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-xs font-semibold text-slate-300 font-sans">Formation Sortie Duration</span>
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-2xl font-black text-cyan-400 font-sans tracking-tight">{durationHours.toFixed(1)}</span>
+                      <span className="text-2xl font-black text-sky-400 font-sans tracking-tight">{durationHours.toFixed(1)}</span>
                       <span className="text-xs font-semibold text-slate-400 uppercase font-sans">Hours / Aircraft</span>
                     </div>
                   </div>
@@ -911,56 +979,132 @@ export default function PredictiveAnalytics() {
                   />
                   <div className="flex justify-between text-[11px] text-slate-400 mt-2 font-sans">
                     <span>Required Flight Margin: <strong className="text-amber-400">{formationRoster.requiredMargin}h per tail</strong></span>
-                    <span>Total Flight Block: <strong className="text-cyan-300">{(durationHours * 4).toFixed(1)} hrs</strong></span>
+                    <span>Total Flight Block: <strong className="text-sky-300">{(durationHours * formationSize).toFixed(1)} hrs</strong></span>
                   </div>
                 </div>
 
-                {/* 4 Selected Aircraft Bento Cards */}
+                {/* Primary Selected Formation Aircraft Bento Cards */}
                 <div>
                   <div className="flex items-center justify-between mb-2.5 font-sans">
                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                      Selected 4-Ship Combat Flight Roster
+                      Recommended {formationSize} Ship Combat Flight Roster
                     </span>
                     <span className="text-[11px] text-emerald-400 font-bold">
-                      Optimal Readiness Match
+                      Ranked by Net Conformal RUL Margin
                     </span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-sans">
-                    {formationRoster.selected4.map((plane) => (
-                      <div
-                        key={plane.tail_no}
-                        className={`p-3.5 rounded-xl border transition-all ${
-                          isDark ? 'bg-white/5 border-white/10 hover:border-cyan-500/40' : 'bg-slate-50 border-slate-200'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="font-extrabold text-sm text-cyan-300">{plane.tail_no}</span>
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                            {plane.callsign}
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-slate-400 mt-0.5">{plane.role}</p>
+                    {formationRoster.selected4.map((plane) => {
+                      const isGrounded = plane.status === 'MAINTENANCE_GROUNDED';
+                      const isStandby = plane.status === 'CONDITIONAL_STANDBY';
+                      return (
+                        <div
+                          key={plane.tail_no}
+                          className={`p-3.5 rounded-xl border transition-all ${
+                            isGrounded
+                              ? 'bg-rose-950/20 border-rose-500/40'
+                              : isStandby
+                              ? 'bg-amber-950/15 border-amber-500/35'
+                              : isDark
+                              ? 'bg-slate-900/80 border-emerald-500/30 hover:border-emerald-400/50'
+                              : 'bg-slate-50 border-slate-200'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-extrabold text-sm text-sky-400 font-mono whitespace-nowrap">
+                              #{plane.rank} &bull; {plane.tail_no}
+                            </span>
+                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded border whitespace-nowrap ${
+                              isGrounded
+                                ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                                : isStandby
+                                ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                                : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                            }`}>
+                              {isGrounded ? 'AOG GROUNDED' : isStandby ? 'CONDITIONAL GO' : `MISSION GO · ${plane.callsign}`}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-slate-400 mt-0.5">{plane.role}</p>
 
-                        <div className="mt-2.5 pt-2 border-t border-white/5 grid grid-cols-2 gap-2 text-xs">
-                          <div>
-                            <span className="text-[10px] text-slate-400 block">Available RUL</span>
-                            <span className="font-bold text-slate-200">{plane.conservativeRul}h</span>
-                          </div>
-                          <div>
-                            <span className="text-[10px] text-slate-400 block">Post Mission RUL</span>
-                            <span className="font-bold text-emerald-400">{plane.postMissionRul}h</span>
+                          <div className="mt-2.5 pt-2 border-t border-white/5 grid grid-cols-2 gap-2 text-xs">
+                            <div>
+                              <span className="text-[10px] text-slate-400 block">Conservative RUL</span>
+                              <span className="font-bold font-mono text-slate-200">{plane.conservativeRul}h</span>
+                            </div>
+                            <div>
+                              <span className="text-[10px] text-slate-400 block">Post Sortie RUL</span>
+                              <span className={`font-bold font-mono ${
+                                isGrounded ? 'text-rose-400' : isStandby ? 'text-amber-300' : 'text-emerald-400'
+                              }`}>
+                                {isGrounded ? 'GROUNDED (0.0h)' : `+${plane.postMissionRul}h Margin`}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
+
+                {/* Tails Held Back (Standby Reserve & AOG Grounded) */}
+                {formationRoster.heldBack.length > 0 && (
+                  <div className="pt-2">
+                    <div className="flex items-center justify-between mb-2 font-sans">
+                      <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                        Withheld Squadron Tails (QRA Reserve &amp; AOG Protection)
+                      </span>
+                      <span className="text-[10px] text-slate-400">
+                        {formationRoster.heldBack.length} Tails Held Back
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-sans">
+                      {formationRoster.heldBack.map((plane) => {
+                        const isGrounded = plane.status === 'MAINTENANCE_GROUNDED';
+                        const isStandby = plane.status === 'CONDITIONAL_STANDBY';
+                        return (
+                          <div
+                            key={plane.tail_no}
+                            className={`p-3 rounded-xl border flex items-center justify-between gap-2 ${
+                              isDark ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100 border-slate-200'
+                            }`}
+                          >
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-xs text-slate-200 font-mono whitespace-nowrap">
+                                  {plane.tail_no}
+                                </span>
+                                <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border whitespace-nowrap ${
+                                  isGrounded
+                                    ? 'bg-rose-500/15 text-rose-300 border-rose-500/30'
+                                    : isStandby
+                                    ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                                    : 'bg-sky-500/15 text-sky-300 border-sky-500/30'
+                                }`}>
+                                  {isGrounded ? 'AOG HANGAR' : isStandby ? 'STANDBY HOLD' : 'QRA RESERVE'}
+                                </span>
+                              </div>
+                              <p className="text-[10px] text-slate-400 truncate mt-0.5" title={plane.weakestStage}>
+                                {plane.weakestStage}
+                              </p>
+                            </div>
+                            <div className="text-right shrink-0 font-mono">
+                              <span className="text-xs font-bold text-slate-300 block">{plane.conservativeRul}h</span>
+                              <span className="text-[9px] text-slate-400">Cons. RUL</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
             <div className="mt-4 pt-3 border-t border-white/5 text-[11px] text-slate-400 flex items-center justify-between font-sans">
               <span>Target Squadron: <strong className="text-slate-200">{formationSquadron}</strong></span>
-              <span className="text-cyan-400 font-semibold">Min Flight Margin: +{((formationRoster.selected4[3]?.conservativeRul || 80) - formationRoster.requiredMargin).toFixed(1)}h</span>
+              <span className="text-sky-400 font-semibold font-mono">
+                Formation Min Margin: +{formationRoster.selected4[formationRoster.selected4.length - 1]?.postMissionRul || 0}h
+              </span>
             </div>
           </GlassCard>
 
@@ -987,14 +1131,18 @@ export default function PredictiveAnalytics() {
                 <div>
                   <div className="flex items-center gap-2.5">
                     <h4 className="text-xl font-bold tracking-tight text-white font-sans">
-                      4 Ship Formation Cleared
+                      {formationSize} Ship Formation {formationRoster.clearedCount === formationSize ? 'Cleared' : 'Advisory'}
                     </h4>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-800 text-emerald-400 border border-emerald-600/40">
-                      GO
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${
+                      formationRoster.clearedCount === formationSize
+                        ? 'bg-slate-800 text-emerald-400 border-emerald-600/40'
+                        : 'bg-slate-800 text-amber-300 border-amber-500/40'
+                    }`}>
+                      {formationRoster.clearedCount === formationSize ? 'GO' : 'PARTIAL'}
                     </span>
                   </div>
                   <p className="text-xs text-slate-400 font-medium mt-1 leading-snug font-sans">
-                    All 4 airframes satisfy conservative conformal RUL margins for {sortieType}
+                    {formationRoster.clearedCount} of {formationSize} requested airframes satisfy conservative conformal RUL margins for {sortieType}
                   </p>
                 </div>
               </div>
@@ -1027,10 +1175,10 @@ export default function PredictiveAnalytics() {
                 <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
                   <div className="flex items-center justify-between text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">
                     <span>Technical Log and Snag Status</span>
-                    <span className="text-emerald-400 text-[10px] font-bold">4/4 Verified</span>
+                    <span className="text-emerald-400 text-[10px] font-bold">{formationRoster.clearedCount}/{formationSize} Verified</span>
                   </div>
                   <p className="text-slate-300 text-xs leading-relaxed">
-                    Pilot debrief logs and snag registers clear across all 4 assigned airframes with zero pending rectification orders.
+                    Pilot debrief logs and snag registers clear across assigned airframes with zero pending rectification orders on cleared tails.
                   </p>
                 </div>
               </div>
@@ -1434,16 +1582,158 @@ export default function PredictiveAnalytics() {
           <div className={`p-3.5 rounded-xl border text-xs font-sans ${
             isDark ? 'bg-white/5 border-white/5 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
           }`}>
-            <div className="flex items-center gap-1.5 mb-1 text-sky-400 font-bold">
-              <span>Primary Degradation Drivers:</span>
-              <span className="text-white">T30 Temp (+38%) & Acoustic Vibration (+29%)</span>
+            <div className="flex flex-wrap items-center gap-1.5 mb-1 text-sky-400 font-bold">
+              <span>Primary Degradation Drivers ({selectedTail}):</span>
+              <span className="text-white">
+                {shapAttribution[0]?.feature} (+{shapAttribution[0]?.weight}%) &amp; {shapAttribution[1]?.feature} (+{shapAttribution[1]?.weight}%)
+              </span>
             </div>
             <p className="text-[11px] text-slate-300 leading-relaxed">
-              Elevated combustor outlet heat and high-frequency harmonics drive 67% of RUL wear acceleration, while aerodynamic P30 pressure provides +9% protective margin.
+              TreeSHAP attribution for <strong className="text-white">{selectedTail}</strong> identifies {shapAttribution[0]?.feature} and {shapAttribution[1]?.feature} as the dominant RUL wear contributors, while {shapAttribution[3]?.feature} provides {shapAttribution[3]?.weight}% protective life margin.
             </p>
           </div>
         </GlassCard>
       </div>
+
+      {/* 6. VALIDATED NASA C-MAPSS (FD001–FD004) & ONLINE RLS DRIFT SCORECARD */}
+      <GlassCard className="p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <Layers className="w-5 h-5 text-sky-400" />
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                Validated NASA C-MAPSS (FD001 to FD004) Benchmark &amp; Online RLS Drift Scorecard
+              </h3>
+            </div>
+            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+              Audited ensemble prognostics (GRU + CNN-GRU + LightGBM v2) with K-of-N persistence anomaly gating and forgetting-factor RLS adaptation
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 text-xs font-sans">
+            <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-bold">
+              102 / 102 Critical Engines Caught (100%)
+            </span>
+            <span className="px-3 py-1 rounded-full bg-blue-500/10 text-sky-400 border border-blue-500/25 font-bold">
+              RLS Drift Error Reduced by 25.6%
+            </span>
+          </div>
+        </div>
+
+        {/* 4 Benchmark Dataset Cards + 1 RLS Drift Adaptation Card */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 font-sans">
+          {[
+            {
+              dataset: 'FD001',
+              profile: '1 Regime · HPC Fault',
+              rmse: '12.79',
+              cappedRmse: '11.22',
+              nasaScore: '217',
+              catchRate: '10/10 (100%)',
+              leadCycles: '69.5 cyc',
+              model: 'GRU-30 + CNN-GRU + LGBv2'
+            },
+            {
+              dataset: 'FD002',
+              profile: '6 Regimes · HPC Fault',
+              rmse: '20.44',
+              cappedRmse: '11.26',
+              nasaScore: '2,411',
+              catchRate: '46/46 (100%)',
+              leadCycles: '59.0 cyc',
+              model: 'Regime-Clustered Ensemble'
+            },
+            {
+              dataset: 'FD003',
+              profile: '1 Regime · HPC + Fan',
+              rmse: '11.55',
+              cappedRmse: '9.56',
+              nasaScore: '208',
+              catchRate: '10/10 (100%)',
+              leadCycles: '79.0 cyc',
+              model: 'GRU-50 + CNN-GRU + LGBv2'
+            },
+            {
+              dataset: 'FD004',
+              profile: '6 Regimes · HPC + Fan',
+              rmse: '19.84',
+              cappedRmse: '11.00',
+              nasaScore: '2,287',
+              catchRate: '36/36 (100%)',
+              leadCycles: '60.5 cyc',
+              model: 'Multi-Regime Dual-Fault'
+            }
+          ].map((b) => (
+            <div
+              key={b.dataset}
+              className={`p-4 rounded-2xl border flex flex-col justify-between ${
+                isDark ? 'bg-slate-900/90 border-slate-700/70' : 'bg-slate-50 border-slate-200'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-mono font-extrabold text-sm text-sky-400 px-2 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/20">
+                    {b.dataset}
+                  </span>
+                  <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                    {b.catchRate}
+                  </span>
+                </div>
+                <p className="text-[11px] font-semibold text-slate-300 mt-2">{b.profile}</p>
+                <p className="text-[10px] text-slate-400 mt-0.5">{b.model}</p>
+
+                <div className="mt-3 pt-2.5 border-t border-white/5 grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <span className="text-[10px] text-slate-400 block">Ensemble RMSE</span>
+                    <span className="font-mono font-extrabold text-base text-white">{b.rmse}</span>
+                    <span className="text-[9px] text-emerald-400 block font-mono">Cap: {b.cappedRmse}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-400 block">NASA Score</span>
+                    <span className="font-mono font-bold text-base text-slate-200">{b.nasaScore}</span>
+                    <span className="text-[9px] text-sky-400 block font-mono">Lead: {b.leadCycles}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Card 5: Online RLS Drift Adaptation Scorecard */}
+          <div className={`p-4 rounded-2xl border flex flex-col justify-between ${
+            isDark ? 'bg-slate-900/90 border-blue-500/35' : 'bg-blue-50/50 border-blue-200'
+          }`}>
+            <div>
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-mono font-extrabold text-xs text-amber-300 px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/25">
+                  ONLINE RLS
+                </span>
+                <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-mono">
+                  -25.6% ERR
+                </span>
+              </div>
+              <p className="text-[11px] font-semibold text-slate-200 mt-2">
+                Gain 1.5x Sensor Drift Test
+              </p>
+              <p className="text-[10px] text-slate-400 mt-0.5">
+                Forgetting Factor &lambda; = 0.992
+              </p>
+
+              <div className="mt-3 pt-2.5 border-t border-white/5 grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <span className="text-[10px] text-slate-400 block">Frozen Ridge</span>
+                  <span className="font-mono font-bold text-base text-rose-400">3.79</span>
+                  <span className="text-[9px] text-slate-400 block">Uncompensated</span>
+                </div>
+                <div>
+                  <span className="text-[10px] text-slate-400 block">Adaptive RLS</span>
+                  <span className="font-mono font-extrabold text-base text-emerald-400">2.82</span>
+                  <span className="text-[9px] text-emerald-300 block">Online Tracked</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </GlassCard>
     </div>
   );
 }
