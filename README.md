@@ -1,10 +1,10 @@
-# vayuai
+# vayu-ai
 
-[![Live Production](https://img.shields.io/badge/Vercel-Live_Cockpit-0075FF?style=for-the-badge&logo=vercel&logoColor=white)](https://vayuai-umber.vercel.app)
+[![Live Production](https://img.shields.io/badge/Vercel-Live_Cockpit-0075FF?style=for-the-badge&logo=vercel&logoColor=white)](https://vayu-ai.vercel.app/)
 [![API Status](https://img.shields.io/badge/FastAPI-Backend_Ready-00C7B7?style=for-the-badge&logo=fastapi&logoColor=white)](http://127.0.0.1:8000/docs)
-[![IAF Fleet](https://img.shields.io/badge/IAF_Fleet-20_Combat_Airframes-FF9933?style=for-the-badge)](https://vayuai-umber.vercel.app)
+[![IAF Fleet](https://img.shields.io/badge/IAF_Fleet-20_Combat_Airframes-FF9933?style=for-the-badge)](https://vayu-ai.vercel.app/)
 
-**🌐 Live Interactive Dashboard:** [https://vayuai-umber.vercel.app](https://vayuai-umber.vercel.app)
+**🌐 Live Interactive Dashboard:** [https://vayu-ai.vercel.app/](https://vayu-ai.vercel.app/)
 
 A full-stack predictive maintenance, digital twin, and fleet availability platform for military combat aviation. Developed for **Smart India Hackathon (SIH 2026)** Problem Statement `SIH26249` (Ministry of Defence / Indian Air Force).
 
@@ -16,7 +16,7 @@ In military aviation, low fleet availability stems from four isolated data silos
 
 When an aircraft lands with early thermodynamic wear, maintenance engineers currently lack a unified system to evaluate whether the aircraft can safely fly an upcoming combat sortie, or whether required replacement LRUs are in stock locally versus stranded at a central depot.
 
-`airpower` bridges all four silos into a single, cohesive operational loop: a 5-stage thermodynamic gas-path digital twin (NASA C-MAPSS FD001-FD004), conformal Remaining Useful Life (RUL) confidence intervals, real-time Recursive Least Squares (RLS) sensor drift compensation, multi-modal snag log fusion, and a 4-ship squadron sortie formation optimizer.
+`vayu-ai` bridges all four silos into a single, cohesive operational loop: a 5-stage thermodynamic gas-path digital twin (NASA C-MAPSS FD001-FD004), conformal Remaining Useful Life (RUL) confidence intervals, real-time Recursive Least Squares (RLS) sensor drift compensation, multi-modal snag log fusion, and a 4-ship squadron sortie formation optimizer.
 
 ---
 
@@ -26,8 +26,8 @@ Run the backend API and frontend dashboard locally:
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/Sudheesh02/vayuai.git
-cd vayuai
+git clone https://github.com/Sudheesh02/vayu-ai.git
+cd vayu-ai
 
 # 2. Python backend setup & launch (FastAPI)
 pip install -r requirements.txt
@@ -52,7 +52,7 @@ python test_backend.py
 ### Live Deployment (Vercel)
 
 The frontend is configured for 1-click zero-config deployment on Vercel:
-1. Import `Sudheesh02/air-power-fleet` on [vercel.com/new](https://vercel.com/new).
+1. Import `Sudheesh02/vayu-ai` on [vercel.com/new](https://vercel.com/new).
 2. Framework Preset auto-detects **Vite**.
 3. Click **Deploy**. Vercel will build and host the interactive command cockpit. All collaborator pushes from GitHub automatically trigger live production updates.
 

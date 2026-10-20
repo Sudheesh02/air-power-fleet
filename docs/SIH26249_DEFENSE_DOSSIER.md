@@ -3,8 +3,8 @@
 **Target Organization:** Ministry of Defence (MoD) • Indian Air Force (IAF)  
 **Nodal Institution:** Defence Services Staff College (DSSC)  
 **Category & Theme:** Software • Transportation & Logistics  
-**Production Platform:** [https://vayuai-umber.vercel.app](https://vayuai-umber.vercel.app)  
-**Codebase Repository:** [https://github.com/Sudheesh02/vayuai](https://github.com/Sudheesh02/vayuai)  
+**Production Platform:** [https://vayu-ai.vercel.app/](https://vayu-ai.vercel.app/)  
+**Codebase Repository:** [https://github.com/Sudheesh02/vayu-ai](https://github.com/Sudheesh02/vayu-ai)  
 
 ---
 
@@ -279,4 +279,4 @@ The complete platform has been validated through rigorous technical benchmarks:
 2. **Replaces ungrounded generic AI templates with a 5-stage thermodynamic turbofan digital twin**.
 3. **Replaces reckless point predictions with certified conformal risk intervals ($\mu - 1.645\sigma$)**.
 4. **Connects forward bases with central overhaul depots to eliminate aircraft cannibalization**.
-5. **Is 100% open-source, fully deployed, and available live for immediate judge inspection at [https://vayuai-umber.vercel.app](https://vayuai-umber.vercel.app)**.
+5. **Is 100% open-source, fully deployed, and available live for immediate judge inspection at [https://vayu-ai.vercel.app/](https://vayu-ai.vercel.app/)**.

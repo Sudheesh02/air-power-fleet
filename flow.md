@@ -41,7 +41,7 @@ flowchart TD
 ## 2. System Entry Points
 
 ### 2.1 Backend Entry Point: `run_sih_platform.py`
-* **File**: [`run_sih_platform.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/run_sih_platform.py)
+* **File**: [`run_sih_platform.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/run_sih_platform.py)
 * **Execution Trigger**: `python run_sih_platform.py`
 * **Execution Order**:
   1. Resolves `BASE_DIR` and `ROOT_DIR` paths and prepends them to `sys.path`.
@@ -53,7 +53,7 @@ flowchart TD
 ---
 
 ### 2.2 Backend Application Entry Point: `backend/main.py`
-* **File**: [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/backend/main.py)
+* **File**: [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/backend/main.py)
 * **Execution Trigger**: Imported by Uvicorn.
 * **Execution Order**:
   1. **Imports & Environment Configuration**: Configures paths, imports FastAPI, Pydantic, and SQLite.
@@ -67,7 +67,7 @@ flowchart TD
 ---
 
 ### 2.3 Database Initialization & Seeding Entry Point: `engine/sih_database.py`
-* **File**: [`engine/sih_database.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/sih_database.py)
+* **File**: [`engine/sih_database.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/engine/sih_database.py)
 * **Execution Trigger**: Can be run directly (`python engine/sih_database.py`) or called programmatically.
 * **Function Flow**:
   1. `init_db(db_path)`:
@@ -85,16 +85,16 @@ flowchart TD
 ---
 
 ### 2.4 Frontend Entry Point: `frontend_app/src/main.jsx`
-* **File**: [`frontend_app/src/main.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/main.jsx)
+* **File**: [`frontend_app/src/main.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/main.jsx)
 * **Execution Trigger**: Browser visits `http://127.0.0.1:8000/dashboard` or `http://localhost:5173`.
 * **Execution Order**:
-  1. Imports React DOM, global styles (`index.css`), and the root [`App`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/App.jsx).
+  1. Imports React DOM, global styles (`index.css`), and the root [`App`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/App.jsx).
   2. Mounts `<App />` inside `#root` under `React.StrictMode`.
   3. In `App.jsx`, initializes `<ThemeProvider>` from `context/ThemeContext.jsx`.
   4. Mounts layout components:
-     * [`Sidebar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/layout/Sidebar.jsx): Navigation menu and tab selection.
-     * [`Navbar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/layout/Navbar.jsx): Breadcrumbs, system clock, tactical voice toggle, and status badge.
-     * [`TacticalVoiceCopilot.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/common/TacticalVoiceCopilot.jsx): Floating conversational AI assistant.
+     * [`Sidebar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/components/layout/Sidebar.jsx): Navigation menu and tab selection.
+     * [`Navbar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/components/layout/Navbar.jsx): Breadcrumbs, system clock, tactical voice toggle, and status badge.
+     * [`TacticalVoiceCopilot.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/components/common/TacticalVoiceCopilot.jsx): Floating conversational AI assistant.
      * Active page component determined by `activeTab`.
 
 ---
@@ -274,8 +274,8 @@ sequenceDiagram
 ```
 
 * **Step-by-Step Code Path**:
-  1. Triggered via the microphone button in [`TacticalVoiceCopilot.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/common/TacticalVoiceCopilot.jsx) or [`Navbar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/layout/Navbar.jsx).
-  2. [`voiceAgentService.js`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/services/voiceAgentService.js) listens using `webkitSpeechRecognition` or `SpeechRecognition`.
+  1. Triggered via the microphone button in [`TacticalVoiceCopilot.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/components/common/TacticalVoiceCopilot.jsx) or [`Navbar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/components/layout/Navbar.jsx).
+  2. [`voiceAgentService.js`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/services/voiceAgentService.js) listens using `webkitSpeechRecognition` or `SpeechRecognition`.
   3. Matches regex rules against fleet operations:
      - Readiness queries (`"fleet status"`, `"mission capable rate"`)
      - Specific aircraft health checks (`"inspect SB-021"`, `"check health"`)
@@ -312,13 +312,13 @@ frontend_app/src/main.jsx
 
 | File Path | Role | Key Functions / Classes | Downstream Dependencies |
 | :--- | :--- | :--- | :--- |
-| [`run_sih_platform.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/run_sih_platform.py) | CLI Launcher | `main` | [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/backend/main.py) |
-| [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/backend/main.py) | REST API Controller | `get_fleet_readiness`, `list_fleet_aircraft`, `evaluate_sortie`, `dispatch_triage`, `synthesize_voice` | [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/digital_twin_engine.py), [`engine/sortie_planner.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/sortie_planner.py), Sarvam AI |
-| [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/digital_twin_engine.py) | Thermodynamics & Prognostics | `GasPathDigitalTwin`, `evaluate_aircraft_digital_twin`, `calculate_gas_path_efficiencies` | `data/air_power_fleet.db`, `data/CMAPSSData/` |
-| [`engine/sortie_planner.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/sortie_planner.py) | Mission & Triage Engine | `SparesAwareSortiePlanner`, `evaluate_sortie_feasibility`, `trigger_autonomous_triage_order` | [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/digital_twin_engine.py), `data/air_power_fleet.db` |
-| [`engine/sih_database.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/sih_database.py) | Database Schema & Seeder | `init_db`, `seed_fleet_data`, `seed_telemetry`, `seed_spares_and_procurement` | `sqlite3`, `data/air_power_fleet.db` |
-| [`frontend_app/src/main.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/main.jsx) | React Application Root | DOM Mount | [`frontend_app/src/App.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/App.jsx) |
-| [`frontend_app/src/api/fleetApi.js`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/api/fleetApi.js) | Frontend REST Client | `fleetApi`, `getFleetReadiness`, `getFleetAircraft`, `evaluateSortie`, `triggerAutonomousTriage` | [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/backend/main.py), `mockFleetData.js` |
-| [`frontend_app/src/services/voiceAgentService.js`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/services/voiceAgentService.js) | Voice Agent Logic | `VoiceAgentService`, `parseVoiceCommand`, `speakResponse` | `SpeechRecognition`, `speechSynthesis`, `backend/main.py` |
-| [`frontend_app/src/components/common/TacticalVoiceCopilot.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/common/TacticalVoiceCopilot.jsx) | Voice Assistant UI | Tactical UI modal, real-time waveform, action dispatcher | `voiceAgentService.js`, `ThemeContext.jsx` |
-| [`frontend_app/src/context/ThemeContext.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/context/ThemeContext.jsx) | Global State Context | `ThemeProvider`, `useTheme` | All React UI pages and components |
+| [`run_sih_platform.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/run_sih_platform.py) | CLI Launcher | `main` | [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/backend/main.py) |
+| [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/backend/main.py) | REST API Controller | `get_fleet_readiness`, `list_fleet_aircraft`, `evaluate_sortie`, `dispatch_triage`, `synthesize_voice` | [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/engine/digital_twin_engine.py), [`engine/sortie_planner.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/engine/sortie_planner.py), Sarvam AI |
+| [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/engine/digital_twin_engine.py) | Thermodynamics & Prognostics | `GasPathDigitalTwin`, `evaluate_aircraft_digital_twin`, `calculate_gas_path_efficiencies` | `data/air_power_fleet.db`, `data/CMAPSSData/` |
+| [`engine/sortie_planner.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/engine/sortie_planner.py) | Mission & Triage Engine | `SparesAwareSortiePlanner`, `evaluate_sortie_feasibility`, `trigger_autonomous_triage_order` | [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/engine/digital_twin_engine.py), `data/air_power_fleet.db` |
+| [`engine/sih_database.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/engine/sih_database.py) | Database Schema & Seeder | `init_db`, `seed_fleet_data`, `seed_telemetry`, `seed_spares_and_procurement` | `sqlite3`, `data/air_power_fleet.db` |
+| [`frontend_app/src/main.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/main.jsx) | React Application Root | DOM Mount | [`frontend_app/src/App.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/App.jsx) |
+| [`frontend_app/src/api/fleetApi.js`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/api/fleetApi.js) | Frontend REST Client | `fleetApi`, `getFleetReadiness`, `getFleetAircraft`, `evaluateSortie`, `triggerAutonomousTriage` | [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/backend/main.py), `mockFleetData.js` |
+| [`frontend_app/src/services/voiceAgentService.js`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/services/voiceAgentService.js) | Voice Agent Logic | `VoiceAgentService`, `parseVoiceCommand`, `speakResponse` | `SpeechRecognition`, `speechSynthesis`, `backend/main.py` |
+| [`frontend_app/src/components/common/TacticalVoiceCopilot.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/components/common/TacticalVoiceCopilot.jsx) | Voice Assistant UI | Tactical UI modal, real-time waveform, action dispatcher | `voiceAgentService.js`, `ThemeContext.jsx` |
+| [`frontend_app/src/context/ThemeContext.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/vayu-ai/frontend_app/src/context/ThemeContext.jsx) | Global State Context | `ThemeProvider`, `useTheme` | All React UI pages and components |
