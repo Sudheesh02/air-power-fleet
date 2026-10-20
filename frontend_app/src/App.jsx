@@ -37,7 +37,7 @@ function MainLayout() {
       className={`min-h-screen transition-colors duration-300 ${
         isDark
           ? 'tactical-mesh-dark text-white'
-          : 'tactical-mesh-light text-[#1B2559]'
+          : 'tactical-mesh-light text-slate-900'
       }`}
     >
       {/* Vision UI Sidebar */}
@@ -54,12 +54,12 @@ function MainLayout() {
         </main>
 
         {/* Tactical Aerospace Footer */}
-        <footer className="px-6 py-5 text-center text-xs font-sans border-t border-white/5 text-slate-400">
+        <footer className="px-6 py-5 text-center text-xs font-sans border-t border-white/[0.08] text-slate-400">
           <p className="font-semibold text-slate-300">
             SIH 2026 (SIH26249) &bull; Ministry of Defence & Indian Air Force &bull; Air Power Predictive Maintenance Platform
           </p>
           <p className="text-[11px] text-slate-500 mt-1">
-            Engineered with Vision UI Tactical Glassmorphic Architecture &bull; NASA C-MAPSS Digital Twin Engine &bull; Conformal RUL Analytics
+            Engineered with Charcoal & Violet Analytics Theme &bull; NASA C-MAPSS Digital Twin Engine &bull; Conformal RUL Analytics
           </p>
         </footer>
       </div>

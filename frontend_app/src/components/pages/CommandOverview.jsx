@@ -8,7 +8,13 @@ import {
   ChevronRight,
   ArrowUpDown,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  Sparkles,
+  Calendar,
+  Share2,
+  ArrowUpRight,
+  ShieldCheck,
+  CheckCircle2
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -69,12 +75,10 @@ export default function CommandOverview() {
   // Filter aircraft by Squadron and Search Query and Status Filter
   const filteredAircraft = useMemo(() => {
     return aircraftList.filter((ac) => {
-      // Normalize squadron strings: strip quotes, trim, compare
       const clean = (s) => (s || '').replace(/['"]/g, '').toLowerCase().trim();
       const normAc = clean(ac.squadron);
       const normSel = clean(selectedSquadron);
 
-      // Extract specific squadron numbers (e.g., '17', '222', '45', '81', '116')
       const selNumMatch = normSel.match(/\b(17|45|81|116|222)\b/) || normSel.match(/\d+/);
       const selNum = selNumMatch ? selNumMatch[0] : null;
 
@@ -155,8 +159,8 @@ export default function CommandOverview() {
       ];
 
   const radialData = [
-    { name: 'Target', value: 75, fill: '#3D8CFF' },
-    { name: 'Availability', value: dynamicMcRate, fill: dynamicMcRate >= 75 ? '#01B574' : '#FFB547' }
+    { name: 'Target', value: 75, fill: '#373A4D' },
+    { name: 'Availability', value: dynamicMcRate, fill: '#8B5CF6' }
   ];
 
   const renderSortIndicator = (field) => {
@@ -164,16 +168,16 @@ export default function CommandOverview() {
       return <ArrowUpDown className="w-3 h-3 ml-1 opacity-40 inline" />;
     }
     return sortDirection === 'asc' ? (
-      <ArrowUp className="w-3 h-3 ml-1 text-cyan-400 inline" />
+      <ArrowUp className="w-3 h-3 ml-1 text-purple-400 inline" />
     ) : (
-      <ArrowDown className="w-3 h-3 ml-1 text-cyan-400 inline" />
+      <ArrowDown className="w-3 h-3 ml-1 text-purple-400 inline" />
     );
   };
 
   if (loading && !fleetReadiness) {
     return (
       <div className="flex items-center justify-center p-16 text-slate-400 font-sans text-sm">
-        <Plane className="w-5 h-5 animate-pulse mr-2 text-[#0075FF]" />
+        <Plane className="w-5 h-5 animate-pulse mr-2 text-purple-500" />
         Loading Fleet Readiness Telemetry...
       </div>
     );
@@ -181,15 +185,44 @@ export default function CommandOverview() {
 
   return (
     <div className="space-y-6 pb-8">
-      {/* 1. TOP KPI BENTO ROW (4 Sleek Cards with Mini Sparklines) */}
+      {/* 0. HEADER SECTION: Reference-Inspired Title, Date Pill & Action Button */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+        <div>
+          <h1 className={`text-xl sm:text-2xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            Air Power Fleet AI Overview
+          </h1>
+          <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+            Multi-silo prognostics, 5-stage digital twin telemetry, and sortie readiness
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2.5 shrink-0">
+          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-medium ${
+            isDark ? 'bg-[#12131C] border-white/[0.08] text-slate-300' : 'bg-white border-slate-200 text-slate-700'
+          }`}>
+            <Calendar className="w-3.5 h-3.5 text-purple-400" />
+            <span>Operational Cycle 142</span>
+          </div>
+
+          <button
+            onClick={() => setActiveTab('predictive')}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white text-xs font-semibold shadow-md shadow-purple-950/40 transition"
+          >
+            <span>Sortie Planner</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      {/* 1. TOP KPI BENTO ROW (4 Sleek Compact Cards with Reference Arrow & Sparklines) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Fleet Availability"
           value={`${dynamicMcRate}%`}
-          change={dynamicMcRate >= 75 ? `+${(dynamicMcRate - 75.0).toFixed(1)}% Target` : `${(dynamicMcRate - 75.0).toFixed(1)}% Target`}
+          change={dynamicMcRate >= 75 ? `+${(dynamicMcRate - 75.0).toFixed(1)}%` : `${(dynamicMcRate - 75.0).toFixed(1)}%`}
           changeType={dynamicMcRate >= 75 ? 'positive' : 'amber'}
           icon={Activity}
-          glowColor="emerald"
+          glowColor="purple"
           subtitle={`MoD Target: 75.0% (${activeSquadronLabel})`}
           sparklineData={availabilitySparkline}
         />
@@ -200,7 +233,7 @@ export default function CommandOverview() {
           change="+2 Active"
           changeType="positive"
           icon={Plane}
-          glowColor="blue"
+          glowColor="purple"
           subtitle="Cleared for combat sortie envelope"
           sparklineData={capableSparkline}
         />
@@ -219,7 +252,7 @@ export default function CommandOverview() {
         <StatCard
           title="Grounded Downtime"
           value={`${groundedCount} Grounded`}
-          change={groundedCount > 0 ? `~${(groundedCount * 3.5).toFixed(1)}h AVG` : "0.0h (Zero AOG)"}
+          change={groundedCount > 0 ? `~${(groundedCount * 3.5).toFixed(1)}h` : "0.0h"}
           changeType={groundedCount > 0 ? "negative" : "positive"}
           icon={AlertTriangle}
           glowColor="rose"
@@ -228,15 +261,15 @@ export default function CommandOverview() {
         />
       </div>
 
-      {/* 2. MAIN CHARTS ROW (Telemetry Trend & Circular Squadron Readiness Gauge) */}
+      {/* 2. MAIN ANALYTICS ROW: Line Chart & Semicircular Readiness Gauge */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left (2 cols): Multi-Line Predicted Fault Probability vs Flight Hours */}
-        <GlassCard className="p-5 lg:col-span-2 flex flex-col justify-between">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
+        {/* Left (2 cols): Predicted Fault Probability vs Flight Hours */}
+        <GlassCard className="p-5 lg:col-span-2 flex flex-col justify-between border border-white/[0.08] bg-[#12131C]">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 mb-4">
             <div>
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#0075FF] shadow-[0_0_8px_#0075FF]" />
-                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                <span className="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_8px_#8B5CF6]" />
+                <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Predicted Fault Probability vs. Flight Hours
                 </h3>
               </div>
@@ -246,7 +279,7 @@ export default function CommandOverview() {
             </div>
 
             <div className="flex items-center gap-2 text-xs font-sans">
-              <span className="px-2.5 py-0.5 rounded-full bg-[#0075FF]/15 text-[#00D5FF] font-semibold border border-[#0075FF]/30 text-[11px]">
+              <span className="px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 font-semibold border border-purple-500/30 text-[11px]">
                 Prognostic ML
               </span>
             </div>
@@ -255,15 +288,15 @@ export default function CommandOverview() {
           <div className="w-full h-72">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={telemetryData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} />
+                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.06)'} />
                 <XAxis
                   dataKey="hours"
-                  stroke={isDark ? '#8F9BBA' : '#718096'}
+                  stroke={isDark ? '#717694' : '#718096'}
                   fontSize={11}
                   fontFamily="JetBrains Mono"
                 />
                 <YAxis
-                  stroke={isDark ? '#8F9BBA' : '#718096'}
+                  stroke={isDark ? '#717694' : '#718096'}
                   fontSize={11}
                   fontFamily="JetBrains Mono"
                   unit="%"
@@ -271,13 +304,13 @@ export default function CommandOverview() {
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: isDark ? '#0B1437' : '#FFFFFF',
-                    borderColor: isDark ? 'rgba(255,255,255,0.1)' : '#E2E8F0',
+                    backgroundColor: '#12131C',
+                    borderColor: 'rgba(255,255,255,0.1)',
                     borderRadius: '12px',
                     fontSize: '12px',
                     fontFamily: 'JetBrains Mono',
-                    boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
-                    color: isDark ? '#FFF' : '#000'
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+                    color: '#FFF'
                   }}
                 />
                 <Legend
@@ -289,34 +322,34 @@ export default function CommandOverview() {
                   type="monotone"
                   dataKey="su30_fault_prob"
                   name="Su-30MKI (No. 222)"
-                  stroke="#EE5D50"
-                  strokeWidth={2.5}
-                  dot={{ r: 3, fill: '#EE5D50' }}
+                  stroke="#C084FC"
+                  strokeWidth={2.8}
+                  dot={{ r: 3, fill: '#C084FC' }}
                   activeDot={{ r: 6 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="tejas_fault_prob"
                   name="Tejas Mk1A (No. 45)"
-                  stroke="#FFB547"
-                  strokeWidth={2.5}
-                  dot={{ r: 3, fill: '#FFB547' }}
+                  stroke="#38BDF8"
+                  strokeWidth={2.2}
+                  dot={{ r: 3, fill: '#38BDF8' }}
                   activeDot={{ r: 6 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="rafale_fault_prob"
                   name="Rafale (No. 17)"
-                  stroke="#00D5FF"
-                  strokeWidth={2.5}
-                  dot={{ r: 3, fill: '#00D5FF' }}
+                  stroke="#F59E0B"
+                  strokeWidth={2.2}
+                  dot={{ r: 3, fill: '#F59E0B' }}
                   activeDot={{ r: 6 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="nominal_baseline"
                   name="Nominal Baseline"
-                  stroke="#01B574"
+                  stroke="#22C55E"
                   strokeWidth={1.5}
                   strokeDasharray="5 5"
                   dot={false}
@@ -326,15 +359,20 @@ export default function CommandOverview() {
           </div>
         </GlassCard>
 
-        {/* Right (1 col): Circular Readiness Score Gauge */}
-        <GlassCard className="p-5 flex flex-col justify-between">
-          <div className="border-b border-white/5 dark:border-white/5 pb-4 mb-2">
-            <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
-              Overall Squadron Readiness Score
-            </h3>
-            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
-              Composite readiness index for {selectedSquadron === 'ALL' ? 'Combined Fleet' : activeSquadronLabel}
-            </p>
+        {/* Right (1 col): Circular Readiness Score Gauge (Reference Quality Score Style) */}
+        <GlassCard className="p-5 flex flex-col justify-between border border-white/[0.08] bg-[#12131C]">
+          <div className="flex items-center justify-between border-b border-white/[0.08] pb-4 mb-2">
+            <div>
+              <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                Squadron Readiness Score
+              </h3>
+              <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+                Composite index for {selectedSquadron === 'ALL' ? 'Combined Fleet' : activeSquadronLabel}
+              </p>
+            </div>
+            <div className="w-6 h-6 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-slate-400 shrink-0">
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </div>
           </div>
 
           <div className="relative flex items-center justify-center my-4 h-52">
@@ -360,225 +398,255 @@ export default function CommandOverview() {
 
             {/* Inner Center Content */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pt-8">
-              <span className="text-4xl font-black font-sans text-cyan-400 tracking-tight">
+              <span className="text-4xl font-extrabold font-sans text-purple-300 tracking-tight">
                 {dynamicMcRate}%
               </span>
-              <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-1`}>
-                Readiness Score
+              <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+                Average Score
               </span>
-              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-500/10 text-cyan-300 font-sans font-medium mt-1">
+              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 font-sans font-medium mt-1">
                 MoD Target: 75.0%
               </span>
             </div>
           </div>
 
-          <div className={`p-3.5 rounded-2xl border text-xs space-y-2 ${
-            isDark ? 'bg-white/5 border-white/5 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+          <div className={`p-3.5 rounded-2xl border text-xs space-y-2.5 ${
+            isDark ? 'bg-[#181926] border-white/[0.06] text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
           }`}>
             <div className="flex justify-between items-center">
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Combat Mission Ready:</span>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Combat Mission Ready:</span>
+              </div>
               <span className="font-bold font-sans text-emerald-400 text-xs">{capableCount} Aircraft</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Predictive Maintenance Scheduled:</span>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Predictive Maintenance:</span>
+              </div>
               <span className="font-bold font-sans text-amber-400 text-xs">{standbyCount} Aircraft</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Critical Alert / Grounded:</span>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-rose-400" />
+                <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Critical Alert / Grounded:</span>
+              </div>
               <span className="font-bold font-sans text-rose-400 text-xs">{groundedCount} Aircraft</span>
             </div>
           </div>
         </GlassCard>
       </div>
 
-      {/* 3. LIVE FLEET STATUS & RUL MATRIX TABLE */}
-      <GlassCard className="p-5">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <Plane className="w-5 h-5 text-cyan-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
-                Live Fleet Status & RUL Matrix
-              </h3>
+      {/* 3. REFERENCE FEATURED INSIGHT CARD & AI ADVISORY */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left: Reference Signature Purple Gradient Card */}
+        <div className="reference-insight-card p-6 rounded-2xl flex flex-col justify-between text-white relative overflow-hidden">
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-bold text-white border border-white/20 mb-4">
+              <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+              <span>AI Insights</span>
             </div>
-            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
-              Showing {sortedAircraft.length} aircraft &bull; Sortable columns &bull; Click any tail to inspect its Digital Twin
+
+            <h3 className="text-xl sm:text-2xl font-bold leading-snug">
+              Squadron readiness is at <span className="underline decoration-purple-300 font-extrabold">{dynamicMcRate}%</span> with optimal mission sortie envelope.
+            </h3>
+            <p className="text-xs text-white/80 mt-3 leading-relaxed">
+              Based on C-MAPSS gas-path trend analysis, high-pressure turbine degradation is controlled. Next depot scheduled in 48 flight hours.
             </p>
           </div>
 
-          <div className="flex items-center flex-wrap gap-3">
-            {/* Status Filter */}
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className={`text-xs font-semibold py-2 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
-                isDark
-                  ? 'bg-slate-900 text-cyan-300 border border-white/10'
-                  : 'bg-slate-100 text-[#1B2559] border border-slate-200'
-              }`}
-            >
-              <option value="ALL">All Statuses</option>
-              <option value="MISSION_CAPABLE">Mission Ready</option>
-              <option value="CONDITIONAL_STANDBY">Predictive Maint Scheduled</option>
-              <option value="MAINTENANCE_GROUNDED">Critical Alert (AOG)</option>
-            </select>
+          {/* Reference Bottom Progress Capsule Bars */}
+          <div className="mt-6 pt-4 border-t border-white/15 relative z-10 flex items-center justify-between">
+            <div className="flex gap-1.5">
+              {[...Array(8)].map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    i < 4 ? 'w-5 bg-white' : 'w-2.5 bg-white/30'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-[11px] font-semibold text-white/90">Cycle 142/200</span>
+          </div>
 
-            {/* Quick Search */}
-            <div className="relative">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Filter tail, model, base..."
-                value={searchFilter}
-                onChange={(e) => setSearchFilter(e.target.value)}
-                className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+          {/* Subtle Ambient Decorative Circles */}
+          <div className="absolute -right-8 -top-8 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute -left-8 -bottom-8 w-40 h-40 bg-purple-900/40 rounded-full blur-2xl pointer-events-none" />
+        </div>
+
+        {/* Right (2 cols): LIVE FLEET STATUS & RUL MATRIX TABLE */}
+        <GlassCard className="p-5 lg:col-span-2 border border-white/[0.08] bg-[#12131C] flex flex-col justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-4 mb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <Plane className="w-5 h-5 text-purple-400" />
+                <h3 className={`font-bold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  Live Fleet Status & RUL Matrix
+                </h3>
+              </div>
+              <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+                Showing {sortedAircraft.length} aircraft &bull; Click any tail to inspect its Digital Twin
+              </p>
+            </div>
+
+            <div className="flex items-center flex-wrap gap-2.5">
+              {/* Status Filter */}
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className={`text-xs font-semibold py-1.5 px-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-500 transition ${
                   isDark
-                    ? 'bg-slate-900/80 text-white placeholder-slate-500 border border-white/10'
-                    : 'bg-slate-100 text-slate-800 placeholder-slate-400 border border-slate-200'
+                    ? 'bg-[#181926] text-purple-200 border border-white/[0.08]'
+                    : 'bg-slate-100 text-slate-800 border border-slate-200'
                 }`}
-              />
+              >
+                <option value="ALL">All Statuses</option>
+                <option value="MISSION_CAPABLE">Mission Ready</option>
+                <option value="CONDITIONAL_STANDBY">Maintenance Scheduled</option>
+                <option value="MAINTENANCE_GROUNDED">Critical Alert (AOG)</option>
+              </select>
+
+              {/* Quick Search */}
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Filter tail, model, base..."
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
+                  className={`text-xs py-1.5 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-500 transition ${
+                    isDark
+                      ? 'bg-[#181926] text-white placeholder-slate-500 border border-white/[0.08]'
+                      : 'bg-slate-100 text-slate-800 placeholder-slate-400 border border-slate-200'
+                  }`}
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Table Content */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-sans">
-            <thead className={`uppercase font-sans font-bold text-[11px] tracking-wider border-b ${
-              isDark ? 'text-slate-400 bg-slate-900/50 border-white/10' : 'text-slate-500 bg-slate-100 border-slate-200'
-            }`}>
-              <tr>
-                <th
-                  onClick={() => handleSort('tail_no')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
-                >
-                  Tail Number {renderSortIndicator('tail_no')}
-                </th>
-                <th
-                  onClick={() => handleSort('aircraft_type')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
-                >
-                  Aircraft Model {renderSortIndicator('aircraft_type')}
-                </th>
-                <th
-                  onClick={() => handleSort('squadron')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
-                >
-                  Squadron & Base {renderSortIndicator('squadron')}
-                </th>
-                <th
-                  onClick={() => handleSort('airframe_hours')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
-                >
-                  Airframe FH {renderSortIndicator('airframe_hours')}
-                </th>
-                <th
-                  onClick={() => handleSort('health_score')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
-                >
-                  Health Score {renderSortIndicator('health_score')}
-                </th>
-                <th
-                  onClick={() => handleSort('next_fault')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
-                >
-                  Predicted Next Fault {renderSortIndicator('next_fault')}
-                </th>
-                <th
-                  onClick={() => handleSort('rul_hours')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
-                >
-                  Est. RUL {renderSortIndicator('rul_hours')}
-                </th>
-                <th
-                  onClick={() => handleSort('status')}
-                  className="p-3 cursor-pointer hover:text-cyan-400 transition select-none"
-                >
-                  Status {renderSortIndicator('status')}
-                </th>
-                <th className="p-3 text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5 dark:divide-white/5 font-medium">
-              {sortedAircraft.map((ac) => {
-                return (
-                  <tr
-                    key={ac.tail_no}
-                    onClick={() => {
-                      setSelectedTail(ac.tail_no);
-                      setActiveTab('twin');
-                    }}
-                    className={`cursor-pointer transition-colors ${
-                      isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'
-                    }`}
+          {/* Table Content */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs font-sans">
+              <thead className={`uppercase font-sans font-bold text-[11px] tracking-wider border-b ${
+                isDark ? 'text-slate-400 bg-[#161722] border-white/[0.08]' : 'text-slate-500 bg-slate-100 border-slate-200'
+              }`}>
+                <tr>
+                  <th
+                    onClick={() => handleSort('tail_no')}
+                    className="p-3 cursor-pointer hover:text-purple-400 transition select-none"
                   >
-                    <td className="p-3 font-sans font-bold text-cyan-400 text-sm tracking-tight">
-                      {ac.tail_no}
-                    </td>
-                    <td className={`p-3 font-medium text-xs ${isDark ? 'text-white' : 'text-slate-800'}`}>
-                      {ac.aircraft_type}
-                    </td>
-                    <td className="p-3">
-                      <div className={`font-semibold text-xs ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
-                        {ac.squadron}
-                      </div>
-                      <div className="text-[11px] text-slate-400 font-medium">
-                        {ac.base_station}
-                      </div>
-                    </td>
-                    <td className={`p-3 font-sans font-semibold text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                      {ac.airframe_hours} h
-                    </td>
-                    <td className="p-3">
-                      <div className="flex items-center gap-2">
-                        <span className={`font-sans font-bold text-xs ${
-                          ac.health_score > 75 ? 'text-emerald-400' : (ac.health_score > 50 ? 'text-amber-400' : 'text-rose-400')
-                        }`}>
-                          {ac.health_score}%
-                        </span>
-                        <div className="w-16 h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
-                          <div
-                            className={`h-full rounded-full ${
-                              ac.health_score > 75
-                                ? 'bg-[#01B574]'
-                                : ac.health_score > 50
-                                ? 'bg-[#FFB547]'
-                                : 'bg-[#EE5D50]'
-                            }`}
-                            style={{ width: `${ac.health_score}%` }}
-                          />
+                    Tail No {renderSortIndicator('tail_no')}
+                  </th>
+                  <th
+                    onClick={() => handleSort('aircraft_type')}
+                    className="p-3 cursor-pointer hover:text-purple-400 transition select-none"
+                  >
+                    Model {renderSortIndicator('aircraft_type')}
+                  </th>
+                  <th
+                    onClick={() => handleSort('squadron')}
+                    className="p-3 cursor-pointer hover:text-purple-400 transition select-none"
+                  >
+                    Squadron & Base {renderSortIndicator('squadron')}
+                  </th>
+                  <th
+                    onClick={() => handleSort('health_score')}
+                    className="p-3 cursor-pointer hover:text-purple-400 transition select-none"
+                  >
+                    Health Score {renderSortIndicator('health_score')}
+                  </th>
+                  <th
+                    onClick={() => handleSort('rul_hours')}
+                    className="p-3 cursor-pointer hover:text-purple-400 transition select-none"
+                  >
+                    Est. RUL {renderSortIndicator('rul_hours')}
+                  </th>
+                  <th
+                    onClick={() => handleSort('status')}
+                    className="p-3 cursor-pointer hover:text-purple-400 transition select-none"
+                  >
+                    Status {renderSortIndicator('status')}
+                  </th>
+                  <th className="p-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.06] font-medium">
+                {sortedAircraft.slice(0, 7).map((ac) => {
+                  return (
+                    <tr
+                      key={ac.tail_no}
+                      onClick={() => {
+                        setSelectedTail(ac.tail_no);
+                        setActiveTab('twin');
+                      }}
+                      className={`cursor-pointer transition-colors ${
+                        isDark ? 'hover:bg-white/[0.04]' : 'hover:bg-slate-50'
+                      }`}
+                    >
+                      <td className="p-3 font-sans font-bold text-purple-400 text-sm tracking-tight">
+                        {ac.tail_no}
+                      </td>
+                      <td className={`p-3 font-medium text-xs ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                        {ac.aircraft_type}
+                      </td>
+                      <td className="p-3">
+                        <div className={`font-semibold text-xs ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                          {ac.squadron}
                         </div>
-                      </div>
-                    </td>
-                    <td className={`p-3 font-sans font-medium text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-                      {ac.next_fault}
-                    </td>
-                    <td className={`p-3 font-sans font-bold text-xs ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
-                      ~{ac.rul_hours} h
-                    </td>
-                    <td className="p-3">
-                      <StatusBadge status={ac.status} size="sm" />
-                    </td>
-                    <td className="p-3 text-right">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedTail(ac.tail_no);
-                          setActiveTab('twin');
-                        }}
-                        className="px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-[#0075FF] text-cyan-300 hover:text-white border border-blue-500/30 text-xs font-sans font-semibold transition flex items-center gap-1 ml-auto"
-                      >
-                        Inspect Twin
-                        <ChevronRight className="w-3 h-3" />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </GlassCard>
+                        <div className="text-[11px] text-slate-400 font-medium">
+                          {ac.base_station}
+                        </div>
+                      </td>
+                      <td className="p-3">
+                        <div className="flex items-center gap-2">
+                          <span className={`font-sans font-bold text-xs ${
+                            ac.health_score > 75 ? 'text-emerald-400' : (ac.health_score > 50 ? 'text-amber-400' : 'text-rose-400')
+                          }`}>
+                            {ac.health_score}%
+                          </span>
+                          <div className="w-16 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                            <div
+                              className={`h-full rounded-full ${
+                                ac.health_score > 75
+                                  ? 'bg-emerald-500'
+                                  : ac.health_score > 50
+                                  ? 'bg-amber-500'
+                                  : 'bg-rose-500'
+                              }`}
+                              style={{ width: `${ac.health_score}%` }}
+                            />
+                          </div>
+                        </div>
+                      </td>
+                      <td className={`p-3 font-sans font-bold text-xs ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                        ~{ac.rul_hours} h
+                      </td>
+                      <td className="p-3">
+                        <StatusBadge status={ac.status} size="sm" />
+                      </td>
+                      <td className="p-3 text-right">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedTail(ac.tail_no);
+                            setActiveTab('twin');
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-purple-500/15 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/25 text-xs font-sans font-semibold transition flex items-center gap-1 ml-auto"
+                        >
+                          Inspect
+                          <ChevronRight className="w-3 h-3" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </GlassCard>
+      </div>
     </div>
   );
 }

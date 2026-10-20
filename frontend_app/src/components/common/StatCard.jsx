@@ -1,8 +1,9 @@
 import React from 'react';
 import GlassCard from './GlassCard';
 import { useTheme } from '../../context/ThemeContext';
+import { ArrowUpRight } from 'lucide-react';
 
-function Sparkline({ data, color = '#0075FF', height = 28 }) {
+function Sparkline({ data, color = '#8B5CF6', height = 28 }) {
   if (!data || data.length < 2) return null;
 
   const min = Math.min(...data);
@@ -44,7 +45,7 @@ function Sparkline({ data, color = '#0075FF', height = 28 }) {
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full block">
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={color} stopOpacity={0.3} />
+            <stop offset="0%" stopColor={color} stopOpacity={0.35} />
             <stop offset="100%" stopColor={color} stopOpacity={0.0} />
           </linearGradient>
         </defs>
@@ -68,36 +69,37 @@ export default function StatCard({
   title,
   value,
   change,
-  changeType = 'positive', // positive, negative, neutral, amber
+  changeType = 'positive', // positive, negative, neutral, amber, purple
   icon: Icon,
   subtitle,
   progress = null,
-  glowColor = 'blue',
+  glowColor = 'purple',
   sparklineData = null
 }) {
   const { isDark } = useTheme();
 
   const changeColors = {
-    positive: 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/25',
-    negative: 'text-rose-400 bg-rose-500/10 border border-rose-500/25',
-    neutral: 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/25',
-    amber: 'text-amber-400 bg-amber-500/10 border border-amber-500/25',
+    positive: 'text-emerald-400 bg-emerald-500/15 border border-emerald-500/25',
+    negative: 'text-rose-400 bg-rose-500/15 border border-rose-500/25',
+    neutral: 'text-violet-300 bg-violet-500/15 border border-violet-500/25',
+    amber: 'text-amber-400 bg-amber-500/15 border border-amber-500/25',
+    purple: 'text-purple-300 bg-purple-500/15 border border-purple-500/25',
   };
 
   const strokeColors = {
-    blue: '#0075FF',
-    emerald: '#01B574',
-    amber: '#FFB547',
-    rose: '#EE5D50',
-    purple: '#7551FF',
+    purple: '#8B5CF6',
+    blue: '#38BDF8',
+    emerald: '#22C55E',
+    amber: '#F59E0B',
+    rose: '#EF4444',
   };
 
   const iconTonalStyles = {
-    blue: 'bg-[#0075FF]/10 text-cyan-400 border border-[#0075FF]/20 shadow-[0_0_12px_rgba(0,117,255,0.15)]',
-    emerald: 'bg-[#01B574]/10 text-emerald-400 border border-[#01B574]/20 shadow-[0_0_12px_rgba(1,181,116,0.15)]',
-    amber: 'bg-[#FFB547]/10 text-amber-400 border border-[#FFB547]/20 shadow-[0_0_12px_rgba(255,181,71,0.15)]',
-    rose: 'bg-[#EE5D50]/10 text-rose-400 border border-[#EE5D50]/20 shadow-[0_0_12px_rgba(238,93,80,0.15)]',
-    purple: 'bg-[#7551FF]/10 text-purple-400 border border-[#7551FF]/20 shadow-[0_0_12px_rgba(117,81,255,0.15)]',
+    purple: 'bg-purple-500/15 text-purple-400 border border-purple-500/25',
+    blue: 'bg-sky-500/15 text-sky-400 border border-sky-500/25',
+    emerald: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25',
+    amber: 'bg-amber-500/15 text-amber-400 border border-amber-500/25',
+    rose: 'bg-rose-500/15 text-rose-400 border border-rose-500/25',
   };
 
   // Helper to parse composite values like "12 / 18" or "3 Tails" or "3 Grounded"
@@ -132,53 +134,60 @@ export default function StatCard({
   };
 
   return (
-    <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 relative group">
-      {/* 1. TOP HEADER ROW: Icon + Title on Left, Status/Trend Badge on Right */}
+    <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 relative group border border-white/[0.07] bg-[#12131C]">
+      {/* 1. TOP HEADER ROW: Icon + Title on Left, Reference Circular Arrow on Right */}
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0 flex-1">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
           {Icon && (
-            <div className={`w-8 h-8 rounded-xl ${iconTonalStyles[glowColor] || iconTonalStyles.blue} flex items-center justify-center shrink-0`}>
-              <Icon className="w-4 h-4 stroke-[2.2]" />
+            <div className={`w-7 h-7 rounded-lg ${iconTonalStyles[glowColor] || iconTonalStyles.purple} flex items-center justify-center shrink-0`}>
+              <Icon className="w-3.5 h-3.5 stroke-[2.2]" />
             </div>
           )}
-          <span className={`text-xs font-semibold tracking-tight font-sans truncate ${isDark ? 'text-slate-300' : 'text-slate-600'}`} title={title}>
+          <span className={`text-xs font-medium tracking-tight font-sans truncate ${isDark ? 'text-slate-300' : 'text-slate-600'}`} title={title}>
             {title}
           </span>
         </div>
 
-        {change && (
-          <span className={`text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full font-semibold font-sans whitespace-nowrap shrink-0 ml-1 ${changeColors[changeType] || changeColors.neutral}`}>
-            {change}
-          </span>
-        )}
+        {/* Reference Circular Action Indicator */}
+        <div className="w-6 h-6 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-slate-400 group-hover:text-purple-300 group-hover:border-purple-500/30 transition-colors shrink-0">
+          <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.2]" />
+        </div>
       </div>
 
-      {/* 2. DEDICATED METRIC ROW: Big Value on Left, Sparkline on Right */}
+      {/* 2. DEDICATED METRIC ROW: Big Value on Left with Pill Badge, Sparkline on Right */}
       <div className="mt-3 mb-2 flex items-center justify-between gap-3">
-        <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight font-sans whitespace-nowrap ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
-          {renderFormattedValue(value)}
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight font-sans whitespace-nowrap ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            {renderFormattedValue(value)}
+          </div>
+
+          {change && (
+            <span className={`text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full font-semibold font-sans whitespace-nowrap ${changeColors[changeType] || changeColors.neutral}`}>
+              {change}
+            </span>
+          )}
         </div>
 
         {sparklineData && (
           <Sparkline
             data={sparklineData}
-            color={strokeColors[glowColor] || '#0075FF'}
+            color={strokeColors[glowColor] || '#8B5CF6'}
             height={28}
           />
         )}
       </div>
 
-      {/* 3. CONTEXT FOOTER ROW: Clean Subtitle with 100% Horizontal Space (Zero Ellipses/Truncation) */}
-      <div className="pt-2 border-t border-white/5 dark:border-white/5 flex items-center justify-between">
+      {/* 3. CONTEXT FOOTER ROW: Clean Subtitle with 100% Horizontal Space */}
+      <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between">
         {progress !== null ? (
           <div className="w-full">
             <div className="flex justify-between text-[11px] mb-1 font-sans font-medium">
               <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>{subtitle || 'Readiness index'}</span>
-              <span className="font-bold text-cyan-400 ml-1">{progress}%</span>
+              <span className="font-bold text-purple-400 ml-1">{progress}%</span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-slate-700/40 overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-slate-800/80 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#0075FF] to-[#00D5FF] transition-all duration-700"
+                className="h-full rounded-full bg-gradient-to-r from-violet-600 to-purple-400 transition-all duration-700"
                 style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
               />
             </div>

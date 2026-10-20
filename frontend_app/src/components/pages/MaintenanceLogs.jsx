@@ -135,7 +135,7 @@ export default function MaintenanceLogs() {
   if (loading && workOrders.length === 0) {
     return (
       <div className="flex items-center justify-center p-16 text-slate-400 font-sans text-sm">
-        <ClipboardList className="w-5 h-5 animate-pulse mr-2 text-[#0075FF]" />
+        <ClipboardList className="w-5 h-5 animate-pulse mr-2 text-purple-400" />
         Loading Maintenance Work Orders & Flight Logbooks...
       </div>
     );
@@ -146,7 +146,7 @@ export default function MaintenanceLogs() {
       {/* 1. TOP HEADER & VIEW MODE TOGGLE */}
       <GlassCard className="p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#01B574] flex items-center justify-center text-white shadow-vision-glow">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#8B5CF6] to-[#01B574] flex items-center justify-center text-white shadow-lg shadow-purple-900/30">
             <ClipboardList className="w-6 h-6" />
           </div>
           <div>
@@ -158,7 +158,7 @@ export default function MaintenanceLogs() {
                 Structured Workflows & Flight Logbooks
               </span>
             </div>
-            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Maintenance Work Orders, Technician Assignment & Pilot Flight Logs
             </h2>
           </div>
@@ -172,7 +172,7 @@ export default function MaintenanceLogs() {
               onClick={() => setViewMode('kanban')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition font-bold ${
                 viewMode === 'kanban'
-                  ? 'bg-[#0075FF] text-white shadow-vision-glow'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -184,7 +184,7 @@ export default function MaintenanceLogs() {
               onClick={() => setViewMode('table')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition font-bold ${
                 viewMode === 'table'
-                  ? 'bg-[#0075FF] text-white shadow-vision-glow'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -212,7 +212,7 @@ export default function MaintenanceLogs() {
                 onClick={() => setSeverityFilter(f.id)}
                 className={`px-3 py-1.5 rounded-xl border transition-all ${
                   severityFilter === f.id
-                    ? 'bg-[#0075FF] text-white border-[#0075FF] font-bold shadow-vision-glow'
+                    ? 'bg-purple-600 text-white border-purple-500 font-bold shadow-lg shadow-purple-900/30'
                     : isDark
                     ? 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10'
                     : 'bg-slate-100 text-slate-600 border-slate-200 hover:text-slate-900'
@@ -235,7 +235,7 @@ export default function MaintenanceLogs() {
                 onClick={() => setActiveFilter(f.id)}
                 className={`px-3 py-1.5 rounded-xl border transition-all ${
                   activeFilter === f.id
-                    ? 'bg-[#0075FF] text-white border-[#0075FF] font-bold shadow-vision-glow'
+                    ? 'bg-purple-600 text-white border-purple-500 font-bold shadow-lg shadow-purple-900/30'
                     : isDark
                     ? 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10'
                     : 'bg-slate-100 text-slate-600 border-slate-200 hover:text-slate-900'
@@ -255,7 +255,7 @@ export default function MaintenanceLogs() {
             placeholder="Search order ID, tail, fault..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+            className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition ${
               isDark
                 ? 'bg-slate-900/80 text-white placeholder-slate-500 border border-white/10'
                 : 'bg-slate-100 text-slate-800 placeholder-slate-400 border border-slate-200'
@@ -280,7 +280,7 @@ export default function MaintenanceLogs() {
                         col.id === 'IN_PROGRESS' ? 'bg-amber-400' :
                         col.id === 'AWAITING_SPARES' ? 'bg-rose-400' : 'bg-emerald-400'
                       }`} />
-                      <h4 className={`font-bold text-xs tracking-wide font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                      <h4 className={`font-bold text-xs tracking-wide font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                         {col.title}
                       </h4>
                     </div>
@@ -371,7 +371,7 @@ export default function MaintenanceLogs() {
                               {col.nextStatus && (
                                 <button
                                   onClick={() => handleAdvanceStatus(wo.order_id, col.nextStatus)}
-                                  className="px-2.5 py-1 rounded-lg bg-blue-600/25 hover:bg-[#0075FF] text-cyan-300 hover:text-white border border-blue-500/40 text-[11px] font-semibold transition flex items-center gap-1"
+                                  className="px-2.5 py-1 rounded-lg bg-blue-600/25 hover:bg-purple-600 text-cyan-300 hover:text-white border border-blue-500/40 text-[11px] font-semibold transition flex items-center gap-1"
                                 >
                                   Advance
                                   <ChevronRight className="w-3 h-3" />
@@ -453,7 +453,7 @@ export default function MaintenanceLogs() {
                     <td className="p-3 text-right">
                       <button
                         onClick={() => setAssignModalOrder(wo)}
-                        className="px-2.5 py-1 rounded-lg bg-blue-600/25 hover:bg-[#0075FF] text-cyan-300 hover:text-white border border-blue-500/40 text-[11px] font-sans font-semibold transition"
+                        className="px-2.5 py-1 rounded-lg bg-blue-600/25 hover:bg-purple-600 text-cyan-300 hover:text-white border border-blue-500/40 text-[11px] font-sans font-semibold transition"
                       >
                         Assign
                       </button>
@@ -470,7 +470,7 @@ export default function MaintenanceLogs() {
       <GlassCard className="p-5">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 dark:border-white/5 pb-3 mb-4">
           <div>
-            <h3 className={`font-extrabold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h3 className={`font-extrabold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               <FileText className="w-5 h-5 text-emerald-400" />
               Historical Technical Flight Logs & Pilot Debriefs
             </h3>
@@ -588,7 +588,7 @@ export default function MaintenanceLogs() {
                             {/* Header */}
                             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3 mb-3">
                               <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow">
+                                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-violet-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-purple-900/30">
                                   <Cpu className="w-4 h-4" />
                                 </div>
                                 <div>
@@ -696,7 +696,7 @@ export default function MaintenanceLogs() {
       {assignModalOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
           <div className={`w-full max-w-lg rounded-3xl p-6 transition-all ${
-            isDark ? 'bg-[#0B1437] text-white border border-white/15' : 'bg-white text-slate-800 border border-slate-200'
+            isDark ? 'bg-[#12131C] text-white border border-white/15' : 'bg-white text-slate-800 border border-slate-200'
           }`}>
             <div className="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/10">
               <h3 className="font-bold text-base flex items-center gap-2">
@@ -724,7 +724,7 @@ export default function MaintenanceLogs() {
                 <select
                   value={assignedEngineer}
                   onChange={(e) => setAssignedEngineer(e.target.value)}
-                  className={`w-full p-2.5 rounded-xl border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+                  className={`w-full p-2.5 rounded-xl border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500 transition ${
                     isDark
                       ? 'bg-slate-900 border-white/15 text-cyan-300'
                       : 'bg-white border-slate-200 text-slate-800'
@@ -745,7 +745,7 @@ export default function MaintenanceLogs() {
                 <select
                   value={assignedBay}
                   onChange={(e) => setAssignedBay(e.target.value)}
-                  className={`w-full p-2.5 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+                  className={`w-full p-2.5 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-purple-500 transition ${
                     isDark
                       ? 'bg-slate-900 border-white/15 text-white'
                       : 'bg-white border-slate-200 text-slate-800'
@@ -768,7 +768,7 @@ export default function MaintenanceLogs() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#0075FF] to-[#01B574] text-white font-bold hover:shadow-vision-glow transition flex items-center gap-1.5"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#8B5CF6] to-[#01B574] text-white font-bold hover:shadow-lg shadow-purple-900/30 transition flex items-center gap-1.5"
                 >
                   <CheckCircle className="w-3.5 h-3.5" />
                   Confirm & Move to In-Progress

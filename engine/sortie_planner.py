@@ -20,7 +20,10 @@ if str(ROOT_DIR) not in sys.path:
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from sih_air_power_platform.engine.digital_twin_engine import GasPathDigitalTwin
+try:
+    from engine.digital_twin_engine import GasPathDigitalTwin
+except ImportError:
+    from sih_air_power_platform.engine.digital_twin_engine import GasPathDigitalTwin
 
 DB_PATH = str(BASE_DIR / "data" / "air_power_fleet.db")
 
