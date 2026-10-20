@@ -150,83 +150,115 @@ export default function SparesLogistics() {
 
       {/* 2. LOGISTICS KPI OVERVIEW ROW */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300">
-          <div className="flex items-center justify-between gap-2.5">
-            <div className="flex items-center gap-2 min-w-0">
-              <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-cyan-400 border border-blue-500/20 flex items-center justify-center shrink-0">
-                <Package className="w-4 h-4" />
+        {/* Card 1: Active LRU Inventory */}
+        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 border-slate-800 bg-slate-900/90 shadow-sm">
+          <div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="w-9 h-9 rounded-xl bg-blue-600/15 border border-blue-500/30 text-blue-400 flex items-center justify-center shrink-0">
+                <Boxes className="w-4 h-4" />
               </div>
-              <span className={`text-xs font-semibold font-sans truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Active LRU Inventory</span>
+              <span className="inline-flex items-center text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-sans font-medium whitespace-nowrap shrink-0 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mr-1.5 shrink-0" />
+                Forward Wings
+              </span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-sans font-medium">Forward Wings</span>
+            <div className="mt-3">
+              <span className={`text-xs font-semibold font-sans tracking-wide uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                Active LRU Inventory
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans mt-0.5">
+                {baseSpares.length || 18} <span className="text-sm font-semibold text-slate-400">Assemblies</span>
+              </h3>
+            </div>
           </div>
-          <div className="mt-3 mb-2">
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-cyan-300 font-sans">
-              {baseSpares.length || 18} <span className="text-base font-semibold text-slate-400">Assemblies</span>
-            </h3>
-          </div>
-          <div className="pt-2 border-t border-white/5 dark:border-white/5">
-            <span className={`text-xs font-sans ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Tracked across 3 frontline operating wings</span>
+          <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5">
+            <span className={`text-xs font-sans ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+              Tracked across 3 frontline operating wings
+            </span>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300">
-          <div className="flex items-center justify-between gap-2.5">
-            <div className="flex items-center gap-2 min-w-0">
-              <div className="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0">
+        {/* Card 2: Critical Spares Shortage */}
+        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 border-slate-800 bg-slate-900/90 shadow-sm">
+          <div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="w-9 h-9 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center shrink-0">
                 <AlertTriangle className="w-4 h-4" />
               </div>
-              <span className={`text-xs font-semibold font-sans truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Critical Spares Shortage</span>
+              <span className="inline-flex items-center text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-rose-200 border border-rose-600/40 font-sans font-medium whitespace-nowrap shrink-0 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 mr-1.5 shrink-0" />
+                Action Required
+              </span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20 font-sans font-semibold">Priority Action</span>
+            <div className="mt-3">
+              <span className={`text-xs font-semibold font-sans tracking-wide uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                Critical Stockout Alert
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans mt-0.5">
+                {outOfStockCount} <span className="text-sm font-semibold text-rose-400">Assembly Depleted</span>
+              </h3>
+            </div>
           </div>
-          <div className="mt-3 mb-2">
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-rose-300 font-sans">
-              {outOfStockCount} <span className="text-base font-semibold text-slate-400">Assembly Stockout</span>
-            </h3>
-          </div>
-          <div className="pt-2 border-t border-white/5 dark:border-white/5">
-            <span className="text-xs text-rose-300/90 font-sans">HPC Rotor Blades &bull; AFS Thanjavur</span>
+          <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5">
+            <span className="text-xs text-rose-300/90 font-sans">
+              HPC Rotor Blades &bull; AFS Thanjavur
+            </span>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300">
-          <div className="flex items-center justify-between gap-2.5">
-            <div className="flex items-center gap-2 min-w-0">
-              <div className="w-8 h-8 rounded-xl bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 flex items-center justify-center shrink-0">
-                <Zap className="w-4 h-4" />
+        {/* Card 3: Proactive Replenishment */}
+        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 border-slate-800 bg-slate-900/90 shadow-sm">
+          <div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="w-9 h-9 rounded-xl bg-sky-500/15 border border-sky-500/30 text-sky-400 flex items-center justify-center shrink-0">
+                <Truck className="w-4 h-4" />
               </div>
-              <span className={`text-xs font-semibold font-sans truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Proactive Replenishment</span>
+              <span className="inline-flex items-center text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-sans font-medium whitespace-nowrap shrink-0 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mr-1.5 shrink-0" />
+                Depot Inbound
+              </span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-cyan-300 border border-blue-500/20 font-sans font-semibold">Auto Dispatched</span>
+            <div className="mt-3">
+              <span className={`text-xs font-semibold font-sans tracking-wide uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                Proactive Replenishment
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans mt-0.5">
+                {aiTriggers.length} <span className="text-sm font-semibold text-slate-400">Depot Inductions</span>
+              </h3>
+            </div>
           </div>
-          <div className="mt-3 mb-2">
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-cyan-300 font-sans">
-              {aiTriggers.length} <span className="text-base font-semibold text-slate-400">Depot Inductions</span>
-            </h3>
-          </div>
-          <div className="pt-2 border-t border-white/5 dark:border-white/5">
-            <span className="text-xs text-slate-400 font-sans">Automated procurement based on RUL wear</span>
+          <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5">
+            <span className="text-xs text-slate-400 font-sans">
+              Automated reorders triggered by RUL wear
+            </span>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300">
-          <div className="flex items-center justify-between gap-2.5">
-            <div className="flex items-center gap-2 min-w-0">
-              <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+        {/* Card 4: Depot Turnaround Time */}
+        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all duration-300 border-slate-800 bg-slate-900/90 shadow-sm">
+          <div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0">
                 <Clock className="w-4 h-4" />
               </div>
-              <span className={`text-xs font-semibold font-sans truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Depot Turnaround Time</span>
+              <span className="inline-flex items-center text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-sans font-medium whitespace-nowrap shrink-0 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 shrink-0" />
+                Within SLA
+              </span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-sans font-semibold">Within SLA</span>
+            <div className="mt-3">
+              <span className={`text-xs font-semibold font-sans tracking-wide uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                Depot Turnaround Time
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans mt-0.5">
+                18.4 <span className="text-sm font-semibold text-emerald-400">Hours Avg</span>
+              </h3>
+            </div>
           </div>
-          <div className="mt-3 mb-2">
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-emerald-300 font-sans">
-              18.4 <span className="text-base font-semibold text-slate-400">Hours Avg</span>
-            </h3>
-          </div>
-          <div className="pt-2 border-t border-white/5 dark:border-white/5">
-            <span className="text-xs text-emerald-300/90 font-sans">Base Repair Depot limit: 48.0h</span>
+          <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5">
+            <span className="text-xs text-emerald-300/90 font-sans">
+              Base Repair Depot limit: 48.0h
+            </span>
           </div>
         </GlassCard>
       </div>
