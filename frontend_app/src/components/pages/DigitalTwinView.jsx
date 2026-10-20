@@ -36,7 +36,7 @@ export default function DigitalTwinView() {
   if (!twinData && loading) {
     return (
       <div className="flex items-center justify-center p-16 text-slate-400 font-sans text-sm">
-        <RefreshCw className="w-5 h-5 animate-spin mr-2 text-[#0075FF]" />
+        <RefreshCw className="w-5 h-5 animate-spin mr-2 text-purple-400" />
         Loading 5-Stage Gas-Path Digital Twin & Subsystem Telemetry...
       </div>
     );
@@ -61,7 +61,7 @@ export default function DigitalTwinView() {
       {/* 1. TOP HEADER & TAIL SELECTOR CARD */}
       <GlassCard className="p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-violet-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-purple-900/30">
             <Cpu className="w-6 h-6" />
           </div>
           <div>
@@ -73,7 +73,7 @@ export default function DigitalTwinView() {
                 Sortie Cycle #{twinData?.flight_cycle || 0}
               </span>
             </div>
-            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Aircraft Subsystems & Gas-Path Health Monitor
             </h2>
           </div>
@@ -87,10 +87,10 @@ export default function DigitalTwinView() {
           <select
             value={selectedTail}
             onChange={(e) => setSelectedTail(e.target.value)}
-            className={`text-xs font-sans font-semibold py-2 px-3 rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+            className={`text-xs font-sans font-semibold py-2 px-3 rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 transition ${
               isDark
                 ? 'bg-slate-900 text-cyan-300 border border-white/15'
-                : 'bg-slate-100 text-[#1B2559] border border-slate-200'
+                : 'bg-slate-100 text-slate-900 border border-slate-200'
             }`}
           >
             {MOCK_AIRCRAFT_LIST.map((ac) => (
@@ -126,7 +126,7 @@ export default function DigitalTwinView() {
             Squadron & Base
           </p>
           <div className="mt-2">
-            <h4 className={`text-sm font-bold ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h4 className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
               {twinData?.squadron}
             </h4>
             <p className="text-xs font-sans text-cyan-300 mt-0.5 font-medium">
@@ -175,7 +175,7 @@ export default function DigitalTwinView() {
             Conservative RUL (90% Conf)
           </p>
           <div className="mt-2">
-            <h4 className="text-2xl font-sans font-bold text-[#00D5FF] tracking-tight">
+            <h4 className="text-2xl font-sans font-bold text-purple-300 tracking-tight">
               {prog.conservative_rul_hours} hrs
             </h4>
             <p className="text-xs text-slate-400 font-sans mt-0.5">
@@ -195,7 +195,7 @@ export default function DigitalTwinView() {
           <div>
             <div className="flex items-center gap-2">
               <Layers className="w-5 h-5 text-cyan-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Aircraft Subsystem Architecture & AI Anomaly Detection Scores
               </h3>
             </div>
@@ -218,7 +218,7 @@ export default function DigitalTwinView() {
                 onClick={() => setActiveSubsystemTab(tab.id)}
                 className={`px-3 py-1.5 rounded-xl border transition ${
                   activeSubsystemTab === tab.id
-                    ? 'bg-[#0075FF] text-white border-[#0075FF] font-bold shadow-vision-glow'
+                    ? 'bg-purple-600 text-white border-purple-500 font-bold shadow-lg shadow-purple-900/30'
                     : isDark
                     ? 'bg-white/5 text-slate-400 border-white/10 hover:text-white'
                     : 'bg-slate-100 text-slate-600 border-slate-200 hover:text-slate-900'
@@ -244,7 +244,7 @@ export default function DigitalTwinView() {
                 <StatusBadge status={subsystems.avionics?.status} size="sm" />
               </div>
 
-              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {subsystems.avionics?.name || 'Avionics System'}
               </h4>
 
@@ -309,7 +309,7 @@ export default function DigitalTwinView() {
                 <StatusBadge status={subsystems.propulsion?.status} size="sm" />
               </div>
 
-              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {subsystems.propulsion?.name || 'Propulsion System'}
               </h4>
 
@@ -388,7 +388,7 @@ export default function DigitalTwinView() {
                 <StatusBadge status={subsystems.hydraulics?.status} size="sm" />
               </div>
 
-              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {subsystems.hydraulics?.name || 'Hydraulic Subsystem'}
               </h4>
 
@@ -445,7 +445,7 @@ export default function DigitalTwinView() {
                 <StatusBadge status={subsystems.airframe?.status} size="sm" />
               </div>
 
-              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {subsystems.airframe?.name || 'Airframe Structure'}
               </h4>
 
@@ -498,7 +498,7 @@ export default function DigitalTwinView() {
           <div>
             <div className="flex items-center gap-2">
               <Activity className="w-5 h-5 text-emerald-400" />
-              <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Turbofan Gas-Path Cross-Section Breakdown (Stations 2 &rarr; 50)
               </h3>
             </div>
@@ -510,7 +510,7 @@ export default function DigitalTwinView() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('predictive')}
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#0075FF] to-[#00D5FF] hover:from-[#005CE6] hover:to-[#00B4D8] text-white font-sans text-xs font-semibold transition flex items-center gap-1.5 shadow-vision-glow"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white font-sans text-xs font-semibold transition flex items-center gap-1.5 shadow-lg shadow-purple-900/30"
             >
               Test in Sortie Simulator
               <ArrowRight className="w-3.5 h-3.5" />
@@ -547,7 +547,7 @@ export default function DigitalTwinView() {
 
             // Authentic tactical aerospace border & elevation (no gaudy border-l-4 stripes)
             const cardBorder = isSelected
-              ? 'ring-2 ring-cyan-400 shadow-vision-glow border-cyan-400/60'
+              ? 'ring-2 ring-cyan-400 shadow-lg shadow-purple-900/30 border-cyan-400/60'
               : isCritical
               ? (isDark ? 'border-red-500/35 bg-red-950/[0.08]' : 'border-red-300 bg-red-50/60')
               : isCaution
@@ -574,7 +574,7 @@ export default function DigitalTwinView() {
                     <StatusBadge status={st.status} size="sm" />
                   </div>
 
-                  <h5 className={`font-bold text-xs mt-3 tracking-tight font-sans line-clamp-1 ${isDark ? 'text-white' : 'text-[#1B2559]'}`} title={st.name}>
+                  <h5 className={`font-bold text-xs mt-3 tracking-tight font-sans line-clamp-1 ${isDark ? 'text-white' : 'text-slate-900'}`} title={st.name}>
                     {st.name}
                   </h5>
 
@@ -654,7 +654,7 @@ export default function DigitalTwinView() {
             <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
               <div className="flex items-center gap-2">
                 <Gauge className="w-5 h-5 text-cyan-400" />
-                <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   IoT Gas-Path Sensor Telemetry Stream (Live Values)
                 </h3>
               </div>
@@ -807,7 +807,7 @@ export default function DigitalTwinView() {
                   <Zap className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className={`font-bold text-sm tracking-tight font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                  <h3 className={`font-bold text-sm tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     RLS Drift Adaptation Filter
                   </h3>
                   <p className="text-[11px] text-slate-400 font-sans">Real-time sensor gain & bias tracking</p>

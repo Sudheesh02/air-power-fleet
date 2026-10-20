@@ -268,14 +268,14 @@ I have full tactical situational awareness of:
         <div
           className={`fixed bottom-4 right-3 sm:right-6 z-50 w-[95vw] sm:w-[540px] h-[640px] max-h-[88vh] rounded-2xl shadow-2xl flex flex-col border backdrop-blur-2xl transition-all duration-300 ${
             isDark
-              ? 'bg-[#0B1437]/95 border-cyan-500/30 text-white shadow-[0_20px_60px_rgba(0,0,0,0.85)]'
-              : 'bg-white/95 border-blue-200 text-[#1B2559] shadow-[0_20px_50px_rgba(0,117,255,0.15)]'
+              ? 'bg-[#12131C]/95 border-cyan-500/30 text-white shadow-[0_20px_60px_rgba(0,0,0,0.85)]'
+              : 'bg-white/95 border-blue-200 text-slate-900 shadow-[0_20px_50px_rgba(0,117,255,0.15)]'
           }`}
         >
           {/* Header */}
           <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between gap-2 shrink-0 bg-gradient-to-r from-blue-900/30 to-cyan-900/10 rounded-t-2xl">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center shadow-md shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-violet-600 to-purple-600 flex items-center justify-center shadow-md shrink-0">
                 <Bot className="w-4 h-4 text-white" />
               </div>
               <div className="leading-tight">
@@ -428,7 +428,7 @@ I have full tactical situational awareness of:
                 className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.sender === 'agent' && (
-                  <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center shrink-0 mt-1 shadow-sm">
+                  <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-violet-600 to-purple-600 flex items-center justify-center shrink-0 mt-1 shadow-sm">
                     <Bot className="w-3.5 h-3.5 text-white" />
                   </div>
                 )}
@@ -436,7 +436,7 @@ I have full tactical situational awareness of:
                 <div
                   className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-xs shadow-md transition-all ${
                     msg.sender === 'user'
-                      ? 'bg-gradient-to-r from-[#0075FF] to-[#0052D4] text-white rounded-tr-none'
+                      ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-tr-none'
                       : isDark
                       ? 'bg-slate-900/80 border border-white/10 text-slate-100 rounded-tl-none'
                       : 'bg-slate-100 border border-slate-200 text-slate-800 rounded-tl-none'
@@ -537,7 +537,7 @@ I have full tactical situational awareness of:
               <button
                 type="submit"
                 disabled={!inputQuery.trim()}
-                className="p-2.5 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-[0_0_15px_rgba(0,117,255,0.4)] active:scale-95 transition"
+                className="p-2.5 rounded-xl bg-gradient-to-tr from-violet-600 to-purple-600 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-[0_0_15px_rgba(0,117,255,0.4)] active:scale-95 transition"
               >
                 <Send className="w-4 h-4" />
               </button>

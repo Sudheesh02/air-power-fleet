@@ -148,3 +148,18 @@ Whenever modifying code in this codebase, log all new architectural choices, int
 - **Tradeoffs & Mitigations**:
   - *Tradeoff*: Requires explicit push to remote.
   - *Mitigation*: Both `develop` and `main` branches are now completely synchronized with all documentation (`decision.md`, `flow.md`) and latest commits in place.
+
+
+### [2026-10-20] - Modern Charcoal & Violet UI/UX Redesign (Reference Standard)
+- **Component Affected**: `frontend_app/tailwind.config.js`, `frontend_app/src/index.css`, `frontend_app/src/App.jsx`, `frontend_app/src/components/layout/Navbar.jsx`, `frontend_app/src/components/layout/Sidebar.jsx`, `frontend_app/src/components/common/StatCard.jsx`, `frontend_app/src/components/common/GlassCard.jsx`, `frontend_app/src/components/pages/CommandOverview.jsx`, `engine/sortie_planner.py`
+- **Change Description**: Overhauled the presentation layer to match the provided modern analytics reference image:
+  - **Color Palette Transformation**: Shifted from bright tactical navy-blue/cyan (`#060B26` / `#0075FF`) to sophisticated near-black backgrounds (`#090A0E`), charcoal surfaces (`#12131C`), crisp subtle borders (`rgba(255, 255, 255, 0.08)`), and violet/lavender accents (`#8B5CF6`, `#A78BFA`, `#C084FC`).
+  - **KPI Cards**: Compact redesign with clean icons, circular `↗` action indicators, large bold stat values, subtle status badges (`+6%`, `-4%`, `+12%`), and mini cubic spline sparklines.
+  - **Header & Navigation**: Restyled navbar and sidebar with sleek pill-shaped active buttons, rounded avatar badge, date/cycle picker pill, and vibrant purple action buttons.
+  - **Charts & Meters**: Transformed the Predicted Fault Probability line chart with dark surfaces, subtle gridlines, and glowing lavender spline strokes; styled the Squadron Readiness Score gauge with segmented ticks and high-contrast average scores.
+  - **Reference Insight Card**: Added the signature purple-indigo gradient AI insight card with sparkling indicator, dynamic text, and bottom rounded capsule step bars (`reference-insight-card`).
+  - **Bug Fix**: Fixed a legacy import in `engine/sortie_planner.py` to allow fallback between local package and root execution, enabling 100% backend integration test pass rate.
+- **Library / Method Chosen**: Pure CSS/Tailwind presentation overhaul reusing all existing React components, Recharts visualizations, Lucide icons, and state logic. Zero architectural or functional regressions.
+- **Tradeoffs & Mitigations**:
+  - *Tradeoff*: Comprehensive style transformation across multiple JSX files.
+  - *Mitigation*: Validated with full `vite build` (0 warnings, 2.08s) and executed all 7 automated backend integration tests (100% pass).
