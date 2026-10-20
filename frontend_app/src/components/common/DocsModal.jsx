@@ -12,19 +12,19 @@ export default function DocsModal({ isOpen, onClose }) {
       <div
         className={`w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 transition-all shadow-2xl ${
           isDark
-            ? 'bg-[#0B1437] text-white border border-white/10 shadow-[0_0_50px_rgba(0,117,255,0.2)]'
+            ? 'bg-[#20212F] text-white border border-white/10 shadow-[0_0_50px_rgba(0,117,255,0.2)]'
             : 'bg-white text-slate-800 border border-slate-200'
         }`}
       >
         {/* 1. MODAL HEADER */}
         <div className="flex items-start justify-between pb-5 border-b border-white/10 dark:border-white/10">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
               <Shield className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#0075FF]/15 text-[#00D5FF] font-semibold border border-[#0075FF]/30 font-sans">
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#9147FF]/15 text-[#BC83FF] font-semibold border border-[#9147FF]/30 font-sans">
                   SIH26249 &bull; Ministry of Defence
                 </span>
                 <span className="text-xs text-slate-400 font-sans hidden sm:inline">
@@ -73,7 +73,7 @@ export default function DocsModal({ isOpen, onClose }) {
                     <Cpu className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className={`font-bold text-sm font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                    <h3 className={`font-bold text-sm font-sans ${isDark ? 'text-white' : 'text-[#1E2030]'}`}>
                       5-Stage Gas-Path Digital Twin
                     </h3>
                   </div>
@@ -159,7 +159,7 @@ export default function DocsModal({ isOpen, onClose }) {
                     <Layers className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className={`font-bold text-sm font-sans ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                    <h3 className={`font-bold text-sm font-sans ${isDark ? 'text-white' : 'text-[#1E2030]'}`}>
                       Conformal RUL & Drift Adaptation
                     </h3>
                   </div>
@@ -299,7 +299,7 @@ export default function DocsModal({ isOpen, onClose }) {
           <span>Smart India Hackathon 2026 &bull; Ministry of Defence</span>
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#0075FF] to-[#00D5FF] text-white font-bold hover:shadow-vision-glow transition"
+            className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#9147FF] to-[#BC83FF] text-white font-bold hover:shadow-vision-glow transition"
           >
             Close Reference
           </button>

@@ -300,7 +300,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
           <button
             onClick={() => setIsVoiceAgentOpen(true)}
             aria-label="Open Air Power Copilot"
-            className="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] shadow-vision-glow hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer border border-white/20"
+            className="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] shadow-vision-glow hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer border border-white/20"
           >
             <Plane className="w-5 h-5 text-white -rotate-45" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-900 shadow-sm animate-pulse" />
@@ -325,7 +325,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
           isVoiceAgentOpen ? 'translate-x-0' : 'translate-x-full'
         } ${
           isDark
-            ? 'bg-[#0B1437]/98 border-white/10 text-white'
+            ? 'bg-[#20212F]/98 border-white/10 text-white'
             : 'bg-white/98 border-slate-200 text-slate-900'
         } backdrop-blur-2xl`}
       >
@@ -335,7 +335,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
         }`}>
           {/* Left: Brand Squircle + Title + Context Subtitle */}
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
               <Plane className="w-4 h-4 -rotate-45" />
             </div>
             <div className="min-w-0 leading-tight">
@@ -475,7 +475,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
             return (
               <div key={msg.id} className="flex items-start gap-3">
                 {/* Subtle Brand Squircle Avatar on Left */}
-                <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shrink-0 mt-0.5 shadow-xs">
+                <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#9147FF] to-[#BC83FF] flex items-center justify-center text-white shrink-0 mt-0.5 shadow-xs">
                   <Plane className="w-3.5 h-3.5 -rotate-45" />
                 </div>
 
@@ -567,7 +567,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
 
         {/* Bottom Input Area (Identical to Vanna Assist Floating Bar) */}
         <div className={`p-3.5 sm:p-4 border-t shrink-0 ${
-          isDark ? 'border-white/10 bg-[#0B1437]/90' : 'border-slate-200 bg-white/95'
+          isDark ? 'border-white/10 bg-[#20212F]/90' : 'border-slate-200 bg-white/95'
         }`}>
           <form
             onSubmit={(e) => {

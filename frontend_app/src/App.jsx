@@ -63,7 +63,7 @@ function MainLayout() {
       className={`min-h-screen transition-colors duration-300 ${
         isDark
           ? 'tactical-mesh-dark text-white'
-          : 'tactical-mesh-light text-[#1B2559]'
+          : 'tactical-mesh-light text-[#1E2030]'
       }`}
     >
       {/* Vision UI Sidebar */}
