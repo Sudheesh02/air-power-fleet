@@ -154,3 +154,20 @@ input[type="range"].tactical-slider::-moz-range-thumb:active {
   cursor: grabbing;
   transform: scale(1.05);
 }
+
+/* Recharts Axis Typography - High-Precision Tabular Monospace */
+.recharts-cartesian-axis-tick text {
+  font-family: 'JetBrains Mono', Consolas, ui-monospace, SFMono-Regular, monospace !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  stroke: none !important;
+}
+
+.recharts-cartesian-axis-tick-line {
+  stroke: rgba(148, 163, 184, 0.25) !important;
+}
+
+.recharts-cartesian-axis-line {
+  stroke: rgba(148, 163, 184, 0.25) !important;
+}

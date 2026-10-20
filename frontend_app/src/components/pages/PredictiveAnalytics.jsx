@@ -1230,7 +1230,7 @@ export default function PredictiveAnalytics() {
                 Conformal 90% Confidence RUL Degradation Trajectory
               </h3>
               <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
-                Shaded uncertainty bounds ($\mu \pm 1.96\sigma$) preventing false clears
+                Shaded uncertainty bounds (&mu; &plusmn; 1.96&sigma;) preventing false clears
               </p>
             </div>
             <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-sans">
@@ -1250,15 +1250,27 @@ export default function PredictiveAnalytics() {
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} />
                 <XAxis
                   dataKey="cycle"
-                  stroke={isDark ? '#64748B' : '#94A3B8'}
-                  fontSize={11}
-                  fontFamily="JetBrains Mono"
+                  axisLine={{ stroke: isDark ? '#334155' : '#CBD5E1', strokeWidth: 1 }}
+                  tickLine={{ stroke: isDark ? '#334155' : '#CBD5E1' }}
+                  tick={{
+                    fill: isDark ? '#94A3B8' : '#475569',
+                    fontSize: 11,
+                    fontFamily: "'JetBrains Mono', Consolas, ui-monospace, monospace",
+                    fontWeight: 600,
+                  }}
+                  dy={8}
                   unit=" cyc"
                 />
                 <YAxis
-                  stroke={isDark ? '#64748B' : '#94A3B8'}
-                  fontSize={11}
-                  fontFamily="JetBrains Mono"
+                  axisLine={{ stroke: isDark ? '#334155' : '#CBD5E1', strokeWidth: 1 }}
+                  tickLine={{ stroke: isDark ? '#334155' : '#CBD5E1' }}
+                  tick={{
+                    fill: isDark ? '#94A3B8' : '#475569',
+                    fontSize: 11,
+                    fontFamily: "'JetBrains Mono', Consolas, ui-monospace, monospace",
+                    fontWeight: 600,
+                  }}
+                  dx={-4}
                   unit="%"
                   domain={[0, 100]}
                 />
@@ -1339,8 +1351,34 @@ export default function PredictiveAnalytics() {
                   margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'} horizontal={false} />
-                  <XAxis type="number" domain={[-15, 45]} unit="%" stroke={isDark ? '#64748B' : '#94A3B8'} fontSize={10} fontFamily="JetBrains Mono" />
-                  <YAxis type="category" dataKey="feature" stroke={isDark ? '#64748B' : '#94A3B8'} fontSize={10} width={138} />
+                  <XAxis
+                    type="number"
+                    domain={[-15, 45]}
+                    unit="%"
+                    axisLine={{ stroke: isDark ? '#334155' : '#CBD5E1', strokeWidth: 1 }}
+                    tickLine={{ stroke: isDark ? '#334155' : '#CBD5E1' }}
+                    tick={{
+                      fill: isDark ? '#94A3B8' : '#475569',
+                      fontSize: 11,
+                      fontFamily: "'JetBrains Mono', Consolas, ui-monospace, monospace",
+                      fontWeight: 600,
+                    }}
+                    dy={6}
+                  />
+                  <YAxis
+                    type="category"
+                    dataKey="feature"
+                    axisLine={{ stroke: isDark ? '#334155' : '#CBD5E1', strokeWidth: 1 }}
+                    tickLine={{ stroke: isDark ? '#334155' : '#CBD5E1' }}
+                    tick={{
+                      fill: isDark ? '#CBD5E1' : '#1E293B',
+                      fontSize: 11,
+                      fontFamily: "'JetBrains Mono', Consolas, ui-monospace, monospace",
+                      fontWeight: 600,
+                    }}
+                    width={142}
+                    dx={-4}
+                  />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
