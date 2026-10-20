@@ -65,7 +65,8 @@ export const MOCK_AIRCRAFT_LIST = [
     engine_serial: 'AL31FP-8822',
     status: 'MAINTENANCE_GROUNDED',
     health_score: 21.2,
-    rul_hours: 14.5,
+    rul_hours: 21.2,
+    conservative_rul_hours: 16.4,
     next_fault: 'HPC Rotor Stage 1-3 blade tip degradation & micro-cracking',
     vibration_index: 0.94,
     oil_pressure_psi: 32.4,
@@ -157,7 +158,8 @@ export const MOCK_AIRCRAFT_LIST = [
     engine_serial: 'F404-IN20-112',
     status: 'MAINTENANCE_GROUNDED',
     health_score: 28.5,
-    rul_hours: 18.2,
+    rul_hours: 24.8,
+    conservative_rul_hours: 19.5,
     next_fault: 'Digital High Pressure Fuel Pump valve pressure oscillation',
     vibration_index: 0.88,
     oil_pressure_psi: 34.0,
@@ -250,6 +252,7 @@ export const MOCK_AIRCRAFT_LIST = [
     status: 'MAINTENANCE_GROUNDED',
     health_score: 31.5,
     rul_hours: 22.0,
+    conservative_rul_hours: 17.8,
     next_fault: 'Turbine Disk thermal barrier coating spallation & EGT creep',
     vibration_index: 0.91,
     oil_pressure_psi: 31.8,
@@ -340,30 +343,173 @@ export const MOCK_FLEET_READINESS = {
   ]
 };
 
+// Synchronized Master Defense Airframe Profiles (100% 1:1 parity with digital_twin_engine.py)
+export const AIRCRAFT_PROFILES = {
+  'SB-021': {
+    health_score: 80.3, rul_hours: 102.1, conservative_rul_hours: 88.4,
+    conformal_interval: [88.4, 115.8], cycle: 68, unit_ref: 1,
+    hpc: 84.0, lpc: 88.0, fan: 92.0, combustor: 86.0, lpt: 82.0,
+    wear_mode: 'LPT Thermal Creep', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'SB-022': {
+    health_score: 76.5, rul_hours: 88.4, conservative_rul_hours: 76.5,
+    conformal_interval: [76.5, 100.3], cycle: 78, unit_ref: 2,
+    hpc: 72.0, lpc: 82.0, fan: 90.0, combustor: 84.0, lpt: 80.0,
+    wear_mode: 'HPC Tip Clearance Widening', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'SB-023': {
+    health_score: 62.4, rul_hours: 42.0, conservative_rul_hours: 36.4,
+    conformal_interval: [36.4, 47.6], cycle: 142, unit_ref: 3,
+    hpc: 58.0, lpc: 78.0, fan: 84.0, combustor: 75.0, lpt: 72.0,
+    wear_mode: 'Compressor fouling & RLS sensor gain drift', drift_detected: true, status: 'CONDITIONAL_STANDBY'
+  },
+  'SB-024': {
+    health_score: 21.2, rul_hours: 21.2, conservative_rul_hours: 16.4,
+    conformal_interval: [14.8, 25.4], cycle: 192, unit_ref: 4,
+    hpc: 21.2, lpc: 82.0, fan: 88.0, combustor: 74.0, lpt: 76.0,
+    wear_mode: 'HPC Rotor Stage 1-3 blade tip degradation & micro-cracking', drift_detected: false, status: 'MAINTENANCE_GROUNDED'
+  },
+  'SB-025': {
+    health_score: 89.2, rul_hours: 135.0, conservative_rul_hours: 116.9,
+    conformal_interval: [116.9, 153.1], cycle: 45, unit_ref: 5,
+    hpc: 90.0, lpc: 92.0, fan: 95.0, combustor: 78.0, lpt: 88.0,
+    wear_mode: 'Combustor Liner Coking', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'SB-026': {
+    health_score: 78.8, rul_hours: 94.2, conservative_rul_hours: 81.6,
+    conformal_interval: [81.6, 106.8], cycle: 72, unit_ref: 6,
+    hpc: 82.0, lpc: 80.0, fan: 74.0, combustor: 86.0, lpt: 85.0,
+    wear_mode: 'Fan Stator Aerodynamic Loss', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'KH-201': {
+    health_score: 91.5, rul_hours: 148.0, conservative_rul_hours: 128.2,
+    conformal_interval: [128.2, 167.8], cycle: 38, unit_ref: 7,
+    hpc: 92.0, lpc: 94.0, fan: 95.0, combustor: 90.0, lpt: 89.0,
+    wear_mode: 'Digital HP Fuel Pump Calibration', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'KH-202': {
+    health_score: 87.0, rul_hours: 128.5, conservative_rul_hours: 111.3,
+    conformal_interval: [111.3, 145.7], cycle: 52, unit_ref: 8,
+    hpc: 88.0, lpc: 76.0, fan: 92.0, combustor: 88.0, lpt: 87.0,
+    wear_mode: 'LPC Vane Tip Rub', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'KH-203': {
+    health_score: 65.1, rul_hours: 68.0, conservative_rul_hours: 58.9,
+    conformal_interval: [58.9, 77.1], cycle: 120, unit_ref: 9,
+    hpc: 80.0, lpc: 75.0, fan: 88.0, combustor: 78.0, lpt: 74.0,
+    wear_mode: 'FADEC Channel B resistance deviation', drift_detected: true, status: 'CONDITIONAL_STANDBY'
+  },
+  'KH-204': {
+    health_score: 28.5, rul_hours: 24.8, conservative_rul_hours: 19.5,
+    conformal_interval: [18.0, 29.6], cycle: 178, unit_ref: 10,
+    hpc: 78.0, lpc: 28.0, fan: 85.0, combustor: 72.0, lpt: 75.0,
+    wear_mode: 'Digital High Pressure Fuel Pump valve pressure oscillation', drift_detected: false, status: 'MAINTENANCE_GROUNDED'
+  },
+  'KH-205': {
+    health_score: 94.2, rul_hours: 156.4, conservative_rul_hours: 135.5,
+    conformal_interval: [135.5, 177.3], cycle: 30, unit_ref: 11,
+    hpc: 95.0, lpc: 94.0, fan: 96.0, combustor: 92.0, lpt: 93.0,
+    wear_mode: 'Thermocouple Harness Degradation', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'KH-206': {
+    health_score: 88.6, rul_hours: 132.0, conservative_rul_hours: 114.3,
+    conformal_interval: [114.3, 149.7], cycle: 48, unit_ref: 12,
+    hpc: 84.0, lpc: 90.0, fan: 92.0, combustor: 89.0, lpt: 88.0,
+    wear_mode: 'HPC Outlet Stator Seal', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'RB-001': {
+    health_score: 86.4, rul_hours: 122.0, conservative_rul_hours: 105.7,
+    conformal_interval: [105.7, 138.3], cycle: 58, unit_ref: 13,
+    hpc: 88.0, lpc: 89.0, fan: 91.0, combustor: 86.0, lpt: 78.0,
+    wear_mode: 'LPT Nozzle Guide Vane Wear', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'RB-002': {
+    health_score: 83.2, rul_hours: 110.5, conservative_rul_hours: 95.7,
+    conformal_interval: [95.7, 125.3], cycle: 64, unit_ref: 14,
+    hpc: 79.0, lpc: 86.0, fan: 90.0, combustor: 84.0, lpt: 82.0,
+    wear_mode: 'HPC Rotor Stage 3 Spalling', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'RB-003': {
+    health_score: 61.8, rul_hours: 52.0, conservative_rul_hours: 45.0,
+    conformal_interval: [45.0, 59.0], cycle: 135, unit_ref: 15,
+    hpc: 76.0, lpc: 80.0, fan: 86.0, combustor: 72.0, lpt: 64.0,
+    wear_mode: 'LPT Thermocouple harness drift', drift_detected: true, status: 'CONDITIONAL_STANDBY'
+  },
+  'RB-004': {
+    health_score: 31.5, rul_hours: 22.0, conservative_rul_hours: 17.8,
+    conformal_interval: [16.2, 26.8], cycle: 170, unit_ref: 16,
+    hpc: 82.0, lpc: 85.0, fan: 90.0, combustor: 68.0, lpt: 24.0,
+    wear_mode: 'Turbine Disk thermal barrier coating spallation & EGT creep', drift_detected: false, status: 'MAINTENANCE_GROUNDED'
+  },
+  'RB-005': {
+    health_score: 92.8, rul_hours: 152.0, conservative_rul_hours: 131.7,
+    conformal_interval: [131.7, 172.3], cycle: 34, unit_ref: 17,
+    hpc: 93.0, lpc: 94.0, fan: 96.0, combustor: 88.0, lpt: 92.0,
+    wear_mode: 'Afterburner Flame Holder Erosion', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'RB-006': {
+    health_score: 85.0, rul_hours: 118.0, conservative_rul_hours: 102.2,
+    conformal_interval: [102.2, 133.8], cycle: 60, unit_ref: 18,
+    hpc: 86.0, lpc: 88.0, fan: 90.0, combustor: 85.0, lpt: 84.0,
+    wear_mode: 'Main Fuel Valve Stiction', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'CB-8001': {
+    health_score: 92.0, rul_hours: 180.0, conservative_rul_hours: 155.9,
+    conformal_interval: [155.9, 204.1], cycle: 32, unit_ref: 19,
+    hpc: 92.0, lpc: 94.0, fan: 95.0, combustor: 90.0, lpt: 91.0,
+    wear_mode: 'Avionics Cooling Fan Blower', drift_detected: false, status: 'MISSION_CAPABLE'
+  },
+  'IA-3104': {
+    health_score: 24.0, rul_hours: 19.4, conservative_rul_hours: 16.8,
+    conformal_interval: [16.8, 22.0], cycle: 180, unit_ref: 20,
+    hpc: 35.0, lpc: 40.0, fan: 50.0, combustor: 45.0, lpt: 38.0,
+    wear_mode: 'TM333 Turboshaft vibration isolator bushing set exhausted', drift_detected: false, status: 'MAINTENANCE_GROUNDED'
+  }
+};
+
 // Multi-Subsystem Digital Twin Generator (Avionics, Propulsion, Hydraulics, Airframe)
 export function getMockDigitalTwin(tailNo) {
   const plane = MOCK_AIRCRAFT_LIST.find(a => a.tail_no === tailNo) || MOCK_AIRCRAFT_LIST[0];
+  const prof = AIRCRAFT_PROFILES[plane.tail_no] || AIRCRAFT_PROFILES['SB-021'];
   const isGrounded = plane.status === 'MAINTENANCE_GROUNDED';
   const isStandby = plane.status === 'CONDITIONAL_STANDBY';
+  const baseHealth = prof.health_score / 100.0;
+  const unitRef = prof.unit_ref || 1;
 
-  // Subsystem Anomaly Scores (0 to 100, where 100 = perfect, lower = anomaly detected)
-  const avionicsHealth = isGrounded ? 88.0 : (isStandby ? 72.0 : 96.5);
-  const propulsionHealth = plane.health_score;
-  const hydraulicsHealth = isGrounded ? 64.0 : (isStandby ? 82.0 : 93.0);
-  const airframeHealth = isGrounded ? 58.0 : (isStandby ? 79.0 : 92.0);
+  const hpcHealth = prof.hpc;
+  const fanHealth = prof.fan;
+  const lpcHealth = prof.lpc;
+  const combustorHealth = prof.combustor;
+  const lptHealth = prof.lpt;
 
-  const hpcHealth = isGrounded ? 21.2 : (isStandby ? 52.4 : 84.6);
-  const fanHealth = isGrounded ? 58.0 : (isStandby ? 74.2 : 92.1);
-  const lpcHealth = isGrounded ? 52.0 : (isStandby ? 71.0 : 88.5);
-  const combustorHealth = isGrounded ? 49.0 : (isStandby ? 68.5 : 86.0);
-  const lptHealth = isGrounded ? 31.5 : (isStandby ? 58.2 : 82.4);
+  const rulHours = prof.rul_hours;
+  const conservativeRulHours = prof.conservative_rul_hours;
+  const conformalInterval = prof.conformal_interval;
+  const rulStdHours = Number(((rulHours - conservativeRulHours) / 1.645).toFixed(2));
 
-  // Dynamically compute conformal bounds strictly matching: Mean, 90% Interval [Lower, Upper], Conservative RUL == Lower
-  const rulHours = plane.rul_hours ?? (isGrounded ? 18.2 : (isStandby ? 54.8 : 102.1));
-  const rulStdHours = Number((rulHours * 0.0815).toFixed(1));
-  const confLower = Number(Math.max(0, rulHours - 1.645 * rulStdHours).toFixed(1));
-  const confUpper = Number((rulHours + 1.645 * rulStdHours).toFixed(1));
-  const conservativeRulHours = confLower;
+  const avionicsHealth = plane.status === 'MISSION_CAPABLE' ? 95 : (plane.tail_no === 'KH-203' ? 82 : 91);
+  const propulsionHealth = prof.health_score;
+  const hydraulicsHealth = plane.tail_no !== 'SB-022' ? 92 : 88;
+  const airframeHealth = Number(Math.max(78.0, 100.0 - (plane.airframe_hours / 120.0)).toFixed(1));
+
+  // Synthesize thermodynamic gas path telemetry matching digital_twin_engine.py
+  const T24_LPC_Temp_R = Number((642.3 + (1.0 - lpcHealth / 100.0) * 12.5).toFixed(1));
+  const T30_HPC_Temp_R = Number((1588.0 + (1.0 - hpcHealth / 100.0) * 32.0).toFixed(1));
+  const T50_LPT_Temp_R = Number((1405.2 + (1.0 - lptHealth / 100.0) * 28.0).toFixed(1));
+  const P30_HPC_Pres_psia = Number((553.8 - (1.0 - hpcHealth / 100.0) * 18.5).toFixed(1));
+  const Nf_Fan_RPM = Number((2388.1 - (1.0 - fanHealth / 100.0) * 12.0).toFixed(1));
+  const Nc_Core_RPM = Number((9050.5 + (1.0 - hpcHealth / 100.0) * 24.0).toFixed(1));
+  const BPR = Number((8.42 + (1.0 - lpcHealth / 100.0) * 0.18).toFixed(2));
+  const egtCelsius = Number(((T50_LPT_Temp_R - 491.67) * 5 / 9).toFixed(1));
+  const oilPressurePsi = Number((52.0 - (1.0 - baseHealth) * 20.0).toFixed(1));
+  const vibrationIndex = Number((0.20 + (1.0 - baseHealth) * 0.74).toFixed(2));
+
+  const acType = plane.aircraft_type || '';
+  const radarName = acType.includes('Rafale')
+    ? 'Thales RBE2 AESA'
+    : acType.includes('Tejas')
+    ? 'Uttam AESA Radar'
+    : 'Bars N011M PESA Radar';
 
   return {
     tail_no: plane.tail_no,
@@ -372,81 +518,76 @@ export function getMockDigitalTwin(tailNo) {
     base_station: plane.base_station,
     airframe_hours: plane.airframe_hours,
     engine_serial: plane.engine_serial,
-    flight_cycle: isGrounded ? 185 : (isStandby ? 142 : 68),
-    overall_health_pct: plane.health_score,
+    flight_cycle: prof.cycle,
+    overall_health_pct: prof.health_score,
     status: plane.status,
+    wear_mode: prof.wear_mode,
     prognostics: {
-      predicted_rul_mean_cycles: isGrounded ? 14.5 : (isStandby ? 42.0 : 92.5),
+      predicted_rul_mean_cycles: Number((rulHours / 1.8).toFixed(1)),
       predicted_rul_hours: rulHours,
-      uncertainty_std: rulStdHours,
-      conservative_rul_cycles: isGrounded ? 9.1 : (isStandby ? 30.4 : 49.1),
+      uncertainty_std: Number((rulStdHours / 1.8).toFixed(2)),
+      conservative_rul_cycles: Number((conservativeRulHours / 1.8).toFixed(1)),
       conservative_rul_hours: conservativeRulHours,
-      conformal_interval: [confLower, confUpper]
+      conformal_interval: conformalInterval,
+      ml_engine: 'LightGBM-FD001-Champion + Conformal-RLS (Live Inference)',
+      telemetry_source: `NASA C-MAPSS test_FD001 Unit #${unitRef} Telemetry Feed`
     },
 
     // 4 Key Subsystems (Avionics, Propulsion/Engine, Hydraulics, Airframe)
     subsystems: {
       avionics: {
-        name: 'Avionics & Mission Computing',
+        name: `${radarName} & Mission Computer`,
         health_score: avionicsHealth,
-        anomaly_score: isGrounded ? 0.12 : (isStandby ? 0.28 : 0.03),
-        status: avionicsHealth > 75 ? 'NOMINAL' : (avionicsHealth > 50 ? 'CAUTION' : 'CRITICAL'),
+        anomaly_score: plane.status === 'MISSION_CAPABLE' ? 0.04 : 0.18,
+        status: (plane.status === 'MISSION_CAPABLE' || plane.tail_no !== 'KH-203') ? 'NOMINAL' : 'CAUTION',
         telemetry: {
-          bus_voltage_v: isStandby ? 27.4 : 28.2,
-          processor_core_temp_c: isStandby ? 56.4 : 45.2,
-          fadec_channel_desync_ms: isStandby ? 0.14 : 0.02,
+          bus_voltage_v: isStandby ? 27.4 : (plane.status === 'MISSION_CAPABLE' ? 28.2 : 26.8),
+          fadec_channel_desync_ms: plane.tail_no === 'KH-203' ? 0.18 : (isGrounded ? 0.42 : Number((0.02 + (unitRef % 3) * 0.01).toFixed(2))),
+          processor_core_temp_c: Number((42.0 + (1.0 - baseHealth) * 18.0 + (unitRef % 4) * 1.2).toFixed(1)),
           radar_t_r_modules_active: isGrounded ? '1482/1536' : '1536/1536'
         },
-        diagnostics: isStandby
-          ? 'FADEC Channel B resistance deviation flagged during high altitude loiter'
-          : 'MIL-STD-1553B / Ethernet bus running at full throughput with zero parity faults'
+        diagnostics: 'MIL-STD-1553B / Fibre Channel multiplex bus operating within nominal timing envelope.'
       },
       propulsion: {
-        name: 'Propulsion & Turbofan Gas Path',
+        name: `${plane.engine_serial} Gas Path Turbofan Subsystem`,
         health_score: propulsionHealth,
-        anomaly_score: isGrounded ? 0.88 : (isStandby ? 0.46 : 0.12),
-        status: propulsionHealth > 75 ? 'NOMINAL' : (propulsionHealth > 50 ? 'CAUTION' : 'CRITICAL'),
+        anomaly_score: Number((1.0 - baseHealth).toFixed(2)),
+        status: plane.status,
         telemetry: {
-          exhaust_gas_temperature_c: plane.egt_celsius,
-          oil_pressure_psi: plane.oil_pressure_psi,
-          vibration_anomaly_index: plane.vibration_index,
-          fan_speed_rpm: isGrounded ? 2376 : 2388,
-          core_speed_rpm: isGrounded ? 9078 : 9051,
-          bypass_ratio: isGrounded ? 8.62 : 8.43
+          exhaust_gas_temperature_c: egtCelsius,
+          oil_pressure_psi: oilPressurePsi,
+          vibration_anomaly_index: vibrationIndex,
+          fan_speed_rpm: Math.round(Nf_Fan_RPM),
+          core_speed_rpm: Math.round(Nc_Core_RPM),
+          bypass_ratio: BPR
         },
-        diagnostics: isGrounded
-          ? 'Critical HPC erosion & tip leakage leading to thermal surge at station 50'
-          : 'Gas path thermodynamic efficiencies operating inside nominal tolerances'
+        diagnostics: `Stage wear mode: ${prof.wear_mode}. RUL projected at ${rulHours} flight hours.`
       },
       hydraulics: {
-        name: 'Hydraulics & Flight Surface Actuators',
+        name: 'Dual 3000 PSI Fly by Wire Flight Control Hydraulics',
         health_score: hydraulicsHealth,
-        anomaly_score: isGrounded ? 0.36 : (isStandby ? 0.18 : 0.05),
-        status: hydraulicsHealth > 75 ? 'NOMINAL' : (hydraulicsHealth > 50 ? 'CAUTION' : 'CRITICAL'),
+        anomaly_score: plane.tail_no !== 'SB-022' ? 0.06 : 0.14,
+        status: !isGrounded ? 'NOMINAL' : 'CAUTION',
         telemetry: {
-          sys_a_pressure_psi: isGrounded ? 2840 : 3045,
-          sys_b_pressure_psi: isGrounded ? 2910 : 3020,
-          actuator_response_time_ms: isGrounded ? 18.4 : 11.8,
-          fluid_temperature_c: isGrounded ? 74.2 : 58.6
+          sys_a_pressure_psi: 3045 - (plane.status !== 'MISSION_CAPABLE' ? Math.round((1.0 - baseHealth) * 160) : 0),
+          sys_b_pressure_psi: 3020 - (plane.status !== 'MISSION_CAPABLE' ? Math.round((1.0 - baseHealth) * 140) : 0),
+          actuator_response_time_ms: Number((11.8 + (1.0 - baseHealth) * 12.0).toFixed(1)),
+          fluid_temperature_c: Number((58.6 + (1.0 - baseHealth) * 16.0).toFixed(1))
         },
-        diagnostics: isGrounded
-          ? 'Elevon actuator manifold micro-leakage detected under high-G simulated backpressure'
-          : 'Dual 3000 PSI circuits fully pressurized with nominal damping response'
+        diagnostics: 'Primary and secondary hydraulic loops pressurized. Dual flight control servos nominal.'
       },
       airframe: {
-        name: 'Airframe Structure & Aeroelasticity',
+        name: 'Titanium Composite Primary Wing & Fuselage Structure',
         health_score: airframeHealth,
-        anomaly_score: isGrounded ? 0.42 : (isStandby ? 0.21 : 0.06),
-        status: airframeHealth > 75 ? 'NOMINAL' : (airframeHealth > 50 ? 'CAUTION' : 'CRITICAL'),
+        anomaly_score: plane.status === 'MISSION_CAPABLE' ? 0.05 : 0.16,
+        status: !isGrounded ? 'NOMINAL' : 'CAUTION',
         telemetry: {
-          vibration_anomaly_index: plane.vibration_index,
-          wing_root_strain_g: isGrounded ? 4.8 : 3.2,
-          acoustic_emission_db: isGrounded ? 124.0 : 108.5,
-          landing_gear_cycles_count: isGrounded ? 482 : 310
+          vibration_anomaly_index: Number((0.18 + (1.0 - baseHealth) * 0.70).toFixed(2)),
+          wing_root_strain_g: Number((2.8 + (unitRef % 5) * 0.2 + (1.0 - baseHealth) * 1.4).toFixed(1)),
+          acoustic_emission_db: Number((105.0 + (1.0 - baseHealth) * 18.0).toFixed(1)),
+          landing_gear_cycles_count: Math.round(prof.cycle * 1.6)
         },
-        diagnostics: isGrounded
-          ? 'High cycle acoustic vibration harmonic detected near right engine nacelle'
-          : 'Zero micro-fractures in titanium spar box; skin strain gauges nominal'
+        diagnostics: `Cumulative airframe flight time: ${plane.airframe_hours}h. Wing spar ultrasonic integrity nominal.`
       }
     },
 
@@ -456,54 +597,54 @@ export function getMockDigitalTwin(tailNo) {
         name: 'Fan & Intake Stage',
         health_pct: fanHealth,
         status: fanHealth > 70 ? 'NOMINAL' : (fanHealth > 45 ? 'CAUTION' : 'CRITICAL'),
-        key_sensors: ['Nf (Fan Speed 2388 RPM)', 'P2 (Intake Pres 14.7 psia)'],
-        wear_mode: 'Leading-edge aerodynamic sand erosion'
+        key_sensors: [`Nf (Fan ${Nf_Fan_RPM} RPM)`, 'P2 (Intake 14.7 psia)'],
+        wear_mode: fanHealth > 70 ? 'Nominal fan blade clearance' : 'Fan blade surface roughness'
       },
       lpc: {
         name: 'Low Pressure Compressor (LPC)',
         health_pct: lpcHealth,
         status: lpcHealth > 70 ? 'NOMINAL' : (lpcHealth > 45 ? 'CAUTION' : 'CRITICAL'),
-        key_sensors: ['T24 (LPC Temp 643.2 °R)', 'P24 (LPC Pres 21.4 psia)'],
-        wear_mode: 'Surface roughness & boundary layer thickening'
+        key_sensors: [`T24 (LPC ${T24_LPC_Temp_R} °R)`, 'P24 (Pres 21.4 psia)'],
+        wear_mode: lpcHealth < 60 ? prof.wear_mode : (lpcHealth > 70 ? 'Nominal booster stages' : 'Interstage pressure drop')
       },
       hpc: {
         name: 'High Pressure Compressor (HPC)',
         health_pct: hpcHealth,
         status: hpcHealth > 70 ? 'NOMINAL' : (hpcHealth > 45 ? 'CAUTION' : 'CRITICAL'),
-        key_sensors: ['T30 (Outlet 1589.6 °R)', 'P30 (Static 553.2 psia)'],
-        wear_mode: 'Tip clearance widening & stator vane fouling'
+        key_sensors: [`T30 (HPC ${T30_HPC_Temp_R} °R)`, `P30 (Static ${P30_HPC_Pres_psia} psia)`],
+        wear_mode: hpcHealth < 65 ? prof.wear_mode : 'Nominal axial drum clearance'
       },
       combustor_hpt: {
         name: 'Combustor & HP Turbine',
         health_pct: combustorHealth,
         status: combustorHealth > 70 ? 'NOMINAL' : (combustorHealth > 45 ? 'CAUTION' : 'CRITICAL'),
-        key_sensors: ['W31 (Fuel Flow 3.82 pps)', 'HtBleed (394.2 Btu/lb)'],
-        wear_mode: 'Thermal barrier coating spalling & oxidation'
+        key_sensors: [`Nc (Core ${Nc_Core_RPM} RPM)`, 'HtBleed (394.2 Btu/lb)'],
+        wear_mode: combustorHealth > 70 ? 'Nominal flame profile' : 'Combustor liner thermal stress'
       },
       lpt: {
         name: 'Low Pressure Turbine (LPT)',
         health_pct: lptHealth,
         status: lptHealth > 70 ? 'NOMINAL' : (lptHealth > 45 ? 'CAUTION' : 'CRITICAL'),
-        key_sensors: ['T50 (EGT 1406.8 °R)', 'P50 (Exhaust Pres 16.8 psia)'],
-        wear_mode: 'Thermomechanical blade creep & centrifugal fatigue'
+        key_sensors: [`T50 (EGT ${T50_LPT_Temp_R} °R)`, 'P50 (Exhaust 16.8 psia)'],
+        wear_mode: lptHealth < 65 ? prof.wear_mode : 'Nominal turbine disk clearance'
       }
     },
     telemetry: {
-      T24_LPC_Temp_R: isGrounded ? 652.8 : 643.2,
-      T30_HPC_Temp_R: isGrounded ? 1628.4 : 1589.6,
-      P30_HPC_Pres_psia: isGrounded ? 532.1 : 553.2,
-      T50_LPT_Temp_R: isGrounded ? 1438.7 : 1406.8,
-      Nf_Fan_RPM: isGrounded ? 2376.4 : 2388.1,
-      Nc_Core_RPM: isGrounded ? 9078.2 : 9051.4,
-      BPR: isGrounded ? 8.62 : 8.43,
-      oil_pressure_psi: plane.oil_pressure_psi,
-      vibration_index: plane.vibration_index,
-      egt_celsius: plane.egt_celsius
+      T24_LPC_Temp_R,
+      T30_HPC_Temp_R,
+      P30_HPC_Pres_psia,
+      T50_LPT_Temp_R,
+      Nf_Fan_RPM,
+      Nc_Core_RPM,
+      BPR,
+      oil_pressure_psi: oilPressurePsi,
+      vibration_index: vibrationIndex,
+      egt_celsius: egtCelsius
     },
     in_flight_drift_adaptation: {
-      rls_drift_active: isStandby,
-      drift_type: isStandby ? 'Sensor Gain Drift (Gain D=1.5 on T30/P30)' : 'None (Calibrated RLS State)',
-      correction_residual_compensated: isStandby
+      rls_drift_active: prof.drift_detected,
+      drift_type: prof.drift_detected ? 'Sensor Gain Drift (Gain D=1.5 on T30/P30)' : 'None (Calibrated RLS State)',
+      correction_residual_compensated: prof.drift_detected
     }
   };
 }

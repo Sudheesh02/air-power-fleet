@@ -72,7 +72,7 @@ export default function SparesLogistics() {
     setDepotPipeline([newReq, ...depotPipeline]);
     setIsModalOpen(false);
     try {
-      await fleetApi.createEmergencyRequisition({
+      await fleetApi.createEmergencyRequisition({ req_id: newReq.req_id,
         tail_no: reqTail,
         base_station: reqBase,
         component_name: reqComponent,
@@ -87,7 +87,7 @@ export default function SparesLogistics() {
     }
   };
 
-  const handleApproveTrigger = (triggerId) => {
+  const handleApproveTrigger = (triggerId) => { fleetApi.approveAiReorderTrigger?.(triggerId);
     setAiTriggers(prev =>
       prev.map(t =>
         t.trigger_id === triggerId ? { ...t, status: 'APPROVED_DISPATCHED' } : t
