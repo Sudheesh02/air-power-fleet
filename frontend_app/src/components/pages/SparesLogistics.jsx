@@ -110,7 +110,7 @@ export default function SparesLogistics() {
   if (loading && baseSpares.length === 0) {
     return (
       <div className="flex items-center justify-center p-16 text-slate-400 font-sans text-sm">
-        <Boxes className="w-5 h-5 animate-pulse mr-2 text-[#0075FF]" />
+        <Boxes className="w-5 h-5 animate-pulse mr-2 text-blue-500" />
         Loading Spares Inventory & Depot Pipelines...
       </div>
     );
@@ -121,19 +121,19 @@ export default function SparesLogistics() {
       {/* 1. TOP HEADER & DISPATCH BUTTON */}
       <GlassCard className="p-5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow">
+          <div className="w-12 h-12 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
             <Boxes className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-sans px-2.5 py-0.5 rounded-full bg-blue-500/15 text-cyan-300 font-semibold border border-blue-500/30">
+              <span className="text-[11px] font-sans px-2.5 py-0.5 rounded-full bg-blue-500/10 text-sky-400 font-semibold border border-blue-500/20">
                 Unified Defense Supply Chain
               </span>
               <span className="text-xs text-slate-400 font-sans">
                 Forward Operating Bases &bull; Central Air Force Depot
               </span>
             </div>
-            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+            <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Spares Logistics, Automated AI Reorder Triggers & Turnaround Tracking
             </h2>
           </div>
@@ -141,7 +141,7 @@ export default function SparesLogistics() {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#0075FF] to-[#00D5FF] hover:from-[#005CE6] hover:to-[#00B4D8] text-white font-sans text-xs font-semibold transition flex items-center gap-2 shadow-vision-blue"
+          className="px-4 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-600 text-white font-sans text-xs font-semibold transition flex items-center gap-2 border border-blue-500/40 shadow-sm"
         >
           <PlusCircle className="w-4 h-4" />
           Dispatch Emergency Requisition
@@ -236,8 +236,8 @@ export default function SparesLogistics() {
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-cyan-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <Zap className="w-5 h-5 text-sky-400" />
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Automated Spares Replenishment Triggers
               </h3>
             </div>
@@ -245,8 +245,8 @@ export default function SparesLogistics() {
               Depot pull requisitions dispatched when projected component wear breaches safety stock minimums
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-xl bg-purple-500/10 text-purple-300 border border-purple-500/25 font-sans">
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+          <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-xl bg-blue-500/10 text-sky-400 border border-blue-500/20 font-sans">
+            <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
             <span>Autonomous Supply Replenishment</span>
           </div>
         </div>
@@ -262,11 +262,11 @@ export default function SparesLogistics() {
                   isDark
                     ? 'bg-white/[0.03] hover:bg-white/[0.05] border-white/10'
                     : 'bg-white border-slate-200 shadow-sm'
-                } ${isApproved ? 'border-l-4 border-l-emerald-500/80' : 'border-l-4 border-l-cyan-500/80'}`}
+                } ${isApproved ? 'border-l-4 border-l-emerald-500/80' : 'border-l-4 border-l-sky-500/80'}`}
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-xs font-bold text-cyan-300 tracking-tight">
+                    <span className="font-sans text-xs font-bold text-sky-400 tracking-tight">
                       {trig.trigger_id}
                     </span>
                     <span className="text-[11px] px-2.5 py-0.5 rounded-full font-semibold bg-white/5 text-slate-300 border border-white/10 font-sans">
@@ -274,7 +274,7 @@ export default function SparesLogistics() {
                     </span>
                   </div>
 
-                  <h4 className={`font-bold text-sm mt-2 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                  <h4 className={`font-bold text-sm mt-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     {trig.lru_component}
                   </h4>
 
@@ -283,7 +283,7 @@ export default function SparesLogistics() {
                   }`}>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Trigger Target:</span>
-                      <strong className="text-cyan-300">Tail {trig.tail_no} ({trig.base_station})</strong>
+                      <strong className="text-sky-400">Tail {trig.tail_no} ({trig.base_station})</strong>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Stock vs Safety:</span>
@@ -313,7 +313,7 @@ export default function SparesLogistics() {
                     <button
                       type="button"
                       onClick={() => handleApproveTrigger(trig.trigger_id)}
-                      className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#0075FF] to-[#00D5FF] text-white text-xs font-bold hover:shadow-vision-glow transition"
+                      className="px-3 py-1.5 rounded-xl bg-blue-700 hover:bg-blue-600 text-white text-xs font-bold transition border border-blue-500/40 shadow-sm"
                     >
                       Approve & Fast-Track
                     </button>
@@ -330,8 +330,8 @@ export default function SparesLogistics() {
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <Truck className="w-5 h-5 text-cyan-400" />
-              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+              <Truck className="w-5 h-5 text-sky-400" />
+              <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Depot Turnaround Tracking (TAT) & Logistics In-Transit Pipeline
               </h3>
             </div>
@@ -340,7 +340,7 @@ export default function SparesLogistics() {
             </p>
           </div>
           <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-xl bg-white/5 text-slate-300 border border-white/10 font-sans">
-            <Truck className="w-3.5 h-3.5 text-cyan-400" />
+            <Truck className="w-3.5 h-3.5 text-sky-400" />
             <span>{depotPipeline.length} Shipments in Transit</span>
           </div>
         </div>
@@ -355,13 +355,13 @@ export default function SparesLogistics() {
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="font-sans text-xs font-bold text-cyan-300 tracking-tight">
+                  <span className="font-sans text-xs font-bold text-sky-400 tracking-tight">
                     {dp.req_id}
                   </span>
                   <StatusBadge status={dp.priority} size="sm" />
                 </div>
 
-                <h4 className={`font-bold text-sm mt-2 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                <h4 className={`font-bold text-sm mt-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   {dp.component_name}
                 </h4>
 
@@ -428,8 +428,8 @@ export default function SparesLogistics() {
       <GlassCard className="p-5">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 dark:border-white/5 pb-4 mb-4">
           <div>
-            <h3 className={`font-extrabold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
-              <Package className="w-5 h-5 text-cyan-400" />
+            <h3 className={`font-extrabold text-base tracking-tight flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <Package className="w-5 h-5 text-sky-400" />
               Forward Operating Base Spares Inventory Matrix (LRUs)
             </h3>
             <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
@@ -442,10 +442,10 @@ export default function SparesLogistics() {
             <select
               value={selectedBase}
               onChange={(e) => setSelectedBase(e.target.value)}
-              className={`text-xs font-semibold py-2 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0075FF] ${
+              className={`text-xs font-semibold py-2 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 isDark
-                  ? 'bg-slate-900 text-cyan-300 border border-white/15'
-                  : 'bg-slate-100 text-[#1B2559] border border-slate-200'
+                  ? 'bg-slate-900 text-slate-200 border border-white/15'
+                  : 'bg-slate-100 text-slate-900 border border-slate-200'
               }`}
             >
               <option value="ALL">All Forward Bases</option>
@@ -462,7 +462,7 @@ export default function SparesLogistics() {
                 placeholder="Search component, bin..."
                 value={searchFilter}
                 onChange={(e) => setSearchFilter(e.target.value)}
-                className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0075FF] ${
+                className={`text-xs py-2 pl-8 pr-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                   isDark
                     ? 'bg-slate-900/80 text-white placeholder-slate-500 border border-white/10'
                     : 'bg-slate-100 text-slate-800 placeholder-slate-400 border border-slate-200'
@@ -555,11 +555,11 @@ export default function SparesLogistics() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
           <div className={`w-full max-w-lg rounded-3xl p-6 transition-all ${
-            isDark ? 'bg-[#0B1437] text-white border border-white/15' : 'bg-white text-slate-800 border border-slate-200'
+            isDark ? 'bg-slate-900 text-white border border-slate-700/60' : 'bg-white text-slate-800 border border-slate-200'
           }`}>
             <div className="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/10">
               <h3 className="font-bold text-base flex items-center gap-2">
-                <Truck className="w-5 h-5 text-cyan-400" />
+                <Truck className="w-5 h-5 text-sky-400" />
                 Dispatch Emergency Depot Requisition
               </h3>
               <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-white">
@@ -575,9 +575,9 @@ export default function SparesLogistics() {
                 <select
                   value={reqTail}
                   onChange={(e) => setReqTail(e.target.value)}
-                  className={`w-full p-2.5 rounded-xl border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+                  className={`w-full p-2.5 rounded-xl border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                     isDark
-                      ? 'bg-slate-900 border-white/15 text-cyan-300'
+                      ? 'bg-slate-900 border-white/15 text-slate-200'
                       : 'bg-white border-slate-200 text-slate-800'
                   }`}
                 >
@@ -595,7 +595,7 @@ export default function SparesLogistics() {
                 <select
                   value={reqBase}
                   onChange={(e) => setReqBase(e.target.value)}
-                  className={`w-full p-2.5 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+                  className={`w-full p-2.5 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                     isDark
                       ? 'bg-slate-900 border-white/15 text-white'
                       : 'bg-white border-slate-200 text-slate-800'
@@ -614,7 +614,7 @@ export default function SparesLogistics() {
                 <select
                   value={reqComponent}
                   onChange={(e) => setReqComponent(e.target.value)}
-                  className={`w-full p-2.5 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+                  className={`w-full p-2.5 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                     isDark
                       ? 'bg-slate-900 border-white/15 text-white'
                       : 'bg-white border-slate-200 text-slate-800'
@@ -635,7 +635,7 @@ export default function SparesLogistics() {
                 <select
                   value={reqPriority}
                   onChange={(e) => setReqPriority(e.target.value)}
-                  className={`w-full p-2.5 rounded-xl border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#0075FF] transition ${
+                  className={`w-full p-2.5 rounded-xl border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                     isDark
                       ? 'bg-slate-900 border-white/15 text-rose-300'
                       : 'bg-white border-slate-200 text-rose-600'
@@ -657,7 +657,7 @@ export default function SparesLogistics() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#0075FF] to-[#00D5FF] text-white font-bold hover:shadow-vision-glow transition flex items-center gap-1.5"
+                  className="px-5 py-2 rounded-xl bg-blue-700 hover:bg-blue-600 text-white font-bold border border-blue-500/40 shadow-sm transition flex items-center gap-1.5"
                 >
                   <Send className="w-3.5 h-3.5" />
                   Dispatch Requisition

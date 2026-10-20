@@ -98,7 +98,7 @@ export default function Sidebar({ isOpen, onClose }) {
               <button
                 onClick={toggleSidebarCollapse}
                 title="Expand sidebar (Ctrl+B)"
-                className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow hover:scale-105 active:scale-95 transition-all"
+                className="w-10 h-10 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm hover:scale-105 active:scale-95 transition-all"
               >
                 <Plane className="w-5 h-5 -rotate-45" />
               </button>
@@ -118,14 +118,14 @@ export default function Sidebar({ isOpen, onClose }) {
             /* EXPANDED HEADER */
             <div className="flex items-center justify-between px-2 py-3 border-b border-white/10 dark:border-white/10">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm shrink-0">
                   <Plane className="w-5 h-5 -rotate-45" />
                 </div>
                 <div className="min-w-0">
-                  <h1 className={`text-xs sm:text-sm font-black tracking-wider uppercase leading-tight ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>
+                  <h1 className={`text-xs sm:text-sm font-black tracking-wider uppercase leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     Air Power Fleet
                   </h1>
-                  <p className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider mt-0.5">
+                  <p className="text-[10px] text-sky-400 font-bold uppercase tracking-wider mt-0.5">
                     Defense Fleet AI
                   </p>
                 </div>
@@ -171,7 +171,7 @@ export default function Sidebar({ isOpen, onClose }) {
                       title={`${item.label} · ${item.subtitle}`}
                       className={`w-full flex flex-col items-center justify-center py-2.5 px-1 rounded-2xl transition-all duration-200 group relative ${
                         isActive
-                          ? 'vision-nav-active text-white shadow-vision-glow'
+                          ? 'vision-nav-active text-white'
                           : isDark
                           ? 'text-slate-400 hover:text-white hover:bg-white/5'
                           : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -182,8 +182,8 @@ export default function Sidebar({ isOpen, onClose }) {
                           isActive
                             ? 'bg-white/20 text-white shadow-sm'
                             : isDark
-                            ? 'bg-slate-800/80 text-slate-400 group-hover:text-cyan-400 group-hover:bg-slate-800'
-                            : 'bg-slate-100 text-slate-500 group-hover:text-[#0075FF]'
+                            ? 'bg-slate-800/80 text-slate-400 group-hover:text-sky-400 group-hover:bg-slate-800'
+                            : 'bg-slate-100 text-slate-500 group-hover:text-blue-600'
                         }`}
                       >
                         <Icon className="w-4 h-4 stroke-[2.2]" />
@@ -221,8 +221,8 @@ export default function Sidebar({ isOpen, onClose }) {
                         isActive
                           ? 'bg-white/20 text-white shadow-sm'
                           : isDark
-                          ? 'bg-slate-800/80 text-slate-400 group-hover:text-cyan-400 group-hover:bg-slate-800'
-                          : 'bg-slate-100 text-slate-500 group-hover:text-[#0075FF]'
+                          ? 'bg-slate-800/80 text-slate-400 group-hover:text-sky-400 group-hover:bg-slate-800'
+                          : 'bg-slate-100 text-slate-500 group-hover:text-blue-600'
                       }`}
                     >
                       <Icon className="w-4 h-4 stroke-[2.2]" />

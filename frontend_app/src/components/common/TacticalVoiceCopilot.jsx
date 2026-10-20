@@ -300,7 +300,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
           <button
             onClick={() => setIsVoiceAgentOpen(true)}
             aria-label="Open Air Power Copilot"
-            className="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] shadow-vision-glow hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer border border-white/20"
+            className="relative w-12 h-12 rounded-2xl bg-blue-700 hover:bg-blue-600 border border-blue-500/30 text-white shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
           >
             <Plane className="w-5 h-5 text-white -rotate-45" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-900 shadow-sm animate-pulse" />
@@ -325,7 +325,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
           isVoiceAgentOpen ? 'translate-x-0' : 'translate-x-full'
         } ${
           isDark
-            ? 'bg-[#0B1437]/98 border-white/10 text-white'
+            ? 'bg-slate-900/98 border-slate-700/60 text-white'
             : 'bg-white/98 border-slate-200 text-slate-900'
         } backdrop-blur-2xl`}
       >
@@ -335,7 +335,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
         }`}>
           {/* Left: Brand Squircle + Title + Context Subtitle */}
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shadow-vision-glow shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm shrink-0">
               <Plane className="w-4 h-4 -rotate-45" />
             </div>
             <div className="min-w-0 leading-tight">
@@ -357,7 +357,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
                 onChange={(e) => setSelectedSpeaker(e.target.value)}
                 className={`text-[11px] font-semibold py-1 px-2 pr-6 rounded-lg appearance-none cursor-pointer border transition max-w-[100px] sm:max-w-[125px] truncate ${
                   isDark
-                    ? 'bg-slate-900/90 text-cyan-300 border-white/15 hover:border-cyan-500/40'
+                    ? 'bg-slate-900/90 text-slate-200 border-slate-700 hover:border-blue-500/40'
                     : 'bg-slate-100 text-slate-800 border-slate-200 hover:border-blue-400'
                 }`}
                 title="Select Sarvam Audio Speaker"
@@ -475,7 +475,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
             return (
               <div key={msg.id} className="flex items-start gap-3">
                 {/* Subtle Brand Squircle Avatar on Left */}
-                <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#0075FF] to-[#00D5FF] flex items-center justify-center text-white shrink-0 mt-0.5 shadow-xs">
+                <div className="w-6 h-6 rounded-lg bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shrink-0 mt-0.5 shadow-sm">
                   <Plane className="w-3.5 h-3.5 -rotate-45" />
                 </div>
 
@@ -496,7 +496,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
                         {msg.formulaCard.title || 'Formula'}
                       </p>
                       <p className={`text-xs sm:text-[13px] font-mono font-semibold ${
-                        isDark ? 'text-cyan-300' : 'text-blue-700'
+                        isDark ? 'text-sky-300' : 'text-blue-700'
                       }`}>
                         {msg.formulaCard.formula}
                       </p>
@@ -526,7 +526,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
                       <button
                         onClick={() => playVoice(msg.spokenText)}
                         className={`flex items-center gap-1 transition py-1 font-medium ${
-                          isDark ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700'
+                          isDark ? 'text-sky-400 hover:text-sky-300' : 'text-blue-600 hover:text-blue-700'
                         }`}
                       >
                         <Play className="w-3 h-3 fill-current" />
@@ -548,7 +548,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
                             onClick={() => handleSendMessage(suggestion)}
                             className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-[12.5px] border transition-all duration-200 font-medium leading-snug group flex items-center justify-between gap-2 ${
                               isDark
-                                ? 'bg-slate-900/60 hover:bg-cyan-500/10 border-white/10 hover:border-cyan-500/30 text-slate-300 hover:text-cyan-200'
+                                ? 'bg-slate-900/60 hover:bg-blue-500/10 border-white/10 hover:border-blue-500/30 text-slate-300 hover:text-sky-200'
                                 : 'bg-slate-50 hover:bg-blue-50 border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-700'
                             }`}
                           >
@@ -567,7 +567,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
 
         {/* Bottom Input Area (Identical to Vanna Assist Floating Bar) */}
         <div className={`p-3.5 sm:p-4 border-t shrink-0 ${
-          isDark ? 'border-white/10 bg-[#0B1437]/90' : 'border-slate-200 bg-white/95'
+          isDark ? 'border-slate-800 bg-slate-900/95' : 'border-slate-200 bg-white/95'
         }`}>
           <form
             onSubmit={(e) => {
@@ -576,7 +576,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
             }}
             className={`flex items-center gap-2 p-1.5 pl-2.5 rounded-2xl border transition-all ${
               isDark
-                ? 'bg-slate-900/90 border-white/10 focus-within:border-cyan-500/50 shadow-inner'
+                ? 'bg-slate-900/90 border-white/10 focus-within:border-blue-500/50 shadow-inner'
                 : 'bg-slate-50 border-slate-200 focus-within:border-blue-400 shadow-sm'
             }`}
           >
@@ -588,7 +588,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
                 isListening
                   ? 'bg-red-500 text-white animate-pulse shadow-md'
                   : isDark
-                  ? 'text-slate-400 hover:text-cyan-400 hover:bg-white/5'
+                  ? 'text-slate-400 hover:text-sky-400 hover:bg-white/5'
                   : 'text-slate-500 hover:text-blue-600 hover:bg-slate-200/60'
               }`}
               title={isListening ? 'Stop Listening' : 'Speak via Microphone'}
@@ -611,7 +611,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
             <button
               type="submit"
               disabled={!inputQuery.trim()}
-              className="w-8 h-8 rounded-xl bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0"
+              className="w-8 h-8 rounded-xl bg-blue-700 hover:bg-blue-600 text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-sm active:scale-95 shrink-0"
               title="Send message"
             >
               <Send className="w-3.5 h-3.5" />
