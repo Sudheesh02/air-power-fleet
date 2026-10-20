@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Shield, Cpu, Activity, Database, Layers, CheckCircle2, Sliders, ArrowRight } from 'lucide-react';
+import { X, Plane, Cpu, Activity, Database, Layers, CheckCircle2, Sliders, ArrowRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
 export default function DocsModal({ isOpen, onClose }) {
@@ -20,7 +20,7 @@ export default function DocsModal({ isOpen, onClose }) {
         <div className="flex items-start justify-between pb-5 border-b border-white/10 dark:border-white/10">
           <div className="flex items-center gap-3.5">
             <div className="w-11 h-11 rounded-2xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm shrink-0">
-              <Shield className="w-5 h-5" />
+              <Plane className="w-5 h-5 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -62,10 +62,10 @@ export default function DocsModal({ isOpen, onClose }) {
           </div>
 
           {/* Core Technical Systems Grid (2 Columns) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
             {/* Left Card: 5 Stage Gas Path Digital Twin */}
-            <div className={`p-5 rounded-2xl border flex flex-col justify-between ${
-              isDark ? 'bg-white/[0.03] border-white/10' : 'bg-slate-50 border-slate-200'
+            <div className={`p-5 rounded-2xl border flex flex-col ${
+              isDark ? 'bg-slate-900/90 border-slate-700/70 shadow-sm' : 'bg-slate-50 border-slate-200'
             }`}>
               <div>
                 <div className="flex items-center gap-2.5 mb-2">
@@ -78,13 +78,13 @@ export default function DocsModal({ isOpen, onClose }) {
                     </h3>
                   </div>
                 </div>
-                <p className={`text-xs leading-relaxed mb-3.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <p className={`text-xs leading-relaxed mb-3 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   Continuous thermodynamic monitoring maps gas path degradation across 5 turbofan engine stations:
                 </p>
               </div>
 
-              {/* Station Flow List */}
-              <div className="space-y-2">
+              {/* Station Flow List - natural layout with zero awkward empty gap */}
+              <div className="space-y-2 mt-1">
                 {[
                   {
                     st: 'Station 02',
@@ -125,7 +125,7 @@ export default function DocsModal({ isOpen, onClose }) {
                   <div
                     key={item.st}
                     className={`p-2.5 rounded-xl border flex items-center justify-between gap-3 transition ${
-                      isDark ? 'bg-white/[0.02] border-white/5 hover:bg-white/[0.05]' : 'bg-white border-slate-200/80 shadow-sm'
+                      isDark ? 'bg-slate-800/80 border-slate-700/60 hover:border-slate-600' : 'bg-white border-slate-200/80 shadow-sm'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
@@ -141,7 +141,7 @@ export default function DocsModal({ isOpen, onClose }) {
                         </p>
                       </div>
                     </div>
-                    <span className="text-[11px] font-semibold text-slate-400 shrink-0 font-sans px-2 py-0.5 rounded bg-black/20">
+                    <span className="text-[11px] font-semibold text-slate-300 shrink-0 font-sans px-2 py-0.5 rounded bg-slate-900/80 border border-slate-700/50">
                       {item.tags}
                     </span>
                   </div>
@@ -150,8 +150,8 @@ export default function DocsModal({ isOpen, onClose }) {
             </div>
 
             {/* Right Card: Conformal RUL & RLS Drift Compensation */}
-            <div className={`p-5 rounded-2xl border flex flex-col justify-between ${
-              isDark ? 'bg-white/[0.03] border-white/10' : 'bg-slate-50 border-slate-200'
+            <div className={`p-5 rounded-2xl border flex flex-col ${
+              isDark ? 'bg-slate-900/90 border-slate-700/70 shadow-sm' : 'bg-slate-50 border-slate-200'
             }`}>
               <div>
                 <div className="flex items-center gap-2.5 mb-2">
@@ -164,15 +164,15 @@ export default function DocsModal({ isOpen, onClose }) {
                     </h3>
                   </div>
                 </div>
-                <p className={`text-xs leading-relaxed mb-3.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                  Operational decision-making backed by rigorous statistical safety envelopes rather than optimistic single-point estimates:
+                <p className={`text-xs leading-relaxed mb-3 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                  Operational decision-making backed by rigorous statistical safety envelopes rather than optimistic single point estimates:
                 </p>
               </div>
 
               {/* Two Feature Explanations */}
-              <div className="space-y-3">
+              <div className="space-y-3 mt-1">
                 <div className={`p-4 rounded-xl border ${
-                  isDark ? 'bg-sky-500/[0.06] border-sky-500/20' : 'bg-sky-50 border-sky-200'
+                  isDark ? 'bg-sky-500/[0.08] border-sky-500/25' : 'bg-sky-50 border-sky-200'
                 }`}>
                   <div className="flex items-center justify-between mb-1.5">
                     <h4 className="font-bold text-xs text-sky-300">
@@ -188,7 +188,7 @@ export default function DocsModal({ isOpen, onClose }) {
                 </div>
 
                 <div className={`p-4 rounded-xl border ${
-                  isDark ? 'bg-emerald-500/[0.06] border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'
+                  isDark ? 'bg-emerald-500/[0.08] border-emerald-500/25' : 'bg-emerald-50 border-emerald-200'
                 }`}>
                   <div className="flex items-center justify-between mb-1.5">
                     <h4 className="font-bold text-xs text-emerald-300">
@@ -204,11 +204,11 @@ export default function DocsModal({ isOpen, onClose }) {
                 </div>
 
                 <div className={`p-3.5 rounded-xl border flex items-center gap-3 ${
-                  isDark ? 'bg-white/[0.02] border-white/5 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
+                  isDark ? 'bg-slate-800/80 border-slate-700/60 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
                 }`}>
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span className="text-xs leading-snug">
-                    Verified against NASA C-MAPSS FD001-FD004 sub-datasets under varied operating conditions.
+                    Verified against NASA C-MAPSS FD001 to FD004 datasets under varied operating conditions.
                   </span>
                 </div>
               </div>
@@ -217,7 +217,7 @@ export default function DocsModal({ isOpen, onClose }) {
 
           {/* Section 3: Spares-Aware Sortie Clearance Flow */}
           <div className={`p-5 rounded-2xl border ${
-            isDark ? 'bg-white/[0.03] border-white/10' : 'bg-slate-50 border-slate-200'
+            isDark ? 'bg-slate-900/90 border-slate-700/70 shadow-sm' : 'bg-slate-50 border-slate-200'
           }`}>
             <h3 className={`font-bold text-xs uppercase tracking-wider mb-3 flex items-center gap-2 ${
               isDark ? 'text-amber-300' : 'text-amber-700'
@@ -228,37 +228,37 @@ export default function DocsModal({ isOpen, onClose }) {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div className={`p-3.5 rounded-xl border ${
-                isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200 shadow-sm'
+                isDark ? 'bg-slate-800/80 border-slate-700/60' : 'bg-white border-slate-200 shadow-sm'
               }`}>
                 <div className="flex items-center gap-2 text-xs font-bold text-sky-400 mb-1">
                   <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 flex items-center justify-center text-[11px]">1</span>
                   Sortie RUL Gate
                 </div>
-                <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                   Compares mission duration against the airframe's conservative RUL with a 1.6&times; safety multiplier.
                 </p>
               </div>
 
               <div className={`p-3.5 rounded-xl border ${
-                isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200 shadow-sm'
+                isDark ? 'bg-slate-800/80 border-slate-700/60' : 'bg-white border-slate-200 shadow-sm'
               }`}>
                 <div className="flex items-center gap-2 text-xs font-bold text-amber-300 mb-1">
                   <span className="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center text-[11px]">2</span>
                   Forward Base Spares
                 </div>
-                <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                   If maintenance is needed, queries local hangar stock (e.g., AFS Thanjavur) for required LRU assemblies.
                 </p>
               </div>
 
               <div className={`p-3.5 rounded-xl border ${
-                isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200 shadow-sm'
+                isDark ? 'bg-slate-800/80 border-slate-700/60' : 'bg-white border-slate-200 shadow-sm'
               }`}>
                 <div className="flex items-center gap-2 text-xs font-bold text-emerald-300 mb-1">
                   <span className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-[11px]">3</span>
                   Depot Requisition
                 </div>
-                <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                   If local stock is exhausted, automatically issues an emergency AOG requisition to Central Depot with turnaround ETA.
                 </p>
               </div>
@@ -267,26 +267,26 @@ export default function DocsModal({ isOpen, onClose }) {
 
           {/* Section 4: System Architecture Specifications */}
           <div className={`p-4 rounded-2xl border ${
-            isDark ? 'bg-white/[0.02] border-white/5' : 'bg-slate-50 border-slate-200'
+            isDark ? 'bg-slate-900/90 border-slate-700/70 shadow-sm' : 'bg-slate-50 border-slate-200'
           }`}>
             <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">
               <Database className="w-3.5 h-3.5 text-sky-400" />
               <span>Platform Engineering Stack</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs">
-              <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200'}`}>
+              <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-800/80 border-slate-700/60' : 'bg-white border-slate-200'}`}>
                 <p className="text-[10px] text-slate-400 font-medium">User Interface</p>
                 <p className={`font-bold mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>React 19 &bull; Vite</p>
               </div>
-              <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200'}`}>
+              <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-800/80 border-slate-700/60' : 'bg-white border-slate-200'}`}>
                 <p className="text-[10px] text-slate-400 font-medium">Design System</p>
                 <p className={`font-bold mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>AeroTactical C2 &bull; Tailwind</p>
               </div>
-              <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200'}`}>
+              <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-800/80 border-slate-700/60' : 'bg-white border-slate-200'}`}>
                 <p className="text-[10px] text-slate-400 font-medium">Prognostic Engine</p>
                 <p className={`font-bold mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>FastAPI &bull; Python 3.11</p>
               </div>
-              <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-black/20 border-white/5' : 'bg-white border-slate-200'}`}>
+              <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-800/80 border-slate-700/60' : 'bg-white border-slate-200'}`}>
                 <p className="text-[10px] text-slate-400 font-medium">Relational Database</p>
                 <p className={`font-bold mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>SQLite Fleet Store</p>
               </div>

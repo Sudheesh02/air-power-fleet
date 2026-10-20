@@ -646,115 +646,171 @@ export default function MaintenanceLogs() {
                           <button
                             type="button"
                             onClick={() => setExpandedNlpLogId(isNlpExpanded ? null : log.log_id)}
-                            className="mt-2 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-500/15 border border-blue-500/30 text-cyan-300 hover:bg-blue-500/25 transition text-[11px] font-semibold"
+                            className={`mt-2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition text-xs font-semibold ${
+                              isNlpExpanded
+                                ? 'bg-blue-700 text-white border-blue-500/40 shadow-sm'
+                                : isDark
+                                ? 'bg-blue-600/15 text-sky-300 border-blue-500/30 hover:bg-blue-600/25'
+                                : 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'
+                            }`}
                           >
-                            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                            <span>{isNlpExpanded ? 'Hide Multimodal Fusion' : 'Inspect AI NLP-Telemetry Correlation'}</span>
-                            {isNlpExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                            <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+                            <span>{isNlpExpanded ? 'Collapse Correlation Drawer' : 'Inspect Multimodal Correlation'}</span>
+                            {isNlpExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                           </button>
                         )}
                       </td>
                     </tr>
 
-                    {/* UPGRADE 2: MULTI-MODAL NLP PILOT SNAG TO TELEMETRY SENSOR CORRELATION DRAWER */}
+                    {/* UPGRADE 2: MULTIMODAL NLP PILOT SNAG TO TELEMETRY SENSOR CORRELATION DRAWER */}
                     {isNlpExpanded && (
-                      <tr className={`${isDark ? 'bg-blue-950/30' : 'bg-blue-50/70'} border-y border-blue-500/30 transition-all`}>
-                        <td colSpan={8} className="p-4.5">
-                          <div className={`p-4 rounded-2xl border transition-all ${
-                            isDark ? 'bg-slate-900/90 border-blue-500/30 shadow-sm' : 'bg-white border-blue-300 shadow-md'
+                      <tr className={`${isDark ? 'bg-slate-950/60' : 'bg-slate-50/90'} border-y border-slate-700/60 transition-all`}>
+                        <td colSpan={8} className="p-4 sm:p-5">
+                          <div className={`p-5 rounded-2xl border transition-all ${
+                            isDark ? 'bg-slate-900/95 border-slate-700/80 shadow-lg' : 'bg-white border-slate-200 shadow-md'
                           }`}>
                             {/* Header */}
-                            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3 mb-3">
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm">
-                                  <Cpu className="w-4 h-4" />
+                            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/60 pb-3.5 mb-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-blue-700 border border-blue-500/30 flex items-center justify-center text-white shadow-sm shrink-0">
+                                  <Cpu className="w-5 h-5" />
                                 </div>
                                 <div>
-                                  <h5 className="font-bold text-xs tracking-tight text-white flex items-center gap-2">
-                                    AI Multimodal Fusion Engine: Pilot Debrief NLP &cross; Telemetry Sensors
-                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-sky-400 font-semibold border border-blue-500/30">
-                                      Silo 1 + Silo 2 Unified
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <h5 className={`font-bold text-sm tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                                      AI Multimodal Correlation: Pilot Debrief NLP & Telemetry Sensors
+                                    </h5>
+                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-mono font-semibold border border-slate-700">
+                                      Dual Stream Fusion
                                     </span>
-                                  </h5>
-                                  <p className="text-[11px] text-slate-400 mt-0.5 font-sans">
+                                  </div>
+                                  <p className={`text-xs mt-0.5 font-sans ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                                     Correlating unstructured natural language debrief remarks with high-frequency time-series IoT telemetry
                                   </p>
                                 </div>
                               </div>
 
                               <div className="flex items-center gap-2">
-                                <span className="text-[11px] font-sans font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/25 flex items-center gap-1.5">
-                                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                                <span className="text-xs font-mono font-bold text-emerald-300 bg-emerald-500/15 px-3 py-1.5 rounded-xl border border-emerald-500/30 flex items-center gap-1.5">
+                                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
                                   Multimodal Confidence: {log.nlp_fusion.multi_modal_confidence}% (+{log.nlp_fusion.confidence_lift_pct}% Lift)
                                 </span>
                               </div>
                             </div>
 
                             {/* 3-Column Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 font-sans">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-sans items-stretch">
                               {/* 1. NLP Entity Extraction */}
-                              <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
-                                <div className="flex items-center gap-1.5 mb-2">
-                                  <FileText className="w-3.5 h-3.5 text-sky-400" />
-                                  <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
-                                    Extracted Debrief Entities (NER)
-                                  </span>
-                                </div>
-                                <div className="space-y-1.5">
-                                  {log.nlp_fusion.extracted_entities.map((ent, eIdx) => (
-                                    <div key={eIdx} className="p-2 rounded-lg bg-black/25 border border-white/5 flex flex-col">
-                                      <span className="text-[10px] text-sky-400 font-semibold">{ent.category}</span>
-                                      <span className="text-xs text-slate-200 font-medium mt-0.5">{ent.value}</span>
+                              <div className={`p-4 rounded-xl border flex flex-col justify-between ${
+                                isDark ? 'bg-slate-800/60 border-slate-700/70' : 'bg-slate-50 border-slate-200'
+                              }`}>
+                                <div>
+                                  <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-700/50">
+                                    <div className="flex items-center gap-1.5">
+                                      <FileText className="w-3.5 h-3.5 text-sky-400" />
+                                      <span className={`text-[11px] font-bold uppercase tracking-wider font-mono ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
+                                        Extracted Debrief Entities (NER)
+                                      </span>
                                     </div>
-                                  ))}
+                                    <span className="text-[10px] font-mono text-slate-400">3 Detected</span>
+                                  </div>
+                                  <div className="space-y-2">
+                                    {log.nlp_fusion.extracted_entities.map((ent, eIdx) => (
+                                      <div key={eIdx} className={`p-2.5 rounded-lg border flex flex-col ${
+                                        isDark ? 'bg-slate-900/90 border-slate-700/60 hover:border-slate-600' : 'bg-white border-slate-200'
+                                      }`}>
+                                        <span className="text-[10px] text-sky-400 font-mono font-semibold uppercase tracking-wider">{ent.category}</span>
+                                        <span className={`text-xs font-bold mt-0.5 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>{ent.value}</span>
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
                               </div>
 
                               {/* 2. Correlated Telemetry Residuals */}
-                              <div className={`p-3 rounded-xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
-                                <div className="flex items-center gap-1.5 mb-2">
-                                  <Activity className="w-3.5 h-3.5 text-amber-400" />
-                                  <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
-                                    Cross-Correlated IoT Telemetry
-                                  </span>
-                                </div>
-                                <div className="space-y-1.5">
-                                  {log.nlp_fusion.telemetry_correlations.map((tele, tIdx) => (
-                                    <div key={tIdx} className="p-2 rounded-lg bg-black/25 border border-white/5 flex items-center justify-between">
-                                      <div>
-                                        <span className="text-[10px] text-slate-400 font-medium">{tele.station}</span>
-                                        <p className="text-xs font-bold text-white mt-0.5">{tele.reading}</p>
-                                      </div>
-                                      <span className="text-[10px] font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">
-                                        {tele.delta}
+                              <div className={`p-4 rounded-xl border flex flex-col justify-between ${
+                                isDark ? 'bg-slate-800/60 border-slate-700/70' : 'bg-slate-50 border-slate-200'
+                              }`}>
+                                <div>
+                                  <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-700/50">
+                                    <div className="flex items-center gap-1.5">
+                                      <Activity className="w-3.5 h-3.5 text-amber-400" />
+                                      <span className={`text-[11px] font-bold uppercase tracking-wider font-mono ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
+                                        Cross Correlated IoT Telemetry
                                       </span>
                                     </div>
-                                  ))}
+                                    <span className="text-[10px] font-mono text-amber-400 font-bold">Residual Anomalies</span>
+                                  </div>
+                                  <div className="space-y-2">
+                                    {log.nlp_fusion.telemetry_correlations.map((tele, tIdx) => (
+                                      <div key={tIdx} className={`p-2.5 rounded-lg border flex items-center justify-between gap-2 ${
+                                        isDark ? 'bg-slate-900/90 border-slate-700/60 hover:border-slate-600' : 'bg-white border-slate-200'
+                                      }`}>
+                                        <div className="min-w-0">
+                                          <span className="text-[10px] text-slate-400 font-mono font-medium block truncate">{tele.station}</span>
+                                          <p className={`text-sm font-bold font-mono mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>{tele.reading}</p>
+                                        </div>
+                                        <span className="text-[10px] font-mono font-bold text-rose-300 bg-rose-500/15 px-2 py-1 rounded border border-rose-500/30 shrink-0">
+                                          {tele.delta}
+                                        </span>
+                                      </div>
+                                    ))}
+                                    <div className={`p-2.5 rounded-lg border flex items-center justify-between gap-2 ${
+                                      isDark ? 'bg-slate-900/90 border-slate-700/60' : 'bg-white border-slate-200'
+                                    }`}>
+                                      <div>
+                                        <span className="text-[10px] text-slate-400 font-mono font-medium block">Sampling Rate & Sync</span>
+                                        <p className="text-xs font-bold font-mono text-sky-400 mt-0.5">50 Hz Synchronized</p>
+                                      </div>
+                                      <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+                                        Phase Locked
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
 
                               {/* 3. AI Diagnostic Resolution */}
-                              <div className={`p-3 rounded-xl border flex flex-col justify-between ${
-                                isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'
+                              <div className={`p-4 rounded-xl border flex flex-col justify-between ${
+                                isDark ? 'bg-slate-800/60 border-slate-700/70' : 'bg-slate-50 border-slate-200'
                               }`}>
                                 <div>
-                                  <div className="flex items-center gap-1.5 mb-2">
-                                    <Zap className="w-3.5 h-3.5 text-sky-400" />
-                                    <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
-                                      Fused AI Prognostic Action
-                                    </span>
+                                  <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-700/50">
+                                    <div className="flex items-center gap-1.5">
+                                      <Zap className="w-3.5 h-3.5 text-sky-400" />
+                                      <span className={`text-[11px] font-bold uppercase tracking-wider font-mono ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
+                                        Fused Prognostic Action
+                                      </span>
+                                    </div>
+                                    <span className="text-[10px] font-mono text-emerald-400 font-bold">Actionable</span>
                                   </div>
-                                  <p className="text-xs text-slate-200 font-medium leading-relaxed">
-                                    {log.nlp_fusion.diagnosis}
+                                  <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
+                                    Root Cause Synthesis
+                                  </div>
+                                  <p className={`text-xs font-medium leading-relaxed mt-1 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
+                                    {log.nlp_fusion.diagnosis.replace(/1-3/g, '1 to 3').replace(/sensor-debrief/g, 'sensor and debrief').replace(/multi-modal/g, 'multimodal')}
                                   </p>
-                                  <div className="mt-2.5 p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[11px] text-sky-300">
-                                    <strong className="text-sky-400">Prescription:</strong> {log.nlp_fusion.recommended_action}
+
+                                  <div className="mt-2.5 p-2.5 rounded-lg bg-blue-600/10 border border-blue-500/30">
+                                    <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-sky-400 uppercase tracking-wider">
+                                      <Wrench className="w-3 h-3 text-sky-400 shrink-0" />
+                                      <span>Mandatory Hangar Directive</span>
+                                    </div>
+                                    <p className={`text-xs font-bold mt-1 leading-snug ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                                      {log.nlp_fusion.recommended_action}
+                                    </p>
                                   </div>
                                 </div>
 
-                                <div className="mt-3 pt-2 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-400">
-                                  <span>Automated Triage: <strong className="text-emerald-400">PASSED</strong></span>
-                                  <span className="text-sky-400 font-semibold">Bay Verified</span>
+                                <div className="mt-3 pt-2.5 border-t border-slate-700/50 flex items-center justify-between text-xs font-mono">
+                                  <div className="flex items-center gap-1 text-slate-400">
+                                    <span>Auto Triage:</span>
+                                    <span className="font-bold text-emerald-400">PASSED</span>
+                                  </div>
+                                  <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-blue-500/10 text-sky-300 font-bold text-[10px] border border-blue-500/20">
+                                    <CheckCircle2 className="w-3 h-3 text-sky-400" />
+                                    <span>Bay Verified</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
