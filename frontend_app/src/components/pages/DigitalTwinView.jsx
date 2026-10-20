@@ -10,7 +10,6 @@ import {
 } from 'lucide-react';
 import GlassCard from '../common/GlassCard';
 import StatusBadge from '../common/StatusBadge';
-import TurbofanEngineSchematic from '../common/TurbofanEngineSchematic';
 import { useTheme } from '../../context/ThemeContext';
 import { fleetApi } from '../../api/fleetApi';
 import { MOCK_AIRCRAFT_LIST } from '../../data/mockFleetData';
@@ -518,18 +517,6 @@ export default function DigitalTwinView() {
           </div>
         </div>
 
-        {/* INTERACTIVE 5-STAGE TWIN-SPOOL TURBOFAN ENGINE CUTAWAY SCHEMATIC (UPGRADE 1 / FIX 7) */}
-        <div className="mb-5">
-          <TurbofanEngineSchematic
-            stages={stages}
-            telemetry={twinData?.telemetry || {}}
-            selectedStage={selectedStageKey}
-            onSelectStage={(key) => setSelectedStageKey(selectedStageKey === key ? null : key)}
-            isDark={isDark}
-            aircraftType={twinData?.aircraft_type}
-          />
-        </div>
-
         {/* 5 Stages Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
           {stageKeys.map(({ key, label, station }) => {
@@ -563,7 +550,8 @@ export default function DigitalTwinView() {
             return (
               <div
                 key={key}
-                className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between hover:translate-y-[-2px] ${cardBorder}`}
+                onClick={() => setSelectedStageKey(selectedStageKey === key ? null : key)}
+                className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between hover:translate-y-[-2px] cursor-pointer ${cardBorder}`}
               >
                 <div>
                   {/* Stage Station Header: Tonal Pill on Left, Status Badge on Right */}
