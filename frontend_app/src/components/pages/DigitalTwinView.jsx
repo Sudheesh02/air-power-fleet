@@ -17,7 +17,7 @@ import { MOCK_AIRCRAFT_LIST } from '../../data/mockFleetData';
 export default function DigitalTwinView() {
   const { isDark, selectedTail, setSelectedTail, setActiveTab } = useTheme();
 
-  // Helper to remove dashes/hyphens from subsystem names (e.g. Fly-by-Wire -> Fly by Wire)
+  // Helper to remove dashes/hyphens from subsystem names (e.g. Fly by Wire -> Fly by Wire)
   const formatSubsystemName = (rawName) => {
     if (!rawName) return '';
     return rawName
@@ -46,17 +46,17 @@ export default function DigitalTwinView() {
     return (
       <div className="flex items-center justify-center p-16 text-slate-400 font-sans text-sm">
         <RefreshCw className="w-5 h-5 animate-spin mr-2 text-blue-500" />
-        Loading 5-Stage Gas-Path Digital Twin & Subsystem Telemetry...
+        Loading 5 Stage Gas Path Digital Twin & Subsystem Telemetry...
       </div>
     );
   }
 
   const stageKeys = [
     { key: 'fan', label: '1. Fan & Intake', station: 'STA 2' },
-    { key: 'lpc', label: '2. Low-Pressure Comp', station: 'STA 24' },
-    { key: 'hpc', label: '3. High-Pressure Comp', station: 'STA 30' },
+    { key: 'lpc', label: '2. Low Pressure Comp', station: 'STA 24' },
+    { key: 'hpc', label: '3. High Pressure Comp', station: 'STA 30' },
     { key: 'combustor_hpt', label: '4. Combustor & HPT', station: 'STA 40' },
-    { key: 'lpt', label: '5. Low-Pressure Turb', station: 'STA 50' },
+    { key: 'lpt', label: '5. Low Pressure Turb', station: 'STA 50' },
   ];
 
   const tel = twinData?.telemetry || {};
@@ -83,7 +83,7 @@ export default function DigitalTwinView() {
               </span>
             </div>
             <h2 className={`text-lg font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              Aircraft Subsystems & Gas-Path Health Monitor
+              Aircraft Subsystems & Gas Path Health Monitor
             </h2>
           </div>
         </div>
@@ -209,7 +209,7 @@ export default function DigitalTwinView() {
               </h3>
             </div>
             <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
-              Avionics, Propulsion, Hydraulics, and Airframe real-time telemetry with AI anomaly risk scoring
+              Avionics, Propulsion, Hydraulics, and Airframe real time telemetry with AI anomaly risk scoring
             </p>
           </div>
 
@@ -508,11 +508,11 @@ export default function DigitalTwinView() {
             <div className="flex items-center gap-2">
               <Activity className="w-5 h-5 text-emerald-400" />
               <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Turbofan Gas-Path Cross-Section Breakdown (Stations 2 &rarr; 50)
+                Turbofan Gas Path Cross-Section Breakdown (Stations 2 &rarr; 50)
               </h3>
             </div>
             <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5 font-sans`}>
-              Thermodynamic degradation mapping across stages &bull; NASA C-MAPSS gas-path state
+              Thermodynamic degradation mapping across stages &bull; NASA C-MAPSS gas path state
             </p>
           </div>
 
@@ -646,14 +646,14 @@ export default function DigitalTwinView() {
 
       {/* 5. REAL-TIME SENSORS TELEMETRY STREAM & RLS DRIFT FILTER */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left (2 cols): Real-Time Sensors Gauge Ribbon */}
+        {/* Left (2 cols): Real Time Sensors Gauge Ribbon */}
         <GlassCard className="p-5 lg:col-span-2 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
               <div className="flex items-center gap-2">
                 <Gauge className="w-5 h-5 text-sky-400" />
                 <h3 className={`font-extrabold text-base tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  IoT Gas-Path Sensor Telemetry Stream (Live Values)
+                  IoT Gas Path Sensor Telemetry Stream (Live Values)
                 </h3>
               </div>
               <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 font-sans">
@@ -796,7 +796,7 @@ export default function DigitalTwinView() {
           </div>
         </GlassCard>
 
-        {/* Right (1 col): In-Flight RLS Sensor Drift Adaptation */}
+        {/* Right (1 col): In Flight RLS Sensor Drift Adaptation */}
         <GlassCard className="p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">

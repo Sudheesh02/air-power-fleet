@@ -1,4 +1,4 @@
-// High-fidelity defense dataset mirroring SQLite DB, 5-Stage Gas Path Digital Twin & IAF Fleet Operations
+// High-fidelity defense dataset mirroring SQLite DB, 5 Stage Gas Path Digital Twin & IAF Fleet Operations
 
 export const SQUADRONS = [
   { id: 'ALL', name: 'All IAF Squadrons & Units', code: 'ALL_SQUADRONS', base: 'National Aerospace Command' },
@@ -158,7 +158,7 @@ export const MOCK_AIRCRAFT_LIST = [
     status: 'MAINTENANCE_GROUNDED',
     health_score: 28.5,
     rul_hours: 18.2,
-    next_fault: 'Digital High-Pressure Fuel Pump valve pressure oscillation',
+    next_fault: 'Digital High Pressure Fuel Pump valve pressure oscillation',
     vibration_index: 0.88,
     oil_pressure_psi: 34.0,
     egt_celsius: 840
@@ -450,7 +450,7 @@ export function getMockDigitalTwin(tailNo) {
       }
     },
 
-    // 5-Stage Turbofan Gas Path Cross-Section
+    // 5 Stage Turbofan Gas Path Cross-Section
     stages: {
       fan: {
         name: 'Fan & Intake Stage',
@@ -460,14 +460,14 @@ export function getMockDigitalTwin(tailNo) {
         wear_mode: 'Leading-edge aerodynamic sand erosion'
       },
       lpc: {
-        name: 'Low-Pressure Compressor (LPC)',
+        name: 'Low Pressure Compressor (LPC)',
         health_pct: lpcHealth,
         status: lpcHealth > 70 ? 'NOMINAL' : (lpcHealth > 45 ? 'CAUTION' : 'CRITICAL'),
         key_sensors: ['T24 (LPC Temp 643.2 °R)', 'P24 (LPC Pres 21.4 psia)'],
         wear_mode: 'Surface roughness & boundary layer thickening'
       },
       hpc: {
-        name: 'High-Pressure Compressor (HPC)',
+        name: 'High Pressure Compressor (HPC)',
         health_pct: hpcHealth,
         status: hpcHealth > 70 ? 'NOMINAL' : (hpcHealth > 45 ? 'CAUTION' : 'CRITICAL'),
         key_sensors: ['T30 (Outlet 1589.6 °R)', 'P30 (Static 553.2 psia)'],
@@ -481,7 +481,7 @@ export function getMockDigitalTwin(tailNo) {
         wear_mode: 'Thermal barrier coating spalling & oxidation'
       },
       lpt: {
-        name: 'Low-Pressure Turbine (LPT)',
+        name: 'Low Pressure Turbine (LPT)',
         health_pct: lptHealth,
         status: lptHealth > 70 ? 'NOMINAL' : (lptHealth > 45 ? 'CAUTION' : 'CRITICAL'),
         key_sensors: ['T50 (EGT 1406.8 °R)', 'P50 (Exhaust Pres 16.8 psia)'],
@@ -678,11 +678,11 @@ export const MOCK_BASE_SPARES = [
   { item_id: 'LRU-HPC-02-THA', base_station: 'AFS Thanjavur', part_number: 'P/N-48202', component_name: 'HPC Stator Vane Assembly', subsystem: 'HPC', quantity_on_hand: 2, safety_stock_threshold: 2, unit_cost_inr: 2800000, location_bin: 'BIN-A15' },
   { item_id: 'LRU-LPC-01-THA', base_station: 'AFS Thanjavur', part_number: 'P/N-31904', component_name: 'Fan Rotor Blade Set (Titanium)', subsystem: 'LPC/Fan', quantity_on_hand: 3, safety_stock_threshold: 2, unit_cost_inr: 6500000, location_bin: 'BIN-B04' },
   { item_id: 'LRU-LPT-01-THA', base_station: 'AFS Thanjavur', part_number: 'P/N-88219', component_name: 'LPT Thermocouple Wiring Harness', subsystem: 'LPT', quantity_on_hand: 6, safety_stock_threshold: 4, unit_cost_inr: 350000, location_bin: 'BIN-C08' },
-  { item_id: 'LRU-FUEL-01-THA', base_station: 'AFS Thanjavur', part_number: 'P/N-19043', component_name: 'Digital High-Pressure Fuel Pump', subsystem: 'Fuel System', quantity_on_hand: 2, safety_stock_threshold: 2, unit_cost_inr: 1850000, location_bin: 'BIN-D01' },
+  { item_id: 'LRU-FUEL-01-THA', base_station: 'AFS Thanjavur', part_number: 'P/N-19043', component_name: 'Digital High Pressure Fuel Pump', subsystem: 'Fuel System', quantity_on_hand: 2, safety_stock_threshold: 2, unit_cost_inr: 1850000, location_bin: 'BIN-D01' },
   { item_id: 'LRU-FADEC-01-THA', base_station: 'AFS Thanjavur', part_number: 'P/N-99412', component_name: 'Dual-Channel FADEC EEC Unit', subsystem: 'FADEC/Avionics', quantity_on_hand: 1, safety_stock_threshold: 1, unit_cost_inr: 9500000, location_bin: 'BIN-E02' },
 
   { item_id: 'LRU-HPC-01-SUL', base_station: 'AFS Sulur', part_number: 'P/N-48201', component_name: 'HPC Rotor Blade Stage 1-3 Set', subsystem: 'HPC', quantity_on_hand: 4, safety_stock_threshold: 3, unit_cost_inr: 4200000, location_bin: 'BIN-A12' },
-  { item_id: 'LRU-FUEL-01-SUL', base_station: 'AFS Sulur', part_number: 'P/N-19043', component_name: 'Digital High-Pressure Fuel Pump', subsystem: 'Fuel System', quantity_on_hand: 1, safety_stock_threshold: 2, unit_cost_inr: 1850000, location_bin: 'BIN-D01' },
+  { item_id: 'LRU-FUEL-01-SUL', base_station: 'AFS Sulur', part_number: 'P/N-19043', component_name: 'Digital High Pressure Fuel Pump', subsystem: 'Fuel System', quantity_on_hand: 1, safety_stock_threshold: 2, unit_cost_inr: 1850000, location_bin: 'BIN-D01' },
   { item_id: 'LRU-FADEC-01-SUL', base_station: 'AFS Sulur', part_number: 'P/N-99412', component_name: 'Dual-Channel FADEC EEC Unit', subsystem: 'FADEC/Avionics', quantity_on_hand: 2, safety_stock_threshold: 1, unit_cost_inr: 9500000, location_bin: 'BIN-E02' },
 
   { item_id: 'LRU-HPC-01-AMB', base_station: 'AFS Ambala', part_number: 'P/N-48201', component_name: 'HPC Rotor Blade Stage 1-3 Set', subsystem: 'HPC', quantity_on_hand: 3, safety_stock_threshold: 3, unit_cost_inr: 4200000, location_bin: 'BIN-A12' },
@@ -710,7 +710,7 @@ export const MOCK_AI_REORDER_TRIGGERS = [
     trigger_id: 'TRIG-AI-2026-02',
     tail_no: 'KH-204',
     base_station: 'AFS Sulur',
-    lru_component: 'Digital High-Pressure Fuel Pump',
+    lru_component: 'Digital High Pressure Fuel Pump',
     part_number: 'P/N-19043',
     current_stock: 1,
     safety_stock: 2,
@@ -762,7 +762,7 @@ export const MOCK_DEPOT_PIPELINE = [
     req_id: 'REQ-2026-088',
     tail_no: 'KH-204',
     base_station: 'AFS Sulur',
-    component_name: 'Digital High-Pressure Fuel Pump',
+    component_name: 'Digital High Pressure Fuel Pump',
     priority: 'EXPEDITED_MISSION',
     status: 'ALLOCATED',
     eta_hours: 28,
@@ -831,7 +831,7 @@ export const MOCK_WORK_ORDERS = [
     base_station: 'AFS Thanjavur',
     severity_tier: 3,
     severity_label: 'CRITICAL_AOG',
-    fault_subsystem: 'HPC (High-Pressure Compressor)',
+    fault_subsystem: 'HPC (High Pressure Compressor)',
     predicted_rul: 14.5,
     lower_bound_rul: 11.8,
     action_required: 'AOG EMERGENCY: HPC Rotor Blade Stage 1-3 out of stock at AFS Thanjavur. Automated Requisition REQ-2026-082 en route via C-130J.',
@@ -881,7 +881,7 @@ export const MOCK_WORK_ORDERS = [
     status: 'IN_PROGRESS',
     technician: 'Flt Lt K. Patel (Propulsion Lead)',
     hangar_bay: 'Hangar Bay 01 (Engine Test Bed)',
-    required_tooling: 'Fuel Metering Bench FMB-02, High-Pressure Leak Rig',
+    required_tooling: 'Fuel Metering Bench FMB-02, High Pressure Leak Rig',
     linked_requisition: 'REQ-2026-088',
     created_at: '6.0h ago'
   },
@@ -893,7 +893,7 @@ export const MOCK_WORK_ORDERS = [
     base_station: 'AFS Ambala',
     severity_tier: 3,
     severity_label: 'CRITICAL_AOG',
-    fault_subsystem: 'LPT (Low-Pressure Turbine)',
+    fault_subsystem: 'LPT (Low Pressure Turbine)',
     predicted_rul: 22.0,
     lower_bound_rul: 18.2,
     action_required: 'M88-4E Turbine Disk thermal barrier inspection underway. Laser ultrasound scan active on turbine stage 2 blades.',
@@ -991,7 +991,7 @@ export const MOCK_WORK_ORDERS = [
   }
 ];
 
-// Historical Pilot Flight Logs & Snags with Multi-Modal NLP Telemetry Correlation
+// Historical Pilot Flight Logs & Snags with Multimodal NLP Telemetry Correlation
 export const MOCK_FLIGHT_LOGS = [
   {
     log_id: 'LOG-SB-024-05',
@@ -1041,7 +1041,7 @@ export const MOCK_FLIGHT_LOGS = [
       ],
       multi_modal_confidence: 96.8,
       confidence_lift_pct: 19.5,
-      diagnosis: 'Digital High-Pressure Fuel Pump valve stutter correlated with pilot throttle oscillation.',
+      diagnosis: 'Digital High Pressure Fuel Pump valve stutter correlated with pilot throttle oscillation.',
       recommended_action: 'Fuel pump bench overhaul underway in Hangar Bay 01.'
     }
   },
@@ -1091,7 +1091,7 @@ export const MOCK_FLIGHT_LOGS = [
     duration_hours: 1.9,
     pilot_callsign: 'Dagger-Lead (Tejas)',
     g_force_peak: 6.8,
-    pilot_remarks: 'High-G intercept simulation completed. Fly-by-wire and GE-F404 turbine operating smoothly.',
+    pilot_remarks: 'High-G intercept simulation completed. Fly by Wire and GE-F404 turbine operating smoothly.',
     snags_reported: 0,
     nlp_fusion: null
   },

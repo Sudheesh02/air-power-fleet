@@ -35,7 +35,7 @@ export default function TacticalVoiceCopilot() {
       case 'overview':
         return 'Looking at Fleet Command Overview';
       case 'twin':
-        return 'Looking at 5-Stage Digital Twin';
+        return 'Looking at 5 Stage Digital Twin';
       case 'predictive':
         return 'Looking at Predictive AI & Sorties';
       case 'spares':
@@ -51,10 +51,10 @@ export default function TacticalVoiceCopilot() {
     id: 'init-1',
     sender: 'agent',
     time: 'Just now',
-    text: `I am the Air Power Copilot, your tactical flight-line guide for the Indian Air Force predictive maintenance platform. I monitor frontline combat airframe readiness, 5-stage gas-path digital twins, conformal RUL thresholds, and forward depot supply chains.
+    text: `I am the Air Power Copilot, your tactical flight line guide for the Indian Air Force predictive maintenance platform. I monitor frontline combat airframe readiness, 5-stage gas path digital twins, conformal RUL thresholds, and forward depot supply chains.
 
 Explaining fleet capabilities:
-I can explain real-time aircraft telemetry, diagnose conservative RUL safety bounds, inspect forward base spares inventory, and evaluate sortie clearance feasibility across our 20 frontline airframes.`,
+I can explain real time aircraft telemetry, diagnose conservative RUL safety bounds, inspect forward base spares inventory, and evaluate sortie clearance feasibility across our 20 frontline airframes.`,
     formulaCard: {
       title: "Fleet Availability Standard",
       formula: "Mission Ready (13) / Total Airframes (20) = 65.0% (MoD Target: 75.0%)"
@@ -535,7 +535,7 @@ I can explain real-time aircraft telemetry, diagnose conservative RUL safety bou
                     )}
                   </div>
 
-                  {/* "Keep going" Suggested Follow-up Questions (Identical to Vanna Assist in Image 2) */}
+                  {/* "Keep going" Suggested Follow up Questions (Identical to Vanna Assist in Image 2) */}
                   {msg.suggestions && msg.suggestions.length > 0 && (
                     <div className={`mt-4 pt-3.5 border-t ${isDark ? 'border-white/10' : 'border-slate-100'}`}>
                       <p className={`text-xs font-semibold mb-2 font-sans ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>

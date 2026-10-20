@@ -198,7 +198,7 @@ export default function SparesLogistics() {
               </div>
               <span className={`text-xs font-semibold font-sans truncate ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Proactive Replenishment</span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-cyan-300 border border-blue-500/20 font-sans font-semibold">Auto-Dispatched</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-cyan-300 border border-blue-500/20 font-sans font-semibold">Auto Dispatched</span>
           </div>
           <div className="mt-3 mb-2">
             <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-cyan-300 font-sans">
@@ -621,7 +621,7 @@ export default function SparesLogistics() {
                   }`}
                 >
                   <option value="HPC Rotor Blade Stage 1-3 Set">HPC Rotor Blade Stage 1-3 Set</option>
-                  <option value="Digital High-Pressure Fuel Pump">Digital High-Pressure Fuel Pump</option>
+                  <option value="Digital High Pressure Fuel Pump">Digital High Pressure Fuel Pump</option>
                   <option value="LPT Thermocouple Wiring Harness">LPT Thermocouple Wiring Harness</option>
                   <option value="Fan Rotor Blade Set (Titanium)">Fan Rotor Blade Set (Titanium)</option>
                   <option value="Dual-Channel FADEC EEC Unit">Dual-Channel FADEC EEC Unit</option>

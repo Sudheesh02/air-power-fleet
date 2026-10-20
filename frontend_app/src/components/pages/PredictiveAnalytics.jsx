@@ -74,7 +74,7 @@ function computeSortieFeasibility(tailNo, sortieType, durationHours) {
     reasons.push('Compressor/Turbine degradation detected above caution threshold.');
     recommendations.push('Cleared for subsonic cruise only. Avoid sustained afterburner.');
   } else {
-    reasons.push(`All 5 gas-path stages nominal. Healthy RUL margin (${conservativeRul}h available vs ${requiredMargin}h required).`);
+    reasons.push(`All 5 gas path stages nominal. Healthy RUL margin (${conservativeRul}h available vs ${requiredMargin}h required).`);
     recommendations.push('Cleared for full flight envelope.');
   }
 
@@ -96,7 +96,7 @@ function computeSortieFeasibility(tailNo, sortieType, durationHours) {
       stockSufficient = !isGrounded;
       supplyAlert = isGrounded ? 'STOCK_EXHAUSTED_AOG_RISK' : 'STOCK_LOW';
     } else if (fault.includes('fuel') || fault.includes('pump')) {
-      componentName = 'Digital High-Pressure Fuel Pump';
+      componentName = 'Digital High Pressure Fuel Pump';
       subsystem = 'Fuel System';
       qtyOnHand = isGrounded ? 0 : 1;
       stockSufficient = false;
@@ -108,7 +108,7 @@ function computeSortieFeasibility(tailNo, sortieType, durationHours) {
       stockSufficient = !isGrounded;
       supplyAlert = isGrounded ? 'STOCK_EXHAUSTED_AOG_RISK' : 'STOCK_OPTIMAL';
     } else {
-      componentName = 'Dual-Channel FADEC EEC Unit';
+      componentName = 'Dual Channel FADEC EEC Unit';
       subsystem = 'Avionics';
       qtyOnHand = 1;
       stockSufficient = true;
@@ -227,12 +227,12 @@ export default function PredictiveAnalytics() {
   const [simMode, setSimMode] = useState('single'); // 'single' or 'formation'
   const [formationSquadron, setFormationSquadron] = useState("No. 45 Sqn 'Flying Daggers'");
 
-  // Active pilot debrief log for selected tail (Multi-Modal NLP Snag Fusion)
+  // Active pilot debrief log for selected tail (Multimodal NLP Snag Fusion)
   const activeFlightLog = useMemo(() => {
     return MOCK_FLIGHT_LOGS.find(l => l.tail_no === selectedTail) || null;
   }, [selectedTail]);
 
-  // 4-Ship Squadron Formation Optimizer calculation
+  // 4 Ship Squadron Formation Optimizer calculation
   const formationRoster = useMemo(() => {
     const key = formationSquadron.toLowerCase();
     const sqPlanes = MOCK_AIRCRAFT_LIST.filter(a => {
@@ -299,7 +299,7 @@ export default function PredictiveAnalytics() {
       return [
         { feature: 'T50 LPT Thermal Creep Gradient', weight: 48, impact: 'Accelerates Degradation (+48%)', color: '#EF4444' },
         { feature: 'Turbine Disk Coating Ablation', weight: 28, impact: 'Accelerates Degradation (+28%)', color: '#F59E0B' },
-        { feature: 'MFD Over-Temp Advisory Snag', weight: 18, impact: 'Accelerates Degradation (+18%)', color: '#64748B' },
+        { feature: 'MFD Over Temp Advisory Snag', weight: 18, impact: 'Accelerates Degradation (+18%)', color: '#64748B' },
         { feature: 'Compressor Bleed Margin', weight: -9, impact: 'Extends Life Resilience (-9%)', color: '#10B981' },
         { feature: 'Cumulative Airframe Hours', weight: -5, impact: 'Extends Life Resilience (-5%)', color: '#0EA5E9' }
       ];
@@ -421,7 +421,7 @@ export default function PredictiveAnalytics() {
         </div>
       </GlassCard>
 
-      {/* 2. SIMULATOR SCOPE SELECTOR: [ Single Tail Evaluation ] | [ 4-Ship Squadron Formation Optimizer ] */}
+      {/* 2. SIMULATOR SCOPE SELECTOR: [ Single Tail Evaluation ] | [ 4 Ship Squadron Formation Optimizer ] */}
       <GlassCard className="p-3.5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider font-sans">
@@ -448,7 +448,7 @@ export default function PredictiveAnalytics() {
               }`}
             >
               <Users className="w-3.5 h-3.5" />
-              4-Ship Squadron Formation Optimizer
+              4 Ship Squadron Formation Optimizer
             </button>
           </div>
         </div>
@@ -478,7 +478,7 @@ export default function PredictiveAnalytics() {
       {/* 2. "WHAT-IF" MISSION SORTIE FEASIBILITY SIMULATOR & CLEARANCE DECISION */}
       {simMode === 'single' ? (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left (7 cols): What-If Simulator Controls */}
+        {/* Left (7 cols): What If Simulator Controls */}
         <GlassCard className="p-5 lg:col-span-7 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3 mb-4">
@@ -728,7 +728,7 @@ export default function PredictiveAnalytics() {
                 </p>
               </div>
 
-              {/* AI Multi-Modal NLP Snag Log-to-Sensor Fusion Badge */}
+              {/* AI Multimodal NLP Snag Log-to-Sensor Fusion Badge */}
               <div className={`p-3.5 rounded-xl border transition-all ${
                 activeFlightLog?.nlp_fusion
                   ? 'bg-blue-500/10 border-blue-500/30'
@@ -737,7 +737,7 @@ export default function PredictiveAnalytics() {
                 <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider mb-2">
                   <span className="flex items-center gap-1.5 text-cyan-300">
                     <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                    AI Multi-Modal NLP Snag-to-Sensor Fusion
+                    AI Multimodal NLP Snag-to-Sensor Fusion
                   </span>
                   <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${
                     activeFlightLog?.nlp_fusion
@@ -843,7 +843,7 @@ export default function PredictiveAnalytics() {
                   <Users className="w-5 h-5 text-sky-400" />
                   <div>
                     <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                      4-Ship Squadron Formation Sortie Optimizer
+                      4 Ship Squadron Formation Sortie Optimizer
                     </h3>
                     <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
                       Optimized 4-tail roster maximizing flight margin & avoiding airframe burnout
@@ -947,7 +947,7 @@ export default function PredictiveAnalytics() {
                             <span className="font-bold text-slate-200">{plane.conservativeRul}h</span>
                           </div>
                           <div>
-                            <span className="text-[10px] text-slate-400 block">Post-Mission RUL</span>
+                            <span className="text-[10px] text-slate-400 block">Post Mission RUL</span>
                             <span className="font-bold text-emerald-400">{plane.postMissionRul}h</span>
                           </div>
                         </div>
@@ -965,7 +965,7 @@ export default function PredictiveAnalytics() {
           </GlassCard>
 
           {/* Right (5 cols): Formation Operational Feasibility & Burnout Prevention */}
-          <GlassCard className="p-5 lg:col-span-5 flex flex-col justify-between border-emerald-500/30 bg-gradient-to-br from-emerald-500/[0.08] via-transparent to-transparent shadow-[0_4px_30px_rgba(1,181,116,0.12)]">
+          <GlassCard className="p-5 lg:col-span-5 flex flex-col justify-between border-slate-800 bg-slate-900/90 shadow-sm">
             <div>
               <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 font-sans">
                 <div className="flex items-center gap-2">
@@ -974,26 +974,26 @@ export default function PredictiveAnalytics() {
                     Formation Sortie Clearance
                   </span>
                 </div>
-                <span className="px-3 py-1 rounded-full text-[11px] font-semibold border bg-emerald-500/10 text-emerald-400 border-emerald-500/25">
+                <span className="px-3 py-1 rounded-full text-[11px] font-semibold border bg-slate-800/90 text-slate-200 border-slate-700">
                   Full Squadron Cleared
                 </span>
               </div>
 
               {/* Banner */}
               <div className="flex items-center gap-3.5 my-4">
-                <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-400/40 shadow-[0_0_24px_rgba(1,181,116,0.3)] flex-shrink-0">
-                  <ShieldCheck className="w-7 h-7 text-emerald-400 drop-shadow-[0_2px_8px_rgba(1,181,116,0.5)]" />
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-700 border border-blue-500/30 text-white shadow-sm flex-shrink-0">
+                  <ShieldCheck className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2.5">
-                    <h4 className="text-2xl font-black tracking-tight text-white font-sans">
-                      4-Ship Formation Cleared
+                    <h4 className="text-xl font-bold tracking-tight text-white font-sans">
+                      4 Ship Formation Cleared
                     </h4>
-                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/35">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-800 text-emerald-400 border border-emerald-600/40">
                       GO
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300/90 font-medium mt-1 leading-snug font-sans">
+                  <p className="text-xs text-slate-400 font-medium mt-1 leading-snug font-sans">
                     All 4 airframes satisfy conservative conformal RUL margins for {sortieType}
                   </p>
                 </div>
@@ -1001,42 +1001,43 @@ export default function PredictiveAnalytics() {
 
               {/* Formation Metrics Bento */}
               <div className="space-y-3 mt-4 text-xs font-sans">
-                <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/10">
+                {/* Box 1: Fleet Availability Post Flight */}
+                <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
                   <div className="flex items-center justify-between text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-                    <span>Fleet Availability Post-Mission</span>
+                    <span>Fleet Availability Post Flight</span>
                     <span className="text-emerald-400 font-bold">83.3% Readiness</span>
                   </div>
-                  <p className="text-slate-200 leading-relaxed text-xs">
-                    Executing this 4-ship flight maintains squadron readiness comfortably above the <strong>75.0% MoD Target</strong> with zero unplanned groundings.
+                  <p className="text-slate-300 leading-relaxed text-xs">
+                    Mission execution preserves 83.3% squadron readiness, exceeding MoD 75.0% operational mandate with all scheduled airframes combat available.
                   </p>
                 </div>
 
-                {/* Burnout Prevention Directive */}
-                <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/25">
-                  <div className="flex items-center justify-between text-[11px] font-semibold text-amber-300 uppercase tracking-wider mb-1.5">
-                    <span>Airframe Burnout Prevention Protocol</span>
-                    <span className="text-amber-400 text-[10px] font-bold">Active Shield</span>
+                {/* Box 2: Airframe Fatigue & Fleet Rotation */}
+                <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                  <div className="flex items-center justify-between text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                    <span>Airframe Fatigue and Fleet Rotation</span>
+                    <span className="text-sky-400 text-[10px] font-bold">Active Rotation</span>
                   </div>
-                  <p className="text-slate-200 leading-relaxed text-xs">
-                    Lower-RUL tails are intentionally withheld from high-stress missions and reserved for <strong>Quick Reaction Alert (QRA)</strong> scramble duties to prevent premature depot induction.
+                  <p className="text-slate-300 leading-relaxed text-xs">
+                    High time airframes withheld from heavy sorties and allocated to QRA standby to prevent premature base overhaul cycles.
                   </p>
                 </div>
 
-                {/* NLP Log-to-Sensor Multi-Modal Check */}
-                <div className="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/25">
-                  <div className="flex items-center justify-between text-[11px] font-bold text-cyan-300 uppercase tracking-wider mb-1">
-                    <span>Multi-Modal NLP Snag Log Check</span>
-                    <span className="text-emerald-300 text-[10px] font-bold">4/4 Passed</span>
+                {/* Box 3: Technical Log & Snag Verification */}
+                <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                  <div className="flex items-center justify-between text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">
+                    <span>Technical Log and Snag Status</span>
+                    <span className="text-emerald-400 text-[10px] font-bold">4/4 Verified</span>
                   </div>
-                  <p className="text-slate-300 text-xs">
-                    Automated debrief NLP parser confirms <strong>zero unresolved flight snag discrepancies</strong> across all 4 selected airframes.
+                  <p className="text-slate-300 text-xs leading-relaxed">
+                    Pilot debrief logs and snag registers clear across all 4 assigned airframes with zero pending rectification orders.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-5 pt-3 border-t border-emerald-500/20 flex items-center justify-between text-xs font-sans">
-              <span className="text-slate-400">Sortie Code: <strong className="text-white">IAF-MSN-2026-CAP4</strong></span>
+            <div className="mt-5 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-sans">
+              <span className="text-slate-400">Sortie Code: <strong className="text-slate-200">IAF MSN 2026 CAP4</strong></span>
               <span className="text-emerald-400 font-bold">Air Tasking Order Cleared</span>
             </div>
           </GlassCard>

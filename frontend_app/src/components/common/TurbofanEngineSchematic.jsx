@@ -53,13 +53,13 @@ export default function TurbofanEngineSchematic({
           </div>
           <div>
             <h4 className="font-sans font-bold text-xs tracking-tight text-white flex items-center gap-1.5">
-              Interactive 5-Stage Twin-Spool Turbofan Schematic
+              Interactive 5 Stage Twin Spool Turbofan Schematic
               <span className="text-[10px] font-sans px-2 py-0.5 rounded-full bg-blue-500/20 text-sky-300 font-semibold border border-blue-500/30">
                 Stations 2.0 &rarr; 5.0
               </span>
             </h4>
             <p className="text-[10px] text-slate-400 font-sans">
-              Click any gas-path stage to inspect station thermodynamic residuals & degradation modes
+              Click any gas path stage to inspect station thermodynamic residuals & degradation modes
             </p>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function TurbofanEngineSchematic({
               <stop offset="100%" stopColor="#EF4444" stopOpacity="0.85" />
             </linearGradient>
 
-            {/* Gas-Path Streamline Particle Motion Keyframes */}
+            {/* Gas Path Streamline Particle Motion Keyframes */}
             <style>{`
               @keyframes gasPathFlow {
                 from { stroke-dashoffset: 36; }
@@ -274,7 +274,7 @@ export default function TurbofanEngineSchematic({
               opacity="0.8"
             />
 
-            {/* Fan Blades (Titanium Wide-Chord) */}
+            {/* Fan Blades (Titanium Wide Chord) */}
             <g stroke={getStatusStroke(fanStatus)} strokeWidth="2.5" strokeLinecap="round">
               <path d="M 135 48 Q 148 70 142 95" />
               <path d="M 148 44 Q 160 70 154 95" />
@@ -418,7 +418,7 @@ export default function TurbofanEngineSchematic({
             <line x1="450" y1="74" x2="465" y2="88" stroke="#F97316" strokeWidth="2.5" />
             <line x1="450" y1="146" x2="465" y2="132" stroke="#F97316" strokeWidth="2.5" />
 
-            {/* High-Pressure Single Stage Turbine (HPT) */}
+            {/* High Pressure Single Stage Turbine (HPT) */}
             <line x1="565" y1="72" x2="560" y2="100" stroke="#F59E0B" strokeWidth="3" />
             <line x1="565" y1="148" x2="560" y2="120" stroke="#F59E0B" strokeWidth="3" />
 
@@ -452,7 +452,7 @@ export default function TurbofanEngineSchematic({
               filter={lptStatus === 'CRITICAL' ? 'url(#redGlow)' : undefined}
             />
 
-            {/* LPT Multi-Stage Turbine Disks */}
+            {/* LPT Multi Stage Turbine Disks */}
             <g stroke={getStatusStroke(lptStatus)} strokeWidth="2.5" strokeLinecap="round">
               <line x1="605" y1="68" x2="610" y2="100" />
               <line x1="605" y1="152" x2="610" y2="120" />

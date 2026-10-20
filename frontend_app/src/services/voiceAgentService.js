@@ -1,4 +1,4 @@
-// IAF Tactical Flight-Line Intelligence & Voice Engine
+// IAF Tactical Flight Line Intelligence & Voice Engine
 // Powered by Sarvam AI (bulbul:v3) + Tactical Aerospace Operations Core
 
 const SARVAM_TTS_URL = 'https://api.sarvam.ai/text-to-speech';
@@ -9,7 +9,7 @@ const DEFAULT_SARVAM_KEY = 'REDACTED_SARVAM_KEY';
 const audioCache = new Map();
 
 export const VOICE_SPEAKERS = [
-  { id: 'shubh', name: 'Commander Shubh (IAF Operations)', role: 'Tactical Flight-Line Control' },
+  { id: 'shubh', name: 'Commander Shubh (IAF Operations)', role: 'Tactical Flight Line Control' },
   { id: 'anushka', name: 'Officer Anushka (Air Ops)', role: 'Flight Telemetry Controller' },
   { id: 'aditya', name: 'Lt. Aditya (Hangar Maintenance)', role: 'Technical Airframe Officer' },
   { id: 'ratan', name: 'Brigadier Ratan (Senior Command)', role: 'Strategic Mission Briefing' },
@@ -164,7 +164,7 @@ export function createSpeechRecognizer({ onResult, onError, onEnd }) {
 }
 
 /**
- * Authoritative Indian Air Force Flight-Line Intelligence
+ * Authoritative Indian Air Force Flight Line Intelligence
  * Returns structured conversational response, formula card, and "Keep going" suggestions
  */
 export function queryVayuBrain(prompt, context = {}) {
@@ -183,14 +183,14 @@ Current Operational State:
 • No. 17 Squadron "Golden Arrows" (Rafale, Ambala): 4 Ready, 2 Scheduled
 
 Critical Hold Notice:
-Tail SB-024 (Su-30MKI) is on NO-GO hold. High-Pressure Compressor blade wear reached 21.2%, exceeding safety limits. Emergency replenishment has been routed to 3 BRD Chandigarh.`,
+Tail SB-024 (Su-30MKI) is on NO-GO hold. High Pressure Compressor blade wear reached 21.2%, exceeding safety limits. Emergency replenishment has been routed to 3 BRD Chandigarh.`,
       formulaCard: {
         title: "Sortie Clearance Gate",
         formula: "Conservative RUL >= Sortie Duration × 1.40 (Profile Buffer)"
       },
       suggestions: [
         "Why is tail SB-024 grounded at AFS Thanjavur?",
-        "Which 4-ship formation is cleared for immediate flight?",
+        "Which 4 ship formation is cleared for immediate flight?",
         "How does the 1.4x buffer account for supersonic afterburner load?"
       ]
     };
@@ -206,7 +206,7 @@ Diagnostic Findings:
 • Airframe: Su-30MKI (Twin Saturn AL-31FP Turbofans)
 • Health Score: 54.2% (Critical Degrade)
 • Conservative RUL: 12.1 flight hours (Point Estimate: 18.4 hrs)
-• Root Failure Mode: High-Pressure Compressor (HPC) Blade Erosion with 21.2% wear margin breached.
+• Root Failure Mode: High Pressure Compressor (HPC) Blade Erosion with 21.2% wear margin breached.
 • Local Inventory Bottleneck: Forward Operating Base bin stock for rotor blades is currently at 0 units.
 
 Remediation Pipeline:
@@ -224,25 +224,25 @@ Remediation Pipeline:
     };
   }
 
-  // 3. 5-Stage Thermodynamic Turbofan Twin Physics
-  if (lower.includes('5-stage') || lower.includes('gas-path') || lower.includes('thermodynamic') || lower.includes('twin physics') || lower.includes('engine') || lower.includes('stations')) {
+  // 3. 5 Stage Thermodynamic Turbofan Twin Physics
+  if (lower.includes('5-stage') || lower.includes('gas path') || lower.includes('thermodynamic') || lower.includes('twin physics') || lower.includes('engine') || lower.includes('stations')) {
     return {
       spokenText: "Our digital twin models military turbofans across 5 standard aerospace thermodynamic stations: Station 2 Fan Intake, Station 24 Low Pressure Compressor, Station 30 High Pressure Compressor, Station 40 Combustor and High Pressure Turbine, and Station 50 Low Pressure Turbine and Exhaust. The physics engine tracks thermodynamic margins in real time from NASA C-MAPSS telemetry.",
       displayText: `Our digital twin models the AL-31FP, GE-F404, and Snecma M88 engines across standard gas turbine aerodynamic stations:
 
-Explaining Gas-Path Stations:
+Explaining Gas Path Stations:
 • Station 2 (Fan Intake): Monitors T2, inlet pressure P2, and fan speed Nf. Detects foreign object damage and inlet distortion.
-• Station 24 (Low-Pressure Compressor): Tracks inter-stage bleed leakage and aerodynamic flutter under high-altitude cruise.
-• Station 30 (High-Pressure Compressor): Tracks T30 and P30 pressure ratios to detect blade tip rubbing and aerodynamic erosion.
+• Station 24 (Low Pressure Compressor): Tracks inter-stage bleed leakage and aerodynamic flutter under high-altitude cruise.
+• Station 30 (High Pressure Compressor): Tracks T30 and P30 pressure ratios to detect blade tip rubbing and aerodynamic erosion.
 • Station 40 (Combustor & HPT): Tracks fuel flow Wf and burner temperature to detect nozzle guide vane cracks and hot-spotting.
-• Station 50 (Low-Pressure Turbine & Exhaust): Tracks exhaust gas temperature and core vibration to detect thermal coating spallation.`,
+• Station 50 (Low Pressure Turbine & Exhaust): Tracks exhaust gas temperature and core vibration to detect thermal coating spallation.`,
       formulaCard: {
         title: "Thermodynamic Residual Equation",
         formula: "Residual Delta = Measured Station Telemetry - NASA C-MAPSS Baseline"
       },
       suggestions: [
         "What causes the Station 30 high-pressure temperature spike?",
-        "How does in-flight RLS sensor drift filter false alarms?",
+        "How does in flight RLS sensor drift filter false alarms?",
         "What are the nominal bypass ratio limits for AL-31FP?"
       ]
     };
@@ -276,7 +276,7 @@ Conformal Mathematical Framework:
       spokenText: "The logistics integration connects Forward Operating Base spares with central overhaul depots. Base inventory tracks 18 critical line replaceable units across forward air force stations, while central depots in Chandigarh and Nashik monitor heavy overhaul components with automated predictive replenishment.",
       displayText: `Our supply chain architecture links forward air bases directly with central overhaul depots to eliminate fragmented agency delays:
 
-Multi-Silo Logistics Flow:
+Multi Silo Logistics Flow:
 • Forward Operating Bases: 18 Line Replaceable Units actively tracked across AFS Thanjavur, Sulur, and Ambala.
 • Predictive Reordering: When an airframe's conservative RUL drops below depot delivery lead-time, automated replenishment orders dispatch before the jet physically grounds.
 • Central Depots Connected:
@@ -295,7 +295,7 @@ Multi-Silo Logistics Flow:
     };
   }
 
-  // 6. Multi-Modal NLP Snag Fusion
+  // 6. Multimodal NLP Snag Fusion
   if (lower.includes('nlp') || lower.includes('snag') || lower.includes('fusion') || lower.includes('pilot log')) {
     return {
       spokenText: "Our multi-modal engine fuses unstructured pilot debrief remarks with engine sensor telemetry. When a pilot notes core vibration on afterburner, the NLP pipeline correlates the text with Station 30 accelerometer spikes, boosting diagnostic confidence to 98.4 percent, a 22 percent increase over sensor telemetry alone.",
@@ -306,7 +306,7 @@ Cross-Modal Corroboration:
 • Telemetry Corroboration: Cross-references sensor streams to verify abnormal Station 30 vibration indices and pressure fluctuations.
 • Diagnostic Confidence: Fusing textual symptom classification with sensor telemetry raises diagnostic accuracy from 76.0% (sensor-only) to 98.4%.`,
       formulaCard: {
-        title: "Multi-Modal Confidence Metric",
+        title: "Multimodal Confidence Metric",
         formula: "Confidence = NLP Textual Vector (92%) + IoT Telemetry (76%) = 98.4%"
       },
       suggestions: [
@@ -322,9 +322,9 @@ Cross-Modal Corroboration:
     spokenText: `Understood Commander. Querying Air Power fleet intelligence for ${prompt}. Our system tracks 20 frontline combat airframes with thermodynamic digital twins, conformal remaining useful life margins, and integrated depot logistics.`,
     displayText: `Operational status is nominal across all 20 combat airframes.
 
-How I can assist your flight-line operations:
+How I can assist your flight line operations:
 • Real-time sortie clearance verification and formation planning
-• 5-stage thermodynamic gas-path digital twin telemetry
+• 5-stage thermodynamic gas path digital twin telemetry
 • Conformal Remaining Useful Life mathematical formulations
 • Forward Operating Base spares and central depot logistics`,
     formulaCard: {
