@@ -165,24 +165,34 @@ export function createSpeechRecognizer({ onResult, onError, onEnd }) {
 
 /**
  * Authoritative Indian Air Force Flight-Line Intelligence
+ * Returns structured conversational response, formula card, and "Keep going" suggestions
  */
 export function queryVayuBrain(prompt, context = {}) {
   const lower = prompt.toLowerCase();
 
   // 1. Sortie Clearance & Mission Readiness Briefing
-  if (lower.includes('sortie') || lower.includes('clearance') || lower.includes('briefing') || lower.includes('ready')) {
+  if (lower.includes('sortie') || lower.includes('clearance') || lower.includes('briefing') || lower.includes('ready') || lower.includes('mission')) {
     return {
-      spokenText: "Mission readiness report: Fleet availability stands at 65 percent across 20 frontline airframes. 13 aircraft are mission ready, 6 are in scheduled preventive maintenance, and tail SB-024 is strictly grounded at Thanjavur due to critical High Pressure Compressor degradation. 4-ship strike formations are cleared for Sukhoi-30MKI, Tejas Mark 1A, and Rafale.",
-      displayText: `### Fleet Mission Readiness & Sortie Clearance Briefing
+      spokenText: "Mission readiness report: Fleet availability stands at 65 percent across 20 frontline airframes. 13 aircraft are cleared for immediate combat sorties, while tail SB-024 is strictly grounded at Thanjavur due to high-pressure compressor erosion. Four-ship strike formations are cleared for Sukhoi-30MKI, Tejas Mark 1A, and Rafale.",
+      displayText: `I monitor fleet readiness and combat sortie authorization across all 5 frontline squadrons. 
 
-• **Overall Mission Capable Rate**: **65.0%** (13 of 20 Combat Airframes Available)
-• **Active Air Force Squadrons**:
-  - **No. 222 Squadron "Tigersharks"** (*Su-30MKI*, AFS Thanjavur): 4 Ready, 1 Scheduled, 1 AOG Grounded.
-  - **No. 45 Squadron "Flying Daggers"** (*Tejas Mk1A*, AFS Sulur): 5 Ready, 1 Scheduled.
-  - **No. 17 Squadron "Golden Arrows"** (*Rafale*, AFS Ambala): 4 Ready, 2 Scheduled.
-• **Critical Operational Hold**:
-  - **SB-024 (Su-30MKI)**: **NO-GO**. High-Pressure Compressor wear has breached safe limits (21.2%). Local forward base stock depleted. Emergency replenishment dispatched from 3 BRD Chandigarh.
-• **Sortie Margin Policy**: All departures require conservative Remaining Useful Life to exceed sortie duration by at least 1.4 times.`
+Current Operational State:
+• 13 of 20 Combat Airframes are Mission Ready (65.0% Fleet-wide Availability)
+• No. 222 Squadron "Tigersharks" (Su-30MKI, Thanjavur): 4 Ready, 1 Scheduled, 1 AOG Grounded
+• No. 45 Squadron "Flying Daggers" (Tejas Mk1A, Sulur): 5 Ready, 1 Scheduled
+• No. 17 Squadron "Golden Arrows" (Rafale, Ambala): 4 Ready, 2 Scheduled
+
+Critical Hold Notice:
+Tail SB-024 (Su-30MKI) is on NO-GO hold. High-Pressure Compressor blade wear reached 21.2%, exceeding safety limits. Emergency replenishment has been routed to 3 BRD Chandigarh.`,
+      formulaCard: {
+        title: "Sortie Clearance Gate",
+        formula: "Conservative RUL >= Sortie Duration × 1.40 (Profile Buffer)"
+      },
+      suggestions: [
+        "Why is tail SB-024 grounded at AFS Thanjavur?",
+        "Which 4-ship formation is cleared for immediate flight?",
+        "How does the 1.4x buffer account for supersonic afterburner load?"
+      ]
     };
   }
 
@@ -190,19 +200,27 @@ export function queryVayuBrain(prompt, context = {}) {
   if (lower.includes('sb-024') || lower.includes('grounded') || lower.includes('aog') || lower.includes('thanjavur')) {
     return {
       spokenText: "Aircraft SB-024 is a Sukhoi-30MKI assigned to Number 222 Squadron Tigersharks at Thanjavur Air Force Station. It is currently on Aircraft On Ground status due to severe High Pressure Compressor blade wear. Local forward base inventory has zero replacement blades. An automated high-priority requisition has been routed to central depot at 3 BRD Chandigarh.",
-      displayText: `### Aircraft Incident Report: Tail SB-024 (Su-30MKI)
+      displayText: `Tail SB-024 is currently on critical Aircraft On Ground status in Hangar Bay 2 at AFS Thanjavur.
 
-• **Airframe**: **Su-30MKI** (Twin Saturn AL-31FP Turbofans)
-• **Unit**: No. 222 Squadron *"Tigersharks"* • AFS Thanjavur
-• **Status**: **CRITICAL AOG (Aircraft On Ground)**
-• **Health Score**: **54.2%** (Critical Degrade)
-• **Conservative RUL**: **12.1 flight hours** (Point Estimate: 18.4 hrs)
-• **Root Failure Mode**: **High-Pressure Compressor Blade Erosion** (21.2% wear margin breached).
-• **Supply Chain Bottleneck**: Forward Operating Base bin stock for rotor blades is at **0 units**.
-• **Remediation Underway**:
-  1. Maintenance Order *WO-2026-089* active in Hangar Bay 2.
-  2. Emergency Depot Requisition dispatched to **3 BRD Chandigarh**.
-  3. Estimated transit time: 36 hours via dedicated logistics airlift.`
+Diagnostic Findings:
+• Airframe: Su-30MKI (Twin Saturn AL-31FP Turbofans)
+• Health Score: 54.2% (Critical Degrade)
+• Conservative RUL: 12.1 flight hours (Point Estimate: 18.4 hrs)
+• Root Failure Mode: High-Pressure Compressor (HPC) Blade Erosion with 21.2% wear margin breached.
+• Local Inventory Bottleneck: Forward Operating Base bin stock for rotor blades is currently at 0 units.
+
+Remediation Pipeline:
+• Work Order WO-2026-089 active with priority technician allocation.
+• Emergency depot requisition REQ-2026-088 routed to 3 BRD Chandigarh via IAF logistics transport.`,
+      formulaCard: {
+        title: "Compressor Degradation Threshold",
+        formula: "HPC Wear = 21.2% (Safety Limit: 15.0%) -> STRICT NO-GO"
+      },
+      suggestions: [
+        "What is the transit time for LRU blades from Chandigarh?",
+        "Can we reallocate parts from standby airframes?",
+        "Show work order WO-2026-089 in Hangar Bay 2"
+      ]
     };
   }
 
@@ -210,15 +228,23 @@ export function queryVayuBrain(prompt, context = {}) {
   if (lower.includes('5-stage') || lower.includes('gas-path') || lower.includes('thermodynamic') || lower.includes('twin physics') || lower.includes('engine') || lower.includes('stations')) {
     return {
       spokenText: "Our digital twin models military turbofans across 5 standard aerospace thermodynamic stations: Station 2 Fan Intake, Station 24 Low Pressure Compressor, Station 30 High Pressure Compressor, Station 40 Combustor and High Pressure Turbine, and Station 50 Low Pressure Turbine and Exhaust. The physics engine tracks thermodynamic margins in real time from NASA C-MAPSS telemetry.",
-      displayText: `### 5-Stage Gas-Path Thermodynamic Digital Twin
+      displayText: `Our digital twin models the AL-31FP, GE-F404, and Snecma M88 engines across standard gas turbine aerodynamic stations:
 
-The digital twin models the **AL-31FP** (Su-30MKI), **GE-F404** (Tejas Mk1A), and **M88** (Rafale) across standard gas turbine thermodynamic stations:
-
-• **Station 2 (Fan Intake)**: Temperature T2, Inlet Pressure P2, Fan Speed Nf. Tracks blade foreign object damage and inlet distortion.
-• **Station 24 (Low-Pressure Compressor)**: Temperature T24, Pressure P24. Tracks stage aerodynamic flutter and inter-stage leakage.
-• **Station 30 (High-Pressure Compressor)**: Temperature T30, Pressure P30. Tracks blade tip erosion and aerodynamic degradation.
-• **Station 40 (Combustor & HPT)**: Temperature T40, Fuel Flow Wf. Tracks thermal cracking and hot-spotting.
-• **Station 50 (Low-Pressure Turbine & Exhaust)**: EGT, Core Vibration. Tracks thermal barrier coating spallation and creep elongation.`
+Explaining Gas-Path Stations:
+• Station 2 (Fan Intake): Monitors T2, inlet pressure P2, and fan speed Nf. Detects foreign object damage and inlet distortion.
+• Station 24 (Low-Pressure Compressor): Tracks inter-stage bleed leakage and aerodynamic flutter under high-altitude cruise.
+• Station 30 (High-Pressure Compressor): Tracks T30 and P30 pressure ratios to detect blade tip rubbing and aerodynamic erosion.
+• Station 40 (Combustor & HPT): Tracks fuel flow Wf and burner temperature to detect nozzle guide vane cracks and hot-spotting.
+• Station 50 (Low-Pressure Turbine & Exhaust): Tracks exhaust gas temperature and core vibration to detect thermal coating spallation.`,
+      formulaCard: {
+        title: "Thermodynamic Residual Equation",
+        formula: "Residual Delta = Measured Station Telemetry - NASA C-MAPSS Baseline"
+      },
+      suggestions: [
+        "What causes the Station 30 high-pressure temperature spike?",
+        "How does in-flight RLS sensor drift filter false alarms?",
+        "What are the nominal bypass ratio limits for AL-31FP?"
+      ]
     };
   }
 
@@ -226,18 +252,21 @@ The digital twin models the **AL-31FP** (Su-30MKI), **GE-F404** (Tejas Mk1A), an
   if (lower.includes('conformal') || lower.includes('rul') || lower.includes('math') || lower.includes('formula') || lower.includes('conservative')) {
     return {
       spokenText: "Point predictions are dangerous in combat aviation because an unpredicted engine failure during an afterburner climb is catastrophic. We use Conformal RUL prediction, calculating the conservative lower bound as mean minus 1.645 sigma, giving a guaranteed 90 percent operational confidence interval. An aircraft is cleared only when its conservative RUL exceeds the mission requirement.",
-      displayText: `### Conformal RUL Mathematical Framework
+      displayText: `Combat mission planners cannot rely on raw point estimates. An unpredicted engine stall during a high-G supersonic turn is unacceptable.
 
-Combat mission planners cannot rely on raw point estimates. An unpredicted engine stall during a high-G combat turn is catastrophic.
-
-• **Conformal Lower Bound (90% Operational Confidence)**:
-  Conservative RUL = Mean RUL − 1.645 × Sigma
-• **Mathematical Guarantees**:
-  - Mean RUL is the ensemble model prediction across flight regimes.
-  - Sigma is the empirical residual standard error from C-MAPSS run-to-failure benchmarks.
-  - 1.645 is the one-tailed 90% confidence z-score threshold.
-• **Mission Clearance Gate**:
-  An airframe is cleared for combat sortie if and only if its Conservative RUL exceeds mission profile duration multiplied by the profile stress factor (1.15x for Combat Air Patrol, 1.40x for Deep Strike, 1.65x for Air Combat Maneuvering).`
+Conformal Mathematical Framework:
+• Rather than a single point prediction, the model computes an uncertainty distribution from empirical C-MAPSS residual errors.
+• The Conservative Lower Bound represents the operational flight hours remaining with 90% statistical guarantee.
+• The aircraft is only cleared for a combat profile if this lower bound exceeds the sortie duration multiplied by the mission stress factor.`,
+      formulaCard: {
+        title: "90% Conformal Confidence Bound",
+        formula: "Conservative RUL = Mean RUL − 1.645 × Sigma (Residual Standard Error)"
+      },
+      suggestions: [
+        "Why is a raw point estimate dangerous in combat aviation?",
+        "How does NASA C-MAPSS calibrate the residual error sigma?",
+        "What are the stress multipliers for CAP vs Deep Strike?"
+      ]
     };
   }
 
@@ -245,16 +274,24 @@ Combat mission planners cannot rely on raw point estimates. An unpredicted engin
   if (lower.includes('spares') || lower.includes('logistics') || lower.includes('inventory') || lower.includes('depot') || lower.includes('lru')) {
     return {
       spokenText: "The logistics integration connects Forward Operating Base spares with central overhaul depots. Base inventory tracks 18 critical line replaceable units across forward air force stations, while central depots in Chandigarh and Nashik monitor heavy overhaul components with automated predictive replenishment.",
-      displayText: `### Spares & Logistics Integrated Supply Chain
+      displayText: `Our supply chain architecture links forward air bases directly with central overhaul depots to eliminate fragmented agency delays:
 
-Bridges the boundary between local Forward Operating Bases and Central Base Repair Depots:
-
-• **Forward Operating Base Inventory**: 18 critical Line Replaceable Units actively tracked across AFS Thanjavur, Sulur, and Ambala.
-• **Predictive Replenishment Triggers**: When an aircraft's conservative RUL drops below depot delivery lead-time, the system automatically triggers replenishment before physical grounding occurs.
-• **Central Depots Connected**:
-  - **3 BRD Chandigarh**: Heavy engine overhaul and turbine rotor blades.
-  - **11 BRD Ojhar (Nashik)**: Su-30MKI airframe structural depot.
-  - **HAL Engine Division (Bangalore)**: Tejas Mk1A GE-F404 propulsion support.`
+Multi-Silo Logistics Flow:
+• Forward Operating Bases: 18 Line Replaceable Units actively tracked across AFS Thanjavur, Sulur, and Ambala.
+• Predictive Reordering: When an airframe's conservative RUL drops below depot delivery lead-time, automated replenishment orders dispatch before the jet physically grounds.
+• Central Depots Connected:
+  - 3 BRD Chandigarh: Heavy engine overhaul & turbine rotor blades.
+  - 11 BRD Ojhar (Nashik): Su-30MKI airframe structural maintenance.
+  - HAL Engine Division (Bangalore): Tejas Mk1A GE-F404 propulsion depot.`,
+      formulaCard: {
+        title: "Automated Reorder Trigger",
+        formula: "Reorder Trigger = Conservative RUL < Depot Lead Time (36h)"
+      },
+      suggestions: [
+        "Which LRUs are currently below safety stock?",
+        "What is the transit time from Chandigarh to Thanjavur?",
+        "How does predictive ordering prevent AOG downtime?"
+      ]
     };
   }
 
@@ -262,27 +299,43 @@ Bridges the boundary between local Forward Operating Bases and Central Base Repa
   if (lower.includes('nlp') || lower.includes('snag') || lower.includes('fusion') || lower.includes('pilot log')) {
     return {
       spokenText: "Our multi-modal engine fuses unstructured pilot debrief remarks with engine sensor telemetry. When a pilot notes core vibration on afterburner, the NLP pipeline correlates the text with Station 30 accelerometer spikes, boosting diagnostic confidence to 98.4 percent, a 22 percent increase over sensor telemetry alone.",
-      displayText: `### Multi-Modal NLP Snag-to-Telemetry Correlation
+      displayText: `Eliminates the disconnect between qualitative pilot debrief remarks and quantitative sensor telemetry:
 
-Eliminates the disconnect between qualitative pilot debrief remarks and quantitative sensor telemetry:
-
-• **Pilot Snag Ingestion**: Natural Language Processing extracts flight symptoms (e.g., core vibration on afterburner climb).
-• **Sensor Corroboration**: Cross-references telemetry streams to verify abnormal Station 30 vibration indices and pressure fluctuations.
-• **Diagnostic Confidence**: Combining textual symptom classification with sensor telemetry raises diagnostic accuracy from 76.0% (sensor-only) to **98.4%** (multi-modal fusion).`
+Cross-Modal Corroboration:
+• Pilot Snag Ingestion: Natural Language Processing extracts clinical flight symptoms from post-flight logs (e.g., core vibration on afterburner climb).
+• Telemetry Corroboration: Cross-references sensor streams to verify abnormal Station 30 vibration indices and pressure fluctuations.
+• Diagnostic Confidence: Fusing textual symptom classification with sensor telemetry raises diagnostic accuracy from 76.0% (sensor-only) to 98.4%.`,
+      formulaCard: {
+        title: "Multi-Modal Confidence Metric",
+        formula: "Confidence = NLP Textual Vector (92%) + IoT Telemetry (76%) = 98.4%"
+      },
+      suggestions: [
+        "Show an example of a pilot debrief remark being correlated",
+        "How does NLP detect afterburner core vibration?",
+        "What is the accuracy gain over sensor-only monitoring?"
+      ]
     };
   }
 
   // 7. General / Fallback
   return {
     spokenText: `Understood Commander. Querying Air Power fleet intelligence for ${prompt}. Our system tracks 20 frontline combat airframes with thermodynamic digital twins, conformal remaining useful life margins, and integrated depot logistics.`,
-    displayText: `### Tactical Briefing: "${prompt}"
+    displayText: `Operational status is nominal across all 20 combat airframes.
 
-• **System Status**: All telemetry feeds and digital twin engines nominal.
-• **Operational Context**: The platform integrates high-frequency sensor telemetry, 5-stage thermodynamic stations, conformal Remaining Useful Life bounds, and forward base spares inventory.
-• **Suggested Flight Directives**:
-  - Ask: *"Give me a sortie clearance briefing"*
-  - Ask: *"Why is tail SB-024 grounded?"*
-  - Ask: *"Explain the 5-stage turbofan twin"*
-  - Ask: *"How does conformal RUL calculation work?"*`
+How I can assist your flight-line operations:
+• Real-time sortie clearance verification and formation planning
+• 5-stage thermodynamic gas-path digital twin telemetry
+• Conformal Remaining Useful Life mathematical formulations
+• Forward Operating Base spares and central depot logistics`,
+    formulaCard: {
+      title: "Fleet Readiness Index",
+      formula: "Readiness = 13 Mission Ready / 20 Total Airframes = 65.0%"
+    },
+    suggestions: [
+      "Give me a sortie clearance briefing",
+      "Why is tail SB-024 grounded at AFS Thanjavur?",
+      "Explain the 5-stage thermodynamic turbofan twin",
+      "How does conformal RUL calculation work?"
+    ]
   };
 }
