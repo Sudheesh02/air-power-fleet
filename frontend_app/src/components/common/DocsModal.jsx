@@ -63,7 +63,7 @@ export default function DocsModal({ isOpen, onClose }) {
 
           {/* Core Technical Systems Grid (2 Columns) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* Left Card: 5-Stage Gas-Path Digital Twin */}
+            {/* Left Card: 5 Stage Gas Path Digital Twin */}
             <div className={`p-5 rounded-2xl border flex flex-col justify-between ${
               isDark ? 'bg-white/[0.03] border-white/10' : 'bg-slate-50 border-slate-200'
             }`}>
@@ -74,12 +74,12 @@ export default function DocsModal({ isOpen, onClose }) {
                   </div>
                   <div>
                     <h3 className={`font-bold text-sm font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                      5-Stage Gas-Path Digital Twin
+                      5 Stage Gas Path Digital Twin
                     </h3>
                   </div>
                 </div>
                 <p className={`text-xs leading-relaxed mb-3.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                  Continuous thermodynamic monitoring maps gas-path degradation across 5 turbofan engine stations:
+                  Continuous thermodynamic monitoring maps gas path degradation across 5 turbofan engine stations:
                 </p>
               </div>
 
@@ -95,14 +95,14 @@ export default function DocsModal({ isOpen, onClose }) {
                   },
                   {
                     st: 'Station 24',
-                    name: 'Low-Pressure Compressor',
+                    name: 'Low Pressure Compressor',
                     desc: 'Intermediate compression & thermal load',
                     tags: 'T24, P24',
                     badgeColor: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/25',
                   },
                   {
                     st: 'Station 30',
-                    name: 'High-Pressure Compressor',
+                    name: 'High Pressure Compressor',
                     desc: 'Core pressure ratio & spool velocity',
                     tags: 'T30, P30, Nc',
                     badgeColor: 'bg-amber-500/10 text-amber-300 border-amber-500/25',
@@ -183,7 +183,7 @@ export default function DocsModal({ isOpen, onClose }) {
                     </span>
                   </div>
                   <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                    Computes a conservative Remaining Useful Life (RUL) threshold. Aircraft are never cleared on optimistic predictions, preventing unexpected in-flight stress during high-G sorties.
+                    Computes a conservative Remaining Useful Life (RUL) threshold. Aircraft are never cleared on optimistic predictions, preventing unexpected in flight stress during high-G sorties.
                   </p>
                 </div>
 
@@ -199,7 +199,7 @@ export default function DocsModal({ isOpen, onClose }) {
                     </span>
                   </div>
                   <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                    Recursive Least Squares tracks real-time sensor calibration shifts, distinguishing normal thermocouple drift from true gas-path deterioration to prevent false groundings.
+                    Recursive Least Squares tracks real time sensor calibration shifts, distinguishing normal thermocouple drift from true gas path deterioration to prevent false groundings.
                   </p>
                 </div>
 

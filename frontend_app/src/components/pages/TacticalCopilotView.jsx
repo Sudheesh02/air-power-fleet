@@ -48,14 +48,14 @@ export default function TacticalCopilotView() {
   // Live transcript state for the Voice Orb
   const [liveTranscript, setLiveTranscript] = useState('');
   const [lastAgentSpoken, setLastAgentSpoken] = useState(
-    'Jai Hind, Commander. Tactical flight-line communications are online. Thirteen combat aircraft are mission ready, and tail SB-024 is on maintenance hold at Thanjavur. Awaiting your flight directive.'
+    'Jai Hind, Commander. Tactical flight line communications are online. Thirteen combat aircraft are mission ready, and tail SB-024 is on maintenance hold at Thanjavur. Awaiting your flight directive.'
   );
 
   const initialGreetingMessage = {
     id: 'init-1',
     sender: 'agent',
     time: 'Just now',
-    text: `I am the Air Power Copilot, your tactical flight-line guide for the Indian Air Force predictive maintenance platform. I monitor frontline combat airframe readiness, 5-stage gas-path digital twins, conformal RUL thresholds, and forward depot supply chains.
+    text: `I am the Air Power Copilot, your tactical flight line guide for the Indian Air Force predictive maintenance platform. I monitor frontline combat airframe readiness, 5-stage gas path digital twins, conformal RUL thresholds, and forward depot supply chains.
 
 Explaining fleet capabilities:
 I can diagnose conservative RUL safety bounds, inspect forward base spares inventory, and evaluate sortie clearance feasibility across our 20 frontline airframes.`,
@@ -63,7 +63,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
       title: "Fleet Availability Standard",
       formula: "Mission Ready (13) / Total Airframes (20) = 65.0% (MoD Target: 75.0%)"
     },
-    spokenText: 'Jai Hind, Commander. Tactical flight-line communications are online. Thirteen combat aircraft are mission ready, and tail SB-024 is on maintenance hold at Thanjavur. Awaiting your flight directive.',
+    spokenText: 'Jai Hind, Commander. Tactical flight line communications are online. Thirteen combat aircraft are mission ready, and tail SB-024 is on maintenance hold at Thanjavur. Awaiting your flight directive.',
     suggestions: [
       'Give me a sortie clearance briefing',
       'Why is tail SB-024 grounded at AFS Thanjavur?',
@@ -248,7 +248,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
   const quickPrompts = [
     { label: 'Sortie Clearance Briefing', prompt: 'Give me a sortie clearance briefing' },
     { label: 'Why is SB-024 Grounded?', prompt: 'Why is tail SB-024 grounded at AFS Thanjavur?' },
-    { label: '5-Stage Engine Telemetry', prompt: 'Explain the 5-stage thermodynamic turbofan twin' },
+    { label: '5 Stage Engine Telemetry', prompt: 'Explain the 5-stage thermodynamic turbofan twin' },
     { label: 'Conformal RUL Calculation', prompt: 'How does conformal RUL calculation work?' },
     { label: 'Spares & Depot Logistics', prompt: 'What is the status of base spares and central depot logistics?' },
     { label: 'Pilot Snag Log Fusion', prompt: 'Explain the multi-modal NLP snag-to-sensor fusion' },
@@ -343,12 +343,12 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Voice Channel Active" />
             </div>
             <h2 className={`text-lg sm:text-xl font-extrabold tracking-tight mt-0.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              Tactical Voice Copilot & Flight-Line Assistant
+              Tactical Voice Copilot & Flight Line Assistant
             </h2>
           </div>
         </div>
 
-        {/* Action Controls: Mode Switch, Speaker Selector, Hands-Free Toggle, New Chat */}
+        {/* Action Controls: Mode Switch, Speaker Selector, Hands Free Toggle, New Chat */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           {/* Mode Switch: Live Voice Orb vs Chat Feed */}
           <div className={`p-1 rounded-xl border flex items-center gap-1 ${
@@ -398,7 +398,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
             <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" />
           </div>
 
-          {/* Hands-Free Continuous Voice Loop Toggle */}
+          {/* Hands Free Continuous Voice Loop Toggle */}
           <button
             onClick={() => setIsContinuousLive(!isContinuousLive)}
             title="When active, the assistant automatically listens for your reply after speaking (hands-free like ChatGPT / Gemini)"
@@ -411,7 +411,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
             }`}
           >
             <span className={`w-2 h-2 rounded-full ${isContinuousLive ? 'bg-emerald-400 animate-ping' : 'bg-slate-500'}`} />
-            <span>Hands-Free Loop</span>
+            <span>Hands Free Loop</span>
           </button>
 
           {/* New Chat Button */}
@@ -560,7 +560,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
           <div className="space-y-4">
             <GlassCard className="p-5">
               <h3 className={`font-bold text-sm tracking-tight mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Flight-Line Quick Directives
+                Flight Line Quick Directives
               </h3>
               <p className="text-xs text-slate-400 mb-3">
                 Tap any directive to immediately trigger the live spoken voice briefing:
@@ -586,7 +586,7 @@ I can diagnose conservative RUL safety bounds, inspect forward base spares inven
 
             <GlassCard className="p-4 flex items-center justify-between text-xs font-sans">
               <div>
-                <p className="font-bold text-slate-300">Continuous Hands-Free Mode</p>
+                <p className="font-bold text-slate-300">Continuous Hands Free Mode</p>
                 <p className="text-[11px] text-slate-500 mt-0.5">Talk freely without pressing mic each time</p>
               </div>
               <button

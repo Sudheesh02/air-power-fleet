@@ -44,9 +44,9 @@ export default function Navbar({ onToggleSidebar }) {
 
   const pageTitles = {
     overview: { title: 'Fleet Command Overview', breadcrumb: 'Air Power / Command Cockpit' },
-    twin: { title: 'Digital Twin & Aircraft Health Monitor', breadcrumb: 'Air Power / 5-Stage Gas-Path' },
+    twin: { title: 'Digital Twin & Aircraft Health Monitor', breadcrumb: 'Air Power / 5 Stage Gas Path' },
     predictive: { title: 'AI/ML Predictive Maintenance & RUL', breadcrumb: 'Air Power / Conformal Prognostics' },
-    spares: { title: 'Spares & Logistics Integration', breadcrumb: 'Air Power / Multi-Silo Supply Chain' },
+    spares: { title: 'Spares & Logistics Integration', breadcrumb: 'Air Power / Multi Silo Supply Chain' },
     logs: { title: 'Maintenance Work Orders & Pilot Logs', breadcrumb: 'Air Power / Hangar Execution' },
     copilot: { title: 'Tactical Voice Copilot · Live Operations', breadcrumb: 'Air Power / Live Voice Agent' },
   };
@@ -58,7 +58,7 @@ export default function Navbar({ onToggleSidebar }) {
       id: 1,
       tail: 'SB-024',
       type: 'CRITICAL_AOG',
-      msg: 'High-Pressure Compressor (HPC) wear critical (21.2%). Grounded.',
+      msg: 'High Pressure Compressor (HPC) wear critical (21.2%). Grounded.',
       time: '12m ago',
     },
     {

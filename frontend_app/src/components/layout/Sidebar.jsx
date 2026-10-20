@@ -36,14 +36,14 @@ export default function Sidebar({ isOpen, onClose }) {
       id: 'twin',
       label: 'Digital Twin & Health',
       shortLabel: 'Twin',
-      subtitle: '5-Stage gas-path telemetry',
+      subtitle: '5 Stage gas path telemetry',
       icon: Cpu,
     },
     {
       id: 'predictive',
       label: 'Predictive AI & RUL',
       shortLabel: 'Prognostics',
-      subtitle: 'Conformal RUL & What-If Sortie',
+      subtitle: 'Conformal RUL & What If Sortie',
       icon: TrendingUp,
     },
     {

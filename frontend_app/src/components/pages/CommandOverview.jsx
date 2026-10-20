@@ -241,7 +241,7 @@ export default function CommandOverview() {
                 </h3>
               </div>
               <p className={`text-xs ${isDark ? 'text-[#A7A8C2]' : 'text-slate-500'} mt-0.5`}>
-                Multi-squadron prognostic degradation telemetry mapped across NASA C-MAPSS gas-path regimes
+                Multi-squadron prognostic degradation telemetry mapped across NASA C-MAPSS gas path regimes
               </p>
             </div>
 

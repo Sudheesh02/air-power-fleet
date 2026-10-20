@@ -571,7 +571,7 @@ export default function MaintenanceLogs() {
                             className="mt-2 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-500/15 border border-blue-500/30 text-cyan-300 hover:bg-blue-500/25 transition text-[11px] font-semibold"
                           >
                             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                            <span>{isNlpExpanded ? 'Hide Multi-Modal Fusion' : 'Inspect AI NLP-Telemetry Correlation'}</span>
+                            <span>{isNlpExpanded ? 'Hide Multimodal Fusion' : 'Inspect AI NLP-Telemetry Correlation'}</span>
                             {isNlpExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                           </button>
                         )}
@@ -593,7 +593,7 @@ export default function MaintenanceLogs() {
                                 </div>
                                 <div>
                                   <h5 className="font-bold text-xs tracking-tight text-white flex items-center gap-2">
-                                    AI Multi-Modal Fusion Engine: Pilot Debrief NLP &cross; Telemetry Sensors
+                                    AI Multimodal Fusion Engine: Pilot Debrief NLP &cross; Telemetry Sensors
                                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-sky-400 font-semibold border border-blue-500/30">
                                       Silo 1 + Silo 2 Unified
                                     </span>
@@ -607,7 +607,7 @@ export default function MaintenanceLogs() {
                               <div className="flex items-center gap-2">
                                 <span className="text-[11px] font-sans font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/25 flex items-center gap-1.5">
                                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                                  Multi-Modal Confidence: {log.nlp_fusion.multi_modal_confidence}% (+{log.nlp_fusion.confidence_lift_pct}% Lift)
+                                  Multimodal Confidence: {log.nlp_fusion.multi_modal_confidence}% (+{log.nlp_fusion.confidence_lift_pct}% Lift)
                                 </span>
                               </div>
                             </div>
@@ -734,7 +734,7 @@ export default function MaintenanceLogs() {
                   <option value="Flt Lt K. Patel (Propulsion Lead)">Flt Lt K. Patel (Propulsion Lead - Tejas)</option>
                   <option value="Wg Cdr V. Rao (Quality Assurance)">Wg Cdr V. Rao (Quality Assurance - Rafale)</option>
                   <option value="JWO A. Verma (Avionics Tech)">JWO A. Verma (Avionics Specialist)</option>
-                  <option value="Sgt M. Singh (Gas-Path Overhaul)">Sgt M. Singh (Gas-Path Overhaul Specialist)</option>
+                  <option value="Sgt M. Singh (Gas Path Overhaul)">Sgt M. Singh (Gas Path Overhaul Specialist)</option>
                 </select>
               </div>
 
