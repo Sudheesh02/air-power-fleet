@@ -17,6 +17,16 @@ import { MOCK_AIRCRAFT_LIST } from '../../data/mockFleetData';
 export default function DigitalTwinView() {
   const { isDark, selectedTail, setSelectedTail, setActiveTab } = useTheme();
 
+  // Helper to remove dashes/hyphens from subsystem names (e.g. Fly-by-Wire -> Fly by Wire)
+  const formatSubsystemName = (rawName) => {
+    if (!rawName) return '';
+    return rawName
+      .replace(/[–—]/g, ' ')
+      .replace(/\b([A-Za-z0-9]+)-([A-Za-z0-9]+)\b/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
   const [twinData, setTwinData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeSubsystemTab, setActiveSubsystemTab] = useState('ALL'); // ALL, avionics, propulsion, hydraulics, airframe
@@ -244,7 +254,7 @@ export default function DigitalTwinView() {
               </div>
 
               <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                {subsystems.avionics?.name || 'Avionics System'}
+                {formatSubsystemName(subsystems.avionics?.name) || 'Avionics System'}
               </h4>
 
               <div className="mt-3 flex items-baseline justify-between font-sans">
@@ -309,7 +319,7 @@ export default function DigitalTwinView() {
               </div>
 
               <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                {subsystems.propulsion?.name || 'Propulsion System'}
+                {formatSubsystemName(subsystems.propulsion?.name) || 'Propulsion System'}
               </h4>
 
               <div className="mt-3 flex items-baseline justify-between font-sans">
@@ -388,7 +398,7 @@ export default function DigitalTwinView() {
               </div>
 
               <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                {subsystems.hydraulics?.name || 'Hydraulic Subsystem'}
+                {formatSubsystemName(subsystems.hydraulics?.name) || 'Hydraulic Subsystem'}
               </h4>
 
               <div className="mt-3 flex items-baseline justify-between font-sans">
@@ -445,7 +455,7 @@ export default function DigitalTwinView() {
               </div>
 
               <h4 className={`font-bold text-sm mt-3.5 tracking-tight font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                {subsystems.airframe?.name || 'Airframe Structure'}
+                {formatSubsystemName(subsystems.airframe?.name) || 'Airframe Structure'}
               </h4>
 
               <div className="mt-3 flex items-baseline justify-between font-sans">

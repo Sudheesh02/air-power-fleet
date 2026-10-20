@@ -294,7 +294,7 @@ class GasPathDigitalTwin:
                 'diagnostics': "MIL-STD-1553B / Fibre Channel multiplex bus operating within nominal timing envelope."
             },
             'propulsion': {
-                'name': f"{engine_serial} Gas-Path Turbofan Subsystem",
+                'name': f"{engine_serial} Gas Path Turbofan Subsystem",
                 'health_score': round(base_health * 100, 1),
                 'anomaly_score': round(1.0 - base_health, 2),
                 'status': status,
@@ -308,7 +308,7 @@ class GasPathDigitalTwin:
                 'diagnostics': f"Stage wear mode: {wear_mode}. RUL projected at {rul_mean_hours} flight hours."
             },
             'hydraulics': {
-                'name': "Dual 3000 PSI Fly-by-Wire Flight Control Hydraulics",
+                'name': "Dual 3000 PSI Fly by Wire Flight Control Hydraulics",
                 'health_score': 92 if tail_no != "SB-022" else 88,
                 'anomaly_score': 0.06 if tail_no != "SB-022" else 0.14,
                 'status': 'NOMINAL' if status != "MAINTENANCE_GROUNDED" else 'CAUTION',
@@ -318,10 +318,10 @@ class GasPathDigitalTwin:
                     'actuator_response_time_ms': round(11.8 + (1.0 - base_health) * 12.0, 1),
                     'fluid_temperature_c': round(58.6 + (1.0 - base_health) * 16.0, 1)
                 },
-                'diagnostics': "Primary and secondary hydraulic loops pressurized. Dual flight-control servos nominal."
+                'diagnostics': "Primary and secondary hydraulic loops pressurized. Dual flight control servos nominal."
             },
             'airframe': {
-                'name': "Titanium-Composite Primary Wing & Fuselage Structure",
+                'name': "Titanium Composite Primary Wing & Fuselage Structure",
                 'health_score': round(max(78.0, 100.0 - (af_hours / 120.0)), 1),
                 'anomaly_score': 0.05 if status == "MISSION_CAPABLE" else 0.16,
                 'status': 'NOMINAL' if status != "MAINTENANCE_GROUNDED" else 'CAUTION',

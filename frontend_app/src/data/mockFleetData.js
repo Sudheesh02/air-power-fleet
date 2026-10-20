@@ -1,4 +1,4 @@
-// High-fidelity defense dataset mirroring SQLite DB, 5-Stage Gas-Path Digital Twin & IAF Fleet Operations
+// High-fidelity defense dataset mirroring SQLite DB, 5-Stage Gas Path Digital Twin & IAF Fleet Operations
 
 export const SQUADRONS = [
   { id: 'ALL', name: 'All IAF Squadrons & Units', code: 'ALL_SQUADRONS', base: 'National Aerospace Command' },
@@ -450,7 +450,7 @@ export function getMockDigitalTwin(tailNo) {
       }
     },
 
-    // 5-Stage Turbofan Gas-Path Cross-Section
+    // 5-Stage Turbofan Gas Path Cross-Section
     stages: {
       fan: {
         name: 'Fan & Intake Stage',
