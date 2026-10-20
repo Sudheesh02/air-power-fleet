@@ -291,6 +291,16 @@ export default function CommandOverview() {
                     boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
                     color: isDark ? '#F5F4FF' : '#000'
                   }}
+                  itemStyle={{
+                    color: isDark ? '#F1F5F9' : '#0F172A',
+                    fontWeight: 600,
+                    fontSize: '11px'
+                  }}
+                  labelStyle={{
+                    color: isDark ? '#94A3B8' : '#64748B',
+                    fontWeight: 600,
+                    marginBottom: '4px'
+                  }}
                 />
                 <Legend
                   verticalAlign="top"

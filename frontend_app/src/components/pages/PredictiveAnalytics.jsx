@@ -1284,6 +1284,16 @@ export default function PredictiveAnalytics() {
                     boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
                     color: isDark ? '#F8FAFC' : '#0F172A'
                   }}
+                  itemStyle={{
+                    color: isDark ? '#F1F5F9' : '#0F172A',
+                    fontWeight: 600,
+                    fontSize: '11px'
+                  }}
+                  labelStyle={{
+                    color: isDark ? '#94A3B8' : '#64748B',
+                    fontWeight: 600,
+                    marginBottom: '4px'
+                  }}
                 />
                 <Legend
                   verticalAlign="top"
@@ -1370,24 +1380,50 @@ export default function PredictiveAnalytics() {
                     dataKey="feature"
                     axisLine={{ stroke: isDark ? '#334155' : '#CBD5E1', strokeWidth: 1 }}
                     tickLine={{ stroke: isDark ? '#334155' : '#CBD5E1' }}
-                    tick={{
-                      fill: isDark ? '#CBD5E1' : '#1E293B',
-                      fontSize: 11,
-                      fontFamily: "'JetBrains Mono', Consolas, ui-monospace, monospace",
-                      fontWeight: 600,
-                    }}
-                    width={142}
-                    dx={-4}
+                    tick={({ x, y, payload }) => (
+                      <text
+                        x={x - 8}
+                        y={y + 4}
+                        textAnchor="end"
+                        fill={isDark ? '#F1F5F9' : '#0F172A'}
+                        fontSize={11}
+                        fontWeight={600}
+                        fontFamily="'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
+                      >
+                        {payload.value}
+                      </text>
+                    )}
+                    width={185}
                   />
                   <Tooltip
-                    contentStyle={{
-                      backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
-                      borderRadius: '10px',
-                      fontSize: '11px',
-                      fontFamily: 'JetBrains Mono',
-                      color: isDark ? '#F8FAFC' : '#0F172A'
+                    cursor={{ fill: isDark ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.04)' }}
+                    content={({ active, payload }) => {
+                      if (!active || !payload || !payload.length) return null;
+                      const data = payload[0].payload;
+                      const isPositive = data.weight > 0;
+                      return (
+                        <div className={`p-3 rounded-xl border shadow-2xl font-sans text-xs min-w-[240px] ${
+                          isDark
+                            ? 'bg-slate-900 border-slate-700/80 text-white shadow-black/60'
+                            : 'bg-white border-slate-200 text-slate-800 shadow-slate-300'
+                        }`}>
+                          <div className="font-bold text-xs pb-1.5 mb-1.5 border-b border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
+                            <span className={isDark ? 'text-white' : 'text-slate-900'}>{data.feature}</span>
+                            <span className={`font-mono font-bold text-xs px-2 py-0.5 rounded ${
+                              isPositive ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30' : 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                            }`}>
+                              {isPositive ? '+' : ''}{data.weight}%
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between gap-2 text-[11px] mt-1 text-slate-300">
+                            <span className="text-slate-400 font-medium">Impact on RUL:</span>
+                            <span className={`font-semibold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
+                              {data.impact}
+                            </span>
+                          </div>
+                        </div>
+                      );
                     }}
-                    formatter={(val, name, props) => [`${val > 0 ? '+' : ''}${val}% (${props.payload.impact})`, 'SHAP Weight']}
                   />
                   <Bar dataKey="weight" radius={[0, 6, 6, 0]}>
                     {shapAttribution.map((entry, index) => (

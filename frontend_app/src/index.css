@@ -12,13 +12,16 @@
   }
 
   body {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     margin: 0;
     padding: 0;
     min-height: 100vh;
     overflow-x: hidden;
-    background-color: #0B0B12;
-    color: #F5F4FF;
+    background-color: #0B0F17;
+    color: #F8FAFC;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
     transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
@@ -155,19 +158,60 @@ input[type="range"].tactical-slider::-moz-range-thumb:active {
   transform: scale(1.05);
 }
 
-/* Recharts Axis Typography - High-Precision Tabular Monospace */
-.recharts-cartesian-axis-tick text {
-  font-family: 'JetBrains Mono', Consolas, ui-monospace, SFMono-Regular, monospace !important;
-  font-size: 11px !important;
-  font-weight: 500 !important;
-  letter-spacing: -0.01em !important;
+/* Recharts Axis Typography & High Contrast (WCAG AAA) */
+.dark .recharts-cartesian-axis-tick text {
+  fill: #F1F5F9 !important;
   stroke: none !important;
+  font-size: 11px !important;
+}
+
+html:not(.dark) .recharts-cartesian-axis-tick text {
+  fill: #0F172A !important;
+  stroke: none !important;
+  font-size: 11px !important;
+}
+
+/* Category ticks on Y-Axis use Inter */
+.recharts-yAxis .recharts-cartesian-axis-tick text {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Numeric ticks on X-Axis use JetBrains Mono tabular numerals */
+.recharts-xAxis .recharts-cartesian-axis-tick text {
+  font-family: 'JetBrains Mono', Consolas, ui-monospace, monospace !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
 }
 
 .recharts-cartesian-axis-tick-line {
-  stroke: rgba(148, 163, 184, 0.25) !important;
+  stroke: rgba(148, 163, 184, 0.3) !important;
 }
 
 .recharts-cartesian-axis-line {
-  stroke: rgba(148, 163, 184, 0.25) !important;
+  stroke: rgba(148, 163, 184, 0.3) !important;
+}
+
+/* Recharts Tooltip Text Color In Dark Mode (Fixes dark-on-dark bug) */
+.recharts-default-tooltip {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark .recharts-default-tooltip {
+  background-color: #0F172A !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.dark .recharts-tooltip-item {
+  color: #F1F5F9 !important;
+  font-weight: 600 !important;
+  font-family: 'JetBrains Mono', Consolas, monospace !important;
+}
+
+.dark .recharts-tooltip-label {
+  color: #94A3B8 !important;
+  font-weight: 600 !important;
+  font-family: 'Inter', sans-serif !important;
 }
