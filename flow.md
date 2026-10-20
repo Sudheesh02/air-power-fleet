@@ -27,9 +27,12 @@ flowchart TD
         ViteMain["frontend_app/src/main.jsx (Client Entry Point)"] --> AppRoot["frontend_app/src/App.jsx"]
         AppRoot --> Pages["Dashboard Pages\n(CommandOverview, DigitalTwinView, etc.)"]
         Pages --> APIClient["frontend_app/src/api/fleetApi.js"]
+        Pages --> VoiceCopilot["frontend_app/src/components/common/TacticalVoiceCopilot.jsx"]
+        VoiceCopilot --> VoiceService["frontend_app/src/services/voiceAgentService.js"]
     end
 
     APIClient -->|HTTP REST / JSON| BackendApp
+    VoiceService -->|POST /api/voice/synthesize| BackendApp
     BackendApp -->|Serves Production UI| ViteMain
 ```
 
@@ -59,7 +62,7 @@ flowchart TD
      * Instantiates `sortie_planner = SparesAwareSortiePlanner(db_path=DB_PATH)`
   3. **Middleware Setup**: Configures `CORSMiddleware` with open origins for local development.
   4. **Static Asset Mounting**: Mounts `/assets` from `frontend_app/dist/assets` if built.
-  5. **Endpoint Route Registration**: Registers REST controllers for fleet readiness, digital twin, sortie planner, logistics, and work orders.
+  5. **Endpoint Route Registration**: Registers REST controllers for fleet readiness, digital twin, sortie planner, logistics, work orders, flight logs, and voice synthesis.
 
 ---
 
@@ -90,7 +93,8 @@ flowchart TD
   3. In `App.jsx`, initializes `<ThemeProvider>` from `context/ThemeContext.jsx`.
   4. Mounts layout components:
      * [`Sidebar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/layout/Sidebar.jsx): Navigation menu and tab selection.
-     * [`Navbar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/layout/Navbar.jsx): Breadcrumbs, system clock, and status badge.
+     * [`Navbar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/layout/Navbar.jsx): Breadcrumbs, system clock, tactical voice toggle, and status badge.
+     * [`TacticalVoiceCopilot.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/common/TacticalVoiceCopilot.jsx): Floating conversational AI assistant.
      * Active page component determined by `activeTab`.
 
 ---
@@ -218,18 +222,6 @@ sequenceDiagram
     API-->>UI: Updates Work Orders & Spares Pipeline in real time
 ```
 
-* **Step-by-Step Code Path**:
-  1. Triggered via `triggerAutonomousTriage(tailNo)` in `fleetApi.js`.
-  2. `backend/main.py:dispatch_triage(req: TriageDispatchRequest)` invokes:
-     `sortie_planner.trigger_autonomous_triage_order(tail_no=req.tail_no)`.
-  3. `engine/sortie_planner.py`:
-     - Evaluates degraded subsystem via the digital twin.
-     - Generates a UUID `order_id = f"WO-{uuid.uuid4().hex[:6].upper()}"`.
-     - Checks inventory in `base_spares_inventory`:
-       - If stock is sufficient: assigns local hangar bay, reserves spare, sets order status to `IN_PROGRESS`.
-       - If stock is exhausted: automatically creates an emergency requisition in `depot_procurement` with priority `CRITICAL_AOG` and sets order to `AWAITING_PARTS`.
-  4. Persists new records to SQLite and returns the generated work order and requisition summary.
-
 ---
 
 ### 3.4 Work Order Modification Flow
@@ -252,6 +244,49 @@ sequenceDiagram
 
 ---
 
+### 3.5 Vayu-AI Tactical Voice Agent & Synthesis Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Officer as Tactical Officer
+    participant UI as TacticalVoiceCopilot.jsx
+    participant Service as voiceAgentService.js
+    participant Backend as backend/main.py
+    participant Sarvam as Sarvam AI (bulbul:v3)
+    participant Browser as Browser Audio / SpeechSynthesis
+
+    Officer->>UI: Speaks voice command (or types query)
+    UI->>Service: startListening() -> SpeechRecognition
+    Service->>Service: parseVoiceCommand(transcript) -> Action/Query
+    Service-->>UI: Sets transcript and assistant reply state
+    UI->>Service: speakResponse(text)
+    alt SARVAM_API_KEY Configured
+        Service->>Backend: POST /api/voice/synthesize {text, model, speaker}
+        Backend->>Sarvam: POST https://api.sarvam.ai/text-to-speech
+        Sarvam-->>Backend: Base64 audio stream
+        Backend-->>Service: 200 OK {status: "SUCCESS", audio_base64}
+        Service->>Browser: Play Base64 Audio Buffer
+    else Offline / Mock Mode
+        Service->>Browser: window.speechSynthesis.speak(utterance)
+    end
+    Service-->>UI: Playback completes & pulses Tactical Waveform
+```
+
+* **Step-by-Step Code Path**:
+  1. Triggered via the microphone button in [`TacticalVoiceCopilot.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/common/TacticalVoiceCopilot.jsx) or [`Navbar.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/layout/Navbar.jsx).
+  2. [`voiceAgentService.js`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/services/voiceAgentService.js) listens using `webkitSpeechRecognition` or `SpeechRecognition`.
+  3. Matches regex rules against fleet operations:
+     - Readiness queries (`"fleet status"`, `"mission capable rate"`)
+     - Specific aircraft health checks (`"inspect SB-021"`, `"check health"`)
+     - Grounded airframes & triage orders (`"show grounded"`, `"dispatch work order"`)
+     - Spares & inventory inquiries (`"spares stock"`, `"depot pipeline"`)
+  4. Audio playback:
+     - If backend endpoint `/api/voice/synthesize` returns `audio_base64`, it is decoded into a `Blob` and played via an `Audio` element.
+     - If backend returns `{status: "MOCK"}` or fails, it cleanly falls back to the native `window.speechSynthesis` API.
+
+---
+
 ## 4. Frontend Component & Context Hierarchy
 
 ```text
@@ -259,8 +294,9 @@ frontend_app/src/main.jsx
 └── App.jsx
     └── ThemeProvider (context/ThemeContext.jsx)
         ├── Sidebar.jsx (Navigation state & tab switching)
-        ├── Navbar.jsx (Theme toggle, live status indicator, docs modal trigger)
+        ├── Navbar.jsx (Theme toggle, live status indicator, voice copilot trigger, docs modal)
         ├── DocsModal.jsx (Platform architecture & documentation dialog)
+        ├── TacticalVoiceCopilot.jsx (Floating AI Voice assistant & waveform visualizer)
         └── Dynamic View:
             ├── CommandOverview.jsx (KPI cards, Squadron readiness, Quick actions)
             ├── DigitalTwinView.jsx (5-Stage Gas Path, Sortie Simulator, Interactive Triage)
@@ -277,10 +313,12 @@ frontend_app/src/main.jsx
 | File Path | Role | Key Functions / Classes | Downstream Dependencies |
 | :--- | :--- | :--- | :--- |
 | [`run_sih_platform.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/run_sih_platform.py) | CLI Launcher | `main` | [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/backend/main.py) |
-| [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/backend/main.py) | REST API Controller | `get_fleet_readiness`, `list_fleet_aircraft`, `evaluate_sortie`, `dispatch_triage` | [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/digital_twin_engine.py), [`engine/sortie_planner.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/sortie_planner.py) |
+| [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/backend/main.py) | REST API Controller | `get_fleet_readiness`, `list_fleet_aircraft`, `evaluate_sortie`, `dispatch_triage`, `synthesize_voice` | [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/digital_twin_engine.py), [`engine/sortie_planner.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/sortie_planner.py), Sarvam AI |
 | [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/digital_twin_engine.py) | Thermodynamics & Prognostics | `GasPathDigitalTwin`, `evaluate_aircraft_digital_twin`, `calculate_gas_path_efficiencies` | `data/air_power_fleet.db`, `data/CMAPSSData/` |
 | [`engine/sortie_planner.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/sortie_planner.py) | Mission & Triage Engine | `SparesAwareSortiePlanner`, `evaluate_sortie_feasibility`, `trigger_autonomous_triage_order` | [`engine/digital_twin_engine.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/digital_twin_engine.py), `data/air_power_fleet.db` |
 | [`engine/sih_database.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/engine/sih_database.py) | Database Schema & Seeder | `init_db`, `seed_fleet_data`, `seed_telemetry`, `seed_spares_and_procurement` | `sqlite3`, `data/air_power_fleet.db` |
 | [`frontend_app/src/main.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/main.jsx) | React Application Root | DOM Mount | [`frontend_app/src/App.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/App.jsx) |
 | [`frontend_app/src/api/fleetApi.js`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/api/fleetApi.js) | Frontend REST Client | `fleetApi`, `getFleetReadiness`, `getFleetAircraft`, `evaluateSortie`, `triggerAutonomousTriage` | [`backend/main.py`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/backend/main.py), `mockFleetData.js` |
+| [`frontend_app/src/services/voiceAgentService.js`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/services/voiceAgentService.js) | Voice Agent Logic | `VoiceAgentService`, `parseVoiceCommand`, `speakResponse` | `SpeechRecognition`, `speechSynthesis`, `backend/main.py` |
+| [`frontend_app/src/components/common/TacticalVoiceCopilot.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/components/common/TacticalVoiceCopilot.jsx) | Voice Assistant UI | Tactical UI modal, real-time waveform, action dispatcher | `voiceAgentService.js`, `ThemeContext.jsx` |
 | [`frontend_app/src/context/ThemeContext.jsx`](file:///C:/Users/shiv7/OneDrive/Documents/Desktop/air-power-fleet/frontend_app/src/context/ThemeContext.jsx) | Global State Context | `ThemeProvider`, `useTheme` | All React UI pages and components |

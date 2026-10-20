@@ -111,3 +111,22 @@ Whenever modifying code in this codebase, log all new architectural choices, int
 - **Tradeoffs & Mitigations**:
   - *Tradeoff*: Physical backup consumes local disk storage (~30-50 MB).
   - *Mitigation*: The project size is relatively compact, and disk duplication provides fail-safe recovery against accidental destructive commands (`git reset --hard` or uncommitted edits).
+
+
+### [2026-10-20] - Vayu-AI Tactical Voice Agent & Sarvam AI bulbul:v3 Integration
+- **Component Affected**: `backend/main.py`, `frontend_app/src/services/voiceAgentService.js`, `frontend_app/src/components/common/TacticalVoiceCopilot.jsx`
+- **Change Description**: Integrated Vayu-AI, a defense-oriented voice assistant and interactive cockpit copilot. The backend provides a proxy endpoint `/api/voice/synthesize` that interfaces with Sarvam AI's Indian-English speech synthesis (`bulbul:v3`, speaker `shubh`), while the frontend client implements local intent parsing and fallback to browser Web Speech API.
+- **Library / Method Chosen**:
+  - *Backend*: Standard library `urllib.request` + `json` to proxy requests to `https://api.sarvam.ai/text-to-speech` with `SARVAM_API_KEY`, avoiding extra heavy external HTTP client dependencies.
+  - *Frontend*: Browser native `webkitSpeechRecognition` / `SpeechRecognition` for low-latency client-side speech-to-text (STT) without transmitting continuous audio to third parties; dual-mode TTS (Sarvam AI base64 audio when API key exists, fallback to browser `speechSynthesis`).
+- **Tradeoffs & Mitigations**:
+  - *Tradeoff*: Cloud TTS requires an external API key and Internet connectivity.
+  - *Mitigation*: Graceful mock fallback: if `SARVAM_API_KEY` is not present, backend responds with `{status: "MOCK"}` and frontend seamlessly falls back to local browser speech synthesis, ensuring air-gapped usability.
+
+### [2026-10-20] - Ingestion of Benchmark & Research Context from Alex Audit Package
+- **Component Affected**: System Prognostics Pipeline & Documentation
+- **Change Description**: Ingested full context from `c:\Users\shiv7\Downloads\Alex` (`AUDIT_OVERVIEW.md` and `build_notebook.py`). Aligned platform goals with Smart India Hackathon (SIH26249 / Tata Elxsi TELIPORT) standards: multi-silo fusion, C-MAPSS FD001–FD004 benchmarking, RLS streaming drift adaptation ($\lambda=0.992$), and IsolationForest false-alarm suppression ($K=3, N=5$).
+- **Library / Method Chosen**: Standardized across 4 NASA turbofan subsets with operating regime clustering and physics-informed conformal bounds.
+- **Tradeoffs & Mitigations**:
+  - *Tradeoff*: Full deep-learning model weights (LightGBM/GRU-30) were developed as offline artifacts in research scripts.
+  - *Mitigation*: Roadmap established in `AUDIT_OVERVIEW.md` to bridge ONNX runtime inference into `backend/main.py` without degrading API latency.
