@@ -1,0 +1,18 @@
+{
+  "subset": "FD001",
+  "holdout": "Last 20 training engines, last cycle, RUL at or under 125. The contest test labels are not used.",
+  "forgetting_factor": 0.999862,
+  "does_not_use_test_labels": true,
+  "stationary": {
+    "frozen_rmse": 0.234,
+    "rls_no_forgetting_rmse": 4.565,
+    "rls_forgetting_rmse": 4.747,
+    "promote_forgetting": false
+  },
+  "drift_gain_to_1_5": {
+    "frozen_rmse": 3.793,
+    "rls_forgetting_rmse": 2.816,
+    "promote_forgetting": true
+  },
+  "rule": "Promote a forgetting update only when the holdout improves. On stationary data the forgetting update is worse than the frozen model, so it is refused. When every sensor's gain drifts to 1.5, the frozen model gets worse and the forgetting update is promoted. The no-forgetting update is the stand-in for a full refit. Here it does not beat the frozen model on the last cycle, because that cycle is already easy once failure rows have been seen, so it is not promoted either."
+}

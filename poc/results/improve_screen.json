@@ -1,0 +1,87 @@
+{
+  "protocol": "train-engine truncations at fixed remaining lives",
+  "smoothing": [
+    {
+      "fold": 0,
+      "width": 1,
+      "base_rmse": 4.8598,
+      "smooth_rmse": 4.8598,
+      "base_capped": 4.8598,
+      "smooth_capped": 4.8598
+    },
+    {
+      "fold": 1,
+      "width": 1,
+      "base_rmse": 4.8041,
+      "smooth_rmse": 4.8041,
+      "base_capped": 4.8041,
+      "smooth_capped": 4.8041
+    },
+    {
+      "fold": 2,
+      "width": 1,
+      "base_rmse": 4.6168,
+      "smooth_rmse": 4.6168,
+      "base_capped": 4.6168,
+      "smooth_capped": 4.6168
+    },
+    {
+      "fold": 3,
+      "width": 1,
+      "base_rmse": 4.6423,
+      "smooth_rmse": 4.6423,
+      "base_capped": 4.6423,
+      "smooth_capped": 4.6423
+    },
+    {
+      "fold": 4,
+      "width": 1,
+      "base_rmse": 4.5495,
+      "smooth_rmse": 4.5495,
+      "base_capped": 4.5495,
+      "smooth_capped": 4.5495
+    }
+  ],
+  "similarity": [
+    {
+      "fold": 0,
+      "k": 40,
+      "knn_rmse": 15.0794,
+      "ensemble_rmse": 4.8598,
+      "knn_capped": 15.0794,
+      "ensemble_capped": 4.8598
+    },
+    {
+      "fold": 1,
+      "k": 40,
+      "knn_rmse": 15.9042,
+      "ensemble_rmse": 4.8041,
+      "knn_capped": 15.9042,
+      "ensemble_capped": 4.8041
+    },
+    {
+      "fold": 2,
+      "k": 40,
+      "knn_rmse": 14.8233,
+      "ensemble_rmse": 4.6168,
+      "knn_capped": 14.8233,
+      "ensemble_capped": 4.6168
+    },
+    {
+      "fold": 3,
+      "k": 40,
+      "knn_rmse": 15.911,
+      "ensemble_rmse": 4.6423,
+      "knn_capped": 15.911,
+      "ensemble_capped": 4.6423
+    },
+    {
+      "fold": 4,
+      "k": 40,
+      "knn_rmse": 14.4442,
+      "ensemble_rmse": 4.5495,
+      "knn_capped": 14.4442,
+      "ensemble_capped": 4.5495
+    }
+  ]
+}

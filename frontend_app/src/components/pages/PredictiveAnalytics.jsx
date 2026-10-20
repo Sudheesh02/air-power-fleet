@@ -222,6 +222,40 @@ export default function PredictiveAnalytics() {
   const [simMode, setSimMode] = useState('single'); // 'single' or 'formation'
   const [formationSquadron, setFormationSquadron] = useState("No. 45 Sqn 'Flying Daggers'");
   const [formationSize, setFormationSize] = useState(4); // 2, 4, or 6
+  const [retrainRegime, setRetrainRegime] = useState('drift_gain_to_1_5'); // 'stationary' or 'drift_gain_to_1_5'
+  const [retrainLog, setRetrainLog] = useState(null);
+
+  const handleRunRetrainGate = (regimeOverride) => {
+    const activeRegime = regimeOverride || retrainRegime;
+    setRetrainRegime(activeRegime);
+    if (activeRegime === 'stationary') {
+      setRetrainLog({
+        timestamp: new Date().toLocaleTimeString(),
+        regime: 'Stationary Holdout (Units 81–100, No Sensor Gain Drift)',
+        championRmse: '0.234',
+        championNote: 'Last-cycle failure snapshot on FD001 training engines (true RUL = 0), not a contest test score.',
+        rlsNoForgetRmse: '4.565',
+        challengerRmse: '4.747',
+        forgettingFactor: '0.999862',
+        promoted: false,
+        verdict: 'PROMOTION GATE REJECTED — Keep Frozen Champion (v2.4)',
+        aliasAction: 'MLflow alias `champion` remains on `round2-ensemble+nested-gate` (promote_forgetting: false).'
+      });
+    } else {
+      setRetrainLog({
+        timestamp: new Date().toLocaleTimeString(),
+        regime: 'Sensor Gain Drift Holdout (1.5× Gain Ramp Across Units 41–80)',
+        championRmse: '3.793',
+        championNote: 'Frozen ridge baseline degrades under uncalibrated 1.5× sensor gain drift.',
+        rlsNoForgetRmse: '3.412',
+        challengerRmse: '2.816',
+        forgettingFactor: '0.999862',
+        promoted: true,
+        verdict: 'PROMOTION GATE PASSED (-25.8% Error) — Challenger Promoted',
+        aliasAction: 'MLflow alias `champion` updated to `rls-forgetting-v2.5` (promote_forgetting: true).'
+      });
+    }
+  };
 
   // Active pilot debrief log for selected tail (Multimodal NLP Snag Fusion)
   const activeFlightLog = useMemo(() => {
@@ -1708,30 +1742,251 @@ export default function PredictiveAnalytics() {
                   ONLINE RLS
                 </span>
                 <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-mono">
-                  -25.6% ERR
+                  -25.8% ERR
                 </span>
               </div>
               <p className="text-[11px] font-semibold text-slate-200 mt-2">
                 Gain 1.5x Sensor Drift Test
               </p>
               <p className="text-[10px] text-slate-400 mt-0.5">
-                Forgetting Factor &lambda; = 0.992
+                Forgetting Factor &lambda; = 0.999862
               </p>
 
               <div className="mt-3 pt-2.5 border-t border-white/5 grid grid-cols-2 gap-2 text-xs">
                 <div>
-                  <span className="text-[10px] text-slate-400 block">Frozen Ridge</span>
-                  <span className="font-mono font-bold text-base text-rose-400">3.79</span>
-                  <span className="text-[9px] text-slate-400 block">Uncompensated</span>
+                  <span className="text-[10px] text-slate-400 block">Frozen Champion</span>
+                  <span className="font-mono font-bold text-base text-rose-400">3.793</span>
+                  <span className="text-[9px] text-slate-400 block">Drifted Holdout</span>
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 block">Adaptive RLS</span>
-                  <span className="font-mono font-extrabold text-base text-emerald-400">2.82</span>
-                  <span className="text-[9px] text-emerald-300 block">Online Tracked</span>
+                  <span className="font-mono font-extrabold text-base text-emerald-400">2.816</span>
+                  <span className="text-[9px] text-emerald-300 block">Promoted Gate</span>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </GlassCard>
+
+      {/* 7. CLOSED-LOOP MLOPS MODEL RETRAINING & PROMOTION GATE + SELF-IMPROVING AGENT + D1->F1 PIPELINE */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left 7 Cols: Interactive Champion vs. Challenger Model Retraining & Promotion Gate */}
+        <GlassCard className="p-5 lg:col-span-7 flex flex-col justify-between">
+          <div>
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 pb-3.5 mb-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                  <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    Closed-Loop MLOps Model Retraining &amp; Promotion Gate
+                  </h3>
+                </div>
+                <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+                  Recursive Least Squares (RLS) streaming calibration on FD001 training holdout (Units 81–100, RUL &le; 125; test labels untouched)
+                </p>
+              </div>
+              <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                MLflow Registry: champion
+              </span>
+            </div>
+
+            {/* Regime Toggle Buttons */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div className="inline-flex rounded-xl p-1 bg-slate-900/90 border border-white/10">
+                <button
+                  type="button"
+                  onClick={() => handleRunRetrainGate('stationary')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                    retrainRegime === 'stationary'
+                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  1. Stationary Holdout (No Drift)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleRunRetrainGate('drift_gain_to_1_5')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                    retrainRegime === 'drift_gain_to_1_5'
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  2. Sensor Gain Drift (1.5× Ramp)
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleRunRetrainGate(retrainRegime)}
+                className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-sm transition cursor-pointer"
+              >
+                Run Promotion Gate Check
+              </button>
+            </div>
+
+            {/* Side-by-Side Comparison Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs font-sans">
+                <thead>
+                  <tr className="border-b border-white/10 text-[10px] uppercase tracking-wider text-slate-400">
+                    <th className="py-2 pr-3">Holdout Scenario</th>
+                    <th className="py-2 px-3">Frozen Champion RMSE</th>
+                    <th className="py-2 px-3">RLS No-Forget (&lambda;=1.0)</th>
+                    <th className="py-2 px-3">RLS Forgetting (&lambda;=0.999862)</th>
+                    <th className="py-2 pl-3">Promotion Gate Verdict</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  <tr className={retrainRegime === 'stationary' ? 'bg-amber-500/5' : ''}>
+                    <td className="py-2.5 pr-3 font-bold text-slate-200">
+                      Stationary Holdout
+                      <span className="block text-[10px] font-normal text-slate-400">Units 81–100 (Last-cycle failure snapshot)</span>
+                    </td>
+                    <td className="py-2.5 px-3 font-mono font-bold text-emerald-400">
+                      0.234
+                      <span className="block text-[9px] font-sans text-slate-400">True RUL=0 snapshot</span>
+                    </td>
+                    <td className="py-2.5 px-3 font-mono text-slate-300">4.565</td>
+                    <td className="py-2.5 px-3 font-mono text-amber-300">4.747</td>
+                    <td className="py-2.5 pl-3">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                        REJECTED (false)
+                      </span>
+                    </td>
+                  </tr>
+                  <tr className={retrainRegime === 'drift_gain_to_1_5' ? 'bg-emerald-500/5' : ''}>
+                    <td className="py-2.5 pr-3 font-bold text-slate-200">
+                      1.5× Sensor Gain Drift
+                      <span className="block text-[10px] font-normal text-slate-400">Units 41–80 ramp to 1.5× gain</span>
+                    </td>
+                    <td className="py-2.5 px-3 font-mono font-bold text-rose-400">3.793</td>
+                    <td className="py-2.5 px-3 font-mono text-slate-300">3.412</td>
+                    <td className="py-2.5 px-3 font-mono font-extrabold text-emerald-400">
+                      2.816 (-25.8%)
+                    </td>
+                    <td className="py-2.5 pl-3">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                        PROMOTED (true)
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Live Gate Execution Output Banner */}
+          <div className={`mt-4 p-3.5 rounded-xl border text-xs ${
+            (retrainLog ? retrainLog.promoted : retrainRegime === 'drift_gain_to_1_5')
+              ? 'bg-emerald-950/30 border-emerald-500/30 text-emerald-200'
+              : 'bg-amber-950/30 border-amber-500/30 text-amber-200'
+          }`}>
+            <div className="flex items-center justify-between gap-2 font-bold mb-1">
+              <span>
+                {retrainLog
+                  ? `[${retrainLog.timestamp}] ${retrainLog.verdict}`
+                  : retrainRegime === 'drift_gain_to_1_5'
+                  ? 'PROMOTION GATE PASSED (-25.8% Error) — Challenger Promoted'
+                  : 'PROMOTION GATE REJECTED — Keep Frozen Champion (v2.4)'}
+              </span>
+              <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-black/30">
+                Rule: Challenger &lt; Champion RMSE
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              {retrainLog
+                ? `${retrainLog.aliasAction} (${retrainLog.championNote})`
+                : retrainRegime === 'drift_gain_to_1_5'
+                ? 'Under a 1.5× sensor gain drift ramp, frozen champion RMSE degrades to 3.793 while forgetting-RLS adapts to 2.816. The gate moves the MLflow champion alias automatically.'
+                : 'On stationary data, the 0.234 frozen RMSE is a last-cycle failure snapshot on training engines (not a contest test score). Because RLS forgetting scores 4.747, the gate refuses promotion.'}
+            </p>
+          </div>
+        </GlassCard>
+
+        {/* Right 5 Cols: 7-Step Self-Improving Triage Agent Loop */}
+        <GlassCard className="p-5 lg:col-span-5 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between gap-2 border-b border-white/5 pb-3.5 mb-3.5">
+              <div>
+                <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  7-Step Self-Improving Triage Agent Loop
+                </h3>
+                <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+                  Causal hysteresis escalation with counterfactual replay &amp; human approval gate
+                </p>
+              </div>
+              <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                agent.py
+              </span>
+            </div>
+
+            <div className="space-y-2 text-xs">
+              {[
+                { step: '1. Act', desc: 'Conservative RUL = clip(μ − σ, 0, 125). Tiers: Critical ≤15, High ≤40, Medium ≤80. Escalates after 2 consecutive cycles; de-escalates after 5.' },
+                { step: '2. Log Outcome', desc: 'Technician closes work order in SQLite with verified ground truth: fault_found, no_fault, or failure_missed.' },
+                { step: '3. Score', desc: 'Weekly job computes false-alarm rate (0.0% on FD001/FD002), missed critical failures (0/102), and lead time (59–79 cycles).' },
+                { step: '4. Propose', desc: 'Suggests updated tier thresholds in a versioned JSON rule file when false alarms or lead times drift.' },
+                { step: '5. Replay Test', desc: 'Replays candidate thresholds across historical trajectories; passes only if missed failures = 0 and false alarms do not rise.' },
+                { step: '6. Human Approve', desc: 'Mandatory Engineering Officer sign-off when σ > P90 spread limit or before any rule change is released.' },
+                { step: '7. Release', desc: 'Moves MLflow champion rule alias with one-click rollback.' }
+              ].map((item) => (
+                <div key={item.step} className="p-2 rounded-xl bg-slate-900/75 border border-white/5 flex items-start gap-2.5">
+                  <span className="font-mono font-bold text-[10px] text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20 shrink-0 mt-0.5">
+                    {item.step}
+                  </span>
+                  <span className="text-[11px] text-slate-300 leading-snug">{item.desc}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </GlassCard>
+      </div>
+
+      {/* 8. D1 -> F1 TO D6 -> F6 DATA & FEATURE ENGINEERING TRACEABILITY MATRIX */}
+      <GlassCard className="p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 pb-3.5 mb-4">
+          <div>
+            <h3 className={`font-extrabold text-base tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              Data-to-Feature Engineering Traceability Chain (D1&rarr;F1 to D6&rarr;F6 &middot; Execution Order: F1 &rarr; F4 &rarr; F2 &rarr; F6 &rarr; F3 &rarr; F5)
+            </h3>
+            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} mt-0.5`}>
+              Every feature transformation in <code className="font-mono text-sky-400">model.py</code> is justified by a measured statistical property on C-MAPSS (illustrated on FD002 Engine 9, sensor s11)
+            </p>
+          </div>
+          <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-blue-500/10 text-sky-400 border border-blue-500/25">
+            Zero Missing Values &middot; Causal Windows
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-sans">
+          {[
+            { id: 'D1 → F1 (Step 1)', title: 'Per-Regime Z-Score Normalization', finding: '6 operating conditions drive 99.5% of raw s11 variance (|ρ| = 0.08 with RUL).', action: 'Normalize per (op1, op2, op3) cluster using training mean/SD; lifts |ρ| to 0.37 (FD002) and 0.33 (FD004).' },
+            { id: 'D4 → F4 (Step 2)', title: 'Constant & Collinear Sensor Pruning', finding: '6 sensors in FD001 and 5 in FD003 have zero variance; s9/s14, s7/s12, s8/s13 have |r| > 0.95.', action: 'Drop flat sensors per subset and encode physical speed/pressure differential ratios.' },
+            { id: 'D2 → F2 (Step 3)', title: '10-Cycle Causal Rolling Mean', finding: 'Normalized sensor trajectories still carry cycle-to-cycle noise SD of 0.38.', action: 'Apply causal 10-cycle rolling mean inside each engine, cutting high-frequency noise SD to 0.16 (-58%).' },
+            { id: 'D6 → F6 (Step 4)', title: '20-Cycle Early-Life Baseline Offset', finding: 'Healthy engines start 0.3–0.5 SD apart; 6 FD002 and 11 FD004 test engines have <30 cycles.', action: 'Subtract each engine’s first-20-cycle mean and left-pad short test sequences to 30 cycles.' },
+            { id: 'D3 → F3 (Step 5)', title: 'Piecewise RUL Cap (125) & 30-Cyc Slopes', finding: 'Wear begins at 47–55% life (39–49% rows > 125 RUL); final 50 cycles degrade 2.9× faster.', action: 'Cap training target RUL at 125 and compute 30-cycle mean, std, min, max, and linear slopes.' },
+            { id: 'D5 → F5 (Step 6)', title: 'Dual Fault Mode PCA Separation', finding: 'FD003 (life 305 vs 202) and FD004 (294 vs 213) mix HPC and Fan degradation modes.', action: 'Project normalized sensors onto top 3 training PCA axes so LightGBM separates both fault modes.' }
+          ].map((f) => (
+            <div key={f.id} className="p-3.5 rounded-xl bg-slate-900/80 border border-white/5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <span className="font-mono font-bold text-[10px] text-sky-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
+                    {f.id}
+                  </span>
+                  <span className="font-bold text-slate-200 text-xs">{f.title}</span>
+                </div>
+                <p className="text-[11px] text-slate-400 mb-1.5">
+                  <strong className="text-slate-300">Finding:</strong> {f.finding}
+                </p>
+                <p className="text-[11px] text-emerald-300/90">
+                  <strong className="text-emerald-400">Action:</strong> {f.action}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </GlassCard>
     </div>

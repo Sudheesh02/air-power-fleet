@@ -1,0 +1,337 @@
+{
+  "rule": "Nested 5-fold. Gate kept only if it wins 4 of 5 held-out folds by >=5% reweighted RMSE and NASA not worse. Share priors fixed from an earlier round. Test RUL files were not read.",
+  "decisions": [
+    {
+      "subset": "FD001",
+      "members": [
+        "lgb_cyc",
+        "gru30",
+        "cnngru30"
+      ],
+      "share_prior": 0.11,
+      "wins": 4,
+      "wins_required": 4,
+      "use_gate": true,
+      "operating_point": {
+        "tau": 115,
+        "alpha": 0.5
+      },
+      "full_oof_base_rmse": 16.5506,
+      "full_oof_base_nasa": 5.8501,
+      "full_oof_gated_rmse": 15.3213,
+      "full_oof_gated_nasa": 4.4312,
+      "folds": [
+        {
+          "fold": 0,
+          "chosen_on_other_folds": {
+            "tau": 115,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 15.2776,
+          "holdout_base_nasa": 4.667,
+          "holdout_gated_rmse": 13.321,
+          "holdout_gated_nasa": 3.0098,
+          "win": true
+        },
+        {
+          "fold": 1,
+          "chosen_on_other_folds": {
+            "tau": 115,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 15.0324,
+          "holdout_base_nasa": 4.8823,
+          "holdout_gated_rmse": 13.3357,
+          "holdout_gated_nasa": 3.1712,
+          "win": true
+        },
+        {
+          "fold": 2,
+          "chosen_on_other_folds": {
+            "tau": 115,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 17.0059,
+          "holdout_base_nasa": 6.0345,
+          "holdout_gated_rmse": 16.1312,
+          "holdout_gated_nasa": 4.9235,
+          "win": true
+        },
+        {
+          "fold": 3,
+          "chosen_on_other_folds": {
+            "tau": 115,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 17.3851,
+          "holdout_base_nasa": 6.6255,
+          "holdout_gated_rmse": 17.0939,
+          "holdout_gated_nasa": 6.1441,
+          "win": false
+        },
+        {
+          "fold": 4,
+          "chosen_on_other_folds": {
+            "tau": 110,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 17.825,
+          "holdout_base_nasa": 7.0319,
+          "holdout_gated_rmse": 16.4591,
+          "holdout_gated_nasa": 4.884,
+          "win": true
+        }
+      ],
+      "note": "Severity uses the capped ensemble. The gate only adjusts the official score for engines still above the cap."
+    },
+    {
+      "subset": "FD002",
+      "members": [
+        "lgb_v2",
+        "gru30"
+      ],
+      "share_prior": 0.22,
+      "wins": 5,
+      "wins_required": 4,
+      "use_gate": true,
+      "operating_point": {
+        "tau": 100,
+        "alpha": 0.5
+      },
+      "full_oof_base_rmse": 21.0653,
+      "full_oof_base_nasa": 10.7326,
+      "full_oof_gated_rmse": 18.3722,
+      "full_oof_gated_nasa": 7.2136,
+      "folds": [
+        {
+          "fold": 0,
+          "chosen_on_other_folds": {
+            "tau": 100,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 21.1764,
+          "holdout_base_nasa": 10.9777,
+          "holdout_gated_rmse": 18.6407,
+          "holdout_gated_nasa": 7.4704,
+          "win": true
+        },
+        {
+          "fold": 1,
+          "chosen_on_other_folds": {
+            "tau": 100,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 20.6079,
+          "holdout_base_nasa": 10.0537,
+          "holdout_gated_rmse": 17.7568,
+          "holdout_gated_nasa": 6.333,
+          "win": true
+        },
+        {
+          "fold": 2,
+          "chosen_on_other_folds": {
+            "tau": 105,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 20.9465,
+          "holdout_base_nasa": 10.3127,
+          "holdout_gated_rmse": 18.0988,
+          "holdout_gated_nasa": 7.2461,
+          "win": true
+        },
+        {
+          "fold": 3,
+          "chosen_on_other_folds": {
+            "tau": 100,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 20.6407,
+          "holdout_base_nasa": 9.3273,
+          "holdout_gated_rmse": 17.9382,
+          "holdout_gated_nasa": 6.1475,
+          "win": true
+        },
+        {
+          "fold": 4,
+          "chosen_on_other_folds": {
+            "tau": 105,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 21.9126,
+          "holdout_base_nasa": 12.9298,
+          "holdout_gated_rmse": 19.4112,
+          "holdout_gated_nasa": 8.8803,
+          "win": true
+        }
+      ],
+      "note": "Severity uses the capped ensemble. The gate only adjusts the official score for engines still above the cap."
+    },
+    {
+      "subset": "FD003",
+      "members": [
+        "lgb_cyc",
+        "lgb_v2",
+        "cnngru30"
+      ],
+      "share_prior": 0.15,
+      "wins": 4,
+      "wins_required": 4,
+      "use_gate": true,
+      "operating_point": {
+        "tau": 115,
+        "alpha": 0.5
+      },
+      "full_oof_base_rmse": 18.5992,
+      "full_oof_base_nasa": 7.773,
+      "full_oof_gated_rmse": 16.1407,
+      "full_oof_gated_nasa": 4.8733,
+      "folds": [
+        {
+          "fold": 0,
+          "chosen_on_other_folds": {
+            "tau": 120,
+            "alpha": 1.0
+          },
+          "holdout_base_rmse": 17.0525,
+          "holdout_base_nasa": 6.4152,
+          "holdout_gated_rmse": 14.7009,
+          "holdout_gated_nasa": 4.442,
+          "win": true
+        },
+        {
+          "fold": 1,
+          "chosen_on_other_folds": {
+            "tau": 115,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 18.4503,
+          "holdout_base_nasa": 7.7489,
+          "holdout_gated_rmse": 15.9927,
+          "holdout_gated_nasa": 5.3325,
+          "win": true
+        },
+        {
+          "fold": 2,
+          "chosen_on_other_folds": {
+            "tau": 110,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 17.8585,
+          "holdout_base_nasa": 6.7156,
+          "holdout_gated_rmse": 15.0657,
+          "holdout_gated_nasa": 3.4918,
+          "win": true
+        },
+        {
+          "fold": 3,
+          "chosen_on_other_folds": {
+            "tau": 110,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 19.579,
+          "holdout_base_nasa": 8.9442,
+          "holdout_gated_rmse": 17.3662,
+          "holdout_gated_nasa": 5.2191,
+          "win": true
+        },
+        {
+          "fold": 4,
+          "chosen_on_other_folds": {
+            "tau": 120,
+            "alpha": 1.0
+          },
+          "holdout_base_rmse": 19.9403,
+          "holdout_base_nasa": 9.0708,
+          "holdout_gated_rmse": 19.0534,
+          "holdout_gated_nasa": 11.5769,
+          "win": false
+        }
+      ],
+      "note": "Severity uses the capped ensemble. The gate only adjusts the official score for engines still above the cap."
+    },
+    {
+      "subset": "FD004",
+      "members": [
+        "lgb_cyc",
+        "lgb_v2",
+        "gru30",
+        "cnngru30"
+      ],
+      "share_prior": 0.27,
+      "wins": 4,
+      "wins_required": 4,
+      "use_gate": true,
+      "operating_point": {
+        "tau": 105,
+        "alpha": 0.5
+      },
+      "full_oof_base_rmse": 24.3535,
+      "full_oof_base_nasa": 91.3869,
+      "full_oof_gated_rmse": 20.3643,
+      "full_oof_gated_nasa": 85.8028,
+      "folds": [
+        {
+          "fold": 0,
+          "chosen_on_other_folds": {
+            "tau": 105,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 23.2094,
+          "holdout_base_nasa": 13.0206,
+          "holdout_gated_rmse": 18.5211,
+          "holdout_gated_nasa": 6.1285,
+          "win": true
+        },
+        {
+          "fold": 1,
+          "chosen_on_other_folds": {
+            "tau": 105,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 24.4262,
+          "holdout_base_nasa": 15.1866,
+          "holdout_gated_rmse": 20.2547,
+          "holdout_gated_nasa": 8.3873,
+          "win": true
+        },
+        {
+          "fold": 2,
+          "chosen_on_other_folds": {
+            "tau": 105,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 25.637,
+          "holdout_base_nasa": 146.9051,
+          "holdout_gated_rmse": 22.1446,
+          "holdout_gated_nasa": 142.0578,
+          "win": true
+        },
+        {
+          "fold": 3,
+          "chosen_on_other_folds": {
+            "tau": 110,
+            "alpha": 1.0
+          },
+          "holdout_base_rmse": 24.4564,
+          "holdout_base_nasa": 264.0222,
+          "holdout_gated_rmse": 21.7453,
+          "holdout_gated_nasa": 285.7613,
+          "win": false
+        },
+        {
+          "fold": 4,
+          "chosen_on_other_folds": {
+            "tau": 105,
+            "alpha": 0.5
+          },
+          "holdout_base_rmse": 23.8819,
+          "holdout_base_nasa": 13.7252,
+          "holdout_gated_rmse": 19.7204,
+          "holdout_gated_nasa": 7.5325,
+          "win": true
+        }
+      ],
+      "note": "Severity uses the capped ensemble. The gate only adjusts the official score for engines still above the cap."
+    }
+  ]
+}

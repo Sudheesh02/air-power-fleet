@@ -192,14 +192,14 @@ export default function DocsModal({ isOpen, onClose }) {
                 }`}>
                   <div className="flex items-center justify-between mb-1.5">
                     <h4 className="font-bold text-xs text-emerald-300">
-                      Online RLS Sensor Drift Filter
+                      Online RLS Sensor Drift &amp; Promotion Gate
                     </h4>
                     <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-sans">
-                      Gain D = 1.5
+                      &lambda; = 0.999862
                     </span>
                   </div>
                   <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                    Recursive Least Squares tracks real time sensor calibration shifts, distinguishing normal thermocouple drift from true gas path deterioration to prevent false groundings.
+                    Recursive Least Squares tracks real-time sensor calibration shifts. A strict Promotion Gate refuses retraining on stationary data (0.234 vs 4.747 RMSE) and promotes the forgetting head only under verified drift (1.5&times; gain ramp: 3.793 &rarr; 2.816 RMSE, &minus;25.8%).
                   </p>
                 </div>
 
@@ -208,7 +208,7 @@ export default function DocsModal({ isOpen, onClose }) {
                 }`}>
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span className="text-xs leading-snug">
-                    Verified against NASA C-MAPSS FD001 to FD004 datasets under varied operating conditions.
+                    Audited on NASA C-MAPSS FD001–FD004 (102/102 critical engines caught; D1&rarr;F1 to D6&rarr;F6 feature pipeline).
                   </span>
                 </div>
               </div>

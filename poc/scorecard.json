@@ -1,0 +1,419 @@
+{
+  "primary_convention": "Last cycle of each test engine. Error is the prediction minus the true RUL. The truth is not capped.",
+  "secondary_convention": "Same predictions, but the true RUL is capped at 125 before scoring. Report this beside the primary number, never instead of it.",
+  "model": "Round-2 average of the frozen LightGBM and GRU members. No shift. High-RUL gate only where the nested training-fold rule kept it.",
+  "test_labels": "Opened once, after the reloaded weights matched the saved member predictions. Earlier project rounds had already scored this test set, so the figures are still mildly optimistic.",
+  "agent": "Severity uses the capped ensemble (mean minus one member-standard-deviation). The gate does not change alarms. Anomaly does not add a severity point.",
+  "published_reference_rmse_best_listed": {
+    "source": "Chaoub et al. 2021 Table 4, as compiled in the project harness. The paper does not say whether FD002 and FD004 were scored with a capped truth.",
+    "FD001": 10.71,
+    "FD002": 12.49,
+    "FD003": 11.48,
+    "FD004": 13.97
+  },
+  "will_not_say": "Do not say state of the art, and do not compare a capped-truth RMSE with those published figures.",
+  "cycle_index": "Removed, LightGBM validation RMSE was 1.9 to 2.7 worse (lgb_nocyc). Kept, because operating hours are known on a real fleet. On C-MAPSS it is also helped by similar engine lives.",
+  "retrain_rule": "Promote a forgetting update only when the holdout improves. On stationary data the forgetting update is worse than the frozen model, so it is refused. When every sensor's gain drifts to 1.5, the frozen model gets worse and the forgetting update is promoted. The no-forgetting update is the stand-in for a full refit. Here it does not beat the frozen model on the last cycle, because that cycle is already easy once failure rows have been seen, so it is not promoted either.",
+  "subsets": [
+    {
+      "subset": "FD001",
+      "n_engines": 100,
+      "n_missing_sensor_values": 0,
+      "n_clipped_sensor_values": 0,
+      "members": [
+        "lgb_cyc",
+        "gru30",
+        "cnngru30"
+      ],
+      "weight_check_rmse": {
+        "lgb_cyc": 0.0,
+        "gru30": 6.716637017234461e-06,
+        "cnngru30": 5.141445853951154e-06
+      },
+      "gate": {
+        "tau": 115,
+        "alpha": 0.5
+      },
+      "official": {
+        "rmse": 13.3105,
+        "nasa": 250.61,
+        "rmse_capped_truth": 11.574,
+        "nasa_capped_truth": 182.87
+      },
+      "without_gate": {
+        "rmse": 12.7944,
+        "nasa": 217.38,
+        "rmse_capped_truth": 11.2233,
+        "nasa_capped_truth": 171.02
+      },
+      "false_alarm_rate_healthy": 0.0,
+      "anomaly_sensors": [
+        "s14",
+        "s9",
+        "s11",
+        "s12",
+        "s4",
+        "s7",
+        "s2",
+        "s3",
+        "s15",
+        "s17",
+        "s20",
+        "s21"
+      ],
+      "spread_limit": 5.75304651260376,
+      "orders": 43,
+      "orders_by_severity": {
+        "Normal": 0,
+        "Medium": 14,
+        "High": 20,
+        "Critical": 9
+      },
+      "human_review_rate": 0.17,
+      "critical_engines": 10,
+      "critical_missed": 0,
+      "critical_caught": 10,
+      "median_lead_cycles_critical": 69.5,
+      "top_sensors_by_gain": [
+        {
+          "sensor": "s15",
+          "name": "BPR bypass ratio",
+          "gain": 127163945.8
+        },
+        {
+          "sensor": "s4",
+          "name": "T50 LPT outlet temp",
+          "gain": 63799086.3
+        },
+        {
+          "sensor": "s11",
+          "name": "Ps30 HPC static pressure",
+          "gain": 46859757.5
+        },
+        {
+          "sensor": "s20",
+          "name": "W31 HPT coolant bleed",
+          "gain": 25791660.1
+        },
+        {
+          "sensor": "s6",
+          "name": "P15 bypass pressure",
+          "gain": 12480553.7
+        },
+        {
+          "sensor": "s9",
+          "name": "Nc core speed",
+          "gain": 9473573.3
+        }
+      ],
+      "model_version": "round2-ensemble+nested-gate",
+      "submit_gate": false,
+      "submission": {
+        "rmse": 12.7944,
+        "nasa": 217.38,
+        "rmse_capped_truth": 11.2233,
+        "nasa_capped_truth": 171.02
+      }
+    },
+    {
+      "subset": "FD002",
+      "n_engines": 259,
+      "n_missing_sensor_values": 0,
+      "n_clipped_sensor_values": 0,
+      "members": [
+        "lgb_v2",
+        "gru30"
+      ],
+      "weight_check_rmse": {
+        "lgb_v2": 0.0,
+        "gru30": 6.377685167535674e-06
+      },
+      "gate": {
+        "tau": 100,
+        "alpha": 0.5
+      },
+      "official": {
+        "rmse": 20.4385,
+        "nasa": 2410.58,
+        "rmse_capped_truth": 11.2573,
+        "nasa_capped_truth": 714.03
+      },
+      "without_gate": {
+        "rmse": 23.4359,
+        "nasa": 3919.82,
+        "rmse_capped_truth": 10.7522,
+        "nasa_capped_truth": 497.28
+      },
+      "false_alarm_rate_healthy": 0.0,
+      "anomaly_sensors": [
+        "s14",
+        "s9",
+        "s11",
+        "s12",
+        "s4",
+        "s7",
+        "s2",
+        "s3",
+        "s15",
+        "s17",
+        "s20",
+        "s21"
+      ],
+      "spread_limit": 6.198155403137207,
+      "orders": 110,
+      "orders_by_severity": {
+        "Normal": 0,
+        "Medium": 36,
+        "High": 35,
+        "Critical": 39
+      },
+      "human_review_rate": 0.10424710424710425,
+      "critical_engines": 46,
+      "critical_missed": 0,
+      "critical_caught": 46,
+      "median_lead_cycles_critical": 59.0,
+      "top_sensors_by_gain": [
+        {
+          "sensor": "s11",
+          "name": "Ps30 HPC static pressure",
+          "gain": 421402344.6
+        },
+        {
+          "sensor": "s4",
+          "name": "T50 LPT outlet temp",
+          "gain": 97071694.8
+        },
+        {
+          "sensor": "s15",
+          "name": "BPR bypass ratio",
+          "gain": 85798516.7
+        },
+        {
+          "sensor": "s13",
+          "name": "NRf corrected fan speed",
+          "gain": 21722020.2
+        },
+        {
+          "sensor": "s8",
+          "name": "Nf fan speed",
+          "gain": 18483229.0
+        },
+        {
+          "sensor": "s14",
+          "name": "NRc corrected core speed",
+          "gain": 11700185.8
+        }
+      ],
+      "model_version": "round2-ensemble+nested-gate",
+      "submit_gate": true,
+      "submission": {
+        "rmse": 20.4385,
+        "nasa": 2410.58,
+        "rmse_capped_truth": 11.2573,
+        "nasa_capped_truth": 714.03
+      }
+    },
+    {
+      "subset": "FD003",
+      "n_engines": 100,
+      "n_missing_sensor_values": 0,
+      "n_clipped_sensor_values": 0,
+      "members": [
+        "lgb_cyc",
+        "lgb_v2",
+        "cnngru30"
+      ],
+      "weight_check_rmse": {
+        "lgb_cyc": 0.0,
+        "lgb_v2": 0.0,
+        "cnngru30": 5.3151838983467314e-06
+      },
+      "gate": {
+        "tau": 115,
+        "alpha": 0.5
+      },
+      "official": {
+        "rmse": 12.3467,
+        "nasa": 379.01,
+        "rmse_capped_truth": 9.9902,
+        "nasa_capped_truth": 220.02
+      },
+      "without_gate": {
+        "rmse": 11.5481,
+        "nasa": 208.45,
+        "rmse_capped_truth": 9.5636,
+        "nasa_capped_truth": 170.89
+      },
+      "false_alarm_rate_healthy": 0.0004935834155972359,
+      "anomaly_sensors": [
+        "s14",
+        "s9",
+        "s11",
+        "s12",
+        "s4",
+        "s7",
+        "s2",
+        "s3",
+        "s15",
+        "s17",
+        "s20",
+        "s21"
+      ],
+      "spread_limit": 5.8538103103637695,
+      "orders": 43,
+      "orders_by_severity": {
+        "Normal": 0,
+        "Medium": 18,
+        "High": 14,
+        "Critical": 11
+      },
+      "human_review_rate": 0.19,
+      "critical_engines": 10,
+      "critical_missed": 0,
+      "critical_caught": 10,
+      "median_lead_cycles_critical": 79.0,
+      "top_sensors_by_gain": [
+        {
+          "sensor": "s4",
+          "name": "T50 LPT outlet temp",
+          "gain": 155560711.5
+        },
+        {
+          "sensor": "s11",
+          "name": "Ps30 HPC static pressure",
+          "gain": 124369648.5
+        },
+        {
+          "sensor": "s2",
+          "name": "T24 LPC outlet temp",
+          "gain": 22554566.0
+        },
+        {
+          "sensor": "s6",
+          "name": "P15 bypass pressure",
+          "gain": 8097754.0
+        },
+        {
+          "sensor": "s12",
+          "name": "phi fuel-flow ratio",
+          "gain": 8094845.7
+        },
+        {
+          "sensor": "s9",
+          "name": "Nc core speed",
+          "gain": 8053338.3
+        }
+      ],
+      "model_version": "round2-ensemble+nested-gate",
+      "submit_gate": false,
+      "submission": {
+        "rmse": 11.5481,
+        "nasa": 208.45,
+        "rmse_capped_truth": 9.5636,
+        "nasa_capped_truth": 170.89
+      }
+    },
+    {
+      "subset": "FD004",
+      "n_engines": 248,
+      "n_missing_sensor_values": 0,
+      "n_clipped_sensor_values": 0,
+      "members": [
+        "lgb_cyc",
+        "lgb_v2",
+        "gru30",
+        "cnngru30"
+      ],
+      "weight_check_rmse": {
+        "lgb_cyc": 0.0,
+        "lgb_v2": 0.0,
+        "gru30": 5.778012109658448e-06,
+        "cnngru30": 5.530740963877179e-06
+      },
+      "gate": {
+        "tau": 105,
+        "alpha": 0.5
+      },
+      "official": {
+        "rmse": 19.8431,
+        "nasa": 2287.0,
+        "rmse_capped_truth": 11.0018,
+        "nasa_capped_truth": 743.6
+      },
+      "without_gate": {
+        "rmse": 23.91,
+        "nasa": 3527.24,
+        "rmse_capped_truth": 10.4708,
+        "nasa_capped_truth": 574.74
+      },
+      "false_alarm_rate_healthy": 0.004015215553677092,
+      "anomaly_sensors": [
+        "s14",
+        "s9",
+        "s11",
+        "s12",
+        "s4",
+        "s7",
+        "s2",
+        "s3",
+        "s15",
+        "s17",
+        "s20",
+        "s21"
+      ],
+      "spread_limit": 7.002819061279297,
+      "orders": 104,
+      "orders_by_severity": {
+        "Normal": 0,
+        "Medium": 32,
+        "High": 42,
+        "Critical": 30
+      },
+      "human_review_rate": 0.13709677419354838,
+      "critical_engines": 36,
+      "critical_missed": 0,
+      "critical_caught": 36,
+      "median_lead_cycles_critical": 60.5,
+      "top_sensors_by_gain": [
+        {
+          "sensor": "s11",
+          "name": "Ps30 HPC static pressure",
+          "gain": 590838451.9
+        },
+        {
+          "sensor": "s4",
+          "name": "T50 LPT outlet temp",
+          "gain": 146398977.2
+        },
+        {
+          "sensor": "s17",
+          "name": "htBleed bleed enthalpy",
+          "gain": 23586927.8
+        },
+        {
+          "sensor": "s14",
+          "name": "NRc corrected core speed",
+          "gain": 18543489.4
+        },
+        {
+          "sensor": "s13",
+          "name": "NRf corrected fan speed",
+          "gain": 17078888.2
+        },
+        {
+          "sensor": "s9",
+          "name": "Nc core speed",
+          "gain": 16732303.2
+        }
+      ],
+      "model_version": "round2-ensemble+nested-gate",
+      "submit_gate": true,
+      "submission": {
+        "rmse": 19.8431,
+        "nasa": 2287.0,
+        "rmse_capped_truth": 11.0018,
+        "nasa_capped_truth": 743.6
+      }
+    }
+  ]
+}

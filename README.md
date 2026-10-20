@@ -140,6 +140,50 @@ The FastAPI backend exposes the following core endpoints:
 | `GET` | `/api/work-orders` | Lists all active and completed maintenance work orders |
 | `PATCH` | `/api/work-orders/{id}` | Updates technician assignment, hangar bay, or order status |
 | `GET` | `/api/flight-logs` | Recent pilot flight debrief logs with snag reporting |
+| `GET` | `/api/mlops/retrain-status` | Returns Champion vs. Challenger RLS promotion gate metrics, D1→F1 feature pipeline, and 7-step agent loop |
+| `POST` | `/api/mlops/retrain-evaluate` | Evaluates Champion vs. Challenger RLS promotion gate under stationary or 1.5× sensor drift regimes |
+
+---
+
+## Audited C-MAPSS Benchmarks, MLOps Promotion Gate & D1→F1 Pipeline (`poc/`)
+
+In addition to the full-stack command cockpit, the `poc/` directory contains the standalone, reproducible NASA C-MAPSS (FD001–FD004) benchmark harness, MLflow registry, and Recursive Least Squares (RLS) retraining check.
+
+### 1. Data-to-Feature Engineering Traceability (`D1 → F1` to `D6 → F6`)
+Every preprocessing step in `poc/model.py` maps directly to a measured property of the C-MAPSS dataset (illustrated on FD002 Engine 9, sensor `s11` HPC static pressure):
+
+| Step | Measured Property in C-MAPSS | Feature Transformation (`poc/model.py`) |
+|---|---|---|
+| **D1 → F1 (Step 1)** | 6 operating conditions drive **99.5%** of raw `s11` variance ($\|\rho\| = 0.08$ with RUL). | Per-condition Z-score normalization using training mean/SD; lifts $\|\rho\|$ to **0.37** (FD002) and **0.33** (FD004). |
+| **D4 → F4 (Step 2)** | 6 sensors in FD001 and 5 in FD003 have zero variance; pairs `s9/s14`, `s7/s12`, `s8/s13` have $\|r\| > 0.95$. | Drop constant sensors per subset and encode physical speed/pressure differentials (`s9-s14`, `s8-s13`, `s11-s4`, `s12-s7`). |
+| **D2 → F2 (Step 3)** | Normalized sensor trajectories retain cycle-to-cycle noise SD of **0.38**. | Causal **10-cycle rolling mean** inside each engine reduces noise SD to **0.16** (-58%). |
+| **D6 → F6 (Step 4)** | Healthy engines start **0.3–0.5 SD** apart; 6 FD002 and 11 FD004 test engines have $<30$ cycles. | Subtract each engine's **first-20-cycle baseline mean** and left-pad short sequences to 30 cycles. |
+| **D3 → F3 (Step 5)** | Wear appears at 47–55% life (39–49% of rows have RUL $>125$); final 50 cycles drift **2.9×** faster. | Clip training target RUL at **125** and compute **30-cycle** trailing mean, std, min, max, and linear slopes. |
+| **D5 → F5 (Step 6)** | FD003 (mean life 305 vs 202) and FD004 (294 vs 213) mix HPC and Fan fault modes. | Project normalized sensors onto top **3 training PCA axes** so tree models separate both fault trajectories. |
+
+### 2. Official C-MAPSS Scorecard (`poc/scorecard.json`)
+Primary scores are computed at the last recorded cycle of each test engine against the **uncapped** true RUL in `RUL_FD00x.txt`, alongside secondary capped-truth ($\le 125$) scores:
+
+| Subset | Test Engines | Gate Policy (`SUBMIT_GATE`) | Submission RMSE (Uncapped) | Submission NASA | Capped-Truth RMSE ($\le 125$) | RMSE With Gate | RMSE Without Gate | Critical Engines Caught (True RUL $\le 15$) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **FD001** | 100 | **Off** | **12.79** | **217.38** | **11.22** | 13.31 | 12.79 | **10 / 10 (100%)** |
+| **FD002** | 259 | **On** ($\tau=100, \alpha=0.5$) | **20.44** | **2410.58** | **11.26** | 20.44 | 23.44 | **46 / 46 (100%)** |
+| **FD003** | 100 | **Off** | **11.55** | **208.45** | **9.56** | 12.35 | 11.55 | **10 / 10 (100%)** |
+| **FD004** | 248 | **On** ($\tau=105, \alpha=0.5$) | **19.84** | **2287.00** | **11.00** | 19.84 | 23.91 | **36 / 36 (100%)** |
+
+### 3. Closed-Loop Model Retraining & Promotion Gate (`poc/rls_demo.py`)
+To prevent blind weight updates on streaming aircraft telemetry, the platform evaluates an online Recursive Least Squares (RLS) challenger against the frozen champion on a held-out slice of FD001 training engines (Units 81–100, $\text{RUL} \le 125$, contest test labels untouched):
+- **Stationary Holdout (No Drift):** Frozen champion RMSE is `0.234` *(a last-cycle failure snapshot on training engines where true RUL = 0, not a contest test score)* vs. RLS forgetting ($\lambda = 0.999862$) RMSE of `4.747` $\to$ **Promotion Gate REJECTS challenger (`promote_forgetting: false`)**.
+- **Sensor Gain Drift Holdout (1.5× Gain Ramp):** Frozen champion degrades to `3.793` RMSE while RLS with forgetting adapts to **`2.816` RMSE (-25.8% error)** $\to$ **Promotion Gate PROMOTES challenger (`promote_forgetting: true`)** and advances the MLflow `champion` alias.
+
+### 4. 7-Step Self-Improving Triage Agent (`poc/agent.py`)
+1. **Act:** Evaluates conservative RUL ($\mu - \sigma$, clipped 0–125) across deterministic tiers (`Critical <= 15`, `High <= 40`, `Medium <= 80`) with 2-cycle escalation (`min(prev_raw, raw)`) and 5-cycle de-escalation hysteresis.
+2. **Log Outcome:** Line technicians close work orders with verified findings (`fault_found`, `no_fault`, `failure_missed`).
+3. **Score:** Weekly evaluation job logs false-alarm rate, missed critical failures (`0/102`), and lead time (`59–79 cycles`) to MLflow.
+4. **Propose:** Generates candidate threshold adjustments in a versioned JSON rule file.
+5. **Replay Test:** Replays candidate rules over historical trajectories; passes only if missed failures do not increase and false alarms drop.
+6. **Human Approve:** Mandatory Engineering Officer sign-off when ensemble spread $\sigma > P_{90}$ or before releasing new rules.
+7. **Release:** Updates the MLflow `champion` rule alias with 1-step rollback.
 
 ---
 
