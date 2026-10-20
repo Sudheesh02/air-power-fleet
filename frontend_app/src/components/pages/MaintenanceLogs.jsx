@@ -311,147 +311,138 @@ export default function MaintenanceLogs() {
                         return (
                           <div
                             key={wo.order_id}
-                            className={`p-4 rounded-xl border transition-all duration-200 ${
+                            className={`p-3.5 rounded-xl border transition-all ${
                               isDark
-                                ? 'bg-slate-900/95 hover:bg-slate-900 border-slate-700/80 hover:border-slate-500 shadow-md hover:shadow-xl'
-                                : 'bg-white hover:bg-slate-50/80 border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md'
-                            } ${
-                              isCritical
-                                ? 'border-l-[4px] border-l-rose-500'
-                                : isAdvisory
-                                ? 'border-l-[4px] border-l-amber-500'
-                                : 'border-l-[4px] border-l-sky-500'
+                                ? 'bg-slate-900 border-slate-700/70 hover:border-slate-500 shadow-sm hover:shadow-md'
+                                : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
                             }`}
                           >
-                            {/* Top Row: Aircraft Tail + Severity Badge */}
-                            <div className="flex items-start justify-between gap-2">
-                              <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className="font-mono text-xs font-bold px-2 py-0.5 rounded-md bg-blue-600/15 text-sky-400 border border-blue-500/30 flex items-center gap-1">
+                            {/* Header Row: Tail Number + Designation + Refined Status (No loud colored stripes) */}
+                            <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-800">
+                              <div className="flex items-center gap-1.5 min-w-0">
+                                <span className="font-mono text-[11px] font-bold px-2 py-0.5 rounded bg-blue-600/15 text-sky-400 border border-blue-500/30 whitespace-nowrap shrink-0 flex items-center gap-1">
                                   <Plane className="w-3 h-3 text-sky-400 shrink-0" />
                                   Tail {wo.tail_no}
                                 </span>
-                                <span className="text-[11px] font-sans font-medium text-slate-400">
+                                <span className="text-[11px] text-slate-300 font-medium truncate">
                                   {wo.aircraft_type || 'IAF Combat Jet'}
                                 </span>
                               </div>
 
-                              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 border ${
-                                isCritical
-                                  ? 'bg-rose-500/15 text-rose-400 border-rose-500/30'
-                                  : isAdvisory
-                                  ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-                                  : 'bg-sky-500/15 text-sky-300 border-sky-500/30'
-                              }`}>
-                                {isCritical ? 'AOG Critical' : isAdvisory ? 'Advisory' : 'Routine'}
-                              </span>
+                              {/* Subtle Military Severity Dot + Label (No garish pills) */}
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className={`w-1.5 h-1.5 rounded-full ${
+                                  isCritical ? 'bg-rose-500' : isAdvisory ? 'bg-amber-400' : 'bg-slate-400'
+                                }`} />
+                                <span className={`text-[10px] font-mono font-semibold uppercase tracking-wider ${
+                                  isCritical ? 'text-rose-300' : isAdvisory ? 'text-slate-300' : 'text-slate-400'
+                                }`}>
+                                  {isCritical ? 'Critical' : isAdvisory ? 'Advisory' : 'Routine'}
+                                </span>
+                              </div>
                             </div>
 
-                            {/* Order ID & Air Base */}
-                            <div className="flex items-center justify-between text-[11px] text-slate-400 mt-2 font-sans">
-                              <span className="font-mono text-slate-400 flex items-center gap-1">
-                                <span className="text-slate-500 font-medium">WO:</span>
-                                <span className="text-slate-200 font-semibold">{wo.order_id}</span>
+                            {/* Order ID & Air Base (Un-truncated, clean monospace) */}
+                            <div className="flex items-center justify-between text-[11px] text-slate-400 mt-2 font-mono">
+                              <span className="truncate text-slate-400">
+                                <span className="text-slate-500">WO:</span> <span className="text-slate-200 font-semibold">{wo.order_id}</span>
                               </span>
-                              <span className="flex items-center gap-1 text-[11px] text-slate-400">
+                              <span className="text-slate-400 text-[10px] whitespace-nowrap shrink-0 pl-1 flex items-center gap-1">
                                 <MapPin className="w-3 h-3 text-slate-500 shrink-0" />
                                 <span>{wo.base_station || 'Forward Base'}</span>
                               </span>
                             </div>
 
-                            {/* Subsystem & Action Required */}
-                            <div className="mt-2.5 pt-2 border-t border-slate-700/50 dark:border-slate-800">
+                            {/* Subsystem & Action Directive */}
+                            <div className="mt-2.5">
                               <div className="flex items-center gap-1.5 text-xs font-bold text-sky-400">
                                 <Cpu className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-                                <span>{wo.fault_subsystem}</span>
+                                <span className="truncate">{wo.fault_subsystem}</span>
                               </div>
-                              <p className={`text-xs mt-1 leading-relaxed font-sans font-medium ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                              <p className={`text-xs mt-1 leading-relaxed font-sans ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
                                 {wo.action_required}
                               </p>
                             </div>
 
-                            {/* Remaining Useful Life (RUL) Dual-Stat Block */}
-                            <div className="mt-2.5 p-2 rounded-xl bg-slate-800/80 dark:bg-slate-800/80 border border-slate-700/60 grid grid-cols-2 gap-2 text-[11px]">
+                            {/* Telemetry RUL Block - Clean Slate, Crisp Contrast (No Piercing Yellow) */}
+                            <div className="mt-2.5 p-2 rounded-lg bg-slate-800/60 dark:bg-slate-800/60 border border-slate-700/60 grid grid-cols-2 gap-2 text-[11px]">
                               <div>
-                                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Predicted RUL</div>
-                                <div className="text-sm font-bold text-sky-400 font-mono mt-0.5 flex items-baseline gap-1">
-                                  {wo.predicted_rul}
-                                  <span className="text-[10px] font-sans text-slate-400 font-normal">hrs</span>
+                                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Predicted RUL</div>
+                                <div className="text-xs font-bold text-sky-400 font-mono mt-0.5">
+                                  {wo.predicted_rul} <span className="text-[10px] text-slate-400 font-normal">hrs</span>
                                 </div>
                               </div>
                               <div className="border-l border-slate-700/60 pl-2">
-                                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Safe Margin (95% CI)</div>
-                                <div className="text-sm font-bold text-amber-300 font-mono mt-0.5 flex items-baseline gap-1">
-                                  {wo.lower_bound_rul}
-                                  <span className="text-[10px] font-sans text-slate-400 font-normal">hrs</span>
+                                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Safe Margin (95% CI)</div>
+                                <div className="text-xs font-bold text-slate-100 font-mono mt-0.5">
+                                  {wo.lower_bound_rul} <span className="text-[10px] text-slate-400 font-normal">hrs</span>
                                 </div>
                               </div>
                             </div>
 
-                            {/* Tooling & Logistics Link */}
+                            {/* Tooling & Logistics Link (Restrained Tactical Slate) */}
                             {(wo.required_tooling || wo.linked_requisition) && (
-                              <div className="mt-2 space-y-1.5 font-sans">
+                              <div className="mt-2 space-y-1 font-sans">
                                 {wo.required_tooling && (
-                                  <div className="flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-lg bg-slate-800/50 dark:bg-slate-800/50 border border-slate-700/50 text-slate-300">
-                                    <Wrench className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-                                    <span className="truncate text-slate-300 font-medium">{wo.required_tooling}</span>
+                                  <div className="flex items-center gap-1.5 text-[10px] px-2 py-1 rounded bg-slate-800/50 border border-slate-700/50 text-slate-300">
+                                    <Wrench className="w-3 h-3 text-sky-400 shrink-0" />
+                                    <span className="truncate">{wo.required_tooling}</span>
                                   </div>
                                 )}
                                 {wo.linked_requisition && (
-                                  <div className="flex items-center justify-between text-[11px] px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300">
+                                  <div className="flex items-center justify-between text-[10px] px-2 py-1 rounded bg-slate-800/80 border border-slate-700/70 text-slate-300">
                                     <span className="flex items-center gap-1.5 min-w-0">
-                                      <Link2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                                      <span className="truncate font-semibold font-mono">{wo.linked_requisition}</span>
+                                      <Link2 className="w-3 h-3 text-slate-400 shrink-0" />
+                                      <span className="truncate font-semibold font-mono text-slate-200">{wo.linked_requisition}</span>
                                     </span>
-                                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 shrink-0 pl-1">Depot Req</span>
+                                    <span className="text-[9px] font-mono text-slate-400 uppercase tracking-wider shrink-0 pl-1">Depot Requisition</span>
                                   </div>
                                 )}
                               </div>
                             )}
 
-                            {/* Technician / Bay Assignment */}
-                            <div className={`mt-2.5 p-2 rounded-xl text-[11px] font-sans border flex items-center justify-between gap-2 ${
-                              isDark ? 'bg-slate-800/70 border-slate-700/60 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+                            {/* Technician / Bay Assignment (Clean, unclipped layout) */}
+                            <div className={`mt-2 p-2 rounded-lg text-xs font-sans border flex items-center justify-between gap-2 ${
+                              isDark ? 'bg-slate-800/50 border-slate-700/50 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
                             }`}>
                               <div className="flex items-center gap-2 min-w-0">
-                                <div className="w-7 h-7 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-sky-400 shrink-0">
-                                  <UserCheck className="w-3.5 h-3.5" />
+                                <div className="w-6 h-6 rounded bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-sky-400 shrink-0">
+                                  <UserCheck className="w-3 h-3" />
                                 </div>
                                 <div className="min-w-0">
-                                  <div className="text-[11px] font-bold text-slate-200 truncate">
+                                  <div className="text-[11px] font-bold text-slate-100 truncate">
                                     {wo.technician || 'Unassigned Crew'}
                                   </div>
-                                  <div className="text-[10px] text-slate-400 flex items-center gap-1 truncate">
-                                    <MapPin className="w-3 h-3 text-slate-500 shrink-0" />
-                                    <span>{wo.hangar_bay || 'Awaiting Bay Allocation'}</span>
+                                  <div className="text-[10px] text-slate-400 truncate">
+                                    {wo.hangar_bay || 'Awaiting Bay Allocation'}
                                   </div>
                                 </div>
                               </div>
                               <button
                                 onClick={() => setAssignModalOrder(wo)}
-                                className="text-[10px] font-bold px-2 py-1 rounded-md bg-slate-700/80 hover:bg-slate-600 text-slate-200 transition shrink-0"
+                                className="text-[10px] font-bold px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 transition shrink-0"
                               >
                                 {wo.technician ? 'Reassign' : 'Assign'}
                               </button>
                             </div>
 
                             {/* Card Footer Actions */}
-                            <div className="mt-3 pt-2.5 border-t border-slate-700/60 dark:border-slate-800 flex items-center justify-between gap-2 text-xs font-sans">
-                              <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400">
-                                <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
-                                <span>STAGE: <strong className="text-slate-300">{col.title}</strong></span>
-                              </div>
+                            <div className="mt-2.5 pt-2 border-t border-slate-800 flex items-center justify-between gap-2 text-xs font-sans">
+                              <span className="text-[10px] font-mono text-slate-400 truncate">
+                                STAGE: <strong className="text-slate-300 font-semibold">{col.title}</strong>
+                              </span>
 
                               {col.nextStatus ? (
                                 <button
                                   onClick={() => handleAdvanceStatus(wo.order_id, col.nextStatus)}
-                                  className="px-3 py-1.5 rounded-lg bg-blue-700 hover:bg-blue-600 text-white font-bold text-xs shadow-sm hover:shadow transition flex items-center gap-1"
+                                  className="px-2.5 py-1 rounded bg-blue-700 hover:bg-blue-600 text-white font-bold text-[11px] shadow-sm transition flex items-center gap-1 shrink-0"
                                 >
                                   <span>Advance</span>
-                                  <ChevronRight className="w-3.5 h-3.5" />
+                                  <ChevronRight className="w-3 h-3" />
                                 </button>
                               ) : (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400">
-                                  <CheckCircle2 className="w-3.5 h-3.5" />
+                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 shrink-0">
+                                  <CheckCircle2 className="w-3 h-3" />
                                   QA Cleared
                                 </span>
                               )}
