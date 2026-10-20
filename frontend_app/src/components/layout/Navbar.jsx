@@ -6,9 +6,7 @@ import {
   Moon,
   ChevronDown,
   AlertTriangle,
-  X,
-  Mic,
-  Bot
+  X
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SQUADRONS } from '../../data/mockFleetData';
@@ -23,8 +21,6 @@ export default function Navbar({ onToggleSidebar }) {
     setSelectedSquadron,
     setSelectedTail,
     setActiveTab,
-    isVoiceAgentOpen,
-    setIsVoiceAgentOpen,
     isSidebarCollapsed,
     toggleSidebarCollapse
   } = useTheme();
@@ -155,22 +151,6 @@ export default function Navbar({ onToggleSidebar }) {
             </div>
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5 shrink-0" title="Encrypted Defence Link Active" />
           </div>
-
-          {/* Tactical Audio Comms Trigger (No "Vayu AI" text) */}
-          <button
-            onClick={() => setIsVoiceAgentOpen(!isVoiceAgentOpen)}
-            title="Tactical Flight-Line Audio Briefing"
-            className={`p-2 rounded-lg border text-xs font-semibold shrink-0 transition-all flex items-center justify-center ${
-              isVoiceAgentOpen
-                ? 'bg-cyan-500/25 border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(0,213,255,0.4)]'
-                : isDark
-                ? 'bg-slate-900/80 hover:bg-slate-800 text-cyan-300 border-white/10 hover:border-cyan-500/40'
-                : 'bg-slate-100 hover:bg-blue-50 text-blue-700 border-slate-200 hover:border-blue-300'
-            }`}
-          >
-            <Mic className="w-4 h-4 text-cyan-400" />
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 ml-1.5" />
-          </button>
 
           {/* Notification Bell with Dropdown */}
           <div className="relative shrink-0">
