@@ -4,7 +4,7 @@ Android app for fleet readiness and predictive maintenance. It shows fleet statu
 
 ## Download
 
-**[Vayu AI v1.0.0](https://github.com/Sudheesh02/air-power-fleet/releases/tag/v1.0.0)**: download `Vayu-AI.apk` and install it on a 64-bit Android phone. You may need to allow installs from unknown sources.
+**[Vayu AI v1.1.0](https://github.com/Sudheesh02/air-power-fleet/releases/tag/v1.1.0)**: download `Vayu-AI.apk` and install it on any ARM Android phone (32 or 64-bit). You may need to allow installs from unknown sources.
 
 ## What's in this branch
 
