@@ -1,0 +1,13 @@
+export declare const SQUADRONS: any[];
+export declare const MOCK_AIRCRAFT_LIST: any[];
+export declare const MOCK_FLEET_READINESS: any;
+export declare const AIRCRAFT_PROFILES: Record<string, any>;
+export declare function getMockDigitalTwin(tail: string): any;
+export declare const MOCK_TELEMETRY_TREND: any[];
+export declare const MOCK_FAULT_TIMELINE: any[];
+export declare const MOCK_FAILURE_HEATMAP: any;
+export declare const MOCK_BASE_SPARES: any[];
+export declare const MOCK_AI_REORDER_TRIGGERS: any[];
+export declare const MOCK_DEPOT_PIPELINE: any[];
+export declare const MOCK_WORK_ORDERS: any[];
+export declare const MOCK_FLIGHT_LOGS: any[];

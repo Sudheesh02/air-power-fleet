@@ -1,0 +1,23 @@
+type R<T = any> = Promise<{ data: T; isLive: boolean }>;
+export declare function configureApi(c: { baseUrl?: string; demoMode?: boolean }): void;
+export declare function getApiConfig(): { baseUrl: string; demoMode: boolean };
+export declare function onWakingChange(cb: (waking: boolean) => void): () => void;
+export declare const fleetApi: {
+  getBackendStatus(): boolean | null;
+  synthesize(text: string, speaker: string): Promise<{ status: string; audio_base64: string | null; message?: string }>;
+  getFleetReadiness(): R;
+  getFleetAircraft(): R<any[]>;
+  getAircraftDigitalTwin(tail: string): R;
+  evaluateSortie(tail: string, sortieType: string, hours: number): R;
+  dispatchTriage(tail: string): R;
+  getLogisticsInventory(): R;
+  getWorkOrders(): R<any[]>;
+  updateWorkOrder(id: string, u: Record<string, any>): R;
+  createEmergencyRequisition(r: Record<string, any>): R;
+  getFlightLogs(tail?: string): R<any[]>;
+  getTelemetryTrends(): any[];
+  getFaultTimeline(): any[];
+  getFailureHeatmap(): any;
+  getAiReorderTriggers(): any[];
+  approveAiReorderTrigger(id: string): any[];
+};
