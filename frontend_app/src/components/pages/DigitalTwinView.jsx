@@ -304,12 +304,6 @@ export default function DigitalTwinView() {
           {(activeSubsystemTab === 'ALL' || activeSubsystemTab === 'propulsion') && (
             <div className={`p-5 rounded-2xl border transition-all ${
               isDark ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'
-            } ${
-              subsystems.propulsion?.health_score < 50
-                ? 'border-l-4 border-l-rose-500/80'
-                : subsystems.propulsion?.health_score < 75
-                ? 'border-l-4 border-l-amber-500/70'
-                : ''
             }`}>
               <div className="flex items-center justify-between gap-1.5 min-w-0">
                 <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20 font-sans whitespace-nowrap shrink-0">

@@ -1074,12 +1074,8 @@ export default function PredictiveAnalytics() {
                 key={item.id}
                 className={`relative p-4 rounded-2xl border transition-all ${
                   isDark
-                    ? 'bg-white/[0.03] hover:bg-white/[0.05] border-white/10'
+                    ? 'bg-slate-900/90 hover:bg-slate-900 border-slate-700/70'
                     : 'bg-white border-slate-200 shadow-sm hover:shadow'
-                } ${
-                  isCritical
-                    ? 'border-l-4 border-l-rose-500/80'
-                    : 'border-l-4 border-l-amber-500/70'
                 }`}
               >
                 {/* Timeline node circle */}
