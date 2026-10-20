@@ -156,11 +156,11 @@ export default function Navbar({ onToggleSidebar }) {
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5 shrink-0" title="Encrypted Defence Link Active" />
           </div>
 
-          {/* Vayu-AI Voice Agent Trigger */}
+          {/* Tactical Audio Comms Trigger (No "Vayu AI" text) */}
           <button
             onClick={() => setIsVoiceAgentOpen(!isVoiceAgentOpen)}
-            title="Open Vayu-AI Tactical Voice Agent (Sarvam AI bulbul:v3)"
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold shrink-0 transition-all ${
+            title="Tactical Flight-Line Audio Briefing"
+            className={`p-2 rounded-lg border text-xs font-semibold shrink-0 transition-all flex items-center justify-center ${
               isVoiceAgentOpen
                 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(0,213,255,0.4)]'
                 : isDark
@@ -168,9 +168,8 @@ export default function Navbar({ onToggleSidebar }) {
                 : 'bg-slate-100 hover:bg-blue-50 text-blue-700 border-slate-200 hover:border-blue-300'
             }`}
           >
-            <Mic className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            <span className="hidden md:inline font-bold">Vayu-AI Voice</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+            <Mic className="w-4 h-4 text-cyan-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 ml-1.5" />
           </button>
 
           {/* Notification Bell with Dropdown */}
