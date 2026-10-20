@@ -11,7 +11,8 @@ npx expo start --web      # quick UI preview in a browser
 
 ## Data
 - **Settings → Server**: URL of the FastAPI backend (`backend/main.py`).
-- **Offline demo mode** (default on): uses the bundled mock fleet in `src/data/mockFleetData.js` (ported from the web app). With it off the app calls the server and falls back to bundled data if unreachable.
+- Defaults to the live backend at `https://vayuai-backend.onrender.com`. The free server sleeps when idle, so the first request can take up to a minute; the app shows a "Waking server" banner meanwhile.
+- **Offline demo mode** (off by default): uses the bundled mock fleet in `src/data/mockFleetData.js`. The app also falls back to it if the server is unreachable.
 
 ## Voice
 Speech-to-text runs on the phone (`expo-speech-recognition`). Spoken answers come from the backend's `/api/voice/synthesize` (Sarvam key stays on the server); if the server is unavailable the phone's own TTS is used. **No API keys are stored in the app.**
