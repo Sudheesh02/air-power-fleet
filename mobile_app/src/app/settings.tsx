@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Linking, Switch, TextInput, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useQueryClient } from '@tanstack/react-query';
 import Constants from 'expo-constants';
 import { VOICE_SPEAKERS } from '../data/copilotBrain';
 import { C, F } from '../lib/theme';
-import { useSettings } from '../lib/settings';
+import { useSettings, useThemeMode } from '../lib/settings';
 import { LANGS } from '../lib/voice';
 import { Card, Divider, Eyebrow, Icon, IconName, Mono, Row, Screen, Seg, T, Tag, TopBar } from '../components/ui';
 import { PersonaSheet } from '../components/PersonaSheet';
+import { UnitCard } from '../components/UnitCard';
 
 function Item({ icon, title, sub, right, onPress, mono }: { icon: IconName; title: string; sub?: string; right?: React.ReactNode; onPress?: () => void; mono?: boolean }) {
   return (
@@ -24,6 +24,7 @@ function Item({ icon, title, sub, right, onPress, mono }: { icon: IconName; titl
 }
 
 export default function Settings() {
+  useThemeMode();
   const { s, set } = useSettings();
   const qc = useQueryClient();
   const [url, setUrl] = useState(s.backendUrl);
@@ -45,26 +46,17 @@ export default function Settings() {
   useEffect(() => { check(s.backendUrl); }, [s.backendUrl]);
   const commit = () => { setEditing(false); if (url !== s.backendUrl) { set({ backendUrl: url.trim() }); qc.invalidateQueries(); } };
   const sw = (v: boolean, on: (v: boolean) => void, label: string) => (
-    <Switch value={v} onValueChange={on} accessibilityLabel={label} trackColor={{ false: 'rgba(255,255,255,0.12)', true: C.ac }} thumbColor={v ? '#1B1203' : '#8B93A3'} />
+    <Switch value={v} onValueChange={on} accessibilityLabel={label} trackColor={{ false: C.line2, true: C.ac }} ios_backgroundColor={C.line2} thumbColor={v ? C.onac : C.thumbOff} />
   );
 
   return (
     <Screen>
       <TopBar back title="Settings" />
-      <Card style={{ padding: 16, marginTop: 6, flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-        <LinearGradient colors={['#FFC566', '#FF8A3D']} style={{ width: 52, height: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center' }}>
-          <Icon name="shield-outline" size={24} color={C.onac} />
-        </LinearGradient>
-        <View style={{ flex: 1 }}>
-          <T style={{ fontSize: 18, fontFamily: F.uiS }}>No. 222 Tigersharks</T>
-          <T style={{ fontSize: 13.5, color: C.mu, marginTop: 2 }}>AFS Thanjavur · Commander view</T>
-        </View>
-        <Icon name="chevron-right" size={20} color={C.fa} />
-      </Card>
+      <UnitCard />
 
       <Eyebrow style={{ marginTop: 22, marginBottom: 10 }}>Appearance</Eyebrow>
       <Seg options={[{ key: 'day', label: '☼ Day' }, { key: 'night', label: '☾ Night' }, { key: 'system', label: 'System' }]} value={s.theme} onChange={(k) => set({ theme: k as any })} />
-      {s.theme !== 'night' ? <T style={{ fontSize: 12, color: C.fa, marginTop: 6 }}>Day theme is coming soon; Night cockpit is used for now.</T> : null}
+      <T style={{ fontSize: 12, color: C.fa, marginTop: 6 }}>{s.theme === 'system' ? 'Follows your phone’s light or dark setting.' : s.theme === 'day' ? 'Day: high-contrast light theme for the flight line.' : 'Night cockpit: dark theme for low light.'}</T>
 
       <Eyebrow style={{ marginTop: 22, marginBottom: 10 }}>Data</Eyebrow>
       <Card>
