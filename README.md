@@ -1,10 +1,10 @@
-# airpower
+# vayuai
 
-[![Live Production](https://img.shields.io/badge/Vercel-Live_Cockpit-0075FF?style=for-the-badge&logo=vercel&logoColor=white)](https://sihairpowerplatform.vercel.app)
+[![Live Production](https://img.shields.io/badge/Vercel-Live_Cockpit-0075FF?style=for-the-badge&logo=vercel&logoColor=white)](https://vayuai-umber.vercel.app)
 [![API Status](https://img.shields.io/badge/FastAPI-Backend_Ready-00C7B7?style=for-the-badge&logo=fastapi&logoColor=white)](http://127.0.0.1:8000/docs)
-[![IAF Fleet](https://img.shields.io/badge/IAF_Fleet-20_Combat_Airframes-FF9933?style=for-the-badge)](https://sihairpowerplatform.vercel.app)
+[![IAF Fleet](https://img.shields.io/badge/IAF_Fleet-20_Combat_Airframes-FF9933?style=for-the-badge)](https://vayuai-umber.vercel.app)
 
-**🌐 Live Interactive Dashboard:** [https://sihairpowerplatform.vercel.app](https://sihairpowerplatform.vercel.app)
+**🌐 Live Interactive Dashboard:** [https://vayuai-umber.vercel.app](https://vayuai-umber.vercel.app)
 
 A full-stack predictive maintenance, digital twin, and fleet availability platform for military combat aviation. Developed for **Smart India Hackathon (SIH 2026)** Problem Statement `SIH26249` (Ministry of Defence / Indian Air Force).
 
@@ -26,8 +26,8 @@ Run the backend API and frontend dashboard locally:
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/Sudheesh02/air-power-fleet.git
-cd air-power-fleet
+git clone https://github.com/Sudheesh02/vayuai.git
+cd vayuai
 
 # 2. Python backend setup & launch (FastAPI)
 pip install -r requirements.txt
