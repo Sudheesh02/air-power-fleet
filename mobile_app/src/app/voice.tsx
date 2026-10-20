@@ -6,8 +6,8 @@ import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } from 'expo-speech-recognition';
 import * as Haptics from 'expo-haptics';
 import { VOICE_SPEAKERS } from '../data/copilotBrain';
-import { C, F } from '../lib/theme';
-import { useSettings } from '../lib/settings';
+import { C, F, toneBg } from '../lib/theme';
+import { useSettings, useThemeMode } from '../lib/settings';
 import { useCopilot } from '../lib/copilot';
 import { LANGS, speak, stopSpeaking } from '../lib/voice';
 import { Backdrop, Chip, Disp, Icon, IconBtn, Row, T } from '../components/ui';
@@ -18,6 +18,7 @@ type Phase = 'listening' | 'thinking' | 'speaking' | 'idle' | 'error';
 const STEPS = ['Read fleet readiness', 'Checked RUL and open work orders', 'Composing briefing'];
 
 export default function Voice() {
+  useThemeMode();
   const ins = useSafeAreaInsets();
   const params = useLocalSearchParams<{ q?: string }>();
   const { s } = useSettings();
@@ -52,16 +53,17 @@ export default function Voice() {
     }
   };
 
-  const think = (q: string) => {
+  const think = async (q: string) => {
     setHeard(q);
     setPhase('thinking');
     setStep(0);
-    const reply = ask(q).reply!;
+    const pending = ask(q);
     let k = 0;
     const iv = setInterval(() => {
       k++; setStep(k);
       if (k >= STEPS.length) {
         clearInterval(iv);
+        pending.then((m) => { const reply = m.reply!;
         setAnswer(reply.spokenText);
         setPhase('speaking');
         setProg(0);
@@ -69,6 +71,7 @@ export default function Voice() {
           speaker: s.speaker, rate: s.speed, lang: s.language,
           onStart: (source, ms) => { setSrc(source); progress.value = 0; progress.value = withTiming(1, { duration: ms }); const t0 = Date.now(); const pi = setInterval(() => { const f = Math.min(1, (Date.now() - t0) / ms); setProg(f); if (f >= 1) clearInterval(pi); }, 250); },
           onDone: () => { setProg(1); setPhase('idle'); },
+        });
         });
       }
     }, 800);
@@ -125,7 +128,7 @@ export default function Voice() {
               <T style={{ fontSize: 21, lineHeight: 30, fontFamily: F.uiM }}>{answer.slice(0, Math.ceil(answer.length * prog))}</T>
               <T style={{ fontSize: 21, lineHeight: 30, fontFamily: F.uiM, color: C.fa }}>{answer.slice(Math.ceil(answer.length * prog))}</T>
             </T>
-            <View style={{ height: 3, borderRadius: 2, backgroundColor: 'rgba(255,255,255,0.08)', marginTop: 18 }}><View style={{ width: `${prog * 100}%`, height: 3, borderRadius: 2, backgroundColor: C.ok }} /></View>
+            <View style={{ height: 3, borderRadius: 2, backgroundColor: C.track, marginTop: 18 }}><View style={{ width: `${prog * 100}%`, height: 3, borderRadius: 2, backgroundColor: C.ok }} /></View>
             <Row style={{ gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
               {(answer.match(/\b(SB|KH|RB|IA)-\d{3,4}\b/) || []).slice(0, 1).map((t) => <Chip key={t} label={`Open ${t}`} icon="airplane" onPress={() => { stopSpeaking(); router.replace(`/aircraft/${t}`); }} />)}
               <Chip label="Work orders" icon="wrench-outline" onPress={() => { stopSpeaking(); router.replace('/orders'); }} />
@@ -165,7 +168,7 @@ export default function Voice() {
         <Pressable
           accessibilityLabel={phase === 'listening' ? 'Stop listening' : 'Start listening'}
           onPress={() => (phase === 'listening' ? ExpoSpeechRecognitionModule.stop() : startListening())}
-          style={{ width: 76, height: 76, borderRadius: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: phase === 'listening' ? 'rgba(96,165,250,0.6)' : 'rgba(255,181,71,0.6)', backgroundColor: phase === 'listening' ? 'rgba(96,165,250,0.12)' : 'rgba(255,181,71,0.14)' }}
+          style={{ width: 76, height: 76, borderRadius: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: phase === 'listening' ? C.infoLine : C.tintLine, backgroundColor: phase === 'listening' ? toneBg.info : C.tint }}
         >
           <Icon name={phase === 'listening' ? 'stop' : 'microphone'} size={28} color={phase === 'listening' ? C.info : C.ac} />
         </Pressable>
