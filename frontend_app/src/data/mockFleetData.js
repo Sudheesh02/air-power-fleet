@@ -1015,7 +1015,7 @@ export const MOCK_FLIGHT_LOGS = [
       ],
       multi_modal_confidence: 98.4,
       confidence_lift_pct: 22.4,
-      diagnosis: 'HPC Rotor Stage 1-3 blade tip degradation confirmed via sensor-debrief multi-modal fusion.',
+      diagnosis: 'HPC Rotor Stage 1 to 3 blade tip degradation confirmed via sensor and debrief multimodal fusion.',
       recommended_action: 'Grounded for AOG HPC Blade replacement. Work order WO-SB-024-1014-0932 active.'
     }
   },
