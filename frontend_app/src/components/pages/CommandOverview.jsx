@@ -258,14 +258,26 @@ export default function CommandOverview() {
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#343448' : 'rgba(0,0,0,0.06)'} />
                 <XAxis
                   dataKey="hours"
-                  stroke={isDark ? '#64748B' : '#94A3B8'}
-                  fontSize={11}
-                  fontFamily="JetBrains Mono"
+                  axisLine={{ stroke: isDark ? '#334155' : '#CBD5E1', strokeWidth: 1 }}
+                  tickLine={{ stroke: isDark ? '#334155' : '#CBD5E1' }}
+                  tick={{
+                    fill: isDark ? '#94A3B8' : '#475569',
+                    fontSize: 11,
+                    fontFamily: "'JetBrains Mono', Consolas, ui-monospace, monospace",
+                    fontWeight: 600,
+                  }}
+                  dy={8}
                 />
                 <YAxis
-                  stroke={isDark ? '#64748B' : '#94A3B8'}
-                  fontSize={11}
-                  fontFamily="JetBrains Mono"
+                  axisLine={{ stroke: isDark ? '#334155' : '#CBD5E1', strokeWidth: 1 }}
+                  tickLine={{ stroke: isDark ? '#334155' : '#CBD5E1' }}
+                  tick={{
+                    fill: isDark ? '#94A3B8' : '#475569',
+                    fontSize: 11,
+                    fontFamily: "'JetBrains Mono', Consolas, ui-monospace, monospace",
+                    fontWeight: 600,
+                  }}
+                  dx={-4}
                   unit="%"
                   domain={[0, 100]}
                 />
