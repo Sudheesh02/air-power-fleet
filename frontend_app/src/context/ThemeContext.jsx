@@ -12,6 +12,7 @@ export function ThemeProvider({ children }) {
   const [selectedTail, setSelectedTail] = useState('SB-021');
   const [activeTab, setActiveTab] = useState('overview'); // overview, twin, predictive, spares, logs
   const [isDocsOpen, setIsDocsOpen] = useState(false);
+  const [isVoiceAgentOpen, setIsVoiceAgentOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('vision_ui_theme', theme);
@@ -41,7 +42,9 @@ export function ThemeProvider({ children }) {
       activeTab,
       setActiveTab,
       isDocsOpen,
-      setIsDocsOpen
+      setIsDocsOpen,
+      isVoiceAgentOpen,
+      setIsVoiceAgentOpen
     }}>
       {children}
     </ThemeContext.Provider>

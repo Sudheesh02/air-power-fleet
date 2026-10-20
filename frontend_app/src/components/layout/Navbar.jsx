@@ -6,7 +6,9 @@ import {
   Moon,
   ChevronDown,
   AlertTriangle,
-  X
+  X,
+  Mic,
+  Bot
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { SQUADRONS } from '../../data/mockFleetData';
@@ -20,7 +22,9 @@ export default function Navbar({ onToggleSidebar }) {
     selectedSquadron,
     setSelectedSquadron,
     setSelectedTail,
-    setActiveTab
+    setActiveTab,
+    isVoiceAgentOpen,
+    setIsVoiceAgentOpen
   } = useTheme();
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -140,6 +144,23 @@ export default function Navbar({ onToggleSidebar }) {
             </div>
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5 shrink-0" title="Encrypted Defence Link Active" />
           </div>
+
+          {/* Vayu-AI Voice Agent Trigger */}
+          <button
+            onClick={() => setIsVoiceAgentOpen(!isVoiceAgentOpen)}
+            title="Open Vayu-AI Tactical Voice Agent (Sarvam AI bulbul:v3)"
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold shrink-0 transition-all ${
+              isVoiceAgentOpen
+                ? 'bg-cyan-500/25 border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(0,213,255,0.4)]'
+                : isDark
+                ? 'bg-slate-900/80 hover:bg-slate-800 text-cyan-300 border-white/10 hover:border-cyan-500/40'
+                : 'bg-slate-100 hover:bg-blue-50 text-blue-700 border-slate-200 hover:border-blue-300'
+            }`}
+          >
+            <Mic className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <span className="hidden md:inline font-bold">Vayu-AI Voice</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+          </button>
 
           {/* Notification Bell with Dropdown */}
           <div className="relative shrink-0">

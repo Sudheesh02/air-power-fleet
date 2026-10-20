@@ -3,6 +3,7 @@ import { ThemeProvider, useTheme } from './context/ThemeContext';
 import Sidebar from './components/layout/Sidebar';
 import Navbar from './components/layout/Navbar';
 import DocsModal from './components/common/DocsModal';
+import TacticalVoiceCopilot from './components/common/TacticalVoiceCopilot';
 
 import CommandOverview from './components/pages/CommandOverview';
 import DigitalTwinView from './components/pages/DigitalTwinView';
@@ -65,6 +66,9 @@ function MainLayout() {
 
       {/* Technical Documentation Modal */}
       <DocsModal isOpen={isDocsOpen} onClose={() => setIsDocsOpen(false)} />
+
+      {/* Vayu-AI Tactical Voice Agent & Chatbot */}
+      <TacticalVoiceCopilot />
     </div>
   );
 }
