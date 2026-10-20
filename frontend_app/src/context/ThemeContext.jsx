@@ -13,6 +13,18 @@ export function ThemeProvider({ children }) {
   const [activeTab, setActiveTab] = useState('overview'); // overview, twin, predictive, spares, logs
   const [isDocsOpen, setIsDocsOpen] = useState(false);
   const [isVoiceAgentOpen, setIsVoiceAgentOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    return localStorage.getItem('air_power_sidebar_collapsed') === 'true';
+  });
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('air_power_sidebar_collapsed', String(isSidebarCollapsed));
+  }, [isSidebarCollapsed]);
+
+  const toggleSidebarCollapse = () => {
+    setIsSidebarCollapsed(prev => !prev);
+  };
 
   useEffect(() => {
     localStorage.setItem('vision_ui_theme', theme);
@@ -44,7 +56,12 @@ export function ThemeProvider({ children }) {
       isDocsOpen,
       setIsDocsOpen,
       isVoiceAgentOpen,
-      setIsVoiceAgentOpen
+      setIsVoiceAgentOpen,
+      isSidebarCollapsed,
+      setIsSidebarCollapsed,
+      toggleSidebarCollapse,
+      isMobileSidebarOpen,
+      setIsMobileSidebarOpen
     }}>
       {children}
     </ThemeContext.Provider>

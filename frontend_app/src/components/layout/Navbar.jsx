@@ -24,7 +24,9 @@ export default function Navbar({ onToggleSidebar }) {
     setSelectedTail,
     setActiveTab,
     isVoiceAgentOpen,
-    setIsVoiceAgentOpen
+    setIsVoiceAgentOpen,
+    isSidebarCollapsed,
+    toggleSidebarCollapse
   } = useTheme();
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -87,15 +89,24 @@ export default function Navbar({ onToggleSidebar }) {
             : 'vision-glass-light border-slate-200'
         }`}
       >
-        {/* Left: Hamburger & Single-line Title */}
-        <div className="flex items-center gap-2.5 min-w-0">
+        {/* Left: YouTube Music-style Hamburger Toggle & Page Title */}
+        <div className="flex items-center gap-3 min-w-0">
           <button
-            onClick={onToggleSidebar}
-            className={`p-1.5 rounded-lg lg:hidden shrink-0 ${
-              isDark ? 'text-white hover:bg-white/10' : 'text-slate-800 hover:bg-slate-100'
+            onClick={() => {
+              if (window.innerWidth >= 1024) {
+                toggleSidebarCollapse();
+              } else if (onToggleSidebar) {
+                onToggleSidebar();
+              }
+            }}
+            title={isSidebarCollapsed ? "Expand sidebar (Ctrl+B)" : "Collapse sidebar (Ctrl+B)"}
+            className={`p-2 rounded-xl transition-all duration-200 shrink-0 group active:scale-95 ${
+              isDark
+                ? 'text-white hover:bg-white/10 hover:border-cyan-500/40 border border-white/10'
+                : 'text-slate-800 hover:bg-slate-100 hover:border-blue-300 border border-slate-200'
             }`}
           >
-            <Menu className="w-4 h-4" />
+            <Menu className="w-4 h-4 transition-transform duration-200 group-hover:scale-110 text-cyan-400" />
           </button>
 
           <h2 className={`text-sm sm:text-base font-bold tracking-tight truncate ${isDark ? 'text-white' : 'text-[#1B2559]'}`}>

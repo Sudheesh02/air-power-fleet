@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import Sidebar from './components/layout/Sidebar';
 import Navbar from './components/layout/Navbar';
@@ -12,8 +12,31 @@ import SparesLogistics from './components/pages/SparesLogistics';
 import MaintenanceLogs from './components/pages/MaintenanceLogs';
 
 function MainLayout() {
-  const { isDark, activeTab, isDocsOpen, setIsDocsOpen } = useTheme();
+  const {
+    isDark,
+    activeTab,
+    isDocsOpen,
+    setIsDocsOpen,
+    isSidebarCollapsed,
+    toggleSidebarCollapse
+  } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Keyboard shortcut Ctrl+B / Cmd+B to toggle sidebar collapse
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        if (window.innerWidth >= 1024) {
+          toggleSidebarCollapse();
+        } else {
+          setSidebarOpen((prev) => !prev);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [toggleSidebarCollapse]);
 
   const renderActivePage = () => {
     switch (activeTab) {
@@ -43,8 +66,12 @@ function MainLayout() {
       {/* Vision UI Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Main Content Area */}
-      <div className="lg:pl-80 flex flex-col min-h-screen transition-all">
+      {/* Main Content Area (Smoothly expands when sidebar is collapsed) */}
+      <div
+        className={`flex flex-col min-h-screen transition-all duration-300 ease-in-out ${
+          isSidebarCollapsed ? 'lg:pl-28' : 'lg:pl-80'
+        }`}
+      >
         {/* Top Command Navbar */}
         <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
