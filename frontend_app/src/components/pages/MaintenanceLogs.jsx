@@ -19,7 +19,12 @@ import {
   Link2,
   Wrench,
   ShieldCheck,
-  Activity
+  Activity,
+  UserCheck,
+  Plane,
+  MapPin,
+  CheckCircle2,
+  Clock
 } from 'lucide-react';
 import GlassCard from '../common/GlassCard';
 import StatusBadge from '../common/StatusBadge';
@@ -273,18 +278,22 @@ export default function MaintenanceLogs() {
             return (
               <GlassCard key={col.id} className="p-4 flex flex-col h-full justify-between">
                 <div>
-                  <div className="flex items-center justify-between border-b border-white/10 dark:border-white/10 pb-3 mb-3">
+                  <div className="flex items-center justify-between border-b border-slate-700/60 dark:border-slate-800 pb-3 mb-3">
                     <div className="flex items-center gap-2">
-                      <span className={`w-2 h-2 rounded-full ${
-                        col.id === 'DISPATCHED' ? 'bg-sky-400' :
-                        col.id === 'IN_PROGRESS' ? 'bg-amber-400' :
-                        col.id === 'AWAITING_SPARES' ? 'bg-rose-400' : 'bg-emerald-400'
+                      <span className={`w-2.5 h-2.5 rounded-full ${
+                        col.id === 'DISPATCHED' ? 'bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.5)]' :
+                        col.id === 'IN_PROGRESS' ? 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.5)]' :
+                        col.id === 'AWAITING_SPARES' ? 'bg-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.5)]' : 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]'
                       }`} />
-                      <h4 className={`font-bold text-xs tracking-wide font-sans ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                      <h4 className={`font-bold text-xs tracking-wider uppercase font-sans ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
                         {col.title}
                       </h4>
                     </div>
-                    <span className="w-5 h-5 rounded-full bg-white/10 text-sky-400 font-sans text-[11px] font-bold flex items-center justify-center">
+                    <span className={`px-2 py-0.5 rounded-full font-mono text-[11px] font-bold border ${
+                      col.id === 'DISPATCHED' ? 'bg-sky-500/10 text-sky-400 border-sky-500/20' :
+                      col.id === 'IN_PROGRESS' ? 'bg-amber-500/10 text-amber-300 border-amber-500/20' :
+                      col.id === 'AWAITING_SPARES' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20'
+                    }`}>
                       {columnOrders.length}
                     </span>
                   </div>
@@ -302,80 +311,149 @@ export default function MaintenanceLogs() {
                         return (
                           <div
                             key={wo.order_id}
-                            className={`p-3.5 rounded-2xl border transition-all ${
-                              isDark ? 'bg-white/[0.03] hover:bg-white/[0.06] border-white/10' : 'bg-white border-slate-200 shadow-sm'
+                            className={`p-4 rounded-xl border transition-all duration-200 ${
+                              isDark
+                                ? 'bg-slate-900/95 hover:bg-slate-900 border-slate-700/80 hover:border-slate-500 shadow-md hover:shadow-xl'
+                                : 'bg-white hover:bg-slate-50/80 border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md'
                             } ${
-                              isCritical ? 'border-l-4 border-l-rose-500/80' : isAdvisory ? 'border-l-4 border-l-amber-500/70' : 'border-l-4 border-l-sky-500/50'
+                              isCritical
+                                ? 'border-l-[4px] border-l-rose-500'
+                                : isAdvisory
+                                ? 'border-l-[4px] border-l-amber-500'
+                                : 'border-l-[4px] border-l-sky-500'
                             }`}
                           >
-                            <div className="flex items-center justify-between">
-                              <span className="font-sans text-xs font-bold text-sky-400 tracking-tight">
-                                {wo.order_id}
-                              </span>
-                              <span className="text-[11px] px-2 py-0.5 rounded-md font-semibold bg-white/5 text-slate-300 border border-white/10 font-sans">
-                                Tail {wo.tail_no}
+                            {/* Top Row: Aircraft Tail + Severity Badge */}
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-mono text-xs font-bold px-2 py-0.5 rounded-md bg-blue-600/15 text-sky-400 border border-blue-500/30 flex items-center gap-1">
+                                  <Plane className="w-3 h-3 text-sky-400 shrink-0" />
+                                  Tail {wo.tail_no}
+                                </span>
+                                <span className="text-[11px] font-sans font-medium text-slate-400">
+                                  {wo.aircraft_type || 'IAF Combat Jet'}
+                                </span>
+                              </div>
+
+                              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 border ${
+                                isCritical
+                                  ? 'bg-rose-500/15 text-rose-400 border-rose-500/30'
+                                  : isAdvisory
+                                  ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                                  : 'bg-sky-500/15 text-sky-300 border-sky-500/30'
+                              }`}>
+                                {isCritical ? 'AOG Critical' : isAdvisory ? 'Advisory' : 'Routine'}
                               </span>
                             </div>
 
-                            <p className="text-[11px] text-slate-400 font-sans mt-0.5 font-medium">
-                              {wo.aircraft_type || 'IAF Combat Jet'} &bull; {wo.base_station || 'Forward Base'}
-                            </p>
+                            {/* Order ID & Air Base */}
+                            <div className="flex items-center justify-between text-[11px] text-slate-400 mt-2 font-sans">
+                              <span className="font-mono text-slate-400 flex items-center gap-1">
+                                <span className="text-slate-500 font-medium">WO:</span>
+                                <span className="text-slate-200 font-semibold">{wo.order_id}</span>
+                              </span>
+                              <span className="flex items-center gap-1 text-[11px] text-slate-400">
+                                <MapPin className="w-3 h-3 text-slate-500 shrink-0" />
+                                <span>{wo.base_station || 'Forward Base'}</span>
+                              </span>
+                            </div>
 
-                            <p className="text-[11px] text-sky-400 font-sans mt-1 font-semibold">
-                              Subsystem: {wo.fault_subsystem}
-                            </p>
+                            {/* Subsystem & Action Required */}
+                            <div className="mt-2.5 pt-2 border-t border-slate-700/50 dark:border-slate-800">
+                              <div className="flex items-center gap-1.5 text-xs font-bold text-sky-400">
+                                <Cpu className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                                <span>{wo.fault_subsystem}</span>
+                              </div>
+                              <p className={`text-xs mt-1 leading-relaxed font-sans font-medium ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                                {wo.action_required}
+                              </p>
+                            </div>
 
-                            <p className={`text-xs mt-1.5 leading-snug ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                              {wo.action_required}
-                            </p>
-
-                            {/* Remaining Life Margin Pill */}
-                            <div className="mt-2 flex items-center justify-between text-[10px] font-sans px-2.5 py-1 rounded-lg bg-black/20 border border-white/5 text-slate-300">
-                              <span>Predicted RUL: <strong className="text-sky-400">{wo.predicted_rul}h</strong></span>
-                              <span>Lower Bound: <strong className="text-amber-300">{wo.lower_bound_rul}h</strong></span>
+                            {/* Remaining Useful Life (RUL) Dual-Stat Block */}
+                            <div className="mt-2.5 p-2 rounded-xl bg-slate-800/80 dark:bg-slate-800/80 border border-slate-700/60 grid grid-cols-2 gap-2 text-[11px]">
+                              <div>
+                                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Predicted RUL</div>
+                                <div className="text-sm font-bold text-sky-400 font-mono mt-0.5 flex items-baseline gap-1">
+                                  {wo.predicted_rul}
+                                  <span className="text-[10px] font-sans text-slate-400 font-normal">hrs</span>
+                                </div>
+                              </div>
+                              <div className="border-l border-slate-700/60 pl-2">
+                                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Safe Margin (95% CI)</div>
+                                <div className="text-sm font-bold text-amber-300 font-mono mt-0.5 flex items-baseline gap-1">
+                                  {wo.lower_bound_rul}
+                                  <span className="text-[10px] font-sans text-slate-400 font-normal">hrs</span>
+                                </div>
+                              </div>
                             </div>
 
                             {/* Tooling & Logistics Link */}
-                            {wo.required_tooling && (
-                              <div className="mt-1.5 flex items-center gap-1.5 text-[10px] font-sans text-slate-400">
-                                <Wrench className="w-3 h-3 text-sky-400 shrink-0" />
-                                <span className="truncate">{wo.required_tooling}</span>
-                              </div>
-                            )}
-                            {wo.linked_requisition && (
-                              <div className="mt-1 flex items-center gap-1.5 text-[10px] font-sans text-slate-400">
-                                <Link2 className="w-3 h-3 text-amber-400 shrink-0" />
-                                <span className="font-semibold text-amber-300">{wo.linked_requisition}</span>
+                            {(wo.required_tooling || wo.linked_requisition) && (
+                              <div className="mt-2 space-y-1.5 font-sans">
+                                {wo.required_tooling && (
+                                  <div className="flex items-center gap-1.5 text-[11px] px-2.5 py-1.5 rounded-lg bg-slate-800/50 dark:bg-slate-800/50 border border-slate-700/50 text-slate-300">
+                                    <Wrench className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                                    <span className="truncate text-slate-300 font-medium">{wo.required_tooling}</span>
+                                  </div>
+                                )}
+                                {wo.linked_requisition && (
+                                  <div className="flex items-center justify-between text-[11px] px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300">
+                                    <span className="flex items-center gap-1.5 min-w-0">
+                                      <Link2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                                      <span className="truncate font-semibold font-mono">{wo.linked_requisition}</span>
+                                    </span>
+                                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 shrink-0 pl-1">Depot Req</span>
+                                  </div>
+                                )}
                               </div>
                             )}
 
                             {/* Technician / Bay Assignment */}
-                            {wo.technician && (
-                              <div className={`mt-2 p-2.5 rounded-xl text-[11px] font-sans border ${
-                                isDark ? 'bg-black/30 border-white/5 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
-                              }`}>
-                                <div className="text-sky-400 font-semibold">{wo.technician}</div>
-                                <div className="text-slate-400 text-[10px] mt-0.5">{wo.hangar_bay}</div>
+                            <div className={`mt-2.5 p-2 rounded-xl text-[11px] font-sans border flex items-center justify-between gap-2 ${
+                              isDark ? 'bg-slate-800/70 border-slate-700/60 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+                            }`}>
+                              <div className="flex items-center gap-2 min-w-0">
+                                <div className="w-7 h-7 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-sky-400 shrink-0">
+                                  <UserCheck className="w-3.5 h-3.5" />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="text-[11px] font-bold text-slate-200 truncate">
+                                    {wo.technician || 'Unassigned Crew'}
+                                  </div>
+                                  <div className="text-[10px] text-slate-400 flex items-center gap-1 truncate">
+                                    <MapPin className="w-3 h-3 text-slate-500 shrink-0" />
+                                    <span>{wo.hangar_bay || 'Awaiting Bay Allocation'}</span>
+                                  </div>
+                                </div>
                               </div>
-                            )}
-
-                            {/* Card Footer Actions */}
-                            <div className="mt-3 pt-2.5 border-t border-white/5 dark:border-white/5 flex items-center justify-between gap-1 text-[11px] font-sans">
                               <button
                                 onClick={() => setAssignModalOrder(wo)}
-                                className="text-slate-400 hover:text-sky-400 transition text-[11px] font-medium"
+                                className="text-[10px] font-bold px-2 py-1 rounded-md bg-slate-700/80 hover:bg-slate-600 text-slate-200 transition shrink-0"
                               >
-                                {wo.technician ? 'Reassign Tech' : '+ Assign Tech'}
+                                {wo.technician ? 'Reassign' : 'Assign'}
                               </button>
+                            </div>
 
-                              {col.nextStatus && (
+                            {/* Card Footer Actions */}
+                            <div className="mt-3 pt-2.5 border-t border-slate-700/60 dark:border-slate-800 flex items-center justify-between gap-2 text-xs font-sans">
+                              <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400">
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
+                                <span>STAGE: <strong className="text-slate-300">{col.title}</strong></span>
+                              </div>
+
+                              {col.nextStatus ? (
                                 <button
                                   onClick={() => handleAdvanceStatus(wo.order_id, col.nextStatus)}
-                                  className="px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-700 text-sky-300 hover:text-white border border-blue-500/40 text-[11px] font-semibold transition flex items-center gap-1"
+                                  className="px-3 py-1.5 rounded-lg bg-blue-700 hover:bg-blue-600 text-white font-bold text-xs shadow-sm hover:shadow transition flex items-center gap-1"
                                 >
-                                  Advance
-                                  <ChevronRight className="w-3 h-3" />
+                                  <span>Advance</span>
+                                  <ChevronRight className="w-3.5 h-3.5" />
                                 </button>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400">
+                                  <CheckCircle2 className="w-3.5 h-3.5" />
+                                  QA Cleared
+                                </span>
                               )}
                             </div>
                           </div>
@@ -730,9 +808,9 @@ export default function MaintenanceLogs() {
                       : 'bg-white border-slate-200 text-slate-800'
                   }`}
                 >
-                  <option value="Sqn Ldr R. Sharma (Chief Tech)">Sqn Ldr R. Sharma (Chief Tech - Su-30MKI)</option>
-                  <option value="Flt Lt K. Patel (Propulsion Lead)">Flt Lt K. Patel (Propulsion Lead - Tejas)</option>
-                  <option value="Wg Cdr V. Rao (Quality Assurance)">Wg Cdr V. Rao (Quality Assurance - Rafale)</option>
+                  <option value="Sqn Ldr R. Sharma (Chief Tech)">Sqn Ldr R. Sharma (Chief Tech &bull; Su-30MKI)</option>
+                  <option value="Flt Lt K. Patel (Propulsion Lead)">Flt Lt K. Patel (Propulsion Lead &bull; Tejas)</option>
+                  <option value="Wg Cdr V. Rao (Quality Assurance)">Wg Cdr V. Rao (Quality Assurance &bull; Rafale)</option>
                   <option value="JWO A. Verma (Avionics Tech)">JWO A. Verma (Avionics Specialist)</option>
                   <option value="Sgt M. Singh (Gas Path Overhaul)">Sgt M. Singh (Gas Path Overhaul Specialist)</option>
                 </select>
